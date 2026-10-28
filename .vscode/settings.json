@@ -1,0 +1,33 @@
+{
+  // The build lives in code/, not the repo root.
+  "cmake.sourceDirectory": "${workspaceFolder}/code",
+  "cmake.buildDirectory": "${workspaceFolder}/code/out/build/x86",
+  "cmake.configureOnOpen": false,
+  "cmake.ignoreCMakeListsMissing": true,
+  "cmake.configurePreset": "windows-clang-x86",
+  "cmake.buildPreset": "windows-clang-x86",
+  "cmake.parallelJobs": 0,
+  // clangd reads code/out/build/x86/compile_commands.json written by the
+  // windows-clang-x86 preset. Configure once with the "configure" task so
+  // IntelliSense has data.
+  "clangd.arguments": [
+    "--compile-commands-dir=${workspaceFolder}/code/out/build/x86",
+    "--background-index",
+    "--header-insertion=never",
+    "--clang-tidy",
+    "-j=8"
+  ],
+  // clangd owns IntelliSense; cpptools only provides the debug engines
+  // (cppvsdbg) and the c_cpp_properties fallback below.
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "files.associations": {
+    "*.inc": "cpp",
+    "*.def": "cpp"
+  },
+  "search.exclude": {
+    "**/out": true,
+    "**/code/third-party": true,
+    "**/basedn": true
+  },
+  "editor.formatOnSave": false
+}
