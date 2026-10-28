@@ -1730,7 +1730,6 @@ void CL_ProcessSustain ()
 			}
 			else if (s->endtime < cl.time)
 				s->id = 0;
-			}
 		}
 	}
 }
