@@ -58,6 +58,31 @@ cost anything as long as this file and PROGRESS.md are current.
 
 - 2026-10-28: Initial infrastructure landed as stacked branches
   (merge in this order): `cmake-refactor` -> `ci-build-digest` ->
-  `vscode-llvm-setup` -> `agent-docs`. First CI run pending on the tip
-  branch; iterate on it with the digest loop until green with zero
-  warnings.
+  `vscode-llvm-setup` -> `agent-docs`. CI is green on every branch that
+  runs the workflow (`ci-build-digest`, `vscode-llvm-setup`,
+  `agent-docs`): configure exit 0, build exit 0, 0 errors, 0 warnings;
+  all four binaries link (`duke3d.exe`, `ref_gl.dll`, `dngamex86.dll`,
+  `cgamex86.dll`). `cmake-refactor` has no workflow but carries the
+  same source tree.
+- Zero-warning pass fixes, all synced to every branch:
+  - 13 clang-cl strict-mode findings (sndmusic.cpp include path,
+    gl_image.cpp paletted-upload return, gl_rsurf.cpp parens,
+    cl_tent.cpp switch cases and dangling-else bracing, files.cpp
+    user-defined-literal strings, in_win.cpp joystick default return,
+    net_wins.cpp address-compare returns, sv_main.cpp and vid_dll.cpp
+    explicit void* casts).
+  - cl_ents.cpp(1711) fabs -> abs on the integer pmove.origin delta.
+  - The `dn_*` debug commands in Qcommon_Init and the
+    DN_NetworkTestFrame() hook in CL_Frame are guarded behind the
+    DN_TEST_SUPPORT macro; their implementations
+    (tests/dnnetwork.cpp, tests/dnsave.cpp, tests/dnroof.cpp) return
+    with the test suite restructure, at which point re-add
+    `target_compile_definitions(duke3d PRIVATE DN_TEST_SUPPORT)` in
+    code/cmake/engine.cmake.
+  - The vendored OpenAL32.lib carries no SEH unwind info and lld-link
+    enables SafeSEH by default on x86, so the imported OpenAL target
+    now carries INTERFACE_LINK_OPTIONS "/SAFESEH:NO" for x86 builds.
+- Dormant by design, no action unless asked: asset preparation (needs
+  3drealms/duke3d.grp + code/tools/prepare_assets.py), test suite
+  (`BUILD_TESTING` OFF until tests/ and 3drealms/ return), and
+  win32/dnicon.rc (needs 3drealms/duke3d.ico).
