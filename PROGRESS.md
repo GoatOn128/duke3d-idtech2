@@ -1,0 +1,55 @@
+# Progress
+
+Legend:
+
+- `[ ]` Proposed — agreed or planned, not started
+- `[~]` In progress — being worked on right now
+- `[x]` Done — finished and verified (Windows CI green)
+
+## Infrastructure
+
+- [x] CMake refactor: one cmake file per project (`code/cmake/*.cmake`)
+      plus shared helpers in `code/cmake/utils.cmake`; the root
+      `code/CMakeLists.txt` is a thin orchestrator
+- [x] CMake paths fixed for the `code/third-party` layout: OpenAL Soft
+      now links from the prebuilt import lib (`third-party/openal-soft`),
+      dr_mp3 builds from `third-party/mp3`
+- [x] CMake presets for llvm.org Clang (`code/CMakePresets.json`,
+      `windows-clang-x86` and its debug variant)
+- [x] Windows CI with llvm.org clang-cl that commits `build-digest.md` +
+      `build-windows.log` to the repo root (`.github/workflows/build-windows.yml`)
+- [x] VS Code workspace configured for LLVM on Windows
+      (`duke3d-idtech2.code-workspace`, `.vscode/*`, `tools/vsenv.cmd`)
+- [x] Agent documentation: `AGENTS.md`, `CLAUDE.md`,
+      `.github/copilot-instructions.md`
+- [x] Durable agent tooling under `tools/`
+      (`agent-session-notes.md`, `digest_build_log.py`)
+
+## Pending restructure
+
+- [ ] Restore the asset pipeline: `code/tools/prepare_assets.py` +
+      `prepare_references.py` and the game data; `code/cmake/assets.cmake`
+      picks them up automatically once present
+- [ ] Restore the reference-based test suite: `code/tests/` sources and
+      the reference sources moving to `references/`; `code/cmake/tests.cmake`
+      keeps the full test definitions and turns on once both exist
+      (build with `-DBUILD_TESTING=ON` after that)
+- [ ] Restore `tests/dnnetwork.cpp`, `tests/dnsave.cpp`,
+      `tests/dnroof.cpp` inside the `duke3d` executable (the
+      `dn_netcheck`/`dn_savecheck`/`dn_roofcheck` commands)
+- [ ] Restore the executable icon (`win32/dnicon.rc` compiles again once
+      `3drealms/duke3d.ico` is available; the build skips it cleanly until then)
+- [ ] Replace the `win32/qgl_win.cpp` GL loader with `third-party/glad`
+- [ ] Investigate linking `third-party/sdl3` (vendored prebuilt) for future
+      platform work
+
+## Engine milestones
+
+- [~] Duke-native map loading: Build `.map` files through
+      `qcommon/dnmap.cpp` (no BSP), visibility through
+      `qcommon/dnvisibility.cpp`
+- [ ] Full gameplay parity with DOS Duke3D (actors, AI, sectors, use)
+- [ ] Dedicated server + multiplayer validation
+
+Engine milestone status belongs to the owner; agents should not flip
+engine items without a green Windows CI build.
