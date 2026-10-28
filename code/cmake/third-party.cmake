@@ -26,11 +26,17 @@ if(NOT EXISTS "${DN_OPENAL_LIB_DIR}/OpenAL32.lib")
 endif()
 
 add_library(OpenAL SHARED IMPORTED)
-set_target_properties(OpenAL
-  PROPERTIES
-    IMPORTED_IMPLIB "${DN_OPENAL_LIB_DIR}/OpenAL32.lib"
-    IMPORTED_LOCATION "${DN_OPENAL_DLL}"
-    INTERFACE_INCLUDE_DIRECTORIES "${DUKE_THIRD_PARTY_DIR}/openal-soft/include")
+set(duke_openal_properties
+  IMPORTED_IMPLIB "${DN_OPENAL_LIB_DIR}/OpenAL32.lib"
+  IMPORTED_LOCATION "${DN_OPENAL_DLL}"
+  INTERFACE_INCLUDE_DIRECTORIES "${DUKE_THIRD_PARTY_DIR}/openal-soft/include")
+# The vendored OpenAL32.lib import library ships without SEH unwind info
+# and lld-link turns the SafeSEH check on by default for x86, so consumers
+# must opt out of the check when linking against it.
+if(DN_ARCH STREQUAL "x86")
+  list(APPEND duke_openal_properties INTERFACE_LINK_OPTIONS "/SAFESEH:NO")
+endif()
+set_target_properties(OpenAL PROPERTIES ${duke_openal_properties})
 
 # Windows resolves the import lib against OpenAL32.dll, so the vendored
 # soft_oal.dll has to be shipped under that name next to the executable.
