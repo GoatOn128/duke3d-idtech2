@@ -1,0 +1,512 @@
+[
+  {
+    "source": "233C.ogg",
+    "file": "233c.mp3",
+    "source_sha256": "6c8c18f3a87cfdd3c2795e3e4b909d443763e30303d5c33498aae70ebf004f1d",
+    "sha256": "008bf68cbd5fe98e8d18bfa5859c8a3ce62452f9deb8b1bb35698d1625471bd8",
+    "duration": 213.325578,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "AHGEEZ.ogg",
+    "file": "ahgeez.mp3",
+    "source_sha256": "1d6cbd4da327c6ca8686676df10b49d339569949052d4faf535816dd48654f14",
+    "sha256": "262b466b1a32d3c8ef9546fab71d2b6520d142bd7984c30dbaaf0d9d72f858da",
+    "duration": 101.335079,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "ALFREDH.ogg",
+    "file": "alfredh.mp3",
+    "source_sha256": "b7314d9069532e2f51bda70daa49df4c14b44556edc6fced9374c09f1cc7a080",
+    "sha256": "5fabba5ee6e67e704e7a9c873ecebca48554bbd96cc01d1152e4ffb815a1e292",
+    "duration": 181.818844,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "ALIENZ.ogg",
+    "file": "alienz.mp3",
+    "source_sha256": "77d580097b6b4627fb53a051aaf419649a6b4cfd136751ec477547de73337706",
+    "sha256": "93fecfa3c29b33381954eb33bda857f536060b1ac3eb8435b3fef798d202f4ee",
+    "duration": 195.947846,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "BAKEDGDS.ogg",
+    "file": "bakedgds.mp3",
+    "source_sha256": "cfbd2d53389d36b126653899f209d500cbba313651c4095f12940ff8ce1d9cf9",
+    "sha256": "5bb207d6a0c1e750c297048eb2624964ca3542ad24e064940dce2312562bbd77",
+    "duration": 127.992993,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "BRIEFING.ogg",
+    "file": "briefing.mp3",
+    "source_sha256": "97f8527baf80a76ae375729f387ada0dcdcc43dfc37b0a28130202e13677172b",
+    "sha256": "d99ac65d5eeae578d6c16b7e97eb28926e5e396f746b56bce66db3f0a79c1985",
+    "duration": 48.462834,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "CF.ogg",
+    "file": "cf.mp3",
+    "source_sha256": "978fb56eb985eff9a3ccf0cbb6f4735135eba3863e99f1c43d10d7fc6e011918",
+    "sha256": "8cfd0ddce4b7d4fee6eb138e07d9fc6c8e7faaceeca6b5d794c84ee079c4b670",
+    "duration": 183.996553,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "DEPART.ogg",
+    "file": "depart.mp3",
+    "source_sha256": "b562d0817cdc5f6810e137f7d2a8e8f3034030d1e3b5635df7775b0e6d518b7a",
+    "sha256": "d5c2480a5bb612ad7f107e8bc0e29763f5a4bcb5061bc6ad73cb364dbdcd8db7",
+    "duration": 198.366984,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "DETHTOLL.ogg",
+    "file": "dethtoll.mp3",
+    "source_sha256": "fb326cd99b2fe2d58a1d8504e6fc0c5146399a1f47ce967c824428652ce8526c",
+    "sha256": "c2572e2c982b474de8779cd4661350c7ea4d0c57c9b66fe2cb0188d409828ef0",
+    "duration": 240.0,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "E5L1_BulletDam.ogg",
+    "file": "e5l1_bulletdam.mp3",
+    "source_sha256": "f01f2bd4e92ac80d2dcdcac40cb632c984170537cd49cfc90b2758da5b68ac99",
+    "sha256": "0eb5ad7641f2bef552bac179c95e46407b753e7efbeca448f46e116414877435",
+    "duration": 197.185964,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "E5L2_Dukelinka.ogg",
+    "file": "e5l2_dukelinka.mp3",
+    "source_sha256": "774faab833bf1bc72a6615a2a97a767d181d99556a109c872ac10fce90683179",
+    "sha256": "25e3062b564c77431d2cd813242109d5deb22b2933fa626213feaa021401f5cd",
+    "duration": 248.187324,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "E5L3_BigBenBang.ogg",
+    "file": "e5l3_bigbenbang.mp3",
+    "source_sha256": "5322428c2332e56de50879d51b0924850ee846219d552afaa64245009b491cb2",
+    "sha256": "0523ea7a45a3aa21247b43773303067498c2b360370e41c06cf5b89a24d7b681",
+    "duration": 157.372222,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "E5L4_DesertMaze.ogg",
+    "file": "e5l4_desertmaze.mp3",
+    "source_sha256": "81145c596318d3085aedce93c244a3bd8c34a0dae93d540c0e3bc0fde4406b79",
+    "sha256": "4d5f704c6092142642fadeda054f5076d652207cffae07adf251dcdd1421e6e9",
+    "duration": 151.312993,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "E5L5_ParisManson.ogg",
+    "file": "e5l5_parismanson.mp3",
+    "source_sha256": "19a34616cb589256a017412981abfc57ede129f91a6b9497695a38f29cc203cd",
+    "sha256": "3d79b0e229bc99c1fcff0f3b8c518c5f7a49842f3650645cdcc4a6805addb3ce",
+    "duration": 243.355896,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "E5L6_BridgeOut.ogg",
+    "file": "e5l6_bridgeout.mp3",
+    "source_sha256": "6650b83f97f701ecd23cfc6710401b162635e5eaf8fbb103d49c12c8b719b056",
+    "sha256": "0e0d7f26e3cf1e34449ce3ba74f46dd9807c5f2a18c2da9679e788b0275324d1",
+    "duration": 213.476168,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "E5L7_PluckYouPartOne.ogg",
+    "file": "e5l7_pluckyoupartone.mp3",
+    "source_sha256": "ab976768cc5747e694479be5e9c081d441dcf1898986a1345b69fa3d4f70cd32",
+    "sha256": "e3590ef1756a09eb0eb213a50792518f68422f630628207243c0bba3fc352d1b",
+    "duration": 111.083424,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "E5L7_PluckYouPartTwo.ogg",
+    "file": "e5l7_pluckyouparttwo.mp3",
+    "source_sha256": "1e3442358adf78961e4a14ea3d0a1d20ed1c4f36977497e2ad4dbb35f1222cae",
+    "sha256": "b5e519867e1038197f583de68d6a36c6992f9074b573fe5360a327163e1080b3",
+    "duration": 181.974376,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "E5L8_RomanThunder.ogg",
+    "file": "e5l8_romanthunder.mp3",
+    "source_sha256": "ffe2ecb6306baf491f3c784249de1ee1e42a48d0c173cc9e5ae104192ae244c5",
+    "sha256": "f7d22c8b5b657d7e2f50a6e0b1170d27c8b72534fe82afd09ba67f62fbe6e12f",
+    "duration": 186.666213,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "FATCMDR.ogg",
+    "file": "fatcmdr.mp3",
+    "source_sha256": "21c0796a5b86c1e99114db37b594a0762e0076f7596503da87edb2c78b9613d2",
+    "sha256": "b78606f520c2384e0badb93db8710a7940b98a52751e8ce38d8f3f012c1390db",
+    "duration": 253.330998,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "FLOGHORN.ogg",
+    "file": "floghorn.mp3",
+    "source_sha256": "33584096f99a3bb5b5ac5f2d16c84dd4a66f3b36a25e4010d9803fb4d802c3b0",
+    "sha256": "9b95a4db5aa295586873d546c5304e10ff04a68f380b0078cf6bbd8e9da59512",
+    "duration": 191.996009,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "FUTURMIL.ogg",
+    "file": "futurmil.mp3",
+    "source_sha256": "1f81c8149dbcb0794d7d43a54e436c07394bbc7dc061bf2a5f34ed3892a8e7ac",
+    "sha256": "a074c40c0e0e8f62caa6a2c7488b57dada07aaac14ac3d4ed5501d2ecb05e220",
+    "duration": 200.0,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "GLOOMY.ogg",
+    "file": "gloomy.mp3",
+    "source_sha256": "c10b50038fc767f97103646086547f0bfdd78ef0c4271c87c88aca6c42c40bb1",
+    "sha256": "ed5bc015fb6d5ccb6c3937dfee385e75f45972a6a68ee855e080ac3f3a80b816",
+    "duration": 151.996009,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "GOTHAM.ogg",
+    "file": "gotham.mp3",
+    "source_sha256": "4d58c00c2328eb5b3b934c161d7a7092664a833b29b83aaade25222329af0862",
+    "sha256": "37dff2d12b20115b578b19ee05ced47f661185eefe2079084db9cee16103f57f",
+    "duration": 161.872925,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "GRABBAG.ogg",
+    "file": "grabbag.mp3",
+    "source_sha256": "6b1214f7629c1ca4b0d494569a4cfe50d1b85770fefb534a56f3c48a395ed41f",
+    "sha256": "16b19720b58daf6f277f0091261709d3f8a46c730af7c07f96d604e6407f7f91",
+    "duration": 122.807732,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "GUTWRNCH.ogg",
+    "file": "gutwrnch.mp3",
+    "source_sha256": "4ec3f2514f99610521e627a7fc1c4732a118c3e2aff6bc3b6c4ff0b3d79a3578",
+    "sha256": "d46f2aaad225990472f595ae2a284f6527bc6c727b81dad8f956d31dfd44509f",
+    "duration": 230.64,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "INHIDING.ogg",
+    "file": "inhiding.mp3",
+    "source_sha256": "88c024e0f2be2708c9d385975144f2942e5c19c037c717904a7fdec8c08e31ca",
+    "sha256": "c0a93befca367636d321742ae86f55bd82f1c95472094e21afd1ed30d1604c95",
+    "duration": 244.381995,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "INTENTS.ogg",
+    "file": "intents.mp3",
+    "source_sha256": "4ec40d0d21b80fd43233cc91bb6838a10bc6521a914a4489bb87bb76dabafe33",
+    "sha256": "1af344d8c7f8aedc03d4ad8d6258660935a2c164636d77b223e19faa7847828f",
+    "duration": 163.666009,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "INVADER.ogg",
+    "file": "invader.mp3",
+    "source_sha256": "f6638e1bc7b9ed533afff246cbd7b06163288aafcac6b31319e2bb5220c212c1",
+    "sha256": "505913a08d330efc9a9e2c60d33859d530a06716e8efd1ba266365b5df205311",
+    "duration": 288.013379,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "LAYERS.ogg",
+    "file": "layers.mp3",
+    "source_sha256": "8fcc4f9d80192ccab1bfe07eda2d9ca923283ee4718fd150928cad7384bfc5a1",
+    "sha256": "6eb3154529d382adfe7941687f844b2ec297c27500606f601b874bade4284105",
+    "duration": 211.210431,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "LEMCHILL.ogg",
+    "file": "lemchill.mp3",
+    "source_sha256": "dc32124172e738e513ec650e728852b24dd1724d38479c9807b96a86fef985f3",
+    "sha256": "65a35467ca84f306ea15eddc814b5aa2adb78eb6df641b42e4ead2dd7e0779c6",
+    "duration": 210.925533,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "LORDOFLA.ogg",
+    "file": "lordofla.mp3",
+    "source_sha256": "9c206a57e972c4b750c45e94b4eff3cd09868d1d0c78c0556f7c6667d38b3ad7",
+    "sha256": "08303b04b520b5362384b5f7bedbe392bc5c8e6873f3cb2e19bd2117316faff9",
+    "duration": 377.159955,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "MISSIMP.ogg",
+    "file": "missimp.mp3",
+    "source_sha256": "4bf24c960521f7d148d47be8cef85492a565f806f93bc7320edbc03772b9302a",
+    "sha256": "95e0fd7f875f8ed0df61d342269694871cc2eed3b92402024b4d164fcdeaac66",
+    "duration": 177.734104,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "NAMES.ogg",
+    "file": "names.mp3",
+    "source_sha256": "bd7c41fdd5f97bf698aa4fd245670c5b053c3e40700dcfb1f06fa4e3886ed209",
+    "sha256": "64ea7a9616b83f59c0787784f73a6e9d176a1560993e52ac3ce5c854a7fe9f30",
+    "duration": 333.036871,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "PIZZED.ogg",
+    "file": "pizzed.mp3",
+    "source_sha256": "468dbe6af23720201fa7bee9bcf84962d2bdc14b37aa445d9d93c67bc3f3b2bc",
+    "sha256": "4eed2716ff337fc93c5c8dcae07ad45ba7bacc31fecfe34e8b737958d1396dcf",
+    "duration": 309.037256,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "POB.ogg",
+    "file": "pob.mp3",
+    "source_sha256": "79e7e485dc1bd48329112166452f031569a14da8d4073c98a3f0cdd9365b8b80",
+    "sha256": "4bb609d2985b7ee25b0b8892028408c2f30cd388b4af27440e1232f3e174a0ac",
+    "duration": 280.020658,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "PREPD.ogg",
+    "file": "prepd.mp3",
+    "source_sha256": "ae1bb0b36f6577295271899f318798280880d04ef597e8a189fa5aea64ac3cf3",
+    "sha256": "4d0db67e3f0c683da5b6697ee4f38df325e34180ed84646eb6546e2fa4dc2205",
+    "duration": 216.001088,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "RESTRICT.ogg",
+    "file": "restrict.mp3",
+    "source_sha256": "a3ba55b3f3d9bbce475e5f8a54b3c8f5f812c0f68147bd66c70fb6517f848372",
+    "sha256": "51f428176ca5f45b292fe3b4e36853379fa4501f05ad93c7c5a37a187cfd30d0",
+    "duration": 170.0,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "ROBOCREP.ogg",
+    "file": "robocrep.mp3",
+    "source_sha256": "2a5dc58a03f77b00a4eee74e9e4f86b130636b2ffb47a9498f0c878b1bacb8d8",
+    "sha256": "d4aa5a74a042f0d759dccb68e35cf035a7944c4beb2491c6e0a52bfe568228e2",
+    "duration": 144.027551,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "SNAKE1.ogg",
+    "file": "snake1.mp3",
+    "source_sha256": "c74b8d7b1480dd3a5e585cc8de5b88fad34d4a54b58a009cb15e88f2ec3f0acd",
+    "sha256": "863b140c09181c1ffdecbe02484b5e1f473081dd7bf56f1df39e69be104f4251",
+    "duration": 352.453197,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "SPOOK.ogg",
+    "file": "spook.mp3",
+    "source_sha256": "c1a08f6bdb603cc68ad6ec21503cbde423c3846b2df67eeb44a5cf52914051b6",
+    "sha256": "3e75177670989df72c57f09786b35f7943100983637679aef10b9929d5613567",
+    "duration": 249.616871,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "STALAG.ogg",
+    "file": "stalag.mp3",
+    "source_sha256": "e6954077429014165305d203de299b2d401954cd6696fd0dadf18a3d4c2bc4be",
+    "sha256": "3eda7911bf2115cc3b561a2c63e4386a3480e75062bd7e6af8bce5e5061d76d6",
+    "duration": 184.002109,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "STALKER.ogg",
+    "file": "stalker.mp3",
+    "source_sha256": "2be3aac885d95158e31a26c1ee86b4a7f0f6eb15c78983f03250a506d7d69ec4",
+    "sha256": "8a950278723e210343d2903a3559bf8461f78aebf4881c40b92638cff75c92e6",
+    "duration": 164.163061,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "STORM.ogg",
+    "file": "storm.mp3",
+    "source_sha256": "91f73dad504d99eda53ad93e795049b121a60d1683eaf8048ca28f8f31468043",
+    "sha256": "12509e3ba663af6bc8847b01cdbd4d12a1d4a6b9f514e2f19334b4eaa72fd751",
+    "duration": 320.0,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "STREETS.ogg",
+    "file": "streets.mp3",
+    "source_sha256": "a33e0101a1152eddc24ecd33b9565b3a42d9954ad5d1e1e1168536b9de2646ed",
+    "sha256": "99a3f2bda0a4855cf05addad2984cdf136c3c8716d9a5776e452e70b8d0493da",
+    "duration": 357.5,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "SUBWAY.ogg",
+    "file": "subway.mp3",
+    "source_sha256": "f058507ea776b57df88503edab65f3fe496e95a2b08e1470438cb7e5e1028e8a",
+    "sha256": "4c97da71c2f4e0cc5823046cd4b66ac4c54b960f73dcd7b82a69563116dec409",
+    "duration": 392.749365,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "THECALL.ogg",
+    "file": "thecall.mp3",
+    "source_sha256": "d041e59ba3af23edd2c33ad120d824d146e53da47b4bb85bbfa8ec3d7a8ff93c",
+    "sha256": "847d6dfa5e921b22dc2bc290fdef99c05f961e7e6aca020bc34e29d5509d378b",
+    "duration": 374.469932,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "URBAN.ogg",
+    "file": "urban.mp3",
+    "source_sha256": "1b0230972acf4980f5e32a62f150f5dcafda2a1cabb7e169d44e696d7c32653d",
+    "sha256": "7909aa9d31264c4db6dd5cf5b35e81065b282afedbdbcdbacd2b42e722859de3",
+    "duration": 160.0,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "WAREHAUS.ogg",
+    "file": "warehaus.mp3",
+    "source_sha256": "cf95a0aac507f72a1e06673d41763374f1b9d28ae9fad315f6000b91650f345f",
+    "sha256": "20bee3062adeb23234b508fb5dd877b7792660f80f65b37f58b703703769ab0e",
+    "duration": 190.231701,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "WATRWLD1.ogg",
+    "file": "watrwld1.mp3",
+    "source_sha256": "ed32f88afd9cca4122b031fd16ce090e77123fdd07a6fc0c3654464b8c6d42cb",
+    "sha256": "d1010186814adb9996faca8a1be8bdf375735ed3cb4a243277d48d73b4179dbd",
+    "duration": 352.057687,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "WHOMP.ogg",
+    "file": "whomp.mp3",
+    "source_sha256": "be19e7fde066ceac277eb9190ceab31461b1a2983f6a562603a5191238f87956",
+    "sha256": "4000fc9921e304ec0d5917647d69ee504f0ac72e8134d08f3b376048581a70f5",
+    "duration": 223.410612,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  },
+  {
+    "source": "XPLASMA.ogg",
+    "file": "xplasma.mp3",
+    "source_sha256": "5de98e277963a40da2d404ba846d49175dfbc012928c75c13a803b2d328e892f",
+    "sha256": "eb3170b2ae041e31b4b28fb7fa22667d9fc328ab6fc7d79eb762dace04f569cc",
+    "duration": 149.978889,
+    "codec_name": "mp3",
+    "sample_rate": "44100",
+    "channels": 2
+  }
+]
