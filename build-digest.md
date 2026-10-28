@@ -1,12 +1,12 @@
 # Build digest
 
-- Commit: `7b57c9deaf368e8aa7e4d7da0faa0dc813fc7534`
+- Commit: `6ea8fb5c052e9e0b57caf4d89e2f633ee6c37ec5`
 - Branch: `ci-build-digest`
 - Result: configure exit: 0, build exit: 1
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40782894352
-- Generated: 2026-10-28 22:50:54 UTC
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40783958178
+- Generated: 2026-10-28 22:59:17 UTC
 
-Errors: **1**, warnings: **12**.
+Errors: **1**, warnings: **0**.
 
 ## CMake errors
 
@@ -20,74 +20,50 @@ No tool-level errors (lld-link, ninja, ...) in the log.
 
 Showing the first 1 of 1 error(s).
 
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\sound\sndmusic.cpp(6),10`: '../mp3/dr_mp3.h' file not found
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_tent.cpp(1736),1`: extraneous closing brace ('}')
 
   ```
-  FAILED: [code=1] CMakeFiles/duke3d.dir/sound/sndmusic.cpp.obj
-  "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\openal-soft\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj -clang:-MFCMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj.d /FoCMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj /FdCMakeFiles\duke3d.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\sound\sndmusic.cpp
+  FAILED: [code=1] CMakeFiles/duke3d.dir/client/cl_tent.cpp.obj
+  "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\openal-soft\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\duke3d.dir\client\cl_tent.cpp.obj -clang:-MFCMakeFiles\duke3d.dir\client\cl_tent.cpp.obj.d /FoCMakeFiles\duke3d.dir\client\cl_tent.cpp.obj /FdCMakeFiles\duke3d.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_tent.cpp
   ```
 
 
 ## Warnings
 
-12 warning(s) in 6 kind(s):
-
-| Kind | Count | Locations |
-| --- | --- | --- |
-| non-void function | 4 | D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_image.cpp(1288) D:\a\duke3d-idtech2\duke3d-idtech2\code\win32\in_win.cpp(615) D:\a\duke3d-idtech2\duke3d-idtech2\code\win32\net_wins.cpp(131) (+1 more) |
-| equality comparison | 2 | D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_rsurf.cpp(528) D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_rsurf.cpp(717) |
-| invalid suffix | 2 | D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\files.cpp(860) D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\files.cpp(865) |
-| implicit conversion | 2 | D:\a\duke3d-idtech2\duke3d-idtech2\code\server\sv_main.cpp(470) D:\a\duke3d-idtech2\duke3d-idtech2\code\win32\vid_dll.cpp(631) |
-| enumeration values | 1 | D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_tent.cpp(1615) |
-| add explicit | 1 | D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_tent.cpp(1726) |
-
-### Warning messages by kind
-
-- **non-void function**
-  - `D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_image.cpp(1288)`: non-void function does not return a value in all control paths [-Wreturn-type]
-- **equality comparison**
-  - `D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_rsurf.cpp(528)`: equality comparison with extraneous parentheses [-Wparentheses-equality]
-- **invalid suffix**
-  - `D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\files.cpp(860)`: invalid suffix on literal; C++11 requires a space between literal and identifier [-Wreserved-user-defined-literal]
-- **implicit conversion**
-  - `D:\a\duke3d-idtech2\duke3d-idtech2\code\server\sv_main.cpp(470)`: implicit conversion between pointer-to-function and pointer-to-object is a Microsoft extension [-Wmicrosoft-cast]
-- **enumeration values**
-  - `D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_tent.cpp(1615)`: enumeration values 'ex_free' and 'ex_explosion' not handled in switch [-Wswitch]
-- **add explicit**
-  - `D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_tent.cpp(1726)`: add explicit braces to avoid dangling else [-Wdangling-else]
+No warnings in the log.
 
 ## Log tail
 
 ```
-[123/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
-[124/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
-[125/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
-[126/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
-D:\a\duke3d-idtech2\duke3d-idtech2\code\server\sv_main.cpp(470,69): warning: implicit conversion between pointer-to-function and pointer-to-object is a Microsoft extension [-Wmicrosoft-cast]
-  470 |     Com_BeginRedirect(RD_PACKET, sv_outputbuf, SV_OUTPUTBUF_LENGTH, SV_FlushRedirect);
-      |                                                                     ^~~~~~~~~~~~~~~~
-1 warning generated.
-[127/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
-[128/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
-[129/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
-[130/140] Building CXX object CMakeFiles\duke3d.dir\win32\sys_win.cpp.obj
-[131/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_dll.cpp.obj
-D:\a\duke3d-idtech2\duke3d-idtech2\code\win32\vid_dll.cpp(631,35): warning: implicit conversion between pointer-to-function and pointer-to-object is a Microsoft extension [-Wmicrosoft-cast]
-  631 |     if (re.Init(global_hInstance, MainWndProc) == -1)
-      |                                   ^~~~~~~~~~~
-1 warning generated.
-[132/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
-FAILED: [code=1] CMakeFiles/duke3d.dir/sound/sndmusic.cpp.obj 
-"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\openal-soft\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj -clang:-MFCMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj.d /FoCMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj /FdCMakeFiles\duke3d.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\sound\sndmusic.cpp
-D:\a\duke3d-idtech2\duke3d-idtech2\code\sound\sndmusic.cpp(6,10): fatal error: '../mp3/dr_mp3.h' file not found
-    6 | #include "../mp3/dr_mp3.h"
-      |          ^~~~~~~~~~~~~~~~~
+[82/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_ents.cpp.obj
+[83/140] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
+[84/140] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
+[85/140] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
+[86/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_input.cpp.obj
+[87/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_inv.cpp.obj
+[88/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
+[89/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_pred.cpp.obj
+[90/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_parse.cpp.obj
+[91/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
+[92/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_newfx.cpp.obj
+[93/140] Building CXX object CMakeFiles\duke3d.dir\client\dnmenu.cpp.obj
+[94/140] Building CXX object CMakeFiles\duke3d.dir\client\dnhud.cpp.obj
+[95/140] Building CXX object CMakeFiles\duke3d.dir\client\dnsavemenu.cpp.obj
+[96/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_scrn.cpp.obj
+[97/140] Building CXX object CMakeFiles\duke3d.dir\client\dnintro.cpp.obj
+[98/140] Building CXX object CMakeFiles\duke3d.dir\client\dnintermission.cpp.obj
+[99/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_tent.cpp.obj
+FAILED: [code=1] CMakeFiles/duke3d.dir/client/cl_tent.cpp.obj 
+"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\openal-soft\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\duke3d.dir\client\cl_tent.cpp.obj -clang:-MFCMakeFiles\duke3d.dir\client\cl_tent.cpp.obj.d /FoCMakeFiles\duke3d.dir\client\cl_tent.cpp.obj /FdCMakeFiles\duke3d.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_tent.cpp
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_tent.cpp(1736,1): error: extraneous closing brace ('}')
+ 1736 | }
+      | ^
 1 error generated.
-[133/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
-[134/140] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
-[135/140] Building CXX object CMakeFiles\duke3d.dir\client\x86.cpp.obj
-[136/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
-[137/140] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
+[100/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_view.cpp.obj
+[101/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\cmd.cpp.obj
+[102/140] Building CXX object CMakeFiles\duke3d.dir\client\dncgame.cpp.obj
+[103/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\common.cpp.obj
+[104/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\cmodel.cpp.obj
 ninja: build stopped: subcommand failed.
 ```
 
