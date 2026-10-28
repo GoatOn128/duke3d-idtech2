@@ -1877,7 +1877,10 @@ void CL_Frame(int msec)
     }
     SCR_UpdateScreen();
     DN_IntroFrame();
+#ifdef DN_TEST_SUPPORT
+    // Per-frame test hook lives in tests/dnnetwork.cpp.
     DN_NetworkTestFrame();
+#endif
     if (host_speeds->value)
     {
         time_after_ref = Sys_Milliseconds();
