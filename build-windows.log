@@ -15,28 +15,27 @@ toolchain: clang version 20.1.8
 -- Skipping win32/dnicon.rc: 3drealms/duke3d.ico not present.
 -- Found Python3: C:/hostedtoolcache/windows/Python/3.15.1/x64/python3.exe (found version "3.15.1") found components: Interpreter
 -- Asset preparation skipped: needs Python, code/tools/prepare_assets.py and 3drealms/duke3d.grp.
--- Configuring done (8.9s)
+-- Configuring done (10.0s)
 -- Generating done (0.1s)
 -- Build files have been written to: D:/a/duke3d-idtech2/duke3d-idtech2/code/out/build/x86
 === cmake --build --preset windows-clang-x86 ===
-[1/139] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj
-[2/139] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj
-[3/139] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj
-[4/139] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
-[5/139] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
-[6/139] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
+[1/140] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj
+[2/140] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj
+[3/140] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj
+[4/140] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
+[5/140] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
+[6/140] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_image.cpp(1288,1): warning: non-void function does not return a value in all control paths [-Wreturn-type]
  1288 | }
       | ^
 1 warning generated.
-[7/139] Building CXX object CMakeFiles\ref_gl.dir\game\q_shared.cpp.obj
-[8/139] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
-[9/139] Building CXX object CMakeFiles\ref_gl.dir\win32\glw_imp.cpp.obj
-[10/139] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj
-[11/139] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
-[12/139] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_warp.cpp.obj
-[13/139] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dntransport.cpp.obj
-[14/139] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rsurf.cpp.obj
+[7/140] Building CXX object CMakeFiles\ref_gl.dir\game\q_shared.cpp.obj
+[8/140] Building CXX object CMakeFiles\ref_gl.dir\win32\glw_imp.cpp.obj
+[9/140] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
+[10/140] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_warp.cpp.obj
+[11/140] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
+[12/140] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dntransport.cpp.obj
+[13/140] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rsurf.cpp.obj
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_rsurf.cpp(528,25): warning: equality comparison with extraneous parentheses [-Wparentheses-equality]
   528 |         if ( ( fa->dlightframe == r_framecount ) )
       |                ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
@@ -58,311 +57,78 @@ D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_rsurf.cpp(717,27): note: use '
       |                                  ^~
       |                                  =
 2 warnings generated.
-[15/139] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnpcx.cpp.obj
-[16/139] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
-[17/139] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
-[18/139] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
-[19/139] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
-[20/139] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
-[21/139] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
-[22/139] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
-[23/139] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
-[24/139] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
-[25/139] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
-[26/139] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
-[27/139] Building CXX object CMakeFiles\game.dir\game\dnintermission.cpp.obj
-[28/139] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
-[29/139] Building CXX object CMakeFiles\game.dir\game\dnplayer.cpp.obj
-[30/139] Building CXX object CMakeFiles\game.dir\game\dndamage.cpp.obj
-[31/139] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
-[32/139] Building CXX object CMakeFiles\game.dir\game\dnweapons.cpp.obj
-[33/139] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
-[34/139] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
-[35/139] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
-[36/139] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
-[37/139] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
-[38/139] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
-[39/139] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
-[40/139] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
-[41/139] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
-[42/139] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
-[43/139] Building CXX object CMakeFiles\game.dir\game\dnstyles.cpp.obj
-[44/139] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
-[45/139] Building CXX object CMakeFiles\game.dir\game\dntransport.cpp.obj
-[46/139] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
-[47/139] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
-[48/139] Building CXX object CMakeFiles\game.dir\game\dndestruct.cpp.obj
-[49/139] Building CXX object CMakeFiles\game.dir\game\dnfallers.cpp.obj
-[50/139] Building CXX object CMakeFiles\game.dir\game\dnsectors.cpp.obj
-[51/139] Building CXX object CMakeFiles\game.dir\game\dneffects.cpp.obj
-[52/139] Building CXX object CMakeFiles\game.dir\game\dngibs.cpp.obj
-[53/139] Building CXX object CMakeFiles\game.dir\game\dnmapspawn.cpp.obj
-[54/139] Building CXX object CMakeFiles\game.dir\game\dndecals.cpp.obj
-[55/139] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
-[56/139] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
-[57/139] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
-[58/139] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
-[59/139] Building CXX object CMakeFiles\game.dir\qcommon\dnanimation.cpp.obj
-[60/139] Building CXX object CMakeFiles\game.dir\game\dnconrun.cpp.obj
-[61/139] Building CXX object CMakeFiles\game.dir\qcommon\dnmath.cpp.obj
-[62/139] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
-[63/139] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
-[64/139] Building CXX object CMakeFiles\cgame.dir\cgame\dnmain.cpp.obj
-[65/139] Building CXX object CMakeFiles\cgame.dir\qcommon\dnenemies.cpp.obj
-[66/139] Building CXX object CMakeFiles\game.dir\game\q_shared.cpp.obj
-[67/139] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
-[68/139] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
-[69/139] Building CXX object CMakeFiles\cgame.dir\qcommon\dnzrange.cpp.obj
-[70/139] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponview.cpp.obj
-[71/139] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
-[72/139] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
-[73/139] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
-[74/139] Building CXX object CMakeFiles\cgame.dir\qcommon\dnanimation.cpp.obj
-[75/139] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
-[76/139] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
-[77/139] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
-[78/139] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
-[79/139] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
-[80/139] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
-[81/139] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
-FAILED: [code=4294967295] D:/a/duke3d-idtech2/duke3d-idtech2/ref_gl.dll ref_gl.lib 
-C:\Windows\system32\cmd.exe /C "cd . && "C:\Program Files\CMake\bin\cmake.exe" -E vs_link_dll --msvc-ver=1951 --intdir=CMakeFiles\ref_gl.dir --rc="C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe" --mt="C:\Program Files\LLVM\bin\llvm-mt.exe" --manifests  -- "C:\Program Files\LLVM\bin\lld-link.exe" /nologo CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_rsurf.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_warp.cpp.obj CMakeFiles\ref_gl.dir\win32\glw_imp.cpp.obj CMakeFiles\ref_gl.dir\game\q_shared.cpp.obj CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj CMakeFiles\ref_gl.dir\qcommon\dntransport.cpp.obj CMakeFiles\ref_gl.dir\qcommon\dnpcx.cpp.obj CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj  /out:D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll /implib:ref_gl.lib /pdb:D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.pdb /dll /version:0.0 /machine:X86 /INCREMENTAL:NO /DEF:D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\ref_gl.def  winmm.lib  user32.lib  gdi32.lib  opengl32.lib  glu32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-LINK: command "C:\Program Files\LLVM\bin\lld-link.exe /nologo CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_rsurf.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\gl_warp.cpp.obj CMakeFiles\ref_gl.dir\win32\glw_imp.cpp.obj CMakeFiles\ref_gl.dir\game\q_shared.cpp.obj CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj CMakeFiles\ref_gl.dir\qcommon\dntransport.cpp.obj CMakeFiles\ref_gl.dir\qcommon\dnpcx.cpp.obj CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj /out:D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll /implib:ref_gl.lib /pdb:D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.pdb /dll /version:0.0 /machine:X86 /INCREMENTAL:NO /DEF:D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\ref_gl.def winmm.lib user32.lib gdi32.lib opengl32.lib glu32.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST:EMBED,ID=2" failed (exit code 1) with the following output:
-lld-link: error: undefined symbol: void (__stdcall *qglTexParameterf)(unsigned int, unsigned int, float)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_InitLocal(void))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_InitLocal(void))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_StretchRaw(int, int, int, int, int, int, unsigned char *))
-
->>> referenced 25 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglBegin)(unsigned int)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Char(int, int, int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_StretchPic(int, int, int, int, char *))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Pic(int, int, char *))
-
->>> referenced 44 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglTexCoord2f)(float, float)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Char(int, int, int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Char(int, int, int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Char(int, int, int))
-
->>> referenced 55 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglVertex2f)(float, float)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Char(int, int, int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Char(int, int, int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Char(int, int, int))
-
->>> referenced 29 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglEnd)(void)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Char(int, int, int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_StretchPic(int, int, int, int, char *))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Pic(int, int, char *))
-
->>> referenced 43 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglDisable)(unsigned int)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_StretchPic(int, int, int, int, char *))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Pic(int, int, char *))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_TileClear(int, int, int, int, char *))
-
->>> referenced 64 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglEnable)(unsigned int)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_StretchPic(int, int, int, int, char *))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Pic(int, int, char *))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_TileClear(int, int, int, int, char *))
-
->>> referenced 49 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglColor3f)(float, float, float)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Fill(int, int, int, int, int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_Fill(int, int, int, int, int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj:(void __cdecl R_RenderDlight(struct dlight_t *))
-
->>> referenced 5 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglColor4f)(float, float, float, float)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_FadeScreen(void))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_FadeScreen(void))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj:(void __cdecl GL_DrawAliasFrameLerp(struct dmdl_t *, float))
-
->>> referenced 27 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglColorTableEXT)(int, int, int, int, int, void const *)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_StretchRaw(int, int, int, int, int, int, unsigned char *))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_SetTexturePalette(unsigned int *const))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(int __cdecl GL_Upload8(unsigned char *, int, int, int, int))
-
->>> referenced 18 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglTexImage2D)(unsigned int, int, int, int, int, int, unsigned int, unsigned int, void const *)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj:(void __cdecl Draw_StretchRaw(int, int, int, int, int, int, unsigned char *))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(int __cdecl GL_Upload8(unsigned char *, int, int, int, int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(int __cdecl GL_Upload32(unsigned int *, int, int, int))
-
->>> referenced 8 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglSelectTextureSGIS)(unsigned int)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_EnableMultitexture(int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_EnableMultitexture(int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_SelectTexture(unsigned int))
-
->>> referenced 3 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglTexEnvf)(unsigned int, unsigned int, float)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_EnableMultitexture(int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_EnableMultitexture(int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_TexEnv(unsigned int))
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglBindTexture)(unsigned int, unsigned int)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_Bind(int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_MBind(unsigned int, int))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_TextureMode(char *))
-
->>> referenced 2 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglDeleteTextures)(int, unsigned int const *)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_FreeUnusedImages(void))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj:(void __cdecl GL_ShutdownImages(void))
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglVertex3fv)(float const *)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj:(void __cdecl R_RenderDlight(struct dlight_t *))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj:(void __cdecl R_RenderDlight(struct dlight_t *))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj:(void __cdecl GL_DrawAliasFrameLerp(struct dmdl_t *, float))
-
->>> referenced 60 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglDepthMask)(unsigned char)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj:(void __cdecl R_RenderDlights(void))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj:(void __cdecl R_RenderDlights(void))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj:(void __cdecl R_DrawEntitiesOnList(void))
-
->>> referenced 15 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglShadeModel)(unsigned int)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj:(void __cdecl R_RenderDlights(void))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj:(void __cdecl R_DrawAliasModel(struct entity_s *))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj:(void __cdecl R_DrawAliasModel(struct entity_s *))
-
->>> referenced 1 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglBlendFunc)(unsigned int, unsigned int)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj:(void __cdecl R_RenderDlights(void))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj:(void __cdecl R_RenderDlights(void))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj:(void __cdecl GL_SetDefaultState(void))
-
->>> referenced 3 more times
-
-
-
-lld-link: error: undefined symbol: void (__stdcall *qglEnableClientState)(unsigned int)
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj:(void __cdecl GL_DrawAliasFrameLerp(struct dmdl_t *, float))
-
->>> referenced by CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj:(void __cdecl GL_DrawAliasFrameLerp(struct dmdl_t *, float))
-
-
-
-lld-link: error: too many errors emitted, stopping now (use /errorlimit:0 to see all errors)
-
-[82/139] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
-[83/139] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
-[84/139] Building CXX object CMakeFiles\duke3d.dir\client\cl_ents.cpp.obj
+[14/140] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnpcx.cpp.obj
+[15/140] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
+[16/140] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
+[17/140] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
+[18/140] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
+[19/140] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj
+[20/140] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
+[21/140] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
+[22/140] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
+[23/140] Building CXX object CMakeFiles\ref_gl.dir\win32\qgl_win.cpp.obj
+[24/140] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
+[25/140] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
+[26/140] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
+[27/140] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
+[28/140] Building CXX object CMakeFiles\game.dir\game\dnintermission.cpp.obj
+[29/140] Building CXX object CMakeFiles\game.dir\game\dnplayer.cpp.obj
+[30/140] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
+[31/140] Building CXX object CMakeFiles\game.dir\game\dnweapons.cpp.obj
+[32/140] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
+[33/140] Building CXX object CMakeFiles\game.dir\game\dndamage.cpp.obj
+[34/140] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
+[35/140] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
+[36/140] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
+[37/140] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
+[38/140] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
+[39/140] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
+[40/140] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
+[41/140] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
+[42/140] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
+[43/140] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
+[44/140] Building CXX object CMakeFiles\game.dir\game\dnstyles.cpp.obj
+[45/140] Building CXX object CMakeFiles\game.dir\game\dntransport.cpp.obj
+[46/140] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
+[47/140] Building CXX object CMakeFiles\game.dir\game\dndestruct.cpp.obj
+[48/140] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
+[49/140] Building CXX object CMakeFiles\game.dir\game\dnsectors.cpp.obj
+[50/140] Building CXX object CMakeFiles\game.dir\game\dnfallers.cpp.obj
+[51/140] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
+[52/140] Building CXX object CMakeFiles\game.dir\game\dneffects.cpp.obj
+[53/140] Building CXX object CMakeFiles\game.dir\game\dngibs.cpp.obj
+[54/140] Building CXX object CMakeFiles\game.dir\game\dndecals.cpp.obj
+[55/140] Building CXX object CMakeFiles\game.dir\game\dnmapspawn.cpp.obj
+[56/140] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
+[57/140] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
+[58/140] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
+[59/140] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
+[60/140] Building CXX object CMakeFiles\game.dir\qcommon\dnanimation.cpp.obj
+[61/140] Building CXX object CMakeFiles\game.dir\qcommon\dnmath.cpp.obj
+[62/140] Building CXX object CMakeFiles\game.dir\game\dnconrun.cpp.obj
+[63/140] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
+[64/140] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
+[65/140] Building CXX object CMakeFiles\cgame.dir\qcommon\dnenemies.cpp.obj
+[66/140] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
+[67/140] Building CXX object CMakeFiles\game.dir\game\q_shared.cpp.obj
+[68/140] Building CXX object CMakeFiles\cgame.dir\cgame\dnmain.cpp.obj
+[69/140] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
+[70/140] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponview.cpp.obj
+[71/140] Building CXX object CMakeFiles\cgame.dir\qcommon\dnzrange.cpp.obj
+[72/140] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
+[73/140] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
+[74/140] Building CXX object CMakeFiles\cgame.dir\qcommon\dnanimation.cpp.obj
+[75/140] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
+[76/140] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
+[77/140] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
+[78/140] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
+[79/140] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
+[80/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
+[81/140] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
+[82/140] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
+[83/140] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
+[84/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_input.cpp.obj
+[85/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_ents.cpp.obj
 D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_ents.cpp(1711,9): warning: using floating point absolute value function 'fabs' when argument is of integer type [-Wabsolute-value]
  1711 |     if (fabs(ops->pmove.origin[0] - ps->pmove.origin[0]) > 256 * 8 ||
       |         ^
@@ -372,6 +138,97 @@ D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_ents.cpp(1711,9): note: use fu
       |         std::abs
 D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_ents.cpp(1711,9): note: include the header <cstdlib> or explicitly provide a declaration for 'std::abs'
 1 warning generated.
-[85/139] Building CXX object CMakeFiles\duke3d.dir\client\cl_input.cpp.obj
-[86/139] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
+[86/140] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
+[87/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_inv.cpp.obj
+[88/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
+[89/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_pred.cpp.obj
+[90/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_parse.cpp.obj
+[91/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
+[92/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_newfx.cpp.obj
+[93/140] Building CXX object CMakeFiles\duke3d.dir\client\dnmenu.cpp.obj
+[94/140] Building CXX object CMakeFiles\duke3d.dir\client\dnsavemenu.cpp.obj
+[95/140] Building CXX object CMakeFiles\duke3d.dir\client\dnhud.cpp.obj
+[96/140] Building CXX object CMakeFiles\duke3d.dir\client\dnintro.cpp.obj
+[97/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_scrn.cpp.obj
+[98/140] Building CXX object CMakeFiles\duke3d.dir\client\dnintermission.cpp.obj
+[99/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\cmd.cpp.obj
+[100/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_view.cpp.obj
+[101/140] Building CXX object CMakeFiles\duke3d.dir\client\cl_tent.cpp.obj
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_tent.cpp(1615,11): warning: enumeration values 'ex_free' and 'ex_explosion' not handled in switch [-Wswitch]
+ 1615 |                 switch (ex->type)
+      |                         ^~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\cl_tent.cpp(1726,4): warning: add explicit braces to avoid dangling else [-Wdangling-else]
+ 1726 |                         else if (s->endtime < cl.time)
+      |                         ^
+2 warnings generated.
+[102/140] Building CXX object CMakeFiles\duke3d.dir\client\dncgame.cpp.obj
+[103/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\cmodel.cpp.obj
+[104/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\crc.cpp.obj
+[105/140] Building CXX object CMakeFiles\duke3d.dir\client\console.cpp.obj
+[106/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\common.cpp.obj
+[107/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\cvar.cpp.obj
+[108/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\files.cpp.obj
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\files.cpp(860,32): warning: invalid suffix on literal; C++11 requires a space between literal and identifier [-Wreserved-user-defined-literal]
+  860 |                 FS_AddGameDirectory (va("%s/"BASEDIRNAME, fs_cddir->string) );
+      |                                              ^
+      |                                               
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\files.cpp(865,31): warning: invalid suffix on literal; C++11 requires a space between literal and identifier [-Wreserved-user-defined-literal]
+  865 |         FS_AddGameDirectory (va("%s/"BASEDIRNAME, fs_basedir->string) );
+      |                                      ^
+      |                                       
+2 warnings generated.
+[109/140] Building CXX object CMakeFiles\duke3d.dir\game\m_flash.cpp.obj
+[110/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\md4.cpp.obj
+[111/140] Building CXX object CMakeFiles\duke3d.dir\client\keys.cpp.obj
+[112/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\net_chan.cpp.obj
+[113/140] Building CXX object CMakeFiles\duke3d.dir\win32\conproc.cpp.obj
+[114/140] Building CXX object CMakeFiles\duke3d.dir\game\q_shared.cpp.obj
+[115/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\pmove.cpp.obj
+[116/140] Building CXX object CMakeFiles\duke3d.dir\client\menu.cpp.obj
+[117/140] Building CXX object CMakeFiles\duke3d.dir\win32\in_win.cpp.obj
+D:\a\duke3d-idtech2\duke3d-idtech2\code\win32\in_win.cpp(615,1): warning: non-void function does not return a value in all control paths [-Wreturn-type]
+  615 | }
+      | ^
+1 warning generated.
+[118/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
+[119/140] Building CXX object CMakeFiles\duke3d.dir\client\qmenu.cpp.obj
+[120/140] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
+D:\a\duke3d-idtech2\duke3d-idtech2\code\win32\net_wins.cpp(131,1): warning: non-void function does not return a value in all control paths [-Wreturn-type]
+  131 | }
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\win32\net_wins.cpp(169,1): warning: non-void function does not return a value in all control paths [-Wreturn-type]
+  169 | }
+      | ^
+2 warnings generated.
+[121/140] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
+[122/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
+[123/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
+[124/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
+[125/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
+[126/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
+D:\a\duke3d-idtech2\duke3d-idtech2\code\server\sv_main.cpp(470,69): warning: implicit conversion between pointer-to-function and pointer-to-object is a Microsoft extension [-Wmicrosoft-cast]
+  470 |     Com_BeginRedirect(RD_PACKET, sv_outputbuf, SV_OUTPUTBUF_LENGTH, SV_FlushRedirect);
+      |                                                                     ^~~~~~~~~~~~~~~~
+1 warning generated.
+[127/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
+[128/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
+[129/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
+[130/140] Building CXX object CMakeFiles\duke3d.dir\win32\sys_win.cpp.obj
+[131/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_dll.cpp.obj
+D:\a\duke3d-idtech2\duke3d-idtech2\code\win32\vid_dll.cpp(631,35): warning: implicit conversion between pointer-to-function and pointer-to-object is a Microsoft extension [-Wmicrosoft-cast]
+  631 |     if (re.Init(global_hInstance, MainWndProc) == -1)
+      |                                   ^~~~~~~~~~~
+1 warning generated.
+[132/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
+FAILED: [code=1] CMakeFiles/duke3d.dir/sound/sndmusic.cpp.obj 
+"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\openal-soft\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj -clang:-MFCMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj.d /FoCMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj /FdCMakeFiles\duke3d.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\sound\sndmusic.cpp
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sound\sndmusic.cpp(6,10): fatal error: '../mp3/dr_mp3.h' file not found
+    6 | #include "../mp3/dr_mp3.h"
+      |          ^~~~~~~~~~~~~~~~~
+1 error generated.
+[133/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
+[134/140] Building CXX object CMakeFiles\duke3d.dir\client\x86.cpp.obj
+[135/140] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
+[136/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
+[137/140] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
 ninja: build stopped: subcommand failed.
