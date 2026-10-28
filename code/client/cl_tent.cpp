@@ -1614,6 +1614,10 @@ void CL_AddExplosions (void)
 
 		switch (ex->type)
 		{
+		// ex_free is filtered out above; ex_explosion is not animated here.
+		case ex_free:
+		case ex_explosion:
+			break;
 		case ex_mflash:
 			if (f >= ex->frames-1)
 				ex->type = ex_free;
@@ -1718,6 +1722,7 @@ void CL_ProcessSustain ()
 	for (i=0, s=cl_sustains; i< MAX_SUSTAINS; i++, s++)
 	{
 		if (s->id)
+		{
 			if ((s->endtime >= cl.time) && (cl.time >= s->nextthink))
 			{
 //				Com_Printf ("think %d %d %d\n", cl.time, s->nextthink, s->thinkinterval);
@@ -1725,6 +1730,8 @@ void CL_ProcessSustain ()
 			}
 			else if (s->endtime < cl.time)
 				s->id = 0;
+			}
+		}
 	}
 }
 

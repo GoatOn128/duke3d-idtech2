@@ -128,6 +128,8 @@ qboolean NET_CompareAdr(netadr_t a, netadr_t b)
         }
         return false;
     }
+
+    return false;
 }
 
 /*
@@ -166,6 +168,8 @@ qboolean NET_CompareBaseAdr(netadr_t a, netadr_t b)
         }
         return false;
     }
+
+    return false;
 }
 
 char *NET_AdrToString(netadr_t a)
