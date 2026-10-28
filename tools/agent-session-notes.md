@@ -37,6 +37,17 @@ cost anything as long as this file and PROGRESS.md are current.
   warnings, push, repeat until green.
 - The digest commit itself carries `[skip ci]`; do not build from it.
 - Configure failures show up under "CMake errors" in the digest.
+- Stacked PRs are squash-merged, so the merge base stays stale: after a
+  lower PR merges, every open PR shows add/add conflicts on the
+  bot-committed `build-digest.md`/`build-windows.log` (each branch has
+  its own digest content). Fix by deleting those two files from the open
+  PR branches with `[skip ci]` commit messages - main keeps its own
+  copies fresh via its CI runs, and a branch that does not carry them
+  cannot conflict. Then compare the PR diffs (get_diff of the merged and
+  the open PR, per-file patch comparison) for any other diverged file and
+  sync the branch to main's content. Done 2026-10-28 for PRs #3 and #4:
+  digest files deleted, `.github/workflows/build-windows.yml` synced to
+  main's vsenv.cmd variant.
 
 ## Build facts
 
