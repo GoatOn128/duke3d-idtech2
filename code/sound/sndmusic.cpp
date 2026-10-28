@@ -3,7 +3,7 @@
 #include "../client/client.h"
 #include "sndlocal.h"
 #define DR_MP3_NO_STDIO
-#include "../mp3/dr_mp3.h"
+#include "../third-party/mp3/dr_mp3.h"
 
 namespace
 {
