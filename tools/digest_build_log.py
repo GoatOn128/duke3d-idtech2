@@ -16,11 +16,16 @@ import sys
 # GCC-style: path/file.cpp:12:34: error: message
 DIAG_RE = re.compile(
     r"^(?P<file>.+?)"
-    r"(?:\((?P<line>\d+)(?:,(?P<col>\d+))?\)|:(?P<gline>\d+):(?P<gcol>\d+):)\s*"
+    r"(?:\((?P<line>\d+)(?:,(?P<col>\d+))?\)|:(?P<gline>\d+):(?P<gcol>\d+):)\s*:?\s*"
     r"(?P<kind>fatal error|error|warning|note)\s*:?\s*"
     r"(?:(?P<code>C\d{4}):)?\s*"
     r"(?P<msg>.*)$"
 )
+
+# Tool-level failures without a source location, e.g.
+#   lld-link: error: undefined symbol: ...
+#   clang: error: unable to execute command: ...
+TOOL_ERROR_RE = re.compile(r"^(?P<tool>[A-Za-z][\w.-]*): error: (?P<msg>.*)$")
 
 SOURCE_EXT_RE = re.compile(r"\.(c|cc|cpp|cxx|h|hh|hpp|rc|inc|inl|def)$", re.IGNORECASE)
 
@@ -45,11 +50,28 @@ def truncate_log_in_place(path, max_bytes):
 
 
 def parse_log(text):
-    """Collect error/warning diagnostics with two lines of surrounding context."""
+    """Collect diagnostics plus tool-level errors (e.g. lld-link) with context."""
     diags = []
+    tool_errors = []
     lines = text.splitlines()
     for index, line in enumerate(lines):
-        match = DIAG_RE.match(line.strip())
+        stripped = line.strip()
+        tool_match = TOOL_ERROR_RE.match(stripped)
+        if tool_match and not DIAG_RE.match(stripped):
+            context = []
+            for follow in lines[index + 1 : index + 4]:
+                if not follow.strip():
+                    break
+                context.append(follow.rstrip())
+            tool_errors.append(
+                {
+                    "tool": tool_match.group("tool"),
+                    "msg": tool_match.group("msg").strip(),
+                    "context": context,
+                }
+            )
+            continue
+        match = DIAG_RE.match(stripped)
         if not match:
             continue
         file_name = match.group("file").strip()
@@ -83,7 +105,7 @@ def parse_log(text):
                 "context": context,
             }
         )
-    return diags, lines
+    return diags, tool_errors, lines
 
 
 def warning_kind(diag):
@@ -118,6 +140,27 @@ def render_header(args, error_count, warning_count):
         "Errors: **%d**, warnings: **%d**." % (error_count, warning_count)
     )
     out.append("")
+    return out
+
+
+def render_tool_errors(tool_errors):
+    out = ["## Tool errors", ""]
+    if not tool_errors:
+        out.append("No tool-level errors (lld-link, ninja, ...) in the log.")
+        out.append("")
+        return out
+    for entry in tool_errors[:MAX_ERRORS_SHOWN]:
+        out.append("- `%s: error: %s`" % (entry["tool"], entry["msg"]))
+        if entry["context"]:
+            out.append("")
+            out.append("  ```")
+            for context_line in entry["context"]:
+                out.append("  " + context_line.strip())
+            out.append("  ```")
+            out.append("")
+    if len(tool_errors) > MAX_ERRORS_SHOWN:
+        out.append("(list capped at %d)" % MAX_ERRORS_SHOWN)
+        out.append("")
     return out
 
 
@@ -237,12 +280,14 @@ def main():
     with open(args.log, "r", encoding="utf-8", errors="replace") as handle:
         text = handle.read()
 
-    diags, lines = parse_log(text)
+    diags, tool_errors, lines = parse_log(text)
     errors = [diag for diag in diags if diag["kind"] in ("error", "fatal error")]
     warnings = [diag for diag in diags if diag["kind"] == "warning"]
+    error_total = len(errors) + len(tool_errors)
 
-    out = render_header(args, len(errors), len(warnings))
+    out = render_header(args, error_total, len(warnings))
     out += render_cmake_errors(lines)
+    out += render_tool_errors(tool_errors)
     out += render_errors(errors)
     out += render_warnings(warnings)
     out += render_tail(lines)
@@ -252,7 +297,7 @@ def main():
 
     print(
         "digest written to %s: %d error(s), %d warning(s)"
-        % (args.out, len(errors), len(warnings))
+        % (args.out, error_total, len(warnings))
     )
     return 0
 

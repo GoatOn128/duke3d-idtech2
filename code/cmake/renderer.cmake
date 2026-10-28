@@ -12,7 +12,8 @@ set(renderer_sources
     ref_gl/gl_warp.cpp
     win32/glw_imp.cpp
     game/q_shared.cpp
-    win32/q_shwin.cpp)
+    win32/q_shwin.cpp
+    win32/qgl_win.cpp)
 
 add_library(
   ref_gl SHARED
