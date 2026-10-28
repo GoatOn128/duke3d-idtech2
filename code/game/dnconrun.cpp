@@ -13,6 +13,34 @@ static int Flags(const int *args, int argc)
     return flags;
 }
 
+static int Squished(edict_t *entity, const dn_sector_t *sector)
+{
+    /* ACTORS.cpp ifsquished uses authored plane heights and fixed thresholds,
+       not the standing collision hull. Narrow ducts are valid player space. */
+    if (!sector || sector->lotag == 23 || (entity->client && entity->client->noclip))
+    {
+        return 0;
+    }
+    int64_t gap = (int64_t)sector->floorz - sector->ceilingz;
+    int frozen = entity->pal == 1;
+    if (gap >= (frozen ? 32 : 12) * 256 || (frozen && (sector->lotag & 32768)))
+    {
+        return 0;
+    }
+    if (entity->enemy)
+    {
+        entity->speed = 0;
+    }
+    if (frozen)
+    {
+        entity->lastweapon = DN_ConSymbol("SHOTSPARK1", 2595);
+        entity->hitweapon = 1;
+        entity->health--;
+        return 0;
+    }
+    return 1;
+}
+
 static int CanSee(edict_t *e, edict_t *p, int target_only)
 {
     vec3_t a, b;
@@ -190,9 +218,7 @@ int DN_ConCondition(edict_t *e, int op, const int *a, int argc)
     case DN_OP_IFDEAD:
         return e->client ? e->health <= 0 : e->health < 0;
     case DN_OP_IFSQUISHED:
-        return s && DN_PlaneZ(&dn_world, sector, 1, e->s.origin[0], e->s.origin[1]) -
-                            DN_PlaneZ(&dn_world, sector, 0, e->s.origin[0], e->s.origin[1]) <
-                        e->maxs[2] - e->mins[2] - 1;
+        return Squished(e, s);
     case DN_OP_IFWASWEAPON:
         return e->lastweapon == a[0];
     case DN_OP_IFACTION:
@@ -242,7 +268,8 @@ int DN_ConCondition(edict_t *e, int op, const int *a, int argc)
     case DN_OP_IFBULLETNEAR:
         return DN_DodgeProjectile(e);
     case DN_OP_IFRESPAWN:
-        return gi.cvar((char *)(e->enemy ? "respawn_monsters" : "respawn_items"), "0", 0)->value != 0;
+        return gi.cvar((char *)(e->enemy ? "respawn_monsters" : "respawn_items"), "0", 0)->value !=
+               0;
     case DN_OP_IFFLOORDISTL:
     case DN_OP_IFCEILINGDISTL:
     {

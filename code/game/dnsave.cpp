@@ -61,7 +61,8 @@ static void InvalidSave(FILE *file, const char *message)
 void DN_WriteGame(char *filename, qboolean autosave)
 {
     FILE *file = fopen(filename, "wb");
-    save_header_t header = {"DNGAME", DN_SAVE_VERSION, static_cast<uint32_t>(dn_maxclients), sizeof(gclient_t), 0};
+    save_header_t header = {"DNGAME", DN_SAVE_VERSION, static_cast<uint32_t>(dn_maxclients),
+                            sizeof(gclient_t), 0};
     header.program = DN_ConChecksum();
     if (!file)
     {
@@ -281,6 +282,11 @@ void DN_ReadLevel(char *filename)
     {
         if (dn_edicts[i].inuse && !(dn_edicts[i].s.renderfx & RF_DUKE_WORLD))
         {
+            /* Saves made before grate support retain the inert map flags. */
+            if (dn_edicts[i].tile == DN_ConSymbol("GRATE1", 595))
+            {
+                DN_InitDestructible(&dn_edicts[i]);
+            }
             DN_Link(&dn_edicts[i]);
         }
     }

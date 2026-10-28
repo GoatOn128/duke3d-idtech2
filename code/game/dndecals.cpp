@@ -1,4 +1,4 @@
-/* Native BLOODPOOL/PUKE initialization and their floor-aligned growth. */
+/* Native blood pools, floor-aligned growth and blood/puke footprint trails. */
 #include "dncon.h"
 #include "../qcommon/dnmath.h"
 
@@ -14,8 +14,88 @@ static int IsPool(const edict_t *entity)
            entity->tile == DN_ConSymbol("PUKE", 4389);
 }
 
+static int IsFootprint(int tile)
+{
+    return tile == DN_ConSymbol("FOOTPRINTS", 550) || tile == DN_ConSymbol("FOOTPRINTS2", 672) ||
+           tile == DN_ConSymbol("FOOTPRINTS3", 673) || tile == DN_ConSymbol("FOOTPRINTS4", 674);
+}
+
+/* The player's otherwise unused native state stores count, palette and shade.
+   These slots already persist in level saves; no save format change is needed. */
+void DN_PlayerFootprints(edict_t *player)
+{
+    gclient_t *client = player->client;
+    int sector = player->sector;
+    if (!client || client->health <= 0 || client->noclip || client->jetpack_on ||
+        !(client->ps.pmove.pm_flags & PMF_ON_GROUND) || sector < 0 ||
+        sector >= dn_world.numsectors || player->native_state[0] <= 0 ||
+        (dn_world.sectors[sector].floorstat & 2))
+    {
+        return;
+    }
+    /* PLAYER.cpp prevents another print within 384 Build units on both axes. */
+    for (int i = dn_maxclients + 1; i < globals.num_edicts; i++)
+    {
+        const edict_t *print = &dn_edicts[i];
+        if (print->inuse && print->sector == sector && IsFootprint(print->tile) &&
+            fabsf(print->s.origin[0] - player->s.origin[0]) < 384.f / 16 &&
+            fabsf(print->s.origin[1] - player->s.origin[1]) < 384.f / 16)
+        {
+            return;
+        }
+    }
+    --player->native_state[0];
+    if (dn_world.sectors[sector].lotag || dn_world.sectors[sector].hitag)
+    {
+        return;
+    }
+    static const char *names[] = {"FOOTPRINTS", "FOOTPRINTS2", "FOOTPRINTS3", "FOOTPRINTS4"};
+    static const int tiles[] = {550, 672, 673, 674};
+    int choice = DN_Random() & 3;
+    edict_t *print = DN_SpawnSprite(player, DN_ConSymbol(names[choice], tiles[choice]));
+    print->pal = player->native_state[1];
+    print->shade = player->native_state[2];
+    DN_Link(print);
+}
+
 void DN_InitDecal(edict_t *entity, const edict_t *parent)
 {
+    if (IsFootprint(entity->tile))
+    {
+        entity->actor = -1;
+        entity->action = entity->animframe = entity->animclock = 0;
+        entity->cstat = 32 | (parent && parent->client ? (parent->native_state[0] & 1) << 2 : 0);
+        entity->xrepeat = entity->yrepeat = 32;
+        if (entity->sector < 0 || entity->sector >= dn_world.numsectors)
+        {
+            entity->xrepeat = entity->yrepeat = 0;
+            return;
+        }
+        const dn_sector_t *floor = &dn_world.sectors[entity->sector];
+        if (parent)
+        {
+            for (int corner = 0; corner < 4; corner++)
+            {
+                vec3_t point;
+                VectorCopy(entity->s.origin, point);
+                point[0] += (corner & 1 ? 84 : -84) / 16.f;
+                point[1] += (corner & 2 ? 84 : -84) / 16.f;
+                int sector = DN_FindSectorXY(&dn_world, point, entity->sector);
+                if (sector < 0 || dn_world.sectors[sector].floorz != floor->floorz)
+                {
+                    entity->xrepeat = entity->yrepeat = 0;
+                    break;
+                }
+            }
+        }
+        if (floor->lotag == 1 || floor->lotag == 2)
+        {
+            entity->xrepeat = entity->yrepeat = 0;
+        }
+        entity->s.origin[2] =
+            DN_PlaneZ(&dn_world, entity->sector, 0, entity->s.origin[0], entity->s.origin[1]) + 1;
+        return;
+    }
     if (DN_IsBloodSplat(entity->tile))
     {
         entity->actor = -1;
@@ -81,6 +161,17 @@ void DN_InitDecal(edict_t *entity, const edict_t *parent)
 
 int DN_DecalTick(edict_t *entity)
 {
+    if (IsFootprint(entity->tile))
+    {
+        if (entity->sector >= 0 && entity->sector < dn_world.numsectors)
+        {
+            entity->s.origin[2] =
+                DN_PlaneZ(&dn_world, entity->sector, 0, entity->s.origin[0], entity->s.origin[1]) +
+                1;
+            DN_Link(entity);
+        }
+        return 1;
+    }
     if (DN_IsBloodSplat(entity->tile))
     {
         if (entity->count < 7 * 26)
@@ -114,6 +205,27 @@ int DN_DecalTick(edict_t *entity)
             entity->xrepeat += DN_Random() & 3;
             entity->yrepeat += DN_Random() & 3;
         }
+    }
+    float distance;
+    edict_t *player = DN_NearestPlayer(entity, &distance);
+    if (player && distance < 844.f / 16 && entity->xrepeat > 6 && entity->yrepeat > 6)
+    {
+        if (!entity->native_state[0])
+        {
+            entity->native_state[0] = 1;
+            player->native_state[0] = entity->spawnedby == DN_ConSymbol("TIRE", 990) ? 10 : 3;
+            player->native_state[1] = entity->pal;
+            player->native_state[2] = entity->shade;
+            if (entity->count == 32)
+            {
+                entity->xrepeat -= 6;
+                entity->yrepeat -= 6;
+            }
+        }
+    }
+    else
+    {
+        entity->native_state[0] = 0;
     }
     DN_Link(entity);
     return 1;

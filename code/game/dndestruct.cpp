@@ -57,7 +57,8 @@ int DN_InitDestructible(edict_t *entity)
         entity->actor = -1;
         return 1;
     }
-    if (entity->tile == DN_ConSymbol("FANSPRITE", 407))
+    if (entity->tile == DN_ConSymbol("FANSPRITE", 407) ||
+        entity->tile == DN_ConSymbol("GRATE1", 595))
     {
         entity->clipdist = 32;
         entity->cstat |= 257;
@@ -82,6 +83,18 @@ int DN_InitDestructible(edict_t *entity)
 
 int DN_DamageDestructible(edict_t *entity, int weapon)
 {
+    if (entity->tile == DN_ConSymbol("GRATE1", 595))
+    {
+        entity->tile = DN_ConSymbol("BGRATE1", 596);
+        entity->cstat &= ~257;
+        DN_PlaySound(entity, DN_ConSymbol("VENT_BUST", 18), 0, 0);
+        DN_Link(entity);
+        return 1;
+    }
+    if (entity->tile == DN_ConSymbol("BGRATE1", 596))
+    {
+        return 1;
+    }
     if (TrashCanTile(entity->tile))
     {
         entity->hitweapon = 1;

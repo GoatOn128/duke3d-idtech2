@@ -184,7 +184,7 @@ static void BuildMesh(int sector)
 {
     const dn_sector_t *s = &r_duke_map.sectors[sector];
     GLUtesselator *t = gluNewTess();
-    GLdouble(*vertices)[3] = static_cast<GLdouble (*)[3]>(calloc(s->wallnum, sizeof(*vertices)));
+    GLdouble(*vertices)[3] = static_cast<GLdouble(*)[3]>(calloc(s->wallnum, sizeof(*vertices)));
     byte *visited = (byte *)(calloc(s->wallnum, 1));
     int i, j, steps;
     if (!t || !vertices || !visited)
@@ -812,7 +812,10 @@ void R_DukeDrawSprite(entity_t *e)
         int dx = (int)((e->origin[0] - r_origin[0]) * 16);
         int dy = (int)((r_origin[1] - e->origin[1]) * 16);
         tile += DN_SpriteRotation(angle, view_angle, dx, dy, views, &cstat);
-        while (views > 0 && tile > 0 && tile < DN_MAX_TILES && !tiles[tile].width)
+        /* Only directional actors can fall back to an earlier animation frame.
+           Empty effect tiles (e.g. FRAMEEFFECT1) must not walk back through the
+           ART bank to the unrelated USER ART sign at tile 3584. */
+        while (views > 1 && tile > 0 && tile < DN_MAX_TILES && !tiles[tile].width)
         {
             tile -= views;
         }

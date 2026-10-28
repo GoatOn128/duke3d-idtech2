@@ -80,6 +80,7 @@ static void RunFrame(void)
                 if (dn_edicts[i].client)
                 {
                     DN_WeaponTick(&dn_edicts[i]);
+                    DN_PlayerFootprints(&dn_edicts[i]);
                 }
                 DN_ActorTick(&dn_edicts[i]);
                 if (DN_IntermissionActive())

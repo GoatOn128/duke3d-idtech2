@@ -78,6 +78,7 @@ void DN_ResetPlayer(edict_t *ent)
     ent->health = c->health;
     ent->tile = ent->originaltile = DN_ConSymbol("APLAYER", 1405);
     DN_ConInitActor(ent);
+    memset(ent->native_state, 0, sizeof(ent->native_state));
     ent->health = c->health;
     ent->xrepeat = 42;
     ent->yrepeat = 36;

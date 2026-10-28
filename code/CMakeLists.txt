@@ -235,7 +235,7 @@ add_custom_command(
     "Preparing Duke maps, WAL textures, palette, voices and console assets"
   VERBATIM)
 add_custom_target(duke_assets DEPENDS "${DUKE_ROOT}/basedn/asset-manifest.json")
-add_dependencies(duke3d duke_assets)
+# Asset preparation is opt-in and separate from building the binaries.
 include(CTest)
 if(BUILD_TESTING)
   add_executable(duke_audio_tests tests/dnaudio_test.cpp sound/sndwave.cpp mp3/dnmp3.cpp)

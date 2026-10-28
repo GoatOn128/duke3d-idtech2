@@ -127,6 +127,7 @@ int DN_VehicleTick(edict_t *entity);
 void DN_InitEffect(edict_t *entity, edict_t *parent);
 void DN_InitDecal(edict_t *entity, const edict_t *parent);
 int DN_DecalTick(edict_t *entity);
+void DN_PlayerFootprints(edict_t *player);
 int DN_IsBloodSplat(int tile);
 void DN_ShootBlood(edict_t *entity, int tile);
 void DN_InitPickup(edict_t *entity, const edict_t *parent);

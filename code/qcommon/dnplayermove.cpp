@@ -296,6 +296,65 @@ static void Horizontal(pmove_t *move, const dn_map_t *map, dn_prediction_t *stat
     vec3_t mins = {-10.25f, -10.25f, -fmaxf(0, fminf(20, point[2] + 12 - floor - .125f)) + 12};
     vec3_t maxs = {10.25f, 10.25f, 16};
     vec3_t displacement = {(state->motion_vx >> 14) / 16.f, -(state->motion_vy >> 14) / 16.f, 0};
+    if (state->sector >= 0)
+    {
+        /* Build's slope clearance is measured at the eye, not across a standing
+           box. Remove the box's extra slope support to avoid allsolid sweeps at
+           valid positions. Include nearby portals and this tick's plane change. */
+        const dn_sector_t *sector = &map->sectors[state->sector];
+        float top = maxs[2], bottom = mins[2];
+        for (int index = -1; index < sector->wallnum; index++)
+        {
+            int next = state->sector;
+            if (index >= 0)
+            {
+                const dn_wall_t *wall = &map->walls[sector->wallptr + index];
+                if (wall->nextsector < 0 || (wall->cstat & 1))
+                {
+                    continue;
+                }
+                const dn_wall_t *endwall = &map->walls[wall->point2];
+                float dx = (endwall->x - (float)wall->x) / 16;
+                float dy = -(endwall->y - (float)wall->y) / 16;
+                float x = point[0] - wall->x / 16.f, y = point[1] + wall->y / 16.f;
+                float length2 = dx * dx + dy * dy;
+                float along = length2 > 0 ? fmaxf(0, fminf(1, (x * dx + y * dy) / length2)) : 0;
+                float reach = hypotf(maxs[0], maxs[1]) + VectorLength(displacement) + .125f;
+                if (hypotf(x - dx * along, y - dy * along) > reach)
+                {
+                    continue;
+                }
+                next = wall->nextsector;
+            }
+            for (int ceiling = 0; ceiling < 2; ceiling++)
+            {
+                vec3_t normal;
+                DN_PlaneNormal(map, next, ceiling, normal);
+                float support =
+                    (fabsf(normal[0]) * maxs[0] + fabsf(normal[1]) * maxs[1]) / fabsf(normal[2]);
+                if (support == 0)
+                {
+                    continue;
+                }
+                float change = DotProduct(normal, displacement) / normal[2];
+                float approach = fmaxf(0, ceiling ? change : -change);
+                float height = DN_PlaneZ(map, next, ceiling, point[0], point[1]) - point[2];
+                if (fabsf(height - (ceiling ? maxs[2] : mins[2])) <= support + approach + .125f)
+                {
+                    if (ceiling)
+                    {
+                        top = fminf(top, height - support - approach);
+                    }
+                    else
+                    {
+                        bottom = fmaxf(bottom, height + support + approach);
+                    }
+                }
+            }
+        }
+        mins[2] = fminf(bottom, top);
+        maxs[2] = fmaxf(bottom, top);
+    }
     for (int slide = 0; slide < 3; slide++)
     {
         VectorAdd(point, displacement, end);
