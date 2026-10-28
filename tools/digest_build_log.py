@@ -215,19 +215,19 @@ def render_warnings(warnings):
     out.append("")
     for kind in sorted(kinds, key=lambda name: -len(kinds[name])):
         out.append("- **%s**" % kind)
-        seen_msgs = []
+        seen_locs = []
         for diag in kinds[kind]:
-            message = diag["msg"]
-            if message in seen_msgs:
+            location = "%s(%s)" % (diag["file"], diag["line"])
+            if location in seen_locs:
                 continue
-            seen_msgs.append(message)
+            seen_locs.append(location)
             out.append(
-                "  - `%s(%s)`: %s" % (diag["file"], diag["line"], message)
+                "  - `%s`: %s" % (location, diag["msg"])
             )
-            if len(seen_msgs) >= MAX_WARNINGS_PER_KIND:
+            if len(seen_locs) >= MAX_WARNINGS_PER_KIND:
                 break
-        if len(seen_msgs) >= MAX_WARNINGS_PER_KIND:
-            out.append("  - (message list capped)")
+        if len(seen_locs) >= MAX_WARNINGS_PER_KIND:
+            out.append("  - (list capped)")
     out.append("")
     return out
 

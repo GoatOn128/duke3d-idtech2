@@ -857,12 +857,12 @@ void FS_InitFilesystem (void)
 	//
 	fs_cddir = Cvar_Get ("cddir", "", CVAR_NOSET);
 	if (fs_cddir->string[0])
-		FS_AddGameDirectory (va("%s/"BASEDIRNAME, fs_cddir->string) );
+		FS_AddGameDirectory (va("%s/" BASEDIRNAME, fs_cddir->string) );
 
 	//
 	// start up with baseq2 by default
 	//
-	FS_AddGameDirectory (va("%s/"BASEDIRNAME, fs_basedir->string) );
+	FS_AddGameDirectory (va("%s/" BASEDIRNAME, fs_basedir->string) );
 
 	// any set gamedirs will be freed up to here
 	fs_base_searchpaths = fs_searchpaths;

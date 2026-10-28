@@ -146,7 +146,7 @@ void SVC_Status(void)
 {
     Netchan_OutOfBandPrint(NS_SERVER, net_from, "print\n%s", SV_StatusString());
 #if 0
-	Com_BeginRedirect (RD_PACKET, sv_outputbuf, SV_OUTPUTBUF_LENGTH, SV_FlushRedirect);
+	Com_BeginRedirect (RD_PACKET, sv_outputbuf, SV_OUTPUTBUF_LENGTH, (void *)SV_FlushRedirect);
 	Com_Printf (SV_StatusString());
 	Com_EndRedirect ();
 #endif
@@ -467,7 +467,7 @@ void SVC_RemoteCommand(void)
         Com_Printf("Rcon from %s:\n%s\n", NET_AdrToString(net_from), net_message.data + 4);
     }
 
-    Com_BeginRedirect(RD_PACKET, sv_outputbuf, SV_OUTPUTBUF_LENGTH, SV_FlushRedirect);
+    Com_BeginRedirect(RD_PACKET, sv_outputbuf, SV_OUTPUTBUF_LENGTH, (void *)SV_FlushRedirect);
 
     if (!Rcon_Validate())
     {

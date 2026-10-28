@@ -525,7 +525,7 @@ void R_RenderBrushPoly (msurface_t *fa)
 	}
 
 	// dynamic this frame or dynamic previously
-	if ( ( fa->dlightframe == r_framecount ) )
+	if (fa->dlightframe == r_framecount)
 	{
 dynamic:
 		if ( gl_dynamic->value )
@@ -714,7 +714,7 @@ static void GL_RenderLightmappedPoly( msurface_t *surf )
 	}
 
 	// dynamic this frame or dynamic previously
-	if ( ( surf->dlightframe == r_framecount ) )
+	if (surf->dlightframe == r_framecount)
 	{
 dynamic:
 		if ( gl_dynamic->value )
