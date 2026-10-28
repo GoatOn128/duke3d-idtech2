@@ -9,13 +9,15 @@
     {
       "name": "windows-clang-x86",
       "displayName": "Windows x86 (llvm.org Clang)",
-      "description": "clang-cl + lld-link from an llvm.org LLVM install. Run from the VS x86 environment (call tools/vsenv.cmd x86) so the MSVC headers and libraries are on INCLUDE/LIB.",
+      "description": "clang-cl + lld-link from an llvm.org LLVM install. Run from the VS x86 environment (call tools/vsenv.cmd x86) so the MSVC headers and libraries are on INCLUDE/LIB. CMAKE_<LANG>_COMPILER_TARGET makes CMake treat clang-cl as an i686 compiler; without it CMake assumes x64 and links with /machine:x64.",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build/x86",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_C_COMPILER": "clang-cl",
         "CMAKE_CXX_COMPILER": "clang-cl",
+        "CMAKE_C_COMPILER_TARGET": "i686-pc-windows-msvc",
+        "CMAKE_CXX_COMPILER_TARGET": "i686-pc-windows-msvc",
         "BUILD_TESTING": "OFF",
         "DN_ARCH": "x86"
       },
@@ -33,6 +35,18 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
+    },
+    {
+      "name": "windows-clang-x64",
+      "displayName": "Windows x64 (llvm.org Clang)",
+      "description": "64-bit build. Run from the VS x64 environment (call tools/vsenv.cmd x64).",
+      "inherits": "windows-clang-x86",
+      "binaryDir": "${sourceDir}/out/build/x64",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER_TARGET": "x86_64-pc-windows-msvc",
+        "CMAKE_CXX_COMPILER_TARGET": "x86_64-pc-windows-msvc",
+        "DN_ARCH": "x64"
+      }
     }
   ],
   "buildPresets": [
@@ -43,6 +57,10 @@
     {
       "name": "windows-clang-x86-debug",
       "configurePreset": "windows-clang-x86-debug"
+    },
+    {
+      "name": "windows-clang-x64",
+      "configurePreset": "windows-clang-x64"
     }
   ]
 }
