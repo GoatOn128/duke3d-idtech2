@@ -1,0 +1,22 @@
+# Build output
+out/
+code/out/
+.vs/
+__pycache__/
+
+# Binaries the CMake build drops at the repo root (CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+/duke3d.exe
+/ref_gl.dll
+/OpenAL32.dll
+/*.pdb
+/*.exp
+/*.ilk
+/*.lib
+
+# Game modules and their build side effects land in basedn/
+/basedn/dngamex86.dll
+/basedn/cgamex86.dll
+/basedn/*.pdb
+/basedn/*.exp
+/basedn/*.ilk
+/basedn/*.lib

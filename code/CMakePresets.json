@@ -1,0 +1,48 @@
+{
+  "version": 5,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 24,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "windows-clang-x86",
+      "displayName": "Windows x86 (llvm.org Clang)",
+      "description": "clang-cl + lld-link from an llvm.org LLVM install. Run from the VS x86 environment (call tools/vsenv.cmd x86) so the MSVC headers and libraries are on INCLUDE/LIB.",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/x86",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_C_COMPILER": "clang-cl",
+        "CMAKE_CXX_COMPILER": "clang-cl",
+        "BUILD_TESTING": "OFF",
+        "DN_ARCH": "x86"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "windows-clang-x86-debug",
+      "displayName": "Windows x86 Debug (llvm.org Clang)",
+      "inherits": "windows-clang-x86",
+      "binaryDir": "${sourceDir}/out/build/x86-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-clang-x86",
+      "configurePreset": "windows-clang-x86"
+    },
+    {
+      "name": "windows-clang-x86-debug",
+      "configurePreset": "windows-clang-x86-debug"
+    }
+  ]
+}
