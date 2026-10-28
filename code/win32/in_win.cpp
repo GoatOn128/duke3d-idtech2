@@ -611,6 +611,8 @@ PDWORD RawValuePointer(int axis)
         return &ji.dwUpos;
     case JOY_AXIS_V:
         return &ji.dwVpos;
+    default:
+        return &ji.dwXpos; // unreachable for the axis range callers use
     }
 }
 

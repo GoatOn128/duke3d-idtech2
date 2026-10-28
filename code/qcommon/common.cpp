@@ -1685,6 +1685,10 @@ void Qcommon_Init(int argc, char **argv)
     // init commands and vars
     //
     Cmd_AddCommand("z_stats", Z_Stats_f);
+#ifdef DN_TEST_SUPPORT
+    // The dn_* debug commands are implemented by the test sources
+    // (tests/dnnetwork.cpp, tests/dnsave.cpp, tests/dnroof.cpp), which are
+    // not compiled in until the test suite restructure lands.
     Cmd_AddCommand("dn_netcheck", DN_NetworkCheck_f);
     Cmd_AddCommand("dn_savecheck", DN_SaveCheck_f);
     Cmd_AddCommand("dn_menukey", DN_MenuKeyCheck_f);
@@ -1693,6 +1697,7 @@ void Qcommon_Init(int argc, char **argv)
     Cmd_AddCommand("dn_inputcheck", DN_InputCheck_f);
     Cmd_AddCommand("dn_testframes", DN_TestFrames_f);
     Cmd_AddCommand("dn_worldinfo", DN_WorldInfo_f);
+#endif
     Cmd_AddCommand("error", Com_Error_f);
 
     host_speeds = Cvar_Get("host_speeds", "0", 0);
