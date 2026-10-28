@@ -1,0 +1,105 @@
+name: Windows build and digest
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  windows-clang:
+    name: windows x86 (llvm.org Clang)
+    runs-on: windows-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      # tools/vsenv.cmd activates the VS x86 environment the same way local
+      # builds do: VS provides headers, libraries and rc.exe only; the compiler
+      # and linker are clang-cl and lld-link from llvm.org LLVM. Keeping one
+      # activation path for CI and desktop means clang-cl's environment-driven
+      # target detection and CMake's compiler detection always agree.
+      - name: Configure (Ninja + clang-cl, tee into build-windows.log)
+        id: configure
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          $log = Join-Path $env:GITHUB_WORKSPACE 'build-windows.log'
+          Set-Content -Path $log -Value '=== configure: windows-clang-x86 preset ==='
+          cmd /c "call tools\vsenv.cmd x86 && clang-cl --version && cd code && cmake --preset windows-clang-x86 2>&1" |
+            ForEach-Object { "$_" | Tee-Object -FilePath $log -Append }
+          $exit = $LASTEXITCODE
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "exit=$exit"
+          exit $exit
+
+      - name: Build (tee into build-windows.log)
+        id: build
+        shell: pwsh
+        continue-on-error: true
+        if: steps.configure.outputs.exit == '0'
+        run: |
+          $log = Join-Path $env:GITHUB_WORKSPACE 'build-windows.log'
+          Add-Content -Path $log -Value '=== build: windows-clang-x86 preset ==='
+          cmd /c "call tools\vsenv.cmd x86 && cd code && cmake --build --preset windows-clang-x86 2>&1" |
+            ForEach-Object { "$_" | Tee-Object -FilePath $log -Append }
+          $exit = $LASTEXITCODE
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "exit=$exit"
+          exit $exit
+
+      - name: Generate the build digest
+        id: digest
+        if: always()
+        shell: pwsh
+        run: |
+          $result = "configure exit: ${{ steps.configure.outputs.exit }}, build exit: ${{ steps.build.outputs.exit }}"
+          python tools/digest_build_log.py `
+            --log build-windows.log `
+            --out build-digest.md `
+            --commit "$env:GITHUB_SHA" `
+            --branch "$env:GITHUB_REF_NAME" `
+            --run-url "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID" `
+            --result "$result" `
+            --truncate-log-bytes 2097152
+
+      - name: Publish digest and log to the repository
+        if: always() && github.event_name == 'push' && !contains(github.event.head_commit.message, '[skip ci]')
+        shell: pwsh
+        run: |
+          if (-not (Test-Path 'build-digest.md') -or -not (Test-Path 'build-windows.log')) {
+            Write-Host 'Nothing to publish (no digest or log).'
+            return
+          }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add build-digest.md build-windows.log
+          if (git diff --cached --quiet) {
+            Write-Host 'Digest unchanged; nothing to publish.'
+            return
+          }
+          git commit -m 'ci: publish build digest [skip ci]'
+          git push
+
+      - name: Upload the digest and log as artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: |
+            build-digest.md
+            build-windows.log
+          if-no-files-found: ignore
+
+      - name: Fail the run when configure or build failed
+        if: steps.configure.outputs.exit != '0' || steps.build.outputs.exit != '0'
+        shell: pwsh
+        run: |
+          Write-Host "configure exit: ${{ steps.configure.outputs.exit }}, build exit: ${{ steps.build.outputs.exit }}"
+          exit 1
