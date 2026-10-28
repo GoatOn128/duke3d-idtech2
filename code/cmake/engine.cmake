@@ -77,6 +77,9 @@ duke_copy_openal_dll(duke3d)
 
 # The pre-restructure tree also compiled tests/dnnetwork.cpp, tests/dnsave.cpp
 # and tests/dnroof.cpp into this executable. They return together with the
-# test suite restructure (PROGRESS.md) and code/cmake/tests.cmake.
+# test suite restructure (PROGRESS.md) and code/cmake/tests.cmake. Until then
+# the engine guards their entry points behind the DN_TEST_SUPPORT macro, so
+# re-add target_compile_definitions(duke3d PRIVATE DN_TEST_SUPPORT) here when
+# the test sources come back.
 
 add_dependencies(duke3d ref_gl game cgame)
