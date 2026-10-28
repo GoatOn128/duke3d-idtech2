@@ -1,0 +1,45 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "Win32 LLVM (llvm.org)",
+      "compilerPath": "C:/Program Files/LLVM/bin/clang-cl.exe",
+      "compilerArgs": ["--target=i686-pc-windows-msvc"],
+      "intelliSenseMode": "clang-x86",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "defines": [
+        "WIN32",
+        "_WINDOWS",
+        "C_ONLY",
+        "_CRT_SECURE_NO_WARNINGS",
+        "_CRT_NONSTDC_NO_WARNINGS"
+      ],
+      "includePath": [
+        "${workspaceFolder}/code",
+        "${workspaceFolder}/code/third-party/openal-soft/include",
+        "${workspaceFolder}/code/third-party/mp3"
+      ]
+    },
+    {
+      "name": "Win64 LLVM (llvm.org)",
+      "compilerPath": "C:/Program Files/LLVM/bin/clang-cl.exe",
+      "compilerArgs": ["--target=x86_64-pc-windows-msvc"],
+      "intelliSenseMode": "clang-x64",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "defines": [
+        "WIN32",
+        "_WINDOWS",
+        "C_ONLY",
+        "_CRT_SECURE_NO_WARNINGS",
+        "_CRT_NONSTDC_NO_WARNINGS"
+      ],
+      "includePath": [
+        "${workspaceFolder}/code",
+        "${workspaceFolder}/code/third-party/openal-soft/include",
+        "${workspaceFolder}/code/third-party/mp3"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "duke3d-idtech2"
+    }
+  ],
+  "settings": {
+    "cmake.sourceDirectory": "${workspaceFolder}/code",
+    "cmake.buildDirectory": "${workspaceFolder}/code/out/build/x86",
+    "cmake.configureOnOpen": false,
+    "cmake.ignoreCMakeListsMissing": true,
+    "cmake.configurePreset": "windows-clang-x86",
+    "cmake.buildPreset": "windows-clang-x86",
+    "cmake.parallelJobs": 0,
+    "clangd.arguments": [
+      "--compile-commands-dir=${workspaceFolder}/code/out/build/x86",
+      "--background-index",
+      "--header-insertion=never",
+      "--clang-tidy",
+      "-j=8"
+    ],
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "files.associations": {
+      "*.inc": "cpp",
+      "*.def": "cpp"
+    },
+    "search.exclude": {
+      "**/out": true,
+      "**/code/third-party": true,
+      "**/basedn": true
+    },
+    "editor.formatOnSave": false
+  }
+}

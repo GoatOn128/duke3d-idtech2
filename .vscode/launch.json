@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug duke3d (MSVC debugger)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/duke3d.exe",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build",
+      "console": "newExternalWindow",
+      "stopAtEntry": false
+    },
+    {
+      "name": "Debug duke3d (CodeLLDB)",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/duke3d.exe",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build"
+    }
+  ]
+}

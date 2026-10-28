@@ -1,0 +1,72 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "configure",
+      "detail": "clang-cl + Ninja x86 via code/CMakePresets.json",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "call tools\\vsenv.cmd x86 && cd code && cmake --preset windows-clang-x86"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "build",
+      "detail": "clang-cl + Ninja x86 (windows-clang-x86 preset)",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "call tools\\vsenv.cmd x86 && cd code && cmake --build --preset windows-clang-x86"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": "absolute",
+        "pattern": {
+          "regexp": "^(.+)\\((\\d+)(?:,(\\d+))?\\):\\s+(fatal error|error|warning):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      }
+    },
+    {
+      "label": "clean rebuild",
+      "detail": "Same as build but with --clean-first",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "call tools\\vsenv.cmd x86 && cd code && cmake --build --preset windows-clang-x86 --clean-first"
+      ],
+      "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": "absolute",
+        "pattern": {
+          "regexp": "^(.+)\\((\\d+)(?:,(\\d+))?\\):\\s+(fatal error|error|warning):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      }
+    },
+    {
+      "label": "run duke3d",
+      "type": "shell",
+      "command": "cmd",
+      "args": ["/c", "${workspaceFolder}\\duke3d.exe"],
+      "dependsOn": "build",
+      "problemMatcher": []
+    }
+  ]
+}
