@@ -1,12 +1,12 @@
 # Build digest
 
-- Commit: `fc534c9365f04102fce2bdb85332900c8fa59a29`
+- Commit: `4166af5ff9f1dfc205dd692dfc4839b9b1ba9710`
 - Branch: `ci-build-digest`
-- Result: configure exit: 0, build exit: -1
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40785209446
-- Generated: 2026-10-28 23:09:42 UTC
+- Result: configure exit: 0, build exit: 0
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40785459362
+- Generated: 2026-10-28 23:11:30 UTC
 
-Errors: **21**, warnings: **0**.
+Errors: **0**, warnings: **0**.
 
 ## CMake errors
 
@@ -14,27 +14,8 @@ No CMake errors in the log.
 
 ## Tool errors
 
-- `lld-link: error: /safeseh: OpenAL32_lib_s00126.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00125.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00113.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00112.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00111.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00103.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00101.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00100.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00098.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00095.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00093.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00091.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00089.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00086.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00085.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00083.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00075.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00073.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00053.o is not compatible with SEH`
-- `lld-link: error: /safeseh: OpenAL32_lib_s00033.o is not compatible with SEH`
-- `lld-link: error: too many errors emitted, stopping now (use /errorlimit:0 to see all errors)`
+No tool-level errors (lld-link, ninja, ...) in the log.
+
 ## Errors
 
 No errors in the log.
@@ -46,35 +27,35 @@ No warnings in the log.
 ## Log tail
 
 ```
-
-lld-link: error: /safeseh: OpenAL32_lib_s00100.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00098.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00095.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00093.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00091.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00089.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00086.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00085.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00083.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00075.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00073.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00053.o is not compatible with SEH
-
-lld-link: error: /safeseh: OpenAL32_lib_s00033.o is not compatible with SEH
-
-lld-link: error: too many errors emitted, stopping now (use /errorlimit:0 to see all errors)
-
-ninja: build stopped: subcommand failed.
+[111/140] Building CXX object CMakeFiles\duke3d.dir\client\keys.cpp.obj
+[112/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\net_chan.cpp.obj
+[113/140] Building CXX object CMakeFiles\duke3d.dir\win32\conproc.cpp.obj
+[114/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\pmove.cpp.obj
+[115/140] Building CXX object CMakeFiles\duke3d.dir\game\q_shared.cpp.obj
+[116/140] Building CXX object CMakeFiles\duke3d.dir\client\menu.cpp.obj
+[117/140] Building CXX object CMakeFiles\duke3d.dir\win32\in_win.cpp.obj
+[118/140] Building CXX object CMakeFiles\duke3d.dir\client\qmenu.cpp.obj
+[119/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
+[120/140] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
+[121/140] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
+[122/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
+[123/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
+[124/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
+[125/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
+[126/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
+[127/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
+[128/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
+[129/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
+[130/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
+[131/140] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
+[132/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
+[133/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
+[134/140] Building CXX object CMakeFiles\duke3d.dir\client\x86.cpp.obj
+[135/140] Building CXX object CMakeFiles\duke3d.dir\win32\sys_win.cpp.obj
+[136/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
+[137/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_dll.cpp.obj
+[138/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
+[139/140] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
+[140/140] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll
 ```
 
