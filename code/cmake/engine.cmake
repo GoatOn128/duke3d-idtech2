@@ -59,15 +59,8 @@ set(engine_sources
     qcommon/dnmap.cpp
     qcommon/dntransport.cpp)
 
-# The executable icon lives with the game data that is not part of this repo
-# (3drealms/duke3d.ico). Compile the resource only when it is available so a
-# data-less checkout still builds; the icon returns with the asset pipeline
-# restructure (see PROGRESS.md).
-if(EXISTS "${DUKE_ROOT}/3drealms/duke3d.ico")
-  list(APPEND engine_sources win32/dnicon.rc)
-else()
-  message(STATUS "Skipping win32/dnicon.rc: 3drealms/duke3d.ico not present.")
-endif()
+# The executable icon is the in-repo Quake 2 icon, compiled unconditionally.
+list(APPEND engine_sources win32/dnicon.rc)
 
 add_executable(duke3d WIN32 ${engine_sources})
 
