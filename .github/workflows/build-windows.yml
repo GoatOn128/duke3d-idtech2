@@ -22,35 +22,20 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
-      - name: Activate the VS x86 environment (headers and libraries only)
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x86
-
-      - name: Locate the llvm.org LLVM toolchain
-        shell: pwsh
-        run: |
-          if (-not (Get-Command clang-cl -ErrorAction SilentlyContinue) -and (Test-Path 'C:\Program Files\LLVM\bin')) {
-            Add-Content -Path $env:GITHUB_PATH -Value 'C:\Program Files\LLVM\bin'
-          }
-          if (-not (Get-Command clang-cl -ErrorAction SilentlyContinue)) {
-            throw 'clang-cl not found: install LLVM from https://llvm.org/'
-          }
-          Write-Host "clang-cl: $(clang-cl --version | Select-Object -First 1)"
-          $lld = lld-link --version 2>&1 | Select-Object -First 1
-          Write-Host "lld-link: $lld"
-          Write-Host "ninja:    $(ninja --version)"
-
+      # tools/vsenv.cmd activates the VS x86 environment the same way local
+      # builds do: VS provides headers, libraries and rc.exe only; the compiler
+      # and linker are clang-cl and lld-link from llvm.org LLVM. Keeping one
+      # activation path for CI and desktop means clang-cl's environment-driven
+      # target detection and CMake's compiler detection always agree.
       - name: Configure (Ninja + clang-cl, tee into build-windows.log)
         id: configure
         shell: pwsh
-        working-directory: code
         continue-on-error: true
         run: |
           $log = Join-Path $env:GITHUB_WORKSPACE 'build-windows.log'
-          Set-Content -Path $log -Value "=== cmake --preset windows-clang-x86 ==="
-          "toolchain: $(clang-cl --version | Select-Object -First 1)" | Add-Content -Path $log
-          & cmake --preset windows-clang-x86 2>&1 | ForEach-Object { "$_" | Tee-Object -FilePath $log -Append }
+          Set-Content -Path $log -Value '=== configure: windows-clang-x86 preset ==='
+          cmd /c "call tools\vsenv.cmd x86 && clang-cl --version && cd code && cmake --preset windows-clang-x86 2>&1" |
+            ForEach-Object { "$_" | Tee-Object -FilePath $log -Append }
           $exit = $LASTEXITCODE
           Add-Content -Path $env:GITHUB_OUTPUT -Value "exit=$exit"
           exit $exit
@@ -58,13 +43,13 @@ jobs:
       - name: Build (tee into build-windows.log)
         id: build
         shell: pwsh
-        working-directory: code
         continue-on-error: true
         if: steps.configure.outputs.exit == '0'
         run: |
           $log = Join-Path $env:GITHUB_WORKSPACE 'build-windows.log'
-          Add-Content -Path $log -Value '=== cmake --build --preset windows-clang-x86 ==='
-          & cmake --build --preset windows-clang-x86 2>&1 | ForEach-Object { "$_" | Tee-Object -FilePath $log -Append }
+          Add-Content -Path $log -Value '=== build: windows-clang-x86 preset ==='
+          cmd /c "call tools\vsenv.cmd x86 && cd code && cmake --build --preset windows-clang-x86 2>&1" |
+            ForEach-Object { "$_" | Tee-Object -FilePath $log -Append }
           $exit = $LASTEXITCODE
           Add-Content -Path $env:GITHUB_OUTPUT -Value "exit=$exit"
           exit $exit
