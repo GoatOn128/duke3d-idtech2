@@ -139,3 +139,13 @@ cost anything as long as this file and PROGRESS.md are current.
     in `client.h`: `menu.cpp` PlayerConfig_MenuDraw calls it for the
     player preview. CI caught the link error when it was static; the
     BFG clamp path reproduces the old 144x168 preview numbers exactly.
+
+- 2026-10-29: display port follow-up on branch `fix/vid-mode-list-defaults`:
+  SDL returns fullscreen modes largest-first and the 64-entry list cap
+  kept only the largest resolutions, so the default `gl_mode 3` opened a
+  window near the maximum size (and SDL clamps oversized windows, which
+  made mode changes in the video menu look like no-ops).
+  `VID_MAX_MODES` and the menu cap are now 256 so the whole list survives,
+  and `VID_GetModeInfo` resets an off-list `gl_mode` to the default mode
+  like BFG resets `r_vidMode`, instead of clamping to the largest entry.
+  `ClampMode` in `vid_menu.cpp` mirrors the same policy.

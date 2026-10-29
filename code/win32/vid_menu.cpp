@@ -8,8 +8,9 @@ actually do. */
 extern void M_PopMenu(void);
 extern const char *Default_MenuKey(menuframework_s *menu, int key);
 
-/* Local caps for the menu copies of the client lists. */
-#define MENU_MAX_MODES 64
+/* Local caps for the menu copies of the client lists. Must stay in sync
+with VID_MAX_MODES in sdl_vid.cpp so the spinner can show every entry. */
+#define MENU_MAX_MODES 256
 #define MENU_MAX_DISPLAYS 16
 
 static menuframework_s video_menu;
@@ -65,13 +66,21 @@ static void BuildDisplayList(void)
 
 static int ClampMode(int value)
 {
-    if (VID_NumModes() == 0 || value < 0)
+    int count = VID_NumModes();
+
+    if (count > MENU_MAX_MODES)
+    {
+        count = MENU_MAX_MODES;
+    }
+    if (count == 0 || value < 0)
     {
         return 0;
     }
-    if (value >= VID_NumModes())
+    if (value >= count)
     {
-        return VID_NumModes() - 1;
+        // mirror the client reset: an off-list gl_mode lands on the
+        // default mode, not on the largest entry
+        return count > 3 ? 3 : count - 1;
     }
     return value;
 }
