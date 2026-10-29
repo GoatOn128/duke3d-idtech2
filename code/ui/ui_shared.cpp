@@ -934,11 +934,11 @@ int Menu_ItemsMatchingGroup( menuDef_t *menu, const char *name ) {
 
 	for ( i = 0; i < menu->itemCount; i++ ) {
 		if ( wildcard != -1 ) {
-			if ( Q_strncmp( menu->items[i]->window.name, name, wildcard ) == 0 || ( menu->items[i]->window.group && Q_strncmp( menu->items[i]->window.group, name, wildcard ) == 0 ) ) {
+			if ( menu->items[i]->window.name && Q_strncmp( menu->items[i]->window.name, name, wildcard ) == 0 || ( menu->items[i]->window.group && Q_strncmp( menu->items[i]->window.group, name, wildcard ) == 0 ) ) {
 				count++;
 			}
 		} else {
-			if ( Q_strcasecmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_strcasecmp( menu->items[i]->window.group, name ) == 0 ) ) {
+			if ( menu->items[i]->window.name && Q_strcasecmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_strcasecmp( menu->items[i]->window.group, name ) == 0 ) ) {
 				count++;
 			}
 		}
@@ -960,14 +960,14 @@ itemDef_t *Menu_GetMatchingItemByNumber( menuDef_t *menu, int index, const char 
 
 	for ( i = 0; i < menu->itemCount; i++ ) {
 		if ( wildcard != -1 ) {
-			if ( Q_strncmp( menu->items[i]->window.name, name, wildcard ) == 0 || ( menu->items[i]->window.group && Q_strncmp( menu->items[i]->window.group, name, wildcard ) == 0 ) ) {
+			if ( menu->items[i]->window.name && Q_strncmp( menu->items[i]->window.name, name, wildcard ) == 0 || ( menu->items[i]->window.group && Q_strncmp( menu->items[i]->window.group, name, wildcard ) == 0 ) ) {
 				if ( count == index ) {
 					return menu->items[i];
 				}
 				count++;
 			}
 		} else {
-			if ( Q_strcasecmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_strcasecmp( menu->items[i]->window.group, name ) == 0 ) ) {
+			if ( menu->items[i]->window.name && Q_strcasecmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_strcasecmp( menu->items[i]->window.group, name ) == 0 ) ) {
 				if ( count == index ) {
 					return menu->items[i];
 				}
@@ -1038,7 +1038,8 @@ itemDef_t *Menu_FindItemByName( menuDef_t *menu, const char *p ) {
 	}
 
 	for ( i = 0; i < menu->itemCount; i++ ) {
-		if ( Q_strcasecmp( p, menu->items[i]->window.name ) == 0 ) {
+		/* code-built Duke menus attach decoration items that carry no name */
+		if ( menu->items[i]->window.name && Q_strcasecmp( p, menu->items[i]->window.name ) == 0 ) {
 			return menu->items[i];
 		}
 	}
