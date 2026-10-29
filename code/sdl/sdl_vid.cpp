@@ -129,7 +129,10 @@ from BFG are noted at the spots where they happen.
 ==========================================================================
 */
 
-#define VID_MAX_MODES 64
+// SDL hands the modes back largest-first, so this must be able to hold
+// the whole list: a cap that is too small keeps only the largest modes
+// and pushes the default window past the screen size
+#define VID_MAX_MODES 256
 #define VID_MAX_DISPLAYS 16
 
 typedef struct vidmode_s
@@ -347,14 +350,18 @@ qboolean VID_GetModeInfo(int *width, int *height, int *displayHz, int mode)
         return false;
     }
 
-    // clamp instead of rejecting so archived gl_mode values stay valid
+    // keep archived values usable: negative indices land on the first
+    // entry, and an index past the end resets to the default mode like
+    // r_vidMode in BFG instead of clamping to the largest entry
     if (mode < 0)
     {
         mode = 0;
     }
     if (mode >= vid_num_modes)
     {
-        mode = vid_num_modes - 1;
+        mode = vid_num_modes > 3 ? 3 : vid_num_modes - 1;
+        Cvar_SetValue("gl_mode", mode);
+        Com_Printf("gl_mode reset to %i because the mode list changed\n", mode);
     }
 
     *width = vid_modes[mode].width;
