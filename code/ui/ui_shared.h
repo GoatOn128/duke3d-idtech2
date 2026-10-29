@@ -270,7 +270,8 @@ public:
 	int cursorPos;                  // cursor position in characters
 	void *typeData;                 // type specific data ptr's
 
-	/* resets the item to its defaults; the parser and the Duke builders share it */
+	/* resets the item to its defaults; the .menu parser calls it on every
+	   fresh itemDef block */
 	void Init( void );
 
 	/* the former Item_* framework helpers as methods */
@@ -499,7 +500,8 @@ void String_Init();
 void String_Report();
 void Init_Display( displayContextDef_t *dc );
 void Display_ExpandMacros( char * buff );
-/* code-built menus: allocate with dnMenu::Alloc, add items with AddItem, then run PostParse */
+/* menus come from the .menu script files: dnMenu::Alloc takes a menu slot
+   (the qcommon parser calls it while a menu block parses) */
 dnMenu *Menu_GetFocused();
 qboolean Float_Parse( char **p, float *f );
 qboolean Color_Parse( char **p, vec4_t *c );
@@ -507,17 +509,7 @@ qboolean Int_Parse( char **p, int *i );
 qboolean Rect_Parse( char **p, rectDef_t *r );
 qboolean String_Parse( char **p, const char **out );
 qboolean Script_Parse( char **p, const char **out );
-qboolean PC_Float_Parse( int handle, float *f );
-qboolean PC_Color_Parse( int handle, vec4_t *c );
-qboolean PC_Int_Parse( int handle, int *i );
-qboolean PC_Rect_Parse( int handle, rectDef_t *r );
-qboolean PC_String_Parse( int handle, const char **out );
-qboolean PC_Script_Parse( int handle, const char **out );
-qboolean PC_Char_Parse( int handle, char *out );
 int Menu_Count();
-qboolean Menu_New( int handle );
-void Menu_Load( const char *menuFile );
-void Menus_Load( const char *menuFile );
 void Menu_PaintAll();
 dnMenu *Menus_ActivateByName( const char *p );
 void Menu_Reset();
@@ -541,6 +533,10 @@ void        Display_CacheAll();
 void        *UI_Alloc( int size );
 void        UI_InitMemory( void );
 qboolean    UI_OutOfMemory();
+/* allocates an item block from the UI memory pool and builds the subclass
+   matching the type; the .menu parser in qcommon/dnmenuparser.cpp builds
+   its itemDefs through it */
+dnItem       *UI_ConstructItem( int type );
 void        UI_RoQDone( void ); // ui callback.  roq is done, allow menu to handle if it wants
 
 void        Controls_GetConfig( void );

@@ -17,12 +17,9 @@ extern dn_ui_import_t uii;
 #define SAVE_INFOSTRING_LENGTH 256   /* savegame info line in the load/save feeders */
 
 /* module-local replacements for the idTech 3 shared helpers the menu
-   framework expects but the engine Q2 q_shared lacks */
+   framework expects but the engine Q2 q_shared lacks; the .menu parser
+   in qcommon/dnmenuparser.cpp reaches these through this header too */
 void    UI_Printf( const char *fmt, ... );
-int     UI_PC_ReadToken( int handle, pc_token_t *token );
-int     UI_PC_SourceFileAndLine( int handle, char *filename, int *line );
-int     UI_PC_LoadSource( const char *file );
-int     UI_PC_FreeSource( int handle );
 void    Q_strncpyz( char *dest, const char *src, int destsize );
 void    Q_strcat( char *dest, int size, const char *src );
 char    *Q_strupr( char *s1 );
