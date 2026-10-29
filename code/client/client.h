@@ -47,14 +47,12 @@ void DN_DrawUiTile(float x, float y, int tile, int shade, int palette, int top_l
 int DN_MenuText(int x, int y, const char *text, int selected);
 void DN_MenuCursor(int x, int y);
 void DN_MenuBackground(void);
-void DN_InitSaveMenu(void);
-const char *DN_SaveMenuName(void);
 void DN_IntroStart(void);
 void DN_IntroShutdown(void);
 void DN_IntroFrame(void);
-void M_MouseMove(int x, int y);
-void M_AddMouseItem(int x, int y, int width, int height, int *cursor, int index);
-void M_ClearMouseItems(void);
+qboolean DN_IntroActive(void);
+void DN_IntroDraw(void);
+void DN_IntroKey(int key);
 void IN_ApplyMouseDelta(usercmd_t *command, float x, float y);
 #include "input.h"
 #include "keys.h"
@@ -590,14 +588,13 @@ void CL_EntityEvent(entity_state_t *ent);
 void CL_TrapParticles(entity_t *ent);
 
 //
-// menus
+// menus: dnui.cpp forwards these to the front-end UI module
 //
-void M_Init(void);
-void M_Keydown(int key);
-void M_Draw(void);
-void M_Menu_Main_f(void);
-void M_ForceMenuOff(void);
-void M_AddToServerList(netadr_t adr, char *info);
+void UI_KeyEvent(int key, qboolean down);
+void UI_MouseMove(int x, int y);
+void UI_Refresh(void);
+void UI_OpenMainMenu(void);
+void UI_ForceMenuOff(void);
 
 // dnui.cpp: server list collector for the UI module
 void UI_AddToServerList(netadr_t adr, char *info);

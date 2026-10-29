@@ -96,10 +96,10 @@ void Con_ToggleConsole_f (void)
 		Con_ClearNotify ();
 
 		if (cls.key_dest == key_console)
-			M_Menu_Main_f ();
+			UI_OpenMainMenu ();
 		else
 		{
-			M_ForceMenuOff ();
+			UI_ForceMenuOff ();
 			cls.key_dest = key_console;
 		}
 		return;
@@ -110,12 +110,12 @@ void Con_ToggleConsole_f (void)
 
 	if (cls.key_dest == key_console)
 	{
-		M_ForceMenuOff ();
+		UI_ForceMenuOff ();
 		Cvar_Set ("paused", "0");
 	}
 	else
 	{
-		M_ForceMenuOff ();
+		UI_ForceMenuOff ();
 		cls.key_dest = key_console;	
 
 		if (Cvar_VariableValue ("maxclients") == 1 
@@ -137,7 +137,7 @@ void Con_ToggleChat_f (void)
 	{
 		if (cls.state == ca_active)
 		{
-			M_ForceMenuOff ();
+			UI_ForceMenuOff ();
 			cls.key_dest = key_game;
 		}
 	}

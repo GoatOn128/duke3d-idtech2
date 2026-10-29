@@ -1,11 +1,6 @@
 /* Original Atomic Edition Logo() sequence and timing from GAME.cpp/MENUES.cpp. */
 #include "client.h"
 
-extern void M_PushMenu(void (*draw)(void), const char *(*key)(int));
-extern void M_ForceMenuOff(void);
-extern void M_Menu_Main_f(void);
-extern void (*m_drawfunc)(void);
-
 static int intro_stage, intro_start, intro_frames, intro_sound;
 static qboolean intro_active, music_wanted;
 
@@ -47,8 +42,8 @@ static void IntroFinish(void)
     intro_active = false;
     music_wanted = true;
     S_StopAllSounds();
-    M_ForceMenuOff();
-    M_Menu_Main_f();
+    UI_ForceMenuOff();
+    UI_OpenMainMenu();
     Com_Printf("Duke intro: main menu\n");
 }
 
@@ -154,10 +149,6 @@ void DN_IntroFrame(void)
         }
         return;
     }
-    if (intro_active && m_drawfunc != IntroDraw)
-    {
-        intro_active = false;
-    }
     if (intro_active && cls.key_dest == key_menu)
     {
         int duration = intro_stage == 0 ? intro_frames * 75 : intro_stage == 1 ? 7000 : 8167;
@@ -182,7 +173,7 @@ void DN_IntroStart(void)
     int size;
     if (Com_ServerState() || cls.state == ca_active)
     {
-        M_Menu_Main_f();
+        UI_OpenMainMenu();
         return;
     }
     DN_IntroShutdown();
@@ -194,8 +185,25 @@ void DN_IntroStart(void)
         FS_FreeFile(data);
     }
     intro_frames = DN_Max(0, DN_Min(intro_frames, 1024));
-    M_ForceMenuOff();
-    M_PushMenu(IntroDraw, IntroKey);
+    UI_ForceMenuOff();
+    cls.key_dest = key_menu;
     intro_active = true;
     IntroStage(intro_frames ? 0 : 1);
+}
+
+/* The dnui.cpp menu entry points route input and drawing here while the
+   intro plays, replacing the old M_PushMenu menu stack. */
+qboolean DN_IntroActive(void)
+{
+    return intro_active;
+}
+
+void DN_IntroDraw(void)
+{
+    IntroDraw();
+}
+
+void DN_IntroKey(int key)
+{
+    IntroKey(key);
 }

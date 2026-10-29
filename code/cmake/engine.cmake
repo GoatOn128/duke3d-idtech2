@@ -16,7 +16,6 @@ set(engine_sources
     client/cl_scrn.cpp
     client/dnhud.cpp
     client/dnmenu.cpp
-    client/dnsavemenu.cpp
     client/dnintro.cpp
     client/dnintermission.cpp
     client/cl_tent.cpp
@@ -36,13 +35,11 @@ set(engine_sources
     client/keys.cpp
     game/m_flash.cpp
     qcommon/md4.cpp
-    client/menu.cpp
     qcommon/net_chan.cpp
     win32/net_wins.cpp
     qcommon/pmove.cpp
     game/q_shared.cpp
     win32/q_shwin.cpp
-    client/qmenu.cpp
     sound/sndopenal.cpp
     sound/dnambience.cpp
     sound/sndwave.cpp
@@ -61,7 +58,6 @@ set(engine_sources
     server/sv_world.cpp
     sdl/sdl_sys.cpp
     sdl/sdl_vid.cpp
-    win32/vid_menu.cpp
     qcommon/dnmap.cpp
     qcommon/dnthreads.cpp
     qcommon/dnjobs.cpp
