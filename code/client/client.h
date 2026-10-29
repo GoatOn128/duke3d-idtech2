@@ -29,6 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "ref.h"
 void CL_UnloadCGame(void);
+void CL_InitUI(void);
+void CL_UnloadUI(void);
 void CL_CGamePredict(pmove_t *move, dn_prediction_t *state);
 void CL_CGameWeaponView(const dn_weapon_view_t *view, dn_weapon_sprites_t *sprites);
 int CL_CGameAnimationFrame(const entity_state_t *state, int elapsed_ms);

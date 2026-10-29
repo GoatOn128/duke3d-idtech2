@@ -42,6 +42,7 @@ three.
     save/load, drops, gibs, effects).
   - `cgame/` — the `cgamex86` client game module (weapon view and weapon
     animation).
+  - `ui/` — the `uix86` front-end UI module (the idTech 3 UI port).
   - `sdl/` — the SDL3 platform layer: entry point, message pump and events
     (`sdl_sys`), input and joystick (`sdl_input`), video, display and mode discovery, the
     refresh driver (`sdl_vid`).
@@ -86,12 +87,13 @@ Commands (from the repo root):
     cmake --preset windows-clang-x86
     cmake --build --preset windows-clang-x86
 
-The target is x86: the game modules are named `dngamex86`/`cgamex86` and the
+The target is x86: the game modules are named `dngamex86`/`cgamex86`/`uix86`
+and the
 vendored OpenAL import lib is picked from `libs/Win32`. Pass
 `-DDN_ARCH=x64` to build 64-bit instead.
 
 Outputs: `duke3d.exe` and `ref_gl.dll` at the repo root,
-`dngamex86.dll` and `cgamex86.dll` in `basedn/`, `OpenAL32.dll` (copied
+`dngamex86.dll`, `cgamex86.dll` and `uix86.dll` in `basedn/`, `OpenAL32.dll` (copied
 from the vendored `soft_oal.dll`) and `SDL3.dll` (copied from the vendored
 SDL3 package) next to the executable.
 
@@ -113,6 +115,7 @@ one include per project. Every project file is included from the root so
 - `code/cmake/renderer.cmake` — `ref_gl.dll`.
 - `code/cmake/game.cmake` — `dngamex86.dll`.
 - `code/cmake/cgame.cmake` — `cgamex86.dll`.
+- `code/cmake/ui.cmake` — `uix86.dll`.
 - `code/cmake/assets.cmake` — opt-in asset pipeline; self-deactivates
   while `code/tools/` and the game data are absent.
 - `code/cmake/tests.cmake` — the test suite, `BUILD_TESTING=OFF` by
@@ -177,6 +180,7 @@ assuming a build ran against it.
 | Network | `server/sv_send.cpp`, `qcommon/net_chan.cpp`, `win32/net_wins.cpp` |
 | Dedicated server commands | `server/sv_ccmds.cpp`, `qcommon/cmd.cpp` |
 | Save/load | `game/dnsave.cpp`, `client/dnsavemenu.cpp` |
+| Front-end UI module (idTech 3 port) | `code/ui/`, `client/dnui.cpp` |
 | Platform specifics | `sdl/sdl_sys.cpp`, `sdl/sdl_vid.cpp`, `ref_gl/glimp_sdl.cpp` |
 | Parallel jobs and threads | `qcommon/dnjobs.cpp`, `qcommon/dnthreads.cpp` |
 | Game thread | `server/sv_gamethread.cpp`, `qcommon/dnerrortrap.cpp`, `server/sv_main.cpp` (`SV_RunGameFrame`) |

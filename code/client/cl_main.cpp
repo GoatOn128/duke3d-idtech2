@@ -1983,6 +1983,7 @@ void CL_Init(void)
     S_MusicInit();
     CL_InitLocal();
     IN_Init();
+    CL_InitUI();
 
     //	Cbuf_AddText ("exec autoexec.cfg\n");
     FS_ExecAutoexec();
@@ -2010,6 +2011,7 @@ void CL_Shutdown(void)
 
     CL_WriteConfiguration();
 
+    CL_UnloadUI();
     CL_UnloadCGame();
     DN_IntroShutdown();
     S_MusicShutdown();
