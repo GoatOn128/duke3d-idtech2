@@ -17,17 +17,17 @@ InstalledDir: C:\Program Files\LLVM\bin
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Asset preparation skipped: needs 3drealms/duke3d.grp.
--- Configuring done (9.0s)
+-- Configuring done (12.2s)
 -- Generating done (0.1s)
 -- Build files have been written to: D:/a/duke3d-idtech2/duke3d-idtech2/code/out/build/x86
 === build: windows-clang-x86 preset ===
 [x86] VS environment ready: llvm.org clang-cl + lld-link with MSVC headers and libraries.
 [1/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj
 [2/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj
-[3/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj
-[4/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
-[5/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
-[6/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
+[3/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
+[4/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj
+[5/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
+[6/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
 [7/155] Building CXX object CMakeFiles\ref_gl.dir\game\q_shared.cpp.obj
 [8/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_shaders.cpp.obj
 [9/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_warp.cpp.obj
@@ -36,55 +36,55 @@ InstalledDir: C:\Program Files\LLVM\bin
 [12/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnpcx.cpp.obj
 [13/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
 [14/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj
-[15/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
-[16/155] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
-[17/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
-[18/155] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
-[19/155] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
-[20/155] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
-[21/155] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
-[22/155] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
+[15/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
+[16/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
+[17/155] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
+[18/155] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
+[19/155] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
+[20/155] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
+[21/155] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
+[22/155] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
 [23/155] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
 [24/155] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
 [25/155] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
-[26/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\glimp_sdl.cpp.obj
-[27/155] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
-[28/155] Building CXX object CMakeFiles\game.dir\game\dnintermission.cpp.obj
-[29/155] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
-[30/155] Building CXX object CMakeFiles\game.dir\game\dnplayer.cpp.obj
-[31/155] Building CXX object CMakeFiles\game.dir\game\dnweapons.cpp.obj
-[32/155] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
+[26/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
+[27/155] Building CXX object CMakeFiles\game.dir\game\dnintermission.cpp.obj
+[28/155] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
+[29/155] Building CXX object CMakeFiles\game.dir\game\dnplayer.cpp.obj
+[30/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\glimp_sdl.cpp.obj
+[31/155] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
+[32/155] Building CXX object CMakeFiles\game.dir\game\dnweapons.cpp.obj
 [33/155] Building CXX object CMakeFiles\game.dir\game\dndamage.cpp.obj
-[34/155] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
+[34/155] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
 [35/155] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
-[36/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
-[37/155] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
-[38/155] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
+[36/155] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
+[37/155] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
+[38/155] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
 [39/155] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
-[40/155] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
-[41/155] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
-[42/155] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
-[43/155] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
-[44/155] Building CXX object CMakeFiles\game.dir\game\dntransport.cpp.obj
-[45/155] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
+[40/155] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
+[41/155] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
+[42/155] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
+[43/155] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
+[44/155] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
+[45/155] Building CXX object CMakeFiles\game.dir\game\dntransport.cpp.obj
 [46/155] Building CXX object CMakeFiles\game.dir\game\dnstyles.cpp.obj
 [47/155] Building CXX object CMakeFiles\game.dir\game\dndestruct.cpp.obj
 [48/155] Building CXX object CMakeFiles\game.dir\game\dnsectors.cpp.obj
-[49/155] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
+[49/155] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
 [50/155] Building CXX object CMakeFiles\game.dir\game\dnfallers.cpp.obj
-[51/155] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
+[51/155] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
 [52/155] Building CXX object CMakeFiles\game.dir\game\dneffects.cpp.obj
 [53/155] Building CXX object CMakeFiles\game.dir\game\dngibs.cpp.obj
 [54/155] Building CXX object CMakeFiles\game.dir\game\dnmapspawn.cpp.obj
 [55/155] Building CXX object CMakeFiles\game.dir\game\dndecals.cpp.obj
-[56/155] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
+[56/155] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
 [57/155] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
-[58/155] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
-[59/155] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
+[58/155] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
+[59/155] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
 [60/155] Building CXX object CMakeFiles\game.dir\qcommon\dnanimation.cpp.obj
 [61/155] Building CXX object CMakeFiles\game.dir\qcommon\dnmath.cpp.obj
-[62/155] Building CXX object CMakeFiles\game.dir\game\dnconrun.cpp.obj
-[63/155] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
+[62/155] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
+[63/155] Building CXX object CMakeFiles\game.dir\game\dnconrun.cpp.obj
 [64/155] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
 [65/155] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
 [66/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnenemies.cpp.obj
@@ -102,405 +102,61 @@ InstalledDir: C:\Program Files\LLVM\bin
 [78/155] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
 [79/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
 [80/155] Building CXX object CMakeFiles\ui.dir\ui\ui_duke_menus.cpp.obj
-[81/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
-[82/155] Building CXX object CMakeFiles\ui.dir\ui\ui_main.cpp.obj
-[83/155] Building CXX object CMakeFiles\ui.dir\ui\ui_duke_menus2.cpp.obj
-[84/155] Building CXX object CMakeFiles\ui.dir\ui\ui_util.cpp.obj
+[81/155] Building CXX object CMakeFiles\ui.dir\ui\ui_main.cpp.obj
+[82/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
+[83/155] Building CXX object CMakeFiles\ui.dir\ui\ui_util.cpp.obj
+[84/155] Building CXX object CMakeFiles\ui.dir\ui\ui_duke_menus2.cpp.obj
 [85/155] Building CXX object CMakeFiles\ui.dir\game\q_shared.cpp.obj
-[86/155] Building CXX object CMakeFiles\ui.dir\ui\ui_shared.cpp.obj
-FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_shared.cpp.obj 
-"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_shared.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_shared.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_shared.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(382,3): error: a type specifier is required for all declarations
-  382 |                 Q_strcat( script, 1024, " " );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(382,13): error: use of undeclared identifier 'script'
-  382 |                 Q_strcat( script, 1024, " " );
-      |                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(383,2): error: extraneous closing brace ('}')
-  383 |         }
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(384,1): error: extraneous closing brace ('}')
-  384 | }
-      | ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2430,49): error: expected '}'
- 2430 |                 if ( items[i]->type == ITEM_TYPE_OWNERDRAW ) {
-      |                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2430,48): note: to match this '{'
- 2430 |                 if ( items[i]->type == ITEM_TYPE_OWNERDRAW ) {
-      |                                                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2430,49): error: expected '}'
- 2430 |                 if ( items[i]->type == ITEM_TYPE_OWNERDRAW ) {
-      |                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2428,36): note: to match this '{'
- 2428 |         for ( i = 0; i < itemCount; i++ ) {
-      |                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2430,49): error: expected '}'
- 2430 |                 if ( items[i]->type == ITEM_TYPE_OWNERDRAW ) {
-      |                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2424,38): note: to match this '{'
- 2424 | void dnMenu::CloseCinematics( void ) {
-      |                                      ^
-7 errors generated.
+[86/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
 [87/155] Building CXX object CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj
 FAILED: [code=1] CMakeFiles/ui.dir/qcommon/dnmenuparser.cpp.obj 
 "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj -clang:-MFCMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj.d /FoCMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(427,52): error: function definition is not allowed here
-  427 | int dnMenuParser::KeywordHash_Key( char *keyword ) {
-      |                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(442,82): error: function definition is not allowed here
-  442 | void dnMenuParser::KeywordHash_Add( keywordHash_t *table[], keywordHash_t *key ) {
-      |                                                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(455,88): error: function definition is not allowed here
-  455 | keywordHash_t *dnMenuParser::KeywordHash_Find( keywordHash_t *table[], char *keyword ) {
-      |                                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(474,67): error: function definition is not allowed here
-  474 | qboolean dnMenuParser::ItemParse_name( dnItem *item, int handle ) {
-      |                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(482,73): error: function definition is not allowed here
-  482 | qboolean dnMenuParser::ItemParse_focusSound( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(493,67): error: function definition is not allowed here
-  493 | qboolean dnMenuParser::ItemParse_text( dnItem *item, int handle ) {
-      |                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(503,71): error: function definition is not allowed here
-  503 | qboolean dnMenuParser::ItemParse_textfile( dnItem *item, int handle ) {
-      |                                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(518,75): error: function definition is not allowed here
-  518 | qboolean dnMenuParser::ItemParse_textsavegame( dnItem *item, int handle ) {
-      |                                                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(529,68): error: function definition is not allowed here
-  529 | qboolean dnMenuParser::ItemParse_group( dnItem *item, int handle ) {
-      |                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(538,74): error: function definition is not allowed here
-  538 | qboolean dnMenuParser::ItemParse_asset_model( dnItem *item, int handle ) {
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(554,75): error: function definition is not allowed here
-  554 | qboolean dnMenuParser::ItemParse_asset_shader( dnItem *item, int handle ) {
-      |                                                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(565,75): error: function definition is not allowed here
-  565 | qboolean dnMenuParser::ItemParse_model_origin( dnItem *item, int handle ) {
-      |                                                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(581,73): error: function definition is not allowed here
-  581 | qboolean dnMenuParser::ItemParse_model_fovx( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(593,73): error: function definition is not allowed here
-  593 | qboolean dnMenuParser::ItemParse_model_fovy( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(605,77): error: function definition is not allowed here
-  605 | qboolean dnMenuParser::ItemParse_model_rotation( dnItem *item, int handle ) {
-      |                                                                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(617,74): error: function definition is not allowed here
-  617 | qboolean dnMenuParser::ItemParse_model_angle( dnItem *item, int handle ) {
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(629,77): error: function definition is not allowed here
-  629 | qboolean dnMenuParser::ItemParse_model_animplay( dnItem *item, int handle ) {
-      |                                                                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(658,67): error: function definition is not allowed here
-  658 | qboolean dnMenuParser::ItemParse_rect( dnItem *item, int handle ) {
-      |                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(666,68): error: function definition is not allowed here
-  666 | qboolean dnMenuParser::ItemParse_style( dnItem *item, int handle ) {
-      |                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(674,73): error: function definition is not allowed here
-  674 | qboolean dnMenuParser::ItemParse_decoration( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(680,76): error: function definition is not allowed here
-  680 | qboolean dnMenuParser::ItemParse_notselectable( dnItem *item, int handle ) {
-      |                                                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(691,70): error: function definition is not allowed here
-  691 | qboolean dnMenuParser::ItemParse_wrapped( dnItem *item, int handle ) {
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(697,74): error: function definition is not allowed here
-  697 | qboolean dnMenuParser::ItemParse_autowrapped( dnItem *item, int handle ) {
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(704,79): error: function definition is not allowed here
-  704 | qboolean dnMenuParser::ItemParse_horizontalscroll( dnItem *item, int handle ) {
-      |                                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(710,67): error: function definition is not allowed here
-  710 | qboolean dnMenuParser::ItemParse_type( dnItem *item, int handle ) {
-      |                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(720,75): error: function definition is not allowed here
-  720 | qboolean dnMenuParser::ItemParse_elementwidth( dnItem *item, int handle ) {
-      |                                                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(733,76): error: function definition is not allowed here
-  733 | qboolean dnMenuParser::ItemParse_elementheight( dnItem *item, int handle ) {
-      |                                                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(745,69): error: function definition is not allowed here
-  745 | qboolean dnMenuParser::ItemParse_feeder( dnItem *item, int handle ) {
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(754,74): error: function definition is not allowed here
-  754 | qboolean dnMenuParser::ItemParse_elementtype( dnItem *item, int handle ) {
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(769,70): error: function definition is not allowed here
-  769 | qboolean dnMenuParser::ItemParse_columns( dnItem *item, int handle ) {
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(800,69): error: function definition is not allowed here
-  800 | qboolean dnMenuParser::ItemParse_border( dnItem *item, int handle ) {
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(807,73): error: function definition is not allowed here
-  807 | qboolean dnMenuParser::ItemParse_bordersize( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(814,70): error: function definition is not allowed here
-  814 | qboolean dnMenuParser::ItemParse_visible( dnItem *item, int handle ) {
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(826,72): error: function definition is not allowed here
-  826 | qboolean dnMenuParser::ItemParse_ownerdraw( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(834,68): error: function definition is not allowed here
-  834 | qboolean dnMenuParser::ItemParse_align( dnItem *item, int handle ) {
-      |                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(841,72): error: function definition is not allowed here
-  841 | qboolean dnMenuParser::ItemParse_textalign( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(848,73): error: function definition is not allowed here
-  848 | qboolean dnMenuParser::ItemParse_textalignx( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(855,73): error: function definition is not allowed here
-  855 | qboolean dnMenuParser::ItemParse_textaligny( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(862,72): error: function definition is not allowed here
-  862 | qboolean dnMenuParser::ItemParse_textscale( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(869,72): error: function definition is not allowed here
-  869 | qboolean dnMenuParser::ItemParse_textstyle( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(876,71): error: function definition is not allowed here
-  876 | qboolean dnMenuParser::ItemParse_textfont( dnItem *item, int handle ) {
-      |                                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(883,72): error: function definition is not allowed here
-  883 | qboolean dnMenuParser::ItemParse_backcolor( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(896,72): error: function definition is not allowed here
-  896 | qboolean dnMenuParser::ItemParse_forecolor( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(910,74): error: function definition is not allowed here
-  910 | qboolean dnMenuParser::ItemParse_bordercolor( dnItem *item, int handle ) {
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(923,75): error: function definition is not allowed here
-  923 | qboolean dnMenuParser::ItemParse_outlinecolor( dnItem *item, int handle ) {
-      |                                                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(930,73): error: function definition is not allowed here
-  930 | qboolean dnMenuParser::ItemParse_background( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(940,72): error: function definition is not allowed here
-  940 | qboolean dnMenuParser::ItemParse_cinematic( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(947,74): error: function definition is not allowed here
-  947 | qboolean dnMenuParser::ItemParse_doubleClick( dnItem *item, int handle ) {
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(963,70): error: function definition is not allowed here
-  963 | qboolean dnMenuParser::ItemParse_onFocus( dnItem *item, int handle ) {
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(970,73): error: function definition is not allowed here
-  970 | qboolean dnMenuParser::ItemParse_leaveFocus( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(977,73): error: function definition is not allowed here
-  977 | qboolean dnMenuParser::ItemParse_mouseEnter( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(984,72): error: function definition is not allowed here
-  984 | qboolean dnMenuParser::ItemParse_mouseExit( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(991,77): error: function definition is not allowed here
-  991 | qboolean dnMenuParser::ItemParse_mouseEnterText( dnItem *item, int handle ) {
-      |                                                                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(998,76): error: function definition is not allowed here
-  998 | qboolean dnMenuParser::ItemParse_mouseExitText( dnItem *item, int handle ) {
-      |                                                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1005,69): error: function definition is not allowed here
- 1005 | qboolean dnMenuParser::ItemParse_action( dnItem *item, int handle ) {
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1012,69): error: function definition is not allowed here
- 1012 | qboolean dnMenuParser::ItemParse_accept( dnItem *item, int handle ) {
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1019,70): error: function definition is not allowed here
- 1019 | qboolean dnMenuParser::ItemParse_special( dnItem *item, int handle ) {
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1026,71): error: function definition is not allowed here
- 1026 | qboolean dnMenuParser::ItemParse_cvarTest( dnItem *item, int handle ) {
-      |                                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1033,67): error: function definition is not allowed here
- 1033 | qboolean dnMenuParser::ItemParse_cvar( dnItem *item, int handle ) {
-      |                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1049,71): error: function definition is not allowed here
- 1049 | qboolean dnMenuParser::ItemParse_maxChars( dnItem *item, int handle ) {
-      |                                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1066,76): error: function definition is not allowed here
- 1066 | qboolean dnMenuParser::ItemParse_maxPaintChars( dnItem *item, int handle ) {
-      |                                                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1085,72): error: function definition is not allowed here
- 1085 | qboolean dnMenuParser::ItemParse_cvarFloat( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1102,74): error: function definition is not allowed here
- 1102 | qboolean dnMenuParser::ItemParse_cvarStrList( dnItem *item, int handle ) {
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1153,76): error: function definition is not allowed here
- 1153 | qboolean dnMenuParser::ItemParse_cvarFloatList( dnItem *item, int handle ) {
-      |                                                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1201,64): error: function definition is not allowed here
- 1201 | qboolean ParseColorRange( dnItem *item, int handle, int type ) {
-      |                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1223,79): error: function definition is not allowed here
- 1223 | qboolean dnMenuParser::ItemParse_addColorRangeRel( dnItem *item, int handle ) {
-      |                                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1227,76): error: function definition is not allowed here
- 1227 | qboolean dnMenuParser::ItemParse_addColorRange( dnItem *item, int handle ) {
-      |                                                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1233,76): error: function definition is not allowed here
- 1233 | qboolean dnMenuParser::ItemParse_ownerdrawFlag( dnItem *item, int handle ) {
-      |                                                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1242,73): error: function definition is not allowed here
- 1242 | qboolean dnMenuParser::ItemParse_enableCvar( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1250,74): error: function definition is not allowed here
- 1250 | qboolean dnMenuParser::ItemParse_disableCvar( dnItem *item, int handle ) {
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1258,71): error: function definition is not allowed here
- 1258 | qboolean dnMenuParser::ItemParse_showCvar( dnItem *item, int handle ) {
-      |                                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1266,71): error: function definition is not allowed here
- 1266 | qboolean dnMenuParser::ItemParse_hideCvar( dnItem *item, int handle ) {
-      |                                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1275,29): error: definition or redeclaration of 'itemParseKeywords' not allowed inside a function
- 1275 | keywordHash_t dnMenuParser::itemParseKeywords[] = {
-      |               ~~~~~~~~~~~~~~^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1347,30): error: definition or redeclaration of 'itemParseKeywordHash' not allowed inside a function
- 1347 | keywordHash_t *dnMenuParser::itemParseKeywordHash[KEYWORDHASH_SIZE];
-      |                ~~~~~~~~~~~~~~^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1349,50): error: function definition is not allowed here
- 1349 | void dnMenuParser::Item_SetupKeywordHash( void ) {
-      |                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1358,63): error: function definition is not allowed here
- 1358 | qboolean dnMenuParser::Item_Parse( int handle, dnItem *item ) {
-      |                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1398,67): error: function definition is not allowed here
- 1398 | qboolean dnMenuParser::MenuParse_font( dnItem *item, int handle ) {
-      |                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1410,67): error: function definition is not allowed here
- 1410 | qboolean dnMenuParser::MenuParse_name( dnItem *item, int handle ) {
-      |                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1420,73): error: function definition is not allowed here
- 1420 | qboolean dnMenuParser::MenuParse_fullscreen( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1428,67): error: function definition is not allowed here
- 1428 | qboolean dnMenuParser::MenuParse_rect( dnItem *item, int handle ) {
-      |                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1436,68): error: function definition is not allowed here
- 1436 | qboolean dnMenuParser::MenuParse_style( dnItem *item, int handle ) {
-      |                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1444,70): error: function definition is not allowed here
- 1444 | qboolean dnMenuParser::MenuParse_visible( dnItem *item, int handle ) {
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1457,69): error: function definition is not allowed here
- 1457 | qboolean dnMenuParser::MenuParse_onOpen( dnItem *item, int handle ) {
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1465,70): error: function definition is not allowed here
- 1465 | qboolean dnMenuParser::MenuParse_onClose( dnItem *item, int handle ) {
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1473,68): error: function definition is not allowed here
- 1473 | qboolean dnMenuParser::MenuParse_onESC( dnItem *item, int handle ) {
-      |                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1481,72): error: function definition is not allowed here
- 1481 | qboolean dnMenuParser::MenuParse_onROQDone( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1492,69): error: function definition is not allowed here
- 1492 | qboolean dnMenuParser::MenuParse_border( dnItem *item, int handle ) {
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1500,73): error: function definition is not allowed here
- 1500 | qboolean dnMenuParser::MenuParse_borderSize( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1508,72): error: function definition is not allowed here
- 1508 | qboolean dnMenuParser::MenuParse_backcolor( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1522,72): error: function definition is not allowed here
- 1522 | qboolean dnMenuParser::MenuParse_forecolor( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1537,74): error: function definition is not allowed here
- 1537 | qboolean dnMenuParser::MenuParse_bordercolor( dnItem *item, int handle ) {
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1551,73): error: function definition is not allowed here
- 1551 | qboolean dnMenuParser::MenuParse_focuscolor( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1565,75): error: function definition is not allowed here
- 1565 | qboolean dnMenuParser::MenuParse_disablecolor( dnItem *item, int handle ) {
-      |                                                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1579,75): error: function definition is not allowed here
- 1579 | qboolean dnMenuParser::MenuParse_outlinecolor( dnItem *item, int handle ) {
-      |                                                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1587,73): error: function definition is not allowed here
- 1587 | qboolean dnMenuParser::MenuParse_background( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1598,72): error: function definition is not allowed here
- 1598 | qboolean dnMenuParser::MenuParse_cinematic( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1607,76): error: function definition is not allowed here
- 1607 | qboolean dnMenuParser::MenuParse_ownerdrawFlag( dnItem *item, int handle ) {
-      |                                                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1618,72): error: function definition is not allowed here
- 1618 | qboolean dnMenuParser::MenuParse_ownerdraw( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1628,68): error: function definition is not allowed here
- 1628 | qboolean dnMenuParser::MenuParse_popup( dnItem *item, int handle ) {
-      |                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1635,74): error: function definition is not allowed here
- 1635 | qboolean dnMenuParser::MenuParse_outOfBounds( dnItem *item, int handle ) {
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1642,72): error: function definition is not allowed here
- 1642 | qboolean dnMenuParser::MenuParse_soundLoop( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1651,72): error: function definition is not allowed here
- 1651 | qboolean dnMenuParser::MenuParse_fadeClamp( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1660,73): error: function definition is not allowed here
- 1660 | qboolean dnMenuParser::MenuParse_fadeAmount( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1670,72): error: function definition is not allowed here
- 1670 | qboolean dnMenuParser::MenuParse_fadeCycle( dnItem *item, int handle ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1680,70): error: function definition is not allowed here
- 1680 | qboolean dnMenuParser::MenuParse_itemDef( dnItem *item, int handle ) {
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1699,70): error: function definition is not allowed here
- 1699 | qboolean dnMenuParser::MenuParse_execKey( dnItem *item, int handle ) {
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1715,73): error: function definition is not allowed here
- 1715 | qboolean dnMenuParser::MenuParse_execKeyInt( dnItem *item, int handle ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1729,29): error: definition or redeclaration of 'menuParseKeywords' not allowed inside a function
- 1729 | keywordHash_t dnMenuParser::menuParseKeywords[] = {
-      |               ~~~~~~~~~~~~~~^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1764,30): error: definition or redeclaration of 'menuParseKeywordHash' not allowed inside a function
- 1764 | keywordHash_t *dnMenuParser::menuParseKeywordHash[KEYWORDHASH_SIZE];
-      |                ~~~~~~~~~~~~~~^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1766,50): error: function definition is not allowed here
- 1766 | void dnMenuParser::Menu_SetupKeywordHash( void ) {
-      |                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1775,63): error: function definition is not allowed here
- 1775 | qboolean dnMenuParser::Menu_Parse( int handle, dnMenu *menu ) {
-      |                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1810,47): error: function definition is not allowed here
- 1810 | qboolean dnMenuParser::Menu_New( int handle ) {
-      |                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1833,54): error: function definition is not allowed here
- 1833 | void dnMenuParser::Menu_Load( const char *menuFile ) {
-      |                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1856,54): error: function definition is not allowed here
- 1856 | void dnMenuParser::LoadMenus( const char *listFile ) {
-      |                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1880,2): error: expected '}'
- 1880 | }
-      |  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(412,17): note: to match this '{'
-  412 |     while ( 1 ) {
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1880,2): error: expected '}'
- 1880 | }
-      |  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(397,72): note: to match this '{'
-  397 | qboolean dnMenuParser::PC_Script_Parse( int handle, const char **out ) {
-      |                                                                        ^
-116 errors generated.
-[88/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
-[89/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
-[90/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
-[91/155] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1209,9): error: use of undeclared identifier 'PC_SourceError'
+ 1209 |         PC_SourceError( handle, "both addColorRange and addColorRangeRel - set within same itemdef\n" );
+      |         ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1215,10): error: use of undeclared identifier 'PC_Float_Parse'; did you mean 'Float_Parse'?
+ 1215 |     if ( PC_Float_Parse( handle, &color.low ) &&
+      |          ^~~~~~~~~~~~~~
+      |          Float_Parse
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\../ui/ui_shared.h(506,10): note: 'Float_Parse' declared here
+  506 | qboolean Float_Parse( char **p, float *f );
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1215,26): error: cannot initialize a parameter of type 'char **' with an lvalue of type 'int'
+ 1215 |     if ( PC_Float_Parse( handle, &color.low ) &&
+      |                          ^~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\../ui/ui_shared.h(506,30): note: passing argument to parameter 'p' here
+  506 | qboolean Float_Parse( char **p, float *f );
+      |                              ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1216,10): error: use of undeclared identifier 'PC_Float_Parse'; did you mean 'Float_Parse'?
+ 1216 |          PC_Float_Parse( handle, &color.high ) &&
+      |          ^~~~~~~~~~~~~~
+      |          Float_Parse
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\../ui/ui_shared.h(506,10): note: 'Float_Parse' declared here
+  506 | qboolean Float_Parse( char **p, float *f );
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1216,26): error: cannot initialize a parameter of type 'char **' with an lvalue of type 'int'
+ 1216 |          PC_Float_Parse( handle, &color.high ) &&
+      |                          ^~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\../ui/ui_shared.h(506,30): note: passing argument to parameter 'p' here
+  506 | qboolean Float_Parse( char **p, float *f );
+      |                              ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1217,10): error: use of undeclared identifier 'PC_Color_Parse'; did you mean 'Color_Parse'?
+ 1217 |          PC_Color_Parse( handle, &color.color ) ) {
+      |          ^~~~~~~~~~~~~~
+      |          Color_Parse
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\../ui/ui_shared.h(507,10): note: 'Color_Parse' declared here
+  507 | qboolean Color_Parse( char **p, vec4_t *c );
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(1217,26): error: cannot initialize a parameter of type 'char **' with an lvalue of type 'int'
+ 1217 |          PC_Color_Parse( handle, &color.color ) ) {
+      |                          ^~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\../ui/ui_shared.h(507,30): note: passing argument to parameter 'p' here
+  507 | qboolean Color_Parse( char **p, vec4_t *c );
+      |                              ^
+7 errors generated.
+[88/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_ents.cpp.obj
+[89/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
+[90/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
+[91/155] Building CXX object CMakeFiles\ui.dir\ui\ui_shared.cpp.obj
+[92/155] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
 ninja: build stopped: subcommand failed.
