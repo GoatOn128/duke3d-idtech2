@@ -838,7 +838,7 @@ void Item_UpdatePosition( itemDef_t *item ) {
 		return;
 	}
 
-	menu = item->parent;
+	menu = (menuDef_t *)item->parent;
 
 	x = menu->window.rect.x;
 	y = menu->window.rect.y;
@@ -1067,14 +1067,14 @@ void Script_SetItemColor( itemDef_t *item, char **args ) {
 	if ( String_Parse( args, &itemname ) && String_Parse( args, &name ) ) {
 		itemDef_t *item2;
 		int j;
-		int count = Menu_ItemsMatchingGroup( item->parent, itemname );
+		int count = Menu_ItemsMatchingGroup( (menuDef_t *)item->parent, itemname );
 
 		if ( !Color_Parse( args, &color ) ) {
 			return;
 		}
 
 		for ( j = 0; j < count; j++ ) {
-			item2 = Menu_GetMatchingItemByNumber( item->parent, j, itemname );
+			item2 = Menu_GetMatchingItemByNumber( (menuDef_t *)item->parent, j, itemname );
 			if ( item2 != NULL ) {
 				out = NULL;
 				if ( Q_stricmp( name, "backcolor" ) == 0 ) {
@@ -1185,28 +1185,28 @@ void Menus_CloseAll() {
 void Script_Show( itemDef_t *item, char **args ) {
 	const char *name;
 	if ( String_Parse( args, &name ) ) {
-		Menu_ShowItemByName( item->parent, name, qtrue );
+		Menu_ShowItemByName( (menuDef_t *)item->parent, name, qtrue );
 	}
 }
 
 void Script_Hide( itemDef_t *item, char **args ) {
 	const char *name;
 	if ( String_Parse( args, &name ) ) {
-		Menu_ShowItemByName( item->parent, name, qfalse );
+		Menu_ShowItemByName( (menuDef_t *)item->parent, name, qfalse );
 	}
 }
 
 void Script_FadeIn( itemDef_t *item, char **args ) {
 	const char *name;
 	if ( String_Parse( args, &name ) ) {
-		Menu_FadeItemByName( item->parent, name, qfalse );
+		Menu_FadeItemByName( (menuDef_t *)item->parent, name, qfalse );
 	}
 }
 
 void Script_FadeOut( itemDef_t *item, char **args ) {
 	const char *name;
 	if ( String_Parse( args, &name ) ) {
-		Menu_FadeItemByName( item->parent, name, qtrue );
+		Menu_FadeItemByName( (menuDef_t *)item->parent, name, qtrue );
 	}
 }
 
@@ -1237,7 +1237,7 @@ Script_Clipboard
 void Script_Clipboard( itemDef_t *item, char **args ) {
 	char curscript[64];
 	DC->getCVarString( "cg_clipboardName", curscript, sizeof( curscript ) ); // grab the string the client set
-	Menu_ShowItemByName( item->parent, curscript, qtrue );
+	Menu_ShowItemByName( (menuDef_t *)item->parent, curscript, qtrue );
 }
 
 
@@ -1331,17 +1331,17 @@ void Script_NotebookShowpage( itemDef_t *item, char **args ) {
 
 		// hide all the pages
 //		Menu_ShowItemByName(item->parent, "page_*", qfalse);
-		Menu_ShowItemByName( item->parent, "cover", qfalse );
+		Menu_ShowItemByName( (menuDef_t *)item->parent, "cover", qfalse );
 		for ( i = 1; i <= NOTEBOOK_MAX_PAGES; i++ ) {
-			Menu_ShowItemByName( item->parent, va( "page%d", i ), qfalse );
+			Menu_ShowItemByName( (menuDef_t *)item->parent, va( "page%d", i ), qfalse );
 		}
 
 		// show the visible one
 
 		if ( curpage ) {
-			Menu_ShowItemByName( item->parent, va( "page%d", curpage ), qtrue );
+			Menu_ShowItemByName( (menuDef_t *)item->parent, va( "page%d", curpage ), qtrue );
 		} else {
-			Menu_ShowItemByName( item->parent, "cover", qtrue );
+			Menu_ShowItemByName( (menuDef_t *)item->parent, "cover", qtrue );
 		}
 
 		DC->setCVar( "ui_notebookCurrentPage", va( "%d", curpage ) ); // store new current page
@@ -1380,7 +1380,7 @@ void Script_Transition( itemDef_t *item, char **args ) {
 
 	if ( String_Parse( args, &name ) ) {
 		if ( Rect_Parse( args, &rectFrom ) && Rect_Parse( args, &rectTo ) && Int_Parse( args, &time ) && Float_Parse( args, &amt ) ) {
-			Menu_TransitionItemByName( item->parent, name, rectFrom, rectTo, time, amt );
+			Menu_TransitionItemByName( (menuDef_t *)item->parent, name, rectFrom, rectTo, time, amt );
 		}
 	}
 }
@@ -1412,7 +1412,7 @@ void Script_Orbit( itemDef_t *item, char **args ) {
 
 	if ( String_Parse( args, &name ) ) {
 		if ( Float_Parse( args, &x ) && Float_Parse( args, &y ) && Float_Parse( args, &cx ) && Float_Parse( args, &cy ) && Int_Parse( args, &time ) ) {
-			Menu_OrbitItemByName( item->parent, name, x, y, cx, cy, time );
+			Menu_OrbitItemByName( (menuDef_t *)item->parent, name, x, y, cx, cy, time );
 		}
 	}
 }
@@ -1424,9 +1424,9 @@ void Script_SetFocus( itemDef_t *item, char **args ) {
 	itemDef_t *focusItem;
 
 	if ( String_Parse( args, &name ) ) {
-		focusItem = Menu_FindItemByName( item->parent, name );
+		focusItem = Menu_FindItemByName( (menuDef_t *)item->parent, name );
 		if ( focusItem && !( focusItem->window.flags & WINDOW_DECORATION ) && !( focusItem->window.flags & WINDOW_HASFOCUS ) ) {
-			Menu_ClearFocus( item->parent );
+			Menu_ClearFocus( (menuDef_t *)item->parent );
 			focusItem->window.flags |= WINDOW_HASFOCUS;
 			if ( focusItem->onFocus ) {
 				Item_RunScript( focusItem, focusItem->onFocus );
@@ -1463,7 +1463,7 @@ void Script_SetCvar( itemDef_t *item, char **args ) {
 void Script_Exec( itemDef_t *item, char **args ) {
 	const char *val;
 	if ( String_Parse( args, &val ) ) {
-		DC->executeText( EXEC_APPEND, va( "%s ; ", val ) );
+		DC->executeText( DN_EXEC_APPEND, va( "%s ; ", val ) );
 	}
 }
 
@@ -1489,7 +1489,7 @@ void Script_AddListItem( itemDef_t *item, char **args ) {
 	itemDef_t *t;
 
 	if ( String_Parse( args, &itemname ) && String_Parse( args, &val ) && String_Parse( args, &name ) ) {
-		t = Menu_FindItemByName( item->parent, itemname );
+		t = Menu_FindItemByName( (menuDef_t *)item->parent, itemname );
 		if ( t && t->special ) {
 			DC->feederAddItem( t->special, name, atoi( val ) );
 		}
@@ -1625,7 +1625,7 @@ qboolean Item_SetFocus( itemDef_t *item, float x, float y ) {
 		return qfalse;
 	}
 
-	oldFocus = Menu_ClearFocus( item->parent );
+	oldFocus = Menu_ClearFocus( (menuDef_t *)item->parent );
 
 	if ( item->type == ITEM_TYPE_TEXT ) {
 		rectDef_t r;
@@ -2404,14 +2404,14 @@ qboolean Item_TextField_HandleKey( itemDef_t *item, int key ) {
 		}
 
 		if ( key == K_TAB || key == K_DOWNARROW || key == K_KP_DOWNARROW ) {
-			newItem = Menu_SetNextCursorItem( item->parent );
+			newItem = Menu_SetNextCursorItem( (menuDef_t *)item->parent );
 			if ( newItem && ( newItem->type == ITEM_TYPE_EDITFIELD || newItem->type == ITEM_TYPE_NUMERICFIELD || newItem->type == ITEM_TYPE_VALIDFILEFIELD ) ) {
 				g_editItem = newItem;
 			}
 		}
 
 		if ( key == K_UPARROW || key == K_KP_UPARROW ) {
-			newItem = Menu_SetPrevCursorItem( item->parent );
+			newItem = Menu_SetPrevCursorItem( (menuDef_t *)item->parent );
 			if ( newItem && ( newItem->type == ITEM_TYPE_EDITFIELD || newItem->type == ITEM_TYPE_NUMERICFIELD || newItem->type == ITEM_TYPE_VALIDFILEFIELD ) ) {
 				g_editItem = newItem;
 			}
@@ -2956,7 +2956,7 @@ void Menu_HandleKey( menuDef_t *menu, int key, qboolean down ) {
 
 	case K_F12:
 		if ( DC->getCVarValue( "developer" ) ) {
-			DC->executeText( EXEC_APPEND, "screenshot\n" );
+			DC->executeText( DN_EXEC_APPEND, "screenshot\n" );
 		}
 		break;
 	case K_KP_UPARROW:
@@ -3637,7 +3637,7 @@ void Controls_SetConfig( qboolean restart ) {
 	// TTimo: FIXME
 	// show_bug.cgi?id=430
 #if !defined( __MACOS__ )
-	DC->executeText( EXEC_APPEND, "in_restart\n" );
+	DC->executeText( DN_EXEC_APPEND, "in_restart\n" );
 #endif
 }
 
@@ -6202,7 +6202,7 @@ void *Display_CaptureItem( int x, int y ) {
 // FIXME:
 qboolean Display_MouseMove( void *p, int x, int y ) {
 	int i;
-	menuDef_t *menu = p;
+	menuDef_t *menu = (menuDef_t *)p;
 
 	if ( menu == NULL ) {
 		menu = Menu_GetFocused();
@@ -6240,7 +6240,7 @@ int Display_CursorType( int x, int y ) {
 
 
 void Display_HandleKey( int key, qboolean down, int x, int y ) {
-	menuDef_t *menu = Display_CaptureItem( x, y );
+	menuDef_t *menu = (menuDef_t *)Display_CaptureItem( x, y );
 	if ( menu == NULL ) {
 		menu = Menu_GetFocused();
 	}

@@ -40,7 +40,16 @@ void Q_strcat( char *dest, int size, const char *src ) {
         return;
     }
     Q_strncpyz( dest + l1, src, size - l1 );
+}
 
+/* size-safe copy, like the idTech 3 Q_strncpyz */
+void Q_strncpyz( char *dest, const char *src, int destsize ) {
+    if ( !dest || !src || destsize < 1 ) {
+        return;
+    }
+    strncpy( dest, src, (size_t)( destsize - 1 ) );
+    dest[destsize - 1] = '\0';
+}
 
 /* uppercase in place, like the idTech 3 Q_strupr */
 char *Q_strupr( char *s1 ) {
@@ -64,6 +73,10 @@ int Q_strncmp( const char *s1, const char *s2, int n ) {
         }
     } while ( --n && c1 );
     return 0;
+}
+
+int Q_isalpha( int c ) {
+    return ( c >= 'a' && c <= 'z' ) || ( c >= 'A' && c <= 'Z' );
 }
 
 int Q_isupper( int c ) {

@@ -495,6 +495,6 @@ void        Controls_GetConfig( void );
 void        Controls_SetConfig( qboolean restart );
 void        Controls_SetDefaults( void );
 
-int         /* the .menu script parser stays behind stubs: the Duke menus are code-defined */
+/* the .menu script parser stays behind stubs: the Duke menus are code-defined */
 
 #endif

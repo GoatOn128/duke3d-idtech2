@@ -11,6 +11,13 @@
 typedef void *qhandle_t;
 typedef void *sfxHandle_t;
 
+/* the engine Q2 q_shared stops at vec3, but the menu framework colors are vec4 */
+typedef vec_t vec4_t[4];
+
+/* idTech 3 boolean constants; the engine q_shared declares qboolean without them */
+#define qtrue  1
+#define qfalse 0
+
 /* color prefixes as in the idTech 3 shared code; the engine prints them raw */
 #define S_COLOR_RED      "^1"
 #define S_COLOR_YELLOW   "^3"
@@ -20,7 +27,10 @@ typedef void *sfxHandle_t;
 #endif
 
 /* refdef flags; the RF_ bits sit far away from the engine Q2 RF_ range */
+/* guarded: some engine headers already define this flag */
+#ifndef RDF_NOWORLDMODEL
 #define RDF_NOWORLDMODEL    1
+#endif
 #define RF_LIGHTING_ORIGIN  0x20000000
 #define RF_NOSHADOW         0x40000000
 
