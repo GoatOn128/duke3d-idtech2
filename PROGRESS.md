@@ -100,6 +100,15 @@ Legend:
       reached through `Con_CreateGraph`), and the `con_frameTimes`
       cvar that renders the rolling frame times like the BFG console
       graphs
+- [x] Fill the video mode list automatically from the live display
+      like the BFG resolution menu: `sdl/sdl_vid.cpp` builds the list
+      only from the modes the display reports plus the desktop mode
+      (the hardcoded standard-resolution table is gone; sizes the
+      display does not report stay reachable through the custom
+      `gl_mode -1`), and the new `VID_DefaultMode` resets an invalid
+      `gl_mode` like the BFG `r_vidMode` reset (largest entry that
+      fits the desktop when windowed), used by `VID_GetModeInfo`,
+      `VID_ValidateWindowedMode` and `win32/vid_menu.cpp`
 
 ## Engine milestones
 
