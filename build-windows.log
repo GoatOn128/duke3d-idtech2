@@ -16,7 +16,6 @@ InstalledDir: C:\Program Files\LLVM\bin
 -- Check for working CXX compiler: C:/Program Files/LLVM/bin/clang-cl.exe - skipped
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Skipping win32/dnicon.rc: 3drealms/duke3d.ico not present.
 -- Found Python3: C:/hostedtoolcache/windows/Python/3.15.1/x64/python3.exe (found version "3.15.1") found components: Interpreter
 -- Asset preparation skipped: needs Python, code/tools/prepare_assets.py and 3drealms/duke3d.grp.
 -- Configuring done (8.9s)
