@@ -550,7 +550,7 @@ void SCR_RunConsole(void)
     // decide on the height of the console
     if (cls.key_dest == key_console)
     {
-        scr_conlines = 0.5; // half screen
+        scr_conlines = 1.0; // full screen, like the idTech 3/4 consoles
     }
     else
     {
@@ -584,7 +584,13 @@ void SCR_DrawConsole(void)
 {
     Con_CheckResize();
 
-    if (cls.state == ca_disconnected || cls.state == ca_connecting)
+    if (cls.state == ca_disconnected)
+    { // drop in smoothly over the menu, like the idTech 3/4 front ends
+        Con_DrawConsole(scr_con_current);
+        return;
+    }
+
+    if (cls.state == ca_connecting)
     { // forced full screen console
         Con_DrawConsole(1.0);
         return;
@@ -1567,8 +1573,13 @@ void SCR_UpdateScreen(void)
             // do 3D refresh drawing, and then update the screen
             if (DN_DrawIntermission())
             {
-                SCR_DrawConsole();
+                // keep a background under a console sliding over the menu screens
+                if (cls.state != ca_active && scr_con_current < 1.0)
+                {
+                    DN_MenuBackground();
+                }
                 M_Draw();
+                SCR_DrawConsole();
                 SCR_DrawLoading();
                 continue;
             }
@@ -1607,9 +1618,9 @@ void SCR_UpdateScreen(void)
 
             SCR_DrawPause();
 
-            SCR_DrawConsole();
-
             M_Draw();
+
+            SCR_DrawConsole();
 
             SCR_DrawLoading();
 
