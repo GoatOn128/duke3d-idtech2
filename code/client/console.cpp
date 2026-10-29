@@ -89,8 +89,19 @@ void Con_ToggleConsole_f (void)
 	}
 
 	if (cls.state == ca_disconnected)
-	{	// start the demo loop again
-		Cbuf_AddText ("d1\n");
+	{	// this engine has no demo loop, so the console key swaps
+		// between the console and the main menu, like the idTech3
+		// and idTech4 front ends
+		Key_ClearTyping ();
+		Con_ClearNotify ();
+
+		if (cls.key_dest == key_console)
+			M_Menu_Main_f ();
+		else
+		{
+			M_ForceMenuOff ();
+			cls.key_dest = key_console;
+		}
 		return;
 	}
 
