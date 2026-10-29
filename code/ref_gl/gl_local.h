@@ -376,3 +376,4 @@ qboolean GLimp_Init(void *hinstance, void *hWnd);
 void GLimp_Shutdown(void);
 rserr_t GLimp_SetMode(int *pwidth, int *pheight, int mode, qboolean fullscreen);
 void GLimp_AppActivate(qboolean active);
+void GLimp_ListDisplays_f(void);

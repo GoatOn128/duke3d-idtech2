@@ -213,7 +213,7 @@ typedef struct
     cvar_t *(*Cvar_Set)(char *name, char *value);
     void (*Cvar_SetValue)(char *name, float value);
 
-    qboolean (*Vid_GetModeInfo)(int *width, int *height, int mode);
+    qboolean (*Vid_GetModeInfo)(int *width, int *height, int *displayHz, int mode);
     void (*Vid_MenuInit)(void);
     void (*Vid_NewWindow)(int width, int height);
     void (*DukeWeaponView)(const dn_weapon_view_t *view, dn_weapon_sprites_t *sprites);

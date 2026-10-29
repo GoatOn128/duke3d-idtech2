@@ -38,6 +38,9 @@ cvar_t *cl_testblend;
 
 cvar_t *cl_stats;
 
+// aspect override for the fov calculation: -1 auto, 0 4:3, 1 16:9, 2 16:10
+static cvar_t *r_aspectRatio;
+
 int r_numdlights;
 dlight_t r_dlights[MAX_DLIGHTS];
 
@@ -377,25 +380,66 @@ void CL_PrepRefresh(void)
 /*
 ====================
 CalcFov
+
+Ported from idRenderSystemLocal::CalcFov in the Doom 3 BFG source. The
+base fov is a horizontal fov at a 640x480 reference resolution; the real
+fov pair widens with the aspect ratio and the horizontal angle never
+shrinks below the base fov, so widescreen resolutions only add view.
 ====================
 */
-float CalcFov(float fov_x, float width, float height)
+void CalcFov(float base_fov, int width, int height, float *fov_x, float *fov_y)
 {
-    float a;
-    float x;
+    float x, y;
+    float ratio_x, ratio_y;
 
-    if (fov_x < 1 || fov_x > 179)
+    if (base_fov < 1 || base_fov > 179)
     {
-        Com_Error(ERR_DROP, "Bad fov: %f", fov_x);
+        Com_Error(ERR_DROP, "Bad fov: %f", base_fov);
     }
 
-    x = width / tan(fov_x / 360 * M_PI);
+    // first, the vertical fov for the 640x480 reference resolution
+    x = 640.0f / tan(base_fov / 360.0f * M_PI);
+    y = atan2(480.0f, x);
+    *fov_y = y * 360.0f / M_PI;
 
-    a = atan(height / x);
+    switch ((int)r_aspectRatio->value)
+    {
+    case 0:
+        // 4:3
+        *fov_x = base_fov;
+        return;
+    case 1:
+        // 16:9
+        ratio_x = 16.0f;
+        ratio_y = 9.0f;
+        break;
+    case 2:
+        // 16:10
+        ratio_x = 16.0f;
+        ratio_y = 10.0f;
+        break;
+    default:
+        // auto: use the aspect ratio of the current view
+        ratio_x = (float)width;
+        ratio_y = (float)height;
+        if (ratio_x <= 0.0f || ratio_y <= 0.0f)
+        {
+            *fov_x = base_fov;
+            return;
+        }
+        break;
+    }
 
-    a = a * 360 / M_PI;
+    y = ratio_y / tan(*fov_y / 360.0f * M_PI);
+    *fov_x = atan2(ratio_x, y) * 360.0f / M_PI;
 
-    return a;
+    if (*fov_x < base_fov)
+    {
+        // wide screens must never lose horizontal view
+        *fov_x = base_fov;
+        x = ratio_x / tan(*fov_x / 360.0f * M_PI);
+        *fov_y = atan2(ratio_y, x) * 360.0f / M_PI;
+    }
 }
 
 //============================================================================
@@ -541,7 +585,7 @@ void V_RenderView(float stereo_separation)
         cl.refdef.y = scr_vrect.y;
         cl.refdef.width = scr_vrect.width;
         cl.refdef.height = scr_vrect.height;
-        cl.refdef.fov_y = CalcFov(cl.refdef.fov_x, cl.refdef.width, cl.refdef.height);
+        CalcFov(cl.refdef.fov_x, cl.refdef.width, cl.refdef.height, &cl.refdef.fov_x, &cl.refdef.fov_y);
         cl.refdef.time = cl.time * 0.001;
 
         cl.refdef.areabits = cl.frame.areabits;
@@ -626,4 +670,6 @@ void V_Init(void)
     cl_testlights = Cvar_Get("cl_testlights", "0", 0);
 
     cl_stats = Cvar_Get("cl_stats", "0", 0);
+
+    r_aspectRatio = Cvar_Get("r_aspectRatio", "-1", CVAR_ARCHIVE);
 }

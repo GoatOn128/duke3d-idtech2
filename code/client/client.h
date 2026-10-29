@@ -551,6 +551,9 @@ extern struct model_s *gun_model;
 
 void V_Init(void);
 void V_RenderView(float stereo_separation);
+
+// BFG-style fov pair from a base fov and a view size, see cl_view.cpp
+void CalcFov(float base_fov, int width, int height, float *fov_x, float *fov_y);
 void V_AddEntity(entity_t *ent);
 void V_AddParticle(vec3_t org, int color, float alpha);
 void V_AddLight(vec3_t org, float intensity, float r, float g, float b);

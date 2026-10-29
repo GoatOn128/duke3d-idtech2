@@ -111,3 +111,31 @@ cost anything as long as this file and PROGRESS.md are current.
   `.rc`/`.aps` leftovers. `win32/` keeps `net_wins`, `conproc`,
   `q_shwin`, `vid_menu`, `dnicon.rc`. SDL3's supported Windows floor
   is Win7+, the new minimum OS for the engine.
+
+- 2026-10-29: Doom 3 BFG display handling + fov port on branch
+  `port/glimp-display-fov` (CI green, 0 errors, 0 warnings):
+  - `client/ref.h`: `Vid_GetModeInfo` gained a `displayHz` out param;
+    `client/vid.h` declares the mode/display list helpers
+    (`VID_NumModes`, `VID_ModeData`, `VID_NumDisplays`, `VID_DisplayName`).
+  - `sdl/sdl_vid.cpp`: mode list rebuilt from `SDL_GetDisplays` +
+    `SDL_GetFullscreenDisplayModes` (32bpp filter, height >= 480 floor,
+    unique w/h/hz triples, sorted height/width/hz). New cvars:
+    `vid_display`, `vid_displayrefresh`, `vid_customWidth`,
+    `vid_customHeight`; `gl_mode -1` = custom resolution.
+    Out-of-range `gl_mode` clamps instead of failing.
+  - `ref_gl/glimp_sdl.cpp`: BFG-style fullscreen - borderless desktop
+    mode when the size matches, exclusive `SDL_SetWindowFullscreenMode`
+    with exact refresh matching otherwise; `gl_displays` inventory
+    command registered in `R_Register`/`R_Shutdown` (NOT `GLimp_Shutdown`,
+    which also runs on window recreation). `vid_display->modified` is
+    cleared by `R_SetMode`, observed by `R_BeginFrame` to force a
+    vid_ref restart.
+  - `win32/vid_menu.cpp`: video menu spinners built from the live lists,
+    DISPLAY spinner added, `vid_display` included in the restart
+    condition.
+  - `client/cl_view.cpp`: BFG CalcFov port (640x480 fov_y reference,
+    aspect-widened fov_x, never-shrink clamp; `r_aspectRatio` -1 auto,
+    0 = 4:3, 1 = 16:9, 2 = 16:10). CalcFov is non-static and declared
+    in `client.h`: `menu.cpp` PlayerConfig_MenuDraw calls it for the
+    player preview. CI caught the link error when it was static; the
+    BFG clamp path reproduces the old 144x168 preview numbers exactly.
