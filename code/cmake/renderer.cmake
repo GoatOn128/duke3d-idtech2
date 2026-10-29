@@ -11,7 +11,7 @@ set(renderer_sources
     ref_gl/gl_rsurf.cpp
     ref_gl/gl_shaders.cpp
     ref_gl/gl_warp.cpp
-    win32/glw_imp.cpp
+    ref_gl/glimp_sdl.cpp
     game/q_shared.cpp
     win32/q_shwin.cpp
     third-party/glad/src/gl.c)
@@ -29,5 +29,5 @@ add_library(
 
 target_include_directories(ref_gl PRIVATE third-party/glad/include)
 target_compile_definitions(ref_gl PRIVATE BUILDING_REF_GL)
-target_link_libraries(ref_gl PRIVATE winmm user32 gdi32 opengl32 glu32)
+target_link_libraries(ref_gl PRIVATE SDL3 glu32)
 duke_set_output_directories(ref_gl "${DUKE_ROOT}")

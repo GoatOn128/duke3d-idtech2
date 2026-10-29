@@ -2,8 +2,8 @@
 # code/third-party; nothing is fetched at configure or build time.
 #
 #   third-party/openal-soft  LGPL (prebuilt import lib + soft_oal.dll)
-#   third-party/sdl3        zlib (prebuilt, not linked by the engine yet)
-#   third-party/glad        MIT (GL loader source, not linked yet)
+#   third-party/sdl3        zlib (prebuilt import lib + SDL3.dll)
+#   third-party/glad        MIT (GL loader source compiled into ref_gl)
 #   third-party/mp3         MIT (dr_mp3 single-header decoder)
 #
 # OpenAL Soft is vendored as the official prebuilt distribution. Linking is
@@ -47,4 +47,35 @@ function(duke_copy_openal_dll target)
       ${CMAKE_COMMAND} -E copy_if_different "${DN_OPENAL_DLL}"
       "$<TARGET_FILE_DIR:${target}>/OpenAL32.dll"
     COMMENT "Shipping soft_oal.dll as OpenAL32.dll")
+endfunction()
+
+# SDL3 is vendored as the official prebuilt development package (import
+# lib + DLL per architecture). Both duke3d and ref_gl link against it.
+if(DN_ARCH STREQUAL "x64")
+  set(DN_SDL3_LIB_DIR "${DUKE_THIRD_PARTY_DIR}/sdl3/lib/x64")
+else()
+  set(DN_SDL3_LIB_DIR "${DUKE_THIRD_PARTY_DIR}/sdl3/lib/x86")
+endif()
+
+if(NOT EXISTS "${DN_SDL3_LIB_DIR}/SDL3.lib")
+  message(
+    FATAL_ERROR
+      "Missing ${DN_SDL3_LIB_DIR}/SDL3.lib for DN_ARCH=${DN_ARCH}. "
+      "Check the vendored SDL3 development package.")
+endif()
+
+add_library(SDL3 SHARED IMPORTED)
+set_target_properties(SDL3 PROPERTIES
+  IMPORTED_IMPLIB "${DN_SDL3_LIB_DIR}/SDL3.lib"
+  IMPORTED_LOCATION "${DN_SDL3_LIB_DIR}/SDL3.dll"
+  INTERFACE_INCLUDE_DIRECTORIES "${DUKE_THIRD_PARTY_DIR}/sdl3/include")
+
+# The engine ships SDL3.dll next to the executable.
+function(duke_copy_sdl3_dll target)
+  add_custom_command(
+    TARGET ${target} POST_BUILD
+    COMMAND
+      ${CMAKE_COMMAND} -E copy_if_different "${DN_SDL3_LIB_DIR}/SDL3.dll"
+      "$<TARGET_FILE_DIR:${target}>/SDL3.dll"
+    COMMENT "Shipping SDL3.dll")
 endfunction()
