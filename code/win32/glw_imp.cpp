@@ -33,6 +33,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 glwstate_t glw_state;
 
+qboolean GLimp_InitGL(void);
+
 BOOL(WINAPI *wglSwapIntervalEXT)(int interval) = NULL;
 
 extern cvar_t *vid_fullscreen;
@@ -457,7 +459,7 @@ void GLimp_EndFrame(void)
 {
     if (stricmp(gl_drawbuffer->string, "GL_BACK") == 0)
     {
-        if (!wglSwapBuffers(glw_state.hDC))
+        if (!SwapBuffers(glw_state.hDC))
         {
             ri.Sys_Error(ERR_FATAL, "GLimp_EndFrame() - SwapBuffers() failed!\n");
         }
