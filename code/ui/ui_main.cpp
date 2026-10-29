@@ -3,11 +3,13 @@
    placeholders until then. */
 #include "ui_local.h"
 
+dn_ui_import_t uii;
+
 static dn_ui_export_t exports;
 
 static int Init(void)
 {
-    trap_Print("Duke UI module loaded\n");
+    uii.Print("Duke UI module loaded\n");
     return 1;
 }
 
@@ -48,7 +50,7 @@ extern "C" __declspec(dllexport) dn_ui_export_t *GetUIAPI(const dn_ui_import_t *
     {
         return NULL;
     }
-    UI_BindImports(imports);
+    uii = *imports;
     exports.version = DN_UI_API_VERSION;
     exports.size = sizeof(exports);
     exports.Init = Init;
