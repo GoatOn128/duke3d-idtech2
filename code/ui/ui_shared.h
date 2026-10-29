@@ -514,7 +514,9 @@ qboolean PC_String_Parse( int handle, const char **out );
 qboolean PC_Script_Parse( int handle, const char **out );
 qboolean PC_Char_Parse( int handle, char *out );              // NERVE - SMF
 int Menu_Count();
-void Menu_New( int handle );
+qboolean Menu_New( int handle );
+void Menu_Load( const char *menuFile );
+void Menus_Load( const char *menuFile );
 void Menu_PaintAll();
 dnMenu *Menus_ActivateByName( const char *p );
 void Menu_Reset();
@@ -544,6 +546,5 @@ void        Controls_GetConfig( void );
 void        Controls_SetConfig( qboolean restart );
 void        Controls_SetDefaults( void );
 
-/* the .menu script parser stays behind stubs: the Duke menus are code-defined */
 
 #endif

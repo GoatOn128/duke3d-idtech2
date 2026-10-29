@@ -6104,16 +6104,73 @@ qboolean Menu_Parse( int handle, dnMenu *menu ) {
 Menu_New
 ===============
 */
-void Menu_New( int handle ) {
+qboolean Menu_New( int handle ) {
 	dnMenu *menu = &Menus[menuCount];
 
-	if ( menuCount < MAX_MENUS ) {
-		menu->Init();
-		if ( Menu_Parse( handle, menu ) ) {
-			menu->PostParse();
-			menuCount++;
+	if ( menuCount >= MAX_MENUS ) {
+		return qfalse;
+	}
+
+	menu->Init();
+	if ( !Menu_Parse( handle, menu ) ) {
+		return qfalse;
+	}
+	menu->PostParse();
+	menuCount++;
+	return qtrue;
+}
+
+/*
+===============
+Menu_Load
+
+loads every menu in a .menu file; each menu is one braced block
+===============
+*/
+void Menu_Load( const char *menuFile ) {
+	int handle;
+
+	handle = UI_PC_LoadSource( menuFile );
+	if ( !handle ) {
+		UI_Printf( S_COLOR_YELLOW "menu file not found: %s\n", menuFile );
+		return;
+	}
+
+	while ( Menu_New( handle ) ) {
+	}
+
+	UI_PC_FreeSource( handle );
+}
+
+/*
+===============
+Menus_Load
+
+reads the menu list file (load lines naming .menu files) so script menus
+can extend the code-built Duke menus
+===============
+*/
+void Menus_Load( const char *menuFile ) {
+	int handle;
+	pc_token_t token;
+
+	handle = UI_PC_LoadSource( menuFile );
+	if ( !handle ) {
+		UI_Printf( S_COLOR_YELLOW "menu list not found: %s\n", menuFile );
+		return;
+	}
+
+	while ( UI_PC_ReadToken( handle, &token ) ) {
+		if ( Q_stricmp( token.string, "load" ) == 0 ) {
+			if ( UI_PC_ReadToken( handle, &token ) ) {
+				Menu_Load( token.string );
+			}
+		} else {
+			PC_SourceWarning( handle, "expected 'load' but found %s\n", token.string );
 		}
 	}
+
+	UI_PC_FreeSource( handle );
 }
 
 int Menu_Count() {
