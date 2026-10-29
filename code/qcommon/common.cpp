@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "qcommon.h"
 #include <setjmp.h>
 #include "dnthreads.h"
+#include <SDL3/SDL_timer.h>
 
 #define MAXPRINTMSG 4096
 
@@ -48,6 +49,9 @@ cvar_t *fixedtime;
 cvar_t *com_deltaTimeClamp;
 cvar_t *com_fixedTic;
 cvar_t *com_noSleep;
+// BFG game thread cvars (common_frame.cpp port)
+cvar_t *com_smp;       // 1 = run the server frame on the game thread
+cvar_t *com_sleepGame; // debug: stall the game thread to test the overlap
 cvar_t *logfile_active; // 1 = buffer log, 2 = flush after each print
 cvar_t *showtrace;
 cvar_t *dedicated;
@@ -1871,6 +1875,59 @@ void DN_JobsInit(void);
 void DN_JobsShutdown(void);
 
 /*
+================
+DN_GameThread
+
+Runs the server frame off the main thread, like the BFG Edition
+idGameThread (references/doom3-bfg framework/common_frame.cpp; the BFG code
+is GPLv3 and is not compiled in, this is a port of its structure onto
+DN_SysThread).
+
+Divergence from BFG: the BFG game thread also generates the draw commands
+while the main thread renders the previous frame. ref_gl here is immediate
+mode with no command buffers, so only SV_Frame (the game tics and the server
+messages) moves to the worker, and the main thread waits at the sync point
+after running the client frame instead of overlapping a render.
+================
+*/
+class DN_GameThread : public DN_SysThread
+{
+public:
+    void SetFrameTime(int msec) { frameMsec = msec; }
+
+protected:
+    int Run()
+    {
+        jmp_buf unwind;
+
+        // give Com_Error on this thread a place to unwind to
+        Com_SetThreadUnwind(&unwind);
+        if (setjmp(unwind))
+        {
+            // an error unwound the frame; the main thread re-raises it
+            Com_SetThreadUnwind(NULL);
+            return 0;
+        }
+
+        // BFG com_sleepGame debug cvar: stall the game thread
+        if (com_sleepGame && com_sleepGame->value)
+        {
+            SDL_Delay(com_sleepGame->value);
+        }
+
+        SV_Frame(frameMsec);
+
+        Com_SetThreadUnwind(NULL);
+        return 0;
+    }
+
+private:
+    int frameMsec;
+};
+
+static DN_GameThread com_gameThread;
+
+/*
 =============
 Com_Error_f
 
@@ -1964,6 +2021,10 @@ void Qcommon_Init(int argc, char **argv)
     com_deltaTimeClamp = Cvar_Get("com_deltaTimeClamp", "50", 0);
     com_fixedTic = Cvar_Get("com_fixedTic", "0", 0);
     com_noSleep = Cvar_Get("com_noSleep", "0", 0);
+    // BFG com_smp: run the server frame on the game thread (default on,
+    // like the BFG Edition); com_sleepGame stalls it for overlap testing
+    com_smp = Cvar_Get("com_smp", "1", 0);
+    com_sleepGame = Cvar_Get("com_sleepGame", "0", 0);
     logfile_active = Cvar_Get("logfile", "0", 0);
     showtrace = Cvar_Get("showtrace", "0", 0);
 #ifdef DEDICATED_ONLY
@@ -1987,6 +2048,10 @@ void Qcommon_Init(int argc, char **argv)
 
     // SDL is up: start the BFG job threads (qcommon/dnjobs.cpp)
     DN_JobsInit();
+
+    // start the game thread; it runs SV_Frame once per signal (see
+    // Qcommon_Frame, the BFG idGameThread port)
+    com_gameThread.StartWorkerThread("DN-GameThread");
 
     SV_Init();
     CL_Init();
@@ -2099,12 +2164,28 @@ void Qcommon_Frame(int msec)
     } while (s);
     Cbuf_Execute();
 
+    // queued rcon commands run here, while the game thread is idle, so
+    // console commands only ever execute on the main thread (BFG hands
+    // the game thread a frozen userCmdMgr for the same reason)
+    SV_ExecuteQueuedRconCommands();
+
     if (host_speeds->value)
     {
         time_before = Sys_Milliseconds();
     }
 
-    SV_Frame(msec);
+    // hand the server frame to the game thread and run the client frame in
+    // parallel (the BFG idGameThread model). With com_smp 0 everything
+    // stays on the main thread like the classic engine.
+    if (com_smp->value)
+    {
+        com_gameThread.SetFrameTime(msec);
+        com_gameThread.SignalWork();
+    }
+    else
+    {
+        SV_Frame(msec);
+    }
 
     if (host_speeds->value)
     {
@@ -2112,6 +2193,20 @@ void Qcommon_Frame(int msec)
     }
 
     CL_Frame(msec);
+
+    if (com_smp->value)
+    {
+        int code;
+        char msg[MAXPRINTMSG];
+
+        // wait for the server frame to finish; an error raised on the game
+        // thread is re-raised here, where the drop paths can run safely
+        com_gameThread.WaitForThread();
+        if (Com_TakePendingError(&code, msg, sizeof(msg)))
+        {
+            Com_Error(code, "%s", msg);
+        }
+    }
 
     if (host_speeds->value)
     {
@@ -2140,6 +2235,9 @@ Qcommon_Shutdown
 */
 void Qcommon_Shutdown(void)
 {
+    // stop the game thread before the platform shuts down
+    com_gameThread.StopThread(true);
+
     // stop the job threads before the platform shuts down
     DN_JobsShutdown();
 }
