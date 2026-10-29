@@ -27,7 +27,8 @@ static const char *display_choices[MENU_MAX_DISPLAYS + 1];
 /*
 BuildModeList
 
-One label per width/height/hz triple of the discovered mode list.
+One label per entry of the discovered mode list, with the refresh rate
+when the display reported one.
 */
 static void BuildModeList(void)
 {
@@ -42,7 +43,6 @@ static void BuildModeList(void)
     for (i = 0; i < count; i++)
     {
         VID_ModeData(i, &width, &height, &hz);
-        // standard windowed sizes have no discovered rate, so show no hz
         if (hz > 0)
         {
             Com_sprintf(mode_names[i], sizeof(mode_names[i]), "%i x %i @ %iHz", width, height, hz);
@@ -87,8 +87,8 @@ static int ClampMode(int value)
     if (value >= count)
     {
         // mirror the client reset: an off-list gl_mode lands on the
-        // default mode, not on the largest entry
-        return count > 3 ? 3 : count - 1;
+        // default mode picked from the display, not on the largest entry
+        return VID_DefaultMode();
     }
     return value;
 }
@@ -108,7 +108,7 @@ static int ClampDisplay(int value)
 
 static void ResetDefaults(void *unused)
 {
-    mode.curvalue = ClampMode(3);
+    mode.curvalue = ClampMode(VID_DefaultMode());
     fullscreen.curvalue = 0;
     display.curvalue = ClampDisplay(0);
     screen_size.curvalue = 10;
