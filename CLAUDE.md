@@ -16,14 +16,17 @@ three.
     (`menu.cpp`, `qmenu.cpp`), console, keys, cinematics, save menu.
   - `server/` — `sv_*`: world (`sv_world`), entity snapshotting (`sv_ents`),
     commands (`sv_ccmds`), user commands (`sv_user`), game API glue
-    (`sv_game`).
+    (`sv_game`), game tic thread (`sv_gamethread`, the BFG idGameThread
+    port).
   - `qcommon/` — shared engine code: `cmd`, `cvar`, `files`, `cmodel`
     (collision), `pmove`, `net_chan`, `md4`, `crc`, plus the Duke-native
     heart of the port: `dnmap` (Build `.map` loader), `dnvisibility`,
     `dntransport` (subst/travel moves), `dncon` (CON scripting),
     `dnplayermove`, `dnmath`, `dnpcx`, `dnanimation`, `dnzrange`, plus
     the Doom 3 BFG threading port: `dnthreads` (thread, signal, mutex
-    and atomic primitives) and `dnjobs` (parallel job lists), plus the BFG console
+    and atomic primitives), `dnjobs` (parallel job lists) and
+    `dnerrortrap` (Com_Error trap for errors raised on the game
+    thread), plus the BFG console
     port: `dneditfield` (console edit field) and `dnconsolehistory`
     (persistent console history).
   - `ref_gl/` — the OpenGL renderer module: `gl_image`, `gl_model`,
@@ -176,6 +179,7 @@ assuming a build ran against it.
 | Save/load | `game/dnsave.cpp`, `client/dnsavemenu.cpp` |
 | Platform specifics | `sdl/sdl_sys.cpp`, `sdl/sdl_vid.cpp`, `ref_gl/glimp_sdl.cpp` |
 | Parallel jobs and threads | `qcommon/dnjobs.cpp`, `qcommon/dnthreads.cpp` |
+| Game thread | `server/sv_gamethread.cpp`, `qcommon/dnerrortrap.cpp`, `server/sv_main.cpp` (`SV_RunGameFrame`) |
 | Frame stepping and rate caps | `qcommon/common.cpp` (`Qcommon_Frame`), `client/cl_main.cpp` (`CL_Frame`) |
 | Parallel mesh builds | `ref_gl/dnrender.cpp`, `qcommon/dnjobs.cpp` (`DN_JobsParallelFor`) |
 | Console edit field and history | `qcommon/dneditfield.cpp`, `qcommon/dnconsolehistory.cpp`, `client/console.cpp` |
