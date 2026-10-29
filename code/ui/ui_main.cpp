@@ -422,8 +422,8 @@ static void KeyEvent( int key, int down ) {
     Duke_KeyEvent( key, down );
 }
 
-static void MouseEvent( int dx, int dy ) {
-    Duke_MouseEvent( dx, dy );
+static void MouseEvent( int x, int y ) {
+    Duke_MouseEvent( x, y );
 }
 
 static void Refresh( int realtime ) {
@@ -442,6 +442,10 @@ static int IsFullscreen( void ) {
 
 static void SetActiveMenu( dn_uimenu_t menu ) {
     Duke_SetActiveMenu( menu );
+}
+
+static void OpenMenu( const char *name ) {
+    Duke_OpenMenu( name );
 }
 
 static int ConsoleCommand( int ) {
@@ -463,6 +467,7 @@ extern "C" __declspec( dllexport ) dn_ui_export_t *GetUIAPI( const dn_ui_import_
     exports.Refresh = Refresh;
     exports.IsFullscreen = IsFullscreen;
     exports.SetActiveMenu = SetActiveMenu;
+    exports.OpenMenu = OpenMenu;
     exports.ConsoleCommand = ConsoleCommand;
     return &exports;
 }

@@ -603,7 +603,7 @@ void Duke_KeyEvent( int key, int down ) {
     Display_HandleKey( key, down, dc->cursorx, dc->cursory );
 }
 
-void Duke_MouseEvent( int dx, int dy ) {
+void Duke_MouseEvent( int x, int y ) {
     displayContextDef_t *dc = Display_GetContext();
     int width = 640, height = 480;
 
@@ -615,10 +615,10 @@ void Duke_MouseEvent( int dx, int dy ) {
         height = 480;
     }
 
-    /* mouse deltas arrive in device pixels, the framework works in the
+    /* absolute window coordinates arrive, the framework works in the
        640x480 virtual menu space */
-    dc->cursorx += ( int )( dx * ( 640.0f / width ) );
-    dc->cursory += ( int )( dy * ( 480.0f / height ) );
+    dc->cursorx = x * SCREEN_WIDTH / width;
+    dc->cursory = y * SCREEN_HEIGHT / height;
     if ( dc->cursorx < 0 ) {
         dc->cursorx = 0;
     }
@@ -638,6 +638,14 @@ void Duke_SetActiveMenu( dn_uimenu_t menu ) {
     Menus_CloseAll();
     if ( menu != DN_UIMENU_NONE ) {
         Menus_OpenByName( "main" );
+    }
+}
+
+/* engine console commands open a module menu by name */
+void Duke_OpenMenu( const char *name ) {
+    Menus_CloseAll();
+    if ( name && name[0] ) {
+        Menus_OpenByName( name );
     }
 }
 

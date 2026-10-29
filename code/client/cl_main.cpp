@@ -648,7 +648,7 @@ void CL_Disconnect(void)
     VectorClear(cl.refdef.blend);
     re.CinematicSetPalette(NULL);
 
-    M_ForceMenuOff();
+    UI_ForceMenuOff();
 
     cls.connect_time = 0;
 
@@ -695,7 +695,7 @@ void CL_Disconnect_f(void)
 
     CL_Disconnect();
 
-    M_Menu_Main_f();
+    UI_OpenMainMenu();
 }
 
 /*
@@ -1974,8 +1974,6 @@ void CL_Init(void)
 
     net_message.data = net_message_buffer;
     net_message.maxsize = sizeof(net_message_buffer);
-
-    M_Init();
 
     SCR_Init();
     cls.disable_screen = true; // don't draw yet

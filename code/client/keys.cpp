@@ -580,11 +580,11 @@ void Key_Event (int key, qboolean down, unsigned time)
 			Key_Message (key);
 			break;
 		case key_menu:
-			M_Keydown (key);
+			UI_KeyEvent (key, true);
 			break;
 		case key_game:
 		case key_console:
-			M_Menu_Main_f ();
+			UI_OpenMainMenu ();
 			break;
 		default:
 			Com_Error (ERR_FATAL, "Bad cls.key_dest");
@@ -669,7 +669,7 @@ void Key_Event (int key, qboolean down, unsigned time)
 		Key_Message (key);
 		break;
 	case key_menu:
-		M_Keydown (key);
+		UI_KeyEvent (key, true);
 		break;
 
 	case key_game:

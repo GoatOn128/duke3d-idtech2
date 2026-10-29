@@ -595,6 +595,189 @@ static int UI_GetCredits(char *buffer, uint32_t size)
     return count;
 }
 
+/* ---- menu entry points replacing the old client menu stack ---- */
+
+/* Cooked character flag matching K_CHAR_FLAG in the module keycodes.h:
+   the idTech 3 edit fields type through char-flagged printable keys. */
+#define UI_CHAR_FLAG 256
+
+void UI_KeyEvent(int key, qboolean down)
+{
+    if (DN_IntroActive())
+    {
+        if (down)
+        {
+            DN_IntroKey(key);
+        }
+        return;
+    }
+    if (!ui)
+    {
+        return;
+    }
+    if (key >= 32 && key < 127)
+    {
+        ui->KeyEvent(key | UI_CHAR_FLAG, down != 0);
+    }
+    else
+    {
+        ui->KeyEvent(key, down != 0);
+    }
+}
+
+void UI_MouseMove(int x, int y)
+{
+    if (ui && cls.key_dest == key_menu)
+    {
+        ui->MouseEvent(x, y);
+    }
+}
+
+void UI_Refresh(void)
+{
+    if (cls.key_dest != key_menu)
+    {
+        return;
+    }
+    if (DN_IntroActive())
+    {
+        DN_IntroDraw();
+        return;
+    }
+    if (!ui)
+    {
+        return;
+    }
+    ui->Refresh(Sys_Milliseconds());
+    // the module closes its own menus; follow it back out of menu mode
+    if (!ui->IsFullscreen())
+    {
+        cls.key_dest = key_game;
+    }
+}
+
+void UI_OpenMainMenu(void)
+{
+    if (ui)
+    {
+        ui->SetActiveMenu(DN_UIMENU_MAIN);
+    }
+    cls.key_dest = key_menu;
+    // a disconnect stops the level music; bring back the menu theme
+    if (cls.state == ca_disconnected)
+    {
+        S_MusicPlay("grabbag.mp3", true);
+    }
+}
+
+void UI_ForceMenuOff(void)
+{
+    if (ui)
+    {
+        ui->SetActiveMenu(DN_UIMENU_NONE);
+    }
+    if (DN_IntroActive())
+    {
+        DN_IntroShutdown();
+    }
+    cls.key_dest = key_game;
+    Key_ClearStates();
+    Cvar_Set("paused", "0");
+}
+
+/* console commands the engine menu.cpp used to register, mapped onto the
+   module menus like uiMenuCommand_t in the id Tech 3 UI */
+typedef struct
+{
+    char *command;
+    char *menu;
+} ui_menu_command_t;
+
+static const ui_menu_command_t ui_menu_commands[] = {
+    {"menu_main", "main"},
+    {"menu_game", "game_episodes"},
+    {"menu_loadgame", "loadgame"},
+    {"menu_savegame", "savegame"},
+    {"menu_joinserver", "joinserver"},
+    {"menu_addressbook", "addressbook"},
+    {"menu_startserver", "startserver"},
+    {"menu_dmoptions", "dmoptions"},
+    {"menu_playerconfig", "playerconfig"},
+    {"menu_downloadoptions", "downloadoptions"},
+    {"menu_credits", "credits"},
+    {"menu_multiplayer", "multiplayer"},
+    {"menu_video", "video"},
+    {"menu_options", "options"},
+    {"menu_keys", "keys"},
+    {"menu_quit", "quit"},
+};
+
+static void UI_MenuCommand_f(void)
+{
+    const char *cmd = Cmd_Argv(0);
+    int i;
+
+    for (i = 0; i < (int)(sizeof(ui_menu_commands) / sizeof(ui_menu_commands[0])); i++)
+    {
+        if (!strcmp(cmd, ui_menu_commands[i].command))
+        {
+            if (!strcmp(ui_menu_commands[i].menu, "main"))
+            {
+                UI_OpenMainMenu();
+            }
+            else
+            {
+                if (ui && ui->OpenMenu)
+                {
+                    ui->OpenMenu(ui_menu_commands[i].menu);
+                }
+                cls.key_dest = key_menu;
+            }
+            return;
+        }
+    }
+}
+
+static void UI_MenuInfo_f(void)
+{
+    Com_Printf("Duke menu: input %d module %d\n", cls.key_dest,
+               ui && ui->IsFullscreen() ? 1 : 0);
+}
+
+static void UI_QuickSave_f(void)
+{
+    int slot = (int)Cvar_VariableValue("dn_save_slot");
+
+    if (slot < 1 || slot > 10)
+    {
+        slot = 1;
+    }
+    if (!Com_ServerState() || cls.state != ca_active || Cvar_VariableValue("deathmatch") ||
+        cl.frame.playerstate.stats[STAT_HEALTH] <= 0)
+    {
+        Com_Printf("Save requires a living player in a local non-deathmatch game.\n");
+        return;
+    }
+    Cbuf_InsertText(va("save save%d \"%s\"\n", slot, cl.configstrings[CS_NAME]));
+}
+
+static void UI_QuickLoad_f(void)
+{
+    int slot = (int)Cvar_VariableValue("dn_save_slot");
+
+    if (slot >= 1 && slot <= 10)
+    {
+        Cbuf_InsertText(va("load save%d\n", slot));
+        return;
+    }
+    // no remembered slot: open the load menu instead of failing silently
+    if (ui && ui->OpenMenu)
+    {
+        ui->OpenMenu("loadgame");
+    }
+    cls.key_dest = key_menu;
+}
+
 void CL_UnloadUI(void)
 {
     if (ui)
@@ -695,5 +878,17 @@ dn_ui_export_t *CL_LoadUI(void)
 
 void CL_InitUI(void)
 {
+    int i;
+
     CL_LoadUI();
+    // the commands menu.cpp and dnsavemenu.cpp used to register
+    Cvar_Get("dn_save_slot", "-1", CVAR_ARCHIVE);
+    Cmd_AddCommand("quicksave", UI_QuickSave_f);
+    Cmd_AddCommand("quickload", UI_QuickLoad_f);
+    Cmd_AddCommand("dn_menuinfo", UI_MenuInfo_f);
+    Cmd_AddCommand("dn_intro", DN_IntroStart);
+    for (i = 0; i < (int)(sizeof(ui_menu_commands) / sizeof(ui_menu_commands[0])); i++)
+    {
+        Cmd_AddCommand(ui_menu_commands[i].command, UI_MenuCommand_f);
+    }
 }

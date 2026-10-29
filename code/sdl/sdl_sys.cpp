@@ -370,7 +370,7 @@ void Sys_SendKeyEvents(void)
 
         case SDL_EVENT_MOUSE_MOTION:
             // absolute coordinates drive the menu cursor, relative deltas the view
-            M_MouseMove((int)event.motion.x, (int)event.motion.y);
+            UI_MouseMove((int)event.motion.x, (int)event.motion.y);
             mx_accum += (int)event.motion.xrel;
             my_accum += (int)event.motion.yrel;
             break;

@@ -1540,7 +1540,7 @@ void SCR_UpdateScreen(void)
                     re.CinematicSetPalette(NULL);
                     cl.cinematicpalette_active = false;
                 }
-                M_Draw();
+                UI_Refresh();
                 //				re.EndFrame();
                 //				return;
             }
@@ -1580,7 +1580,7 @@ void SCR_UpdateScreen(void)
                 {
                     DN_MenuBackground();
                 }
-                M_Draw();
+                UI_Refresh();
                 SCR_DrawConsole();
                 SCR_DrawLoading();
                 continue;
@@ -1620,7 +1620,7 @@ void SCR_UpdateScreen(void)
 
             SCR_DrawPause();
 
-            M_Draw();
+            UI_Refresh();
 
             SCR_DrawConsole();
 
