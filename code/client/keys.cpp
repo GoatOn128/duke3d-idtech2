@@ -534,10 +534,20 @@ void Key_Event (int key, qboolean down, unsigned time)
 		shift_down = down;
 
 	// console key is hardcoded, so the user can never unbind it
+	// idTech 3/4 style: opens at half screen, or at a quarter with shift
+	// held; while open, the key switches the height instead of closing
 	if (key == '`' || key == '~')
 	{
+		float height = (shift_down || key == '~') ? 0.25 : 0.5;
+
 		if (!down)
 			return;
+		if (cls.key_dest == key_console && scr_conheight != height)
+		{
+			scr_conheight = height;
+			return;
+		}
+		scr_conheight = height;
 		Con_ToggleConsole_f ();
 		return;
 	}
