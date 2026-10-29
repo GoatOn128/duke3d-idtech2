@@ -119,8 +119,12 @@ Legend:
       IsFullscreen, SetActiveMenu, ConsoleCommand, all stubs for now),
       loaded through `client/dnui.cpp` (`CL_InitUI` at startup,
       `CL_UnloadUI` at shutdown)
-- [ ] Engine-side UI syscalls (cvars, filesystem, cmd, keys, sound,
-      renderer draw calls)
+- [x] Engine-side UI syscalls: `dn_ui_import_t` v2 with idTech 3-style
+      trap wrappers in `ui/ui_syscalls.cpp` (cvars, cmd exec, file reads,
+      keys and bindings, overstrike, video mode, conn state, pic
+      registration and draw, local sound, UpdateScreen) plus the Duke menu
+      ownerdraws (UiTile, MenuText, MenuCursor, MenuBackground, MenuSound
+      mapping the menu.cpp sounds)
 - [ ] Port the idTech 3 menu framework (`ui_shared`)
 - [ ] Duke menus on the idTech 3 framework (main, new game, options,
       load, save)

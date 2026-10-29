@@ -3,6 +3,7 @@
 add_library(
   ui SHARED
   ui/ui_main.cpp
+  ui/ui_syscalls.cpp
   ui/ui.def)
 
 duke_declare_game_module(ui uix86)
