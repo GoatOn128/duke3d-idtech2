@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // live in ref_gl (glimp_sdl.cpp); refresh loading and video state live in
 // sdl_vid.cpp.
 
-#include "../qcommon/qcommon.h"
 #include "../client/client.h"
 #include "sdl_sys.h"
 

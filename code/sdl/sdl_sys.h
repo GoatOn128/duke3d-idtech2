@@ -1,7 +1,7 @@
 #ifndef SDL_SYS_H
 #define SDL_SYS_H
 
-#include "../qcommon/qcommon.h"
+// include client.h (or qcommon.h) before this header; it is not self-contained
 
 typedef struct SDL_Window SDL_Window;
 
