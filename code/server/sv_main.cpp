@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "server.h"
+#include "../qcommon/dnthreads.h"
 
 netadr_t master_adr[MAX_MASTERS]; // address of group servers
 
@@ -51,6 +52,27 @@ cvar_t *hostname;
 cvar_t *public_server; // should heartbeats be sent
 
 cvar_t *sv_reconnect_limit; // minimum seconds between connect messages
+
+/*
+Remote console commands arrive on the game thread, but console commands must
+only run on the main thread. SVC_RemoteCommand validates them and stores them
+here; the main frame drains the queue.
+*/
+#define MAX_RCON_QUEUE 8
+
+typedef struct
+{
+    netadr_t adr;       // who sent the command, for the reply
+    char command[1024]; // the command text
+    qboolean valid;     // passed the rcon password check
+} rconCommand_t;
+
+static rconCommand_t sv_rconQueue[MAX_RCON_QUEUE];
+static int sv_rconHead;
+static int sv_rconCount;
+static DN_SysMutex *sv_rconMutex;
+
+extern netadr_t sv_rconAdr; // defined in sv_send.cpp, reply address
 
 void Master_Shutdown(void);
 
@@ -448,17 +470,22 @@ SVC_RemoteCommand
 
 A client issued an rcon command.
 Shift down the remaining args
-Redirect all printfs
+
+The server frame now runs on the game thread, so console commands cannot
+be executed here. The command is validated and queued, and the main thread
+executes it through SV_ExecuteQueuedRconCommands.
 ===============
 */
 void SVC_RemoteCommand(void)
 {
     int i;
+    qboolean valid;
     char remaining[1024];
+    rconCommand_t *cmd;
 
-    i = Rcon_Validate();
+    valid = Rcon_Validate() != 0;
 
-    if (i == 0)
+    if (!valid)
     {
         Com_Printf("Bad rcon from %s:\n%s\n", NET_AdrToString(net_from), net_message.data + 4);
     }
@@ -467,26 +494,80 @@ void SVC_RemoteCommand(void)
         Com_Printf("Rcon from %s:\n%s\n", NET_AdrToString(net_from), net_message.data + 4);
     }
 
-    Com_BeginRedirect(RD_PACKET, sv_outputbuf, SV_OUTPUTBUF_LENGTH, (void *)SV_FlushRedirect);
+    remaining[0] = 0;
 
-    if (!Rcon_Validate())
+    for (i = 2; i < Cmd_Argc(); i++)
     {
-        Com_Printf("Bad rcon_password.\n");
+        strcat(remaining, Cmd_Argv(i));
+        strcat(remaining, " ");
     }
-    else
-    {
-        remaining[0] = 0;
 
-        for (i = 2; i < Cmd_Argc(); i++)
+    if (!sv_rconMutex)
+    {
+        return; // nothing can execute the command yet
+    }
+
+    DN_ScopedCriticalSection lock(*sv_rconMutex);
+
+    if (sv_rconCount >= MAX_RCON_QUEUE)
+    {
+        return; // drop floods instead of blocking the game thread
+    }
+
+    cmd = &sv_rconQueue[(sv_rconHead + sv_rconCount) % MAX_RCON_QUEUE];
+    cmd->adr = net_from;
+    cmd->valid = valid;
+    strncpy(cmd->command, remaining, sizeof(cmd->command) - 1);
+    cmd->command[sizeof(cmd->command) - 1] = 0;
+    sv_rconCount++;
+}
+
+/*
+===============
+SV_ExecuteQueuedRconCommands
+
+Runs the remote commands that were received by the game thread. Console
+commands must run on the main thread, so Qcommon_Frame calls this. The
+reply goes to the address stored with the command, since net_from has long
+been overwritten by then.
+===============
+*/
+void SV_ExecuteQueuedRconCommands(void)
+{
+    rconCommand_t cmd;
+
+    if (!sv_rconMutex)
+    {
+        return;
+    }
+
+    while (sv_rconCount > 0)
+    {
         {
-            strcat(remaining, Cmd_Argv(i));
-            strcat(remaining, " ");
+            DN_ScopedCriticalSection lock(*sv_rconMutex);
+            cmd = sv_rconQueue[sv_rconHead];
+            sv_rconHead = (sv_rconHead + 1) % MAX_RCON_QUEUE;
+            sv_rconCount--;
         }
 
-        Cmd_ExecuteString(remaining);
-    }
+        // point the redirect target at the requester while it runs
+        sv_rconAdr = cmd.adr;
 
-    Com_EndRedirect();
+        Com_BeginRedirect(RD_PACKET, sv_outputbuf, SV_OUTPUTBUF_LENGTH, (void *)SV_FlushRedirect);
+
+        if (!cmd.valid)
+        {
+            Com_Printf("Bad rcon_password.\n");
+        }
+        else
+        {
+            Cmd_ExecuteString(cmd.command);
+        }
+
+        Com_EndRedirect();
+
+        memset(&sv_rconAdr, 0, sizeof(sv_rconAdr));
+    }
 }
 
 /*
@@ -1073,6 +1154,9 @@ void SV_Init(void)
     sv_reconnect_limit = Cvar_Get("sv_reconnect_limit", "3", CVAR_ARCHIVE);
 
     SZ_Init(&net_message, net_message_buffer, sizeof(net_message_buffer));
+
+    // the queue is filled by the game thread and drained by the main thread
+    sv_rconMutex = new DN_SysMutex();
 }
 
 /*

@@ -31,11 +31,17 @@ Com_Printf redirection
 
 char sv_outputbuf[SV_OUTPUTBUF_LENGTH];
 
+// Reply address for remote commands. They run on the main thread after the
+// packet that asked for them was already handled, so net_from can no longer
+// be trusted; sv_main.cpp stores the requester here while they execute.
+netadr_t sv_rconAdr;
+
 void SV_FlushRedirect(int sv_redirected, char *outputbuf)
 {
     if (sv_redirected == RD_PACKET)
     {
-        Netchan_OutOfBandPrint(NS_SERVER, net_from, "print\n%s", outputbuf);
+        Netchan_OutOfBandPrint(NS_SERVER, sv_rconAdr.port ? sv_rconAdr : net_from,
+                               "print\n%s", outputbuf);
     }
     else if (sv_redirected == RD_CLIENT)
     {

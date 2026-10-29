@@ -849,3 +849,6 @@ void SCR_BeginLoadingPlaque(void);
 void SV_Init(void);
 void SV_Shutdown(char *finalmsg, qboolean reconnect);
 void SV_Frame(int msec);
+
+// rcon commands are queued by the game thread and run here, on the main thread
+void SV_ExecuteQueuedRconCommands(void);
