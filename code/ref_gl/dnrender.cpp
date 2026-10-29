@@ -429,14 +429,14 @@ void R_DukeLoad(model_t *model, void *buffer, int length)
     size = ri.FS_LoadFile("sprites/tiles.dat", &meta);
     if (size != sizeof(tiles))
     {
-        ri.Sys_Error(ERR_DROP, "Missing Duke tile metadata; run tools/prepare_assets.py");
+        ri.Sys_Error(ERR_DROP, "Missing Duke tile metadata; run convertgrp");
     }
     memcpy(tiles, meta, sizeof(tiles));
     ri.FS_FreeFile(meta);
     size = ri.FS_LoadFile("sprites/tables.dat", &meta);
     if (size < 0 || !DN_MathInit(meta, size))
     {
-        ri.Sys_Error(ERR_DROP, "Missing Build TABLES.DAT; run tools/prepare_assets.py");
+        ri.Sys_Error(ERR_DROP, "Missing Build TABLES.DAT; run convertgrp");
     }
     ri.FS_FreeFile(meta);
     meshes = (dn_mesh_t *)(calloc(r_duke_map.numsectors, sizeof(*meshes)));
