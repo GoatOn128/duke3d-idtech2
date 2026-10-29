@@ -668,6 +668,11 @@ void CL_Disconnect(void)
 
     CL_ClearState();
 
+    // a map track started from a configstring is not covered by
+    // S_StopAllSounds, so stop it here or it keeps playing over
+    // the menu after a disconnect
+    S_MusicStop();
+
     // stop download
     if (cls.download)
     {
@@ -680,7 +685,17 @@ void CL_Disconnect(void)
 
 void CL_Disconnect_f(void)
 {
-    Com_Error(ERR_DROP, "Disconnected from server");
+    // like the idTech3 and idTech4 front ends: shut down quietly and
+    // land at the main menu instead of dropping the console with an
+    // error banner
+    if (Com_ServerState())
+    { // if running a local server, kill it
+        SV_Shutdown(va("Server disconnected\n"), false);
+    }
+
+    CL_Disconnect();
+
+    M_Menu_Main_f();
 }
 
 /*
