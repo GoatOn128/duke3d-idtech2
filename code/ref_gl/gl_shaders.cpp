@@ -252,6 +252,12 @@ void R_InitShaders(void)
     byte white[4] = {255, 255, 255, 255};
 
     r_program = glCreateProgram();
+    // Pin the attribute locations; the VAO setup below assumes 0-3 and the
+    // linker is free to renumber them otherwise.
+    glBindAttribLocation(r_program, 0, "aPosition");
+    glBindAttribLocation(r_program, 1, "aTexCoord");
+    glBindAttribLocation(r_program, 2, "aLightCoord");
+    glBindAttribLocation(r_program, 3, "aColor");
     R_CompileShader(GL_VERTEX_SHADER, r_program, r_vertex_source, "vertex");
     R_CompileShader(GL_FRAGMENT_SHADER, r_program, r_fragment_source, "fragment");
     glLinkProgram(r_program);
