@@ -1180,7 +1180,7 @@ static void ControlsSetMenuItemValues(void)
 
     Cvar_SetValue("in_joystick", ClampCvar(0, 1, in_joystick->value));
     s_options_joystick_box.curvalue = in_joystick->value;
-
+}
 
 static void ControlsResetDefaultsFunc(void *unused)
 {
