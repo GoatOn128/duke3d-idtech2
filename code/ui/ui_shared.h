@@ -129,7 +129,8 @@ typedef struct {
 typedef rectDef_t Rectangle;
 
 // FIXME: do something to separate text vs window stuff
-typedef struct {
+class dnWindow {
+public:
 	Rectangle rect;                 // client coord rectangle
 	Rectangle rectClient;           // screen coord rectangle
 	const char *name;               //
@@ -152,9 +153,9 @@ typedef struct {
 	vec4_t borderColor;             // border color
 	vec4_t outlineColor;            // border color
 	qhandle_t background;           // background asset
-} windowDef_t;
+};
 
-typedef windowDef_t Window;
+typedef dnWindow Window;
 
 
 typedef struct {
@@ -242,7 +243,8 @@ typedef struct modelDef_s {
 
 #define UI_MAX_TEXT_LINES 64
 
-typedef struct itemDef_s {
+class dnItem {
+public:
 	Window window;                  // common positional, border, style, layout info
 	Rectangle textRect;             // rectangle the text ( if any ) consumes
 	int type;                       // text, button, radiobutton, checkbox, textfield, listbox, combo
@@ -276,9 +278,13 @@ typedef struct itemDef_s {
 	float special;                  // used for feeder id's etc.. diff per type
 	int cursorPos;                  // cursor position in characters
 	void *typeData;                 // type specific data ptr's
-} itemDef_t;
 
-typedef struct {
+	/* resets the item to its defaults; the parser and the Duke builders share it */
+	void Init( void );
+};
+
+class dnMenu {
+public:
 	Window window;
 	const char  *font;              // font
 	qboolean fullScreen;            // covers entire screen
@@ -297,8 +303,14 @@ typedef struct {
 
 	vec4_t focusColor;              // focus color for items
 	vec4_t disableColor;            // focus color for items
-	itemDef_t *items[MAX_MENUITEMS]; // items this menu contains
-} menuDef_t;
+	dnItem *items[MAX_MENUITEMS]; // items this menu contains
+
+	/* framework defaults and the by-name item lookups as methods */
+	void Init( void );
+	dnItem *FindItemByName( const char *p );
+	int ItemsMatchingGroup( const char *name );
+	dnItem *GetMatchingItemByNumber( int index, const char *name );
+};
 
 typedef struct {
 	const char  *fontStr;
@@ -343,7 +355,7 @@ typedef struct {
 
 typedef struct {
 	const char *name;
-	void ( *handler )( itemDef_t *item, char** args );
+	void ( *handler )( dnItem *item, char** args );
 } commandDef_t;
 
 typedef struct {
@@ -442,16 +454,14 @@ void String_Init();
 void String_Report();
 void Init_Display( displayContextDef_t *dc );
 void Display_ExpandMacros( char * buff );
-void Menu_Init( menuDef_t *menu );
 /* code-built menus: allocate a menu, add items, then call Menu_PostParse */
-menuDef_t *Menu_Alloc( const char *name );
-itemDef_t *Menu_AddItem( menuDef_t *menu, const char *name );
-void Item_Init( itemDef_t *item );
-void Menu_PostParse( menuDef_t *menu );
-menuDef_t *Menu_GetFocused();
-void Menu_HandleKey( menuDef_t *menu, int key, qboolean down );
-void Menu_HandleMouseMove( menuDef_t *menu, float x, float y );
-void Menu_ScrollFeeder( menuDef_t *menu, int feeder, qboolean down );
+dnMenu *Menu_Alloc( const char *name );
+dnItem *Menu_AddItem( dnMenu *menu, const char *name );
+void Menu_PostParse( dnMenu *menu );
+dnMenu *Menu_GetFocused();
+void Menu_HandleKey( dnMenu *menu, int key, qboolean down );
+void Menu_HandleMouseMove( dnMenu *menu, float x, float y );
+void Menu_ScrollFeeder( dnMenu *menu, int feeder, qboolean down );
 qboolean Float_Parse( char **p, float *f );
 qboolean Color_Parse( char **p, vec4_t *c );
 qboolean Int_Parse( char **p, int *i );
@@ -468,10 +478,10 @@ qboolean PC_Char_Parse( int handle, char *out );              // NERVE - SMF
 int Menu_Count();
 void Menu_New( int handle );
 void Menu_PaintAll();
-menuDef_t *Menus_ActivateByName( const char *p );
+dnMenu *Menus_ActivateByName( const char *p );
 void Menu_Reset();
 qboolean Menus_AnyFullScreenVisible();
-void  Menus_Activate( menuDef_t *menu );
+void  Menus_Activate( dnMenu *menu );
 
 displayContextDef_t *Display_GetContext();
 void        *Display_CaptureItem( int x, int y );
@@ -479,14 +489,14 @@ qboolean    Display_MouseMove( void *p, int x, int y );
 int         Display_CursorType( int x, int y );
 qboolean    Display_KeyBindPending();
 void        Menus_OpenByName( const char *p );
-menuDef_t   *Menus_FindByName( const char *p );
+dnMenu   *Menus_FindByName( const char *p );
 void        Menus_ShowByName( const char *p );
 void        Menus_CloseByName( const char *p );
 void        Display_HandleKey( int key, qboolean down, int x, int y );
 void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
 void        Menus_CloseAll();
-void        Menu_Paint( menuDef_t *menu, qboolean forcePaint );
-void        Menu_SetFeederSelection( menuDef_t *menu, int feeder, int index, const char *name );
+void        Menu_Paint( dnMenu *menu, qboolean forcePaint );
+void        Menu_SetFeederSelection( dnMenu *menu, int feeder, int index, const char *name );
 void        Display_CacheAll();
 
 void        *UI_Alloc( int size );
