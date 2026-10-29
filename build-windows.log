@@ -17,7 +17,7 @@ InstalledDir: C:\Program Files\LLVM\bin
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Asset preparation skipped: needs 3drealms/duke3d.grp.
--- Configuring done (10.1s)
+-- Configuring done (10.2s)
 -- Generating done (0.1s)
 -- Build files have been written to: D:/a/duke3d-idtech2/duke3d-idtech2/code/out/build/x86
 === build: windows-clang-x86 preset ===
@@ -25,27 +25,27 @@ InstalledDir: C:\Program Files\LLVM\bin
 [1/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj
 [2/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj
 [3/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj
-[4/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
-[5/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
-[6/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
+[4/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
+[5/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
+[6/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
 [7/150] Building CXX object CMakeFiles\ref_gl.dir\game\q_shared.cpp.obj
 [8/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_shaders.cpp.obj
 [9/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_warp.cpp.obj
 [10/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rsurf.cpp.obj
 [11/150] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dntransport.cpp.obj
 [12/150] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnpcx.cpp.obj
-[13/150] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
+[13/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
 [14/150] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj
-[15/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
+[15/150] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
 [16/150] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
 [17/150] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
 [18/150] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
 [19/150] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
-[20/150] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
-[21/150] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
+[20/150] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
+[21/150] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
 [22/150] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
-[23/150] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
-[24/150] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
+[23/150] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
+[24/150] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
 [25/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\glimp_sdl.cpp.obj
 [26/150] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
 [27/150] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
@@ -54,122 +54,117 @@ InstalledDir: C:\Program Files\LLVM\bin
 [30/150] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
 [31/150] Building CXX object CMakeFiles\game.dir\game\dnweapons.cpp.obj
 [32/150] Building CXX object CMakeFiles\game.dir\game\dndamage.cpp.obj
-[33/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
-[34/150] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
-[35/150] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
-[36/150] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
-[37/150] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
-[38/150] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
-[39/150] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
+[33/150] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
+[34/150] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
+[35/150] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
+[36/150] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
+[37/150] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
+[38/150] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
+[39/150] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
 [40/150] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
-[41/150] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
-[42/150] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
-[43/150] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
-[44/150] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
-[45/150] Building CXX object CMakeFiles\game.dir\game\dntransport.cpp.obj
+[41/150] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
+[42/150] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
+[43/150] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
+[44/150] Building CXX object CMakeFiles\game.dir\game\dntransport.cpp.obj
+[45/150] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
 [46/150] Building CXX object CMakeFiles\game.dir\game\dnstyles.cpp.obj
 [47/150] Building CXX object CMakeFiles\game.dir\game\dndestruct.cpp.obj
 [48/150] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
 [49/150] Building CXX object CMakeFiles\game.dir\game\dnsectors.cpp.obj
-[50/150] Building CXX object CMakeFiles\game.dir\game\dnfallers.cpp.obj
-[51/150] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
-[52/150] Building CXX object CMakeFiles\game.dir\game\dneffects.cpp.obj
-[53/150] Building CXX object CMakeFiles\game.dir\game\dnmapspawn.cpp.obj
-[54/150] Building CXX object CMakeFiles\game.dir\game\dngibs.cpp.obj
+[50/150] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
+[51/150] Building CXX object CMakeFiles\game.dir\game\dnfallers.cpp.obj
+[52/150] Building CXX object CMakeFiles\game.dir\game\dnmapspawn.cpp.obj
+[53/150] Building CXX object CMakeFiles\game.dir\game\dngibs.cpp.obj
+[54/150] Building CXX object CMakeFiles\game.dir\game\dneffects.cpp.obj
 [55/150] Building CXX object CMakeFiles\game.dir\game\dndecals.cpp.obj
-[56/150] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
-[57/150] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
-[58/150] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
-[59/150] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
+[56/150] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
+[57/150] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
+[58/150] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
+[59/150] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
 [60/150] Building CXX object CMakeFiles\game.dir\qcommon\dnanimation.cpp.obj
 [61/150] Building CXX object CMakeFiles\game.dir\qcommon\dnmath.cpp.obj
 [62/150] Building CXX object CMakeFiles\game.dir\game\dnconrun.cpp.obj
 [63/150] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
 [64/150] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
-[65/150] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
-[66/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dnenemies.cpp.obj
+[65/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dnenemies.cpp.obj
+[66/150] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
 [67/150] Building CXX object CMakeFiles\cgame.dir\cgame\dnmain.cpp.obj
-[68/150] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponview.cpp.obj
-[69/150] Building CXX object CMakeFiles\game.dir\game\q_shared.cpp.obj
-[70/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dnzrange.cpp.obj
-[71/150] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
-[72/150] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
-[73/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
-[74/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dnanimation.cpp.obj
+[68/150] Building CXX object CMakeFiles\game.dir\game\q_shared.cpp.obj
+[69/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dnzrange.cpp.obj
+[70/150] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponview.cpp.obj
+[71/150] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
+[72/150] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
+[73/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dnanimation.cpp.obj
+[74/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
 [75/150] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
-[76/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
-[77/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
-[78/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
-[79/150] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
+[76/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
+[77/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
+[78/150] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
+[79/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
 [80/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
 [81/150] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
-[82/150] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
-[83/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_input.cpp.obj
-[84/150] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
-[85/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_ents.cpp.obj
-[86/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_inv.cpp.obj
-[87/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
-[88/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_parse.cpp.obj
+[82/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_input.cpp.obj
+[83/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_ents.cpp.obj
+[84/150] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
+[85/150] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
+[86/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
+[87/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_inv.cpp.obj
+[88/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
 [89/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_newfx.cpp.obj
-[90/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
-[91/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_pred.cpp.obj
+[90/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_pred.cpp.obj
+[91/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_parse.cpp.obj
 [92/150] Building CXX object CMakeFiles\duke3d.dir\client\dnmenu.cpp.obj
 [93/150] Building CXX object CMakeFiles\duke3d.dir\client\dnhud.cpp.obj
 [94/150] Building CXX object CMakeFiles\duke3d.dir\client\dnsavemenu.cpp.obj
 [95/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_scrn.cpp.obj
-[96/150] Building CXX object CMakeFiles\duke3d.dir\client\dnintro.cpp.obj
-[97/150] Building CXX object CMakeFiles\duke3d.dir\client\dnintermission.cpp.obj
-[98/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\cmd.cpp.obj
-[99/150] Building CXX object CMakeFiles\duke3d.dir\client\dncgame.cpp.obj
-[100/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_tent.cpp.obj
+[96/150] Building CXX object CMakeFiles\duke3d.dir\client\dnintermission.cpp.obj
+[97/150] Building CXX object CMakeFiles\duke3d.dir\client\dnintro.cpp.obj
+[98/150] Building CXX object CMakeFiles\duke3d.dir\client\dncgame.cpp.obj
+[99/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_tent.cpp.obj
+[100/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\cmd.cpp.obj
 [101/150] Building CXX object CMakeFiles\duke3d.dir\client\cl_view.cpp.obj
 [102/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\cmodel.cpp.obj
-[103/150] Building CXX object CMakeFiles\duke3d.dir\client\dndebuggraph.cpp.obj
-[104/150] Building CXX object CMakeFiles\duke3d.dir\client\console.cpp.obj
-[105/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\common.cpp.obj
+[103/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\common.cpp.obj
+[104/150] Building CXX object CMakeFiles\duke3d.dir\client\dndebuggraph.cpp.obj
+[105/150] Building CXX object CMakeFiles\duke3d.dir\client\console.cpp.obj
 [106/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\crc.cpp.obj
 [107/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\cvar.cpp.obj
 [108/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\files.cpp.obj
-[109/150] Building CXX object CMakeFiles\duke3d.dir\client\keys.cpp.obj
-[110/150] Building CXX object CMakeFiles\duke3d.dir\game\m_flash.cpp.obj
+[109/150] Building CXX object CMakeFiles\duke3d.dir\game\m_flash.cpp.obj
+[110/150] Building CXX object CMakeFiles\duke3d.dir\client\keys.cpp.obj
 [111/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\md4.cpp.obj
-[112/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\net_chan.cpp.obj
-[113/150] Building CXX object CMakeFiles\duke3d.dir\win32\dn_syscon.cpp.obj
+[112/150] Building CXX object CMakeFiles\duke3d.dir\win32\dn_syscon.cpp.obj
+[113/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\net_chan.cpp.obj
 [114/150] Building CXX object CMakeFiles\duke3d.dir\qcommon\pmove.cpp.obj
-[115/150] Building CXX object CMakeFiles\duke3d.dir\game\q_shared.cpp.obj
-[116/150] Building CXX object CMakeFiles\duke3d.dir\client\menu.cpp.obj
-[117/150] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_input.cpp.obj
+[115/150] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_input.cpp.obj
+[116/150] Building CXX object CMakeFiles\duke3d.dir\game\q_shared.cpp.obj
+[117/150] Building CXX object CMakeFiles\duke3d.dir\client\menu.cpp.obj
 [118/150] Building CXX object CMakeFiles\duke3d.dir\client\qmenu.cpp.obj
-[119/150] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
-[120/150] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
-[121/150] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
-[122/150] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
-[123/150] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
-[124/150] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
-[125/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
-[126/150] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
-[127/150] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
-[128/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
-[129/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
+[119/150] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
+[120/150] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
+[121/150] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+[122/150] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
+[123/150] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
+[124/150] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
+[125/150] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
+[126/150] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
+[127/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
+[128/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
+[129/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
 [130/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
-[131/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
-FAILED: [code=1] CMakeFiles/duke3d.dir/server/sv_main.cpp.obj 
-"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\openal-soft\include -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\sdl3\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\duke3d.dir\server\sv_main.cpp.obj -clang:-MFCMakeFiles\duke3d.dir\server\sv_main.cpp.obj.d /FoCMakeFiles\duke3d.dir\server\sv_main.cpp.obj /FdCMakeFiles\duke3d.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\server\sv_main.cpp
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\server\sv_main.cpp:22:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\server\sv_gamethread.h(33,10): fatal error: 'dnthreads.h' file not found
-   33 | #include "dnthreads.h"
-      |          ^~~~~~~~~~~~~
-1 error generated.
-[132/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
-[133/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
-[134/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
-[135/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_gamethread.cpp.obj
+[131/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
+[132/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
+[133/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
+[134/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_gamethread.cpp.obj
 FAILED: [code=1] CMakeFiles/duke3d.dir/server/sv_gamethread.cpp.obj 
 "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\openal-soft\include -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\sdl3\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\duke3d.dir\server\sv_gamethread.cpp.obj -clang:-MFCMakeFiles\duke3d.dir\server\sv_gamethread.cpp.obj.d /FoCMakeFiles\duke3d.dir\server\sv_gamethread.cpp.obj /FdCMakeFiles\duke3d.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\server\sv_gamethread.cpp
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\server\sv_gamethread.cpp:30:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\server\sv_gamethread.h(33,10): fatal error: 'dnthreads.h' file not found
-   33 | #include "dnthreads.h"
-      |          ^~~~~~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\server\sv_gamethread.cpp(41,16): error: definition of implicitly declared default constructor
+   41 | DN_GameThread::DN_GameThread()
+      |                ^
 1 error generated.
+[135/150] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
 [136/150] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
+[137/150] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
+[138/150] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_sys.cpp.obj
+[139/150] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_vid.cpp.obj
 ninja: build stopped: subcommand failed.
