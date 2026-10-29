@@ -1,12 +1,12 @@
 # Build digest
 
-- Commit: `ca334f1843e95f02e769ff65abb082207f70313f`
-- Branch: `fix/vid-windowed-mode-list`
-- Result: configure exit: 0, build exit: 0
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40810639033
-- Generated: 2026-10-29 03:11:39 UTC
+- Commit: `eeef5f3e6e7b868f1987db82c49fa54cb16aa266`
+- Branch: `port/bfg-threads-jobs`
+- Result: configure exit: 0, build exit: 1
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40811902237
+- Generated: 2026-10-29 03:24:56 UTC
 
-Errors: **0**, warnings: **0**.
+Errors: **1**, warnings: **0**.
 
 ## CMake errors
 
@@ -18,7 +18,15 @@ No tool-level errors (lld-link, ninja, ...) in the log.
 
 ## Errors
 
-No errors in the log.
+Showing the first 1 of 1 error(s).
+
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnjobs.cpp(388),17`: use of undeclared identifier 'SDL_GetCPUCount'
+
+  ```
+  FAILED: [code=1] CMakeFiles/duke3d.dir/qcommon/dnjobs.cpp.obj
+  "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\openal-soft\include -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\sdl3\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj -clang:-MFCMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj.d /FoCMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj /FdCMakeFiles\duke3d.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnjobs.cpp
+  ```
+
 
 ## Warnings
 
@@ -27,35 +35,35 @@ No warnings in the log.
 ## Log tail
 
 ```
-[114/143] Building CXX object CMakeFiles\duke3d.dir\game\q_shared.cpp.obj
-[115/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\pmove.cpp.obj
-[116/143] Building CXX object CMakeFiles\duke3d.dir\client\menu.cpp.obj
-[117/143] Building CXX object CMakeFiles\duke3d.dir\client\qmenu.cpp.obj
-[118/143] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
-[119/143] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
-[120/143] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
-[121/143] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
-[122/143] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
-[123/143] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
-[124/143] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
-[125/143] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
-[126/143] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
-[127/143] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
-[128/143] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
-[129/143] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
-[130/143] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
-[131/143] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
-[132/143] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
-[133/143] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
-[134/143] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
-[135/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
-[136/143] Building RC object CMakeFiles\duke3d.dir\win32\dnicon.rc.res
-[137/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
-[138/143] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
-[139/143] Building C object CMakeFiles\convertgrp.dir\tools\convertGRP\convert_grp.c.obj
-[140/143] Linking C executable convertgrp.exe
-[141/143] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_sys.cpp.obj
-[142/143] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_vid.cpp.obj
-[143/143] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll; Shipping SDL3.dll
+[121/145] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
+[122/145] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
+[123/145] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+[124/145] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
+[125/145] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
+[126/145] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
+[127/145] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
+[128/145] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
+[129/145] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
+[130/145] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
+[131/145] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
+[132/145] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
+[133/145] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
+[134/145] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
+[135/145] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
+[136/145] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
+[137/145] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
+[138/145] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnthreads.cpp.obj
+[139/145] Building RC object CMakeFiles\duke3d.dir\win32\dnicon.rc.res
+[140/145] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj
+FAILED: [code=1] CMakeFiles/duke3d.dir/qcommon/dnjobs.cpp.obj 
+"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\openal-soft\include -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\sdl3\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj -clang:-MFCMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj.d /FoCMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj /FdCMakeFiles\duke3d.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnjobs.cpp
+D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnjobs.cpp(388,17): error: use of undeclared identifier 'SDL_GetCPUCount'
+  388 |         count = SDL_GetCPUCount() - 1;
+      |                 ^
+1 error generated.
+[141/145] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_sys.cpp.obj
+[142/145] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_vid.cpp.obj
+[143/145] Building C object CMakeFiles\convertgrp.dir\tools\convertGRP\convert_grp.c.obj
+ninja: build stopped: subcommand failed.
 ```
 
