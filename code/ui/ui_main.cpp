@@ -1,14 +1,13 @@
 /* Front-end UI module entry. The id Tech 3 menu framework and the Duke
    menus are ported on top of this boundary; the bodies below are the
    placeholders until then. */
-#include "ui.h"
+#include "ui_local.h"
 
-static dn_ui_import_t ui;
 static dn_ui_export_t exports;
 
 static int Init(void)
 {
-    ui.Print("Duke UI module loaded\n");
+    trap_Print("Duke UI module loaded\n");
     return 1;
 }
 
@@ -49,7 +48,7 @@ extern "C" __declspec(dllexport) dn_ui_export_t *GetUIAPI(const dn_ui_import_t *
     {
         return NULL;
     }
-    ui = *imports;
+    UI_BindImports(imports);
     exports.version = DN_UI_API_VERSION;
     exports.size = sizeof(exports);
     exports.Init = Init;
