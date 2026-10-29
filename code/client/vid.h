@@ -40,3 +40,9 @@ void	VID_CheckChanges (void);
 void	VID_MenuInit( void );
 void	VID_MenuDraw( void );
 const char *VID_MenuKey( int );
+
+// display and mode discovery, implemented in sdl/sdl_vid.cpp
+int		VID_NumModes( void );
+void	VID_ModeData( int mode, int *width, int *height, int *displayHz );
+int		VID_NumDisplays( void );
+const char *VID_DisplayName( int display );

@@ -921,6 +921,7 @@ void R_Register(void)
     ri.Cmd_AddCommand("screenshot", GL_ScreenShot_f);
     ri.Cmd_AddCommand("modellist", Mod_Modellist_f);
     ri.Cmd_AddCommand("gl_strings", GL_Strings_f);
+    ri.Cmd_AddCommand("gl_displays", GLimp_ListDisplays_f);
 }
 
 /*
@@ -933,10 +934,13 @@ qboolean R_SetMode(void)
     rserr_t err;
     qboolean fullscreen;
 
+    cvar_t *vid_display = ri.Cvar_Get("vid_display", "0", 0);
+
     fullscreen = vid_fullscreen->value;
 
     vid_fullscreen->modified = false;
     gl_mode->modified = false;
+    vid_display->modified = false;
 
     if ((err = GLimp_SetMode(reinterpret_cast<int *>(&vid.width), reinterpret_cast<int *>(&vid.height), gl_mode->value, fullscreen)) == rserr_ok)
     {
@@ -1055,6 +1059,7 @@ void R_Shutdown(void)
     ri.Cmd_RemoveCommand("screenshot");
     ri.Cmd_RemoveCommand("imagelist");
     ri.Cmd_RemoveCommand("gl_strings");
+    ri.Cmd_RemoveCommand("gl_displays");
 
     Mod_FreeAll();
 
@@ -1083,7 +1088,8 @@ void R_BeginFrame(float camera_separation)
     /*
     ** change modes if necessary
     */
-    if (gl_mode->modified || vid_fullscreen->modified)
+    if (gl_mode->modified || vid_fullscreen->modified ||
+        ri.Cvar_Get("vid_display", "0", 0)->modified)
     { // FIXME: only restart if CDS is required
         cvar_t *ref;
 
