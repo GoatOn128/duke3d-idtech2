@@ -92,6 +92,14 @@ Legend:
       `history`/`clearhistory` commands), and the BFG console key
       handling (`Con_KeyDownEvent`/`Con_Scroll`) in
       `client/console.cpp` replacing the `key_lines` edit ring
+- [x] Port the BFG win32 system console and the console debug
+      graphs: `win32/dn_syscon.cpp` (the BFG win_syscon port: dedicated
+      console window with the history input line, copy/clear/quit
+      buttons and the error box, `win_viewlog` replaces the QHOST show
+      path), `client/dndebuggraph.cpp` (the BFG DebugGraph port,
+      reached through `Con_CreateGraph`), and the `con_frameTimes`
+      cvar that renders the rolling frame times like the BFG console
+      graphs
 
 ## Engine milestones
 

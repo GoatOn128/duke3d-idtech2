@@ -42,8 +42,9 @@ three.
   - `sdl/` — the SDL3 platform layer: entry point, message pump and events
     (`sdl_sys`), input and joystick (`sdl_input`), video, display and mode discovery, the
     refresh driver (`sdl_vid`).
-  - `win32/` — the remaining Windows pieces: sockets (`net_wins`), console
-    helper (`conproc`), shared timing (`q_shwin`), the dynamic video menu
+  - `win32/` — the remaining Windows pieces: sockets (`net_wins`), the
+    BFG win32 system console (`dn_syscon`; the old QHOST helper
+    `conproc` is dormant), shared timing (`q_shwin`), the dynamic video menu
     (`vid_menu`),
     resources (`dnicon.rc`, `q2.ico`).
   - `third-party/` — vendored dependencies, nothing is fetched online:
@@ -178,4 +179,5 @@ assuming a build ran against it.
 | Frame stepping and rate caps | `qcommon/common.cpp` (`Qcommon_Frame`), `client/cl_main.cpp` (`CL_Frame`) |
 | Parallel mesh builds | `ref_gl/dnrender.cpp`, `qcommon/dnjobs.cpp` (`DN_JobsParallelFor`) |
 | Console edit field and history | `qcommon/dneditfield.cpp`, `qcommon/dnconsolehistory.cpp`, `client/console.cpp` |
+| Win32 system console and debug graphs | `win32/dn_syscon.cpp`, `client/dndebuggraph.cpp`, `client/console.cpp` |
 | CI behavior | `.github/workflows/build-windows.yml` |
