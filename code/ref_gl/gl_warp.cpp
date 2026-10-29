@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -225,7 +225,7 @@ void EmitWaterPolys (msurface_t *fa)
 	{
 		p = bp;
 
-		qglBegin (GL_TRIANGLE_FAN);
+		RB_Begin (GL_TRIANGLE_FAN);
 		for (i=0,v=p->verts[0] ; i<p->numverts ; i++, v+=VERTEXSIZE)
 		{
 			os = v[3];
@@ -246,10 +246,10 @@ void EmitWaterPolys (msurface_t *fa)
 #endif
 			t *= (1.0/64);
 
-			qglTexCoord2f (s, t);
-			qglVertex3fv (v);
+			RB_TexCoord2f (s, t);
+			RB_Vertex3fv (v);
 		}
-		qglEnd ();
+		RB_End ();
 	}
 }
 
@@ -263,7 +263,7 @@ vec3_t	skyclip[6] = {
 	{0,-1,1},
 	{0,1,1},
 	{1,0,1},
-	{-1,0,1} 
+	{-1,0,1}
 };
 int	c_sky;
 
@@ -311,16 +311,7 @@ void DrawSkyPolygon (int nump, vec3_t vecs)
 	float	*vp;
 
 	c_sky++;
-#if 0
-glBegin (GL_POLYGON);
-for (i=0 ; i<nump ; i++, vecs+=3)
-{
-	VectorAdd(vecs, r_origin, v);
-	qglVertex3fv (v);
-}
-glEnd();
-return;
-#endif
+
 	// decide which face it maps to
 	VectorCopy (vec3_origin, v);
 	for (i=0, vp=vecs ; i<nump ; i++, vp+=3)
@@ -549,8 +540,8 @@ void MakeSkyVec (float s, float t, int axis)
 		t = sky_max;
 
 	t = 1.0 - t;
-	qglTexCoord2f (s, t);
-	qglVertex3fv (v);
+	RB_TexCoord2f (s, t);
+	RB_Vertex3fv (v);
 }
 
 /*
@@ -563,12 +554,6 @@ void R_DrawSkyBox (void)
 {
 	int		i;
 
-#if 0
-qglEnable (GL_BLEND);
-GL_TexEnv( GL_MODULATE );
-qglColor4f (1,1,1,0.5);
-qglDisable (GL_DEPTH_TEST);
-#endif
 	if (skyrotate)
 	{	// check for no sky at all
 		for (i=0 ; i<6 ; i++)
@@ -579,9 +564,9 @@ qglDisable (GL_DEPTH_TEST);
 			return;		// nothing visible
 	}
 
-qglPushMatrix ();
-qglTranslatef (r_origin[0], r_origin[1], r_origin[2]);
-qglRotatef (r_newrefdef.time * skyrotate, skyaxis[0], skyaxis[1], skyaxis[2]);
+	R_PushModelview ();
+	Mat_Translate (r_mat_modelview, r_origin[0], r_origin[1], r_origin[2]);
+	Mat_Rotate (r_mat_modelview, r_newrefdef.time * skyrotate, skyaxis[0], skyaxis[1], skyaxis[2]);
 
 	for (i=0 ; i<6 ; i++)
 	{
@@ -599,20 +584,14 @@ qglRotatef (r_newrefdef.time * skyrotate, skyaxis[0], skyaxis[1], skyaxis[2]);
 
 		GL_Bind (sky_images[skytexorder[i]]->texnum);
 
-		qglBegin (GL_QUADS);
+		RB_Begin (GL_QUADS);
 		MakeSkyVec (skymins[0][i], skymins[1][i], i);
 		MakeSkyVec (skymins[0][i], skymaxs[1][i], i);
 		MakeSkyVec (skymaxs[0][i], skymaxs[1][i], i);
 		MakeSkyVec (skymaxs[0][i], skymins[1][i], i);
-		qglEnd ();
+		RB_End ();
 	}
-qglPopMatrix ();
-#if 0
-glDisable (GL_BLEND);
-glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-glColor4f (1,1,1,0.5);
-glEnable (GL_DEPTH_TEST);
-#endif
+	R_PopModelview ();
 }
 
 
@@ -638,10 +617,7 @@ void R_SetSky (char *name, float rotate, vec3_t axis)
 		if (gl_skymip->value || skyrotate)
 			gl_picmip->value++;
 
-		if ( qglColorTableEXT && gl_ext_palettedtexture->value )
-			Com_sprintf (pathname, sizeof(pathname), "env/%s%s.pcx", skyname, suf[i]);
-		else
-			Com_sprintf (pathname, sizeof(pathname), "env/%s%s.tga", skyname, suf[i]);
+		Com_sprintf (pathname, sizeof(pathname), "env/%s%s.tga", skyname, suf[i]);
 
 		sky_images[i] = GL_FindImage (pathname, it_sky);
 		if (!sky_images[i])
@@ -653,7 +629,7 @@ void R_SetSky (char *name, float rotate, vec3_t axis)
 			sky_min = 1.0/256;
 			sky_max = 255.0/256;
 		}
-		else	
+		else
 		{
 			sky_min = 1.0/512;
 			sky_max = 511.0/512;

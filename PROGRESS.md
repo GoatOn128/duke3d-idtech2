@@ -42,7 +42,10 @@ Legend:
       `dn_netcheck`/`dn_savecheck`/`dn_roofcheck` commands)
 - [x] Restore the executable icon (`win32/dnicon.rc` compiles the
       in-repo `win32/q2.ico` unconditionally)
-- [ ] Replace the `win32/qgl_win.cpp` GL loader with `third-party/glad`
+- [x] Replace the `win32/qgl_win.cpp` GL loader with `third-party/glad`
+      and move `ref_gl` onto an OpenGL 3.3 core profile (GLSL shader
+      pair, batched vertex buffers, fixed-function and ancient GPU
+      extension paths removed)
 - [ ] Investigate linking `third-party/sdl3` (vendored prebuilt) for future
       platform work
 

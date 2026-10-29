@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -24,22 +24,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __GLW_WIN_H__
 #define __GLW_WIN_H__
 
+// Context creation attributes for wglCreateContextAttribsARB. glad ships no
+// WGL spec, so the constants are declared here.
+#define WGL_CONTEXT_MAJOR_VERSION_ARB 0x2091
+#define WGL_CONTEXT_MINOR_VERSION_ARB 0x2092
+#define WGL_CONTEXT_PROFILE_MASK_ARB 0x9126
+#define WGL_CONTEXT_CORE_PROFILE_BIT_ARB 0x1
+
+typedef HGLRC(WINAPI *wglCreateContextAttribsARB_t)(HDC hDC, HGLRC hShareContext,
+                                                    const int *attribList);
+
+// Loaded from the extension string after the context is up.
+extern BOOL(WINAPI *wglSwapIntervalEXT)(int interval);
+
 typedef struct
 {
-	HINSTANCE	hInstance;
-	void	*wndproc;
+    HINSTANCE hInstance;
+    void *wndproc;
 
-	HDC     hDC;			// handle to device context
-	HWND    hWnd;			// handle to window
-	HGLRC   hGLRC;			// handle to GL rendering context
+    HDC hDC;   // handle to device context
+    HWND hWnd; // handle to window
+    HGLRC hGLRC; // handle to GL rendering context
 
-	HINSTANCE hinstOpenGL;	// HINSTANCE for the OpenGL library
-
-	qboolean minidriver;
-	qboolean allowdisplaydepthchange;
-	qboolean mcd_accelerated;
-
-	FILE *log_fp;
+    wglCreateContextAttribsARB_t wglCreateContextAttribsARB;
 } glwstate_t;
 
 extern glwstate_t glw_state;

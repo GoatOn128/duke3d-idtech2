@@ -20,46 +20,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /*
 ** GLW_IMP.cpp
 **
-** This file contains ALL Win32 specific stuff having to do with the
-** OpenGL refresh.  When a port is being made the following functions
-** must be implemented by the port:
-**
-** GLimp_EndFrame
-** GLimp_Init
-** GLimp_Shutdown
-** GLimp_SwitchFullscreen
-**
+** Win32 window and context handling for the OpenGL refresh. The context is
+** created with the WGL_ARB_create_context extension and must support the
+** OpenGL 3.3 core profile; glad loads the rest of the entry points from it.
 */
-#include <assert.h>
 #include <windows.h>
+#include <string.h>
 #include "../ref_gl/gl_local.h"
 #include "glw_win.h"
 #include "winquake.h"
 #include "resource.h"
 
-static qboolean GLimp_SwitchFullscreen(int width, int height);
-qboolean GLimp_InitGL(void);
-
 glwstate_t glw_state;
 
+BOOL(WINAPI *wglSwapIntervalEXT)(int interval) = NULL;
+
 extern cvar_t *vid_fullscreen;
-extern cvar_t *vid_ref;
-
-static qboolean VerifyDriver(void)
-{
-    char buffer[1024];
-
-    strcpy(buffer, reinterpret_cast<const char *>(qglGetString(GL_RENDERER)));
-    strlwr(buffer);
-    if (strcmp(buffer, "gdi generic") == 0)
-    {
-        if (!glw_state.mcd_accelerated)
-        {
-            return false;
-        }
-    }
-    return true;
-}
 
 /*
 ** VID_CreateWindow
@@ -198,22 +174,6 @@ rserr_t GLimp_SetMode(int *pwidth, int *pheight, int mode, qboolean fullscreen)
         dm.dmPelsHeight = height;
         dm.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT;
 
-        if (gl_bitdepth->value != 0)
-        {
-            dm.dmBitsPerPel = gl_bitdepth->value;
-            dm.dmFields |= DM_BITSPERPEL;
-            ri.Con_Printf(PRINT_ALL, "...using gl_bitdepth of %d\n", (int)gl_bitdepth->value);
-        }
-        else
-        {
-            HDC hdc = GetDC(NULL);
-            int bitspixel = GetDeviceCaps(hdc, BITSPIXEL);
-
-            ri.Con_Printf(PRINT_ALL, "...using desktop display depth of %d\n", bitspixel);
-
-            ReleaseDC(0, hdc);
-        }
-
         ri.Con_Printf(PRINT_ALL, "...calling CDS: ");
         if (ChangeDisplaySettings(&dm, CDS_FULLSCREEN) == DISP_CHANGE_SUCCESSFUL)
         {
@@ -243,12 +203,6 @@ rserr_t GLimp_SetMode(int *pwidth, int *pheight, int mode, qboolean fullscreen)
             dm.dmPelsWidth = width * 2;
             dm.dmPelsHeight = height;
             dm.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT;
-
-            if (gl_bitdepth->value != 0)
-            {
-                dm.dmBitsPerPel = gl_bitdepth->value;
-                dm.dmFields |= DM_BITSPERPEL;
-            }
 
             /*
             ** our first CDS failed, so maybe we're running on some weird dual monitor
@@ -306,20 +260,15 @@ rserr_t GLimp_SetMode(int *pwidth, int *pheight, int mode, qboolean fullscreen)
 ** GLimp_Shutdown
 **
 ** This routine does all OS specific shutdown procedures for the OpenGL
-** subsystem.  Under OpenGL this means NULLing out the current DC and
-** HGLRC, deleting the rendering context, and releasing the DC acquired
-** for the window.  The state structure is also nulled out.
-**
+** subsystem: release the current DC and HGLRC, delete the rendering
+** context, and destroy the window.
 */
 void GLimp_Shutdown(void)
 {
-    if (qwglMakeCurrent && !qwglMakeCurrent(NULL, NULL))
-    {
-        ri.Con_Printf(PRINT_ALL, "ref_gl::R_Shutdown() - wglMakeCurrent failed\n");
-    }
     if (glw_state.hGLRC)
     {
-        if (qwglDeleteContext && !qwglDeleteContext(glw_state.hGLRC))
+        wglMakeCurrent(NULL, NULL);
+        if (!wglDeleteContext(glw_state.hGLRC))
         {
             ri.Con_Printf(PRINT_ALL, "ref_gl::R_Shutdown() - wglDeleteContext failed\n");
         }
@@ -339,12 +288,6 @@ void GLimp_Shutdown(void)
         glw_state.hWnd = NULL;
     }
 
-    if (glw_state.log_fp)
-    {
-        fclose(glw_state.log_fp);
-        glw_state.log_fp = 0;
-    }
-
     UnregisterClass(WINDOW_CLASS_NAME, glw_state.hInstance);
 
     if (gl_state.fullscreen)
@@ -356,54 +299,22 @@ void GLimp_Shutdown(void)
 
 /*
 ** GLimp_Init
-**
-** This routine is responsible for initializing the OS specific portions
-** of OpenGL.  Under Win32 this means dealing with the pixelformats and
-** doing the wgl interface stuff.
 */
 qboolean GLimp_Init(void *hinstance, void *wndproc)
 {
-#define OSR2_BUILD_NUMBER 1111
-
-    OSVERSIONINFO vinfo;
-
-    vinfo.dwOSVersionInfoSize = sizeof(vinfo);
-
-    glw_state.allowdisplaydepthchange = false;
-
-    if (GetVersionEx(&vinfo))
-    {
-        if (vinfo.dwMajorVersion > 4)
-        {
-            glw_state.allowdisplaydepthchange = true;
-        }
-        else if (vinfo.dwMajorVersion == 4)
-        {
-            if (vinfo.dwPlatformId == VER_PLATFORM_WIN32_NT)
-            {
-                glw_state.allowdisplaydepthchange = true;
-            }
-            else if (vinfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
-            {
-                if (LOWORD(vinfo.dwBuildNumber) >= OSR2_BUILD_NUMBER)
-                {
-                    glw_state.allowdisplaydepthchange = true;
-                }
-            }
-        }
-    }
-    else
-    {
-        ri.Con_Printf(PRINT_ALL, "GLimp_Init() - GetVersionEx failed\n");
-        return false;
-    }
-
     glw_state.hInstance = (HINSTANCE)hinstance;
     glw_state.wndproc = wndproc;
 
     return true;
 }
 
+/*
+** GLimp_InitGL
+**
+** Core contexts cannot be requested directly, so: create a dummy legacy
+** context on the window's pixel format, grab wglCreateContextAttribsARB
+** from it, then trade it for a real 3.3 core context and load glad from it.
+*/
 qboolean GLimp_InitGL(void)
 {
     PIXELFORMATDESCRIPTOR pfd = {
@@ -436,135 +347,81 @@ qboolean GLimp_InitGL(void)
         0,
         0 // layer masks ignored
     };
+    int attribs[] = {
+        WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
+        WGL_CONTEXT_MINOR_VERSION_ARB, 3,
+        WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+        0
+    };
+    HGLRC dummy;
     int pixelformat;
-    cvar_t *stereo;
-
-    stereo = ri.Cvar_Get("cl_stereo", "0", 0);
-
-    /*
-    ** set PFD_STEREO if necessary
-    */
-    if (stereo->value != 0)
-    {
-        ri.Con_Printf(PRINT_ALL, "...attempting to use stereo\n");
-        pfd.dwFlags |= PFD_STEREO;
-        gl_state.stereo_enabled = true;
-    }
-    else
-    {
-        gl_state.stereo_enabled = false;
-    }
-
-    /*
-    ** figure out if we're running on a minidriver or not
-    */
-    if (strstr(gl_driver->string, "opengl32") != 0)
-    {
-        glw_state.minidriver = false;
-    }
-    else
-    {
-        glw_state.minidriver = true;
-    }
-
-    /*
-    ** Get a DC for the specified window
-    */
-    if (glw_state.hDC != NULL)
-    {
-        ri.Con_Printf(PRINT_ALL, "GLimp_Init() - non-NULL DC exists\n");
-    }
 
     if ((glw_state.hDC = GetDC(glw_state.hWnd)) == NULL)
     {
-        ri.Con_Printf(PRINT_ALL, "GLimp_Init() - GetDC failed\n");
+        ri.Con_Printf(PRINT_ALL, "GLimp_InitGL() - GetDC failed\n");
         return false;
     }
 
-    if (glw_state.minidriver)
+    if ((pixelformat = ChoosePixelFormat(glw_state.hDC, &pfd)) == 0)
     {
-        if ((pixelformat = qwglChoosePixelFormat(glw_state.hDC, &pfd)) == 0)
-        {
-            ri.Con_Printf(PRINT_ALL, "GLimp_Init() - qwglChoosePixelFormat failed\n");
-            return false;
-        }
-        if (qwglSetPixelFormat(glw_state.hDC, pixelformat, &pfd) == FALSE)
-        {
-            ri.Con_Printf(PRINT_ALL, "GLimp_Init() - qwglSetPixelFormat failed\n");
-            return false;
-        }
-        qwglDescribePixelFormat(glw_state.hDC, pixelformat, sizeof(pfd), &pfd);
+        ri.Con_Printf(PRINT_ALL, "GLimp_InitGL() - ChoosePixelFormat failed\n");
+        return false;
     }
-    else
+    if (SetPixelFormat(glw_state.hDC, pixelformat, &pfd) == FALSE)
     {
-        if ((pixelformat = ChoosePixelFormat(glw_state.hDC, &pfd)) == 0)
-        {
-            ri.Con_Printf(PRINT_ALL, "GLimp_Init() - ChoosePixelFormat failed\n");
-            return false;
-        }
-        if (SetPixelFormat(glw_state.hDC, pixelformat, &pfd) == FALSE)
-        {
-            ri.Con_Printf(PRINT_ALL, "GLimp_Init() - SetPixelFormat failed\n");
-            return false;
-        }
-        DescribePixelFormat(glw_state.hDC, pixelformat, sizeof(pfd), &pfd);
-
-        if (!(pfd.dwFlags & PFD_GENERIC_ACCELERATED))
-        {
-            extern cvar_t *gl_allow_software;
-
-            if (gl_allow_software->value)
-            {
-                glw_state.mcd_accelerated = true;
-            }
-            else
-            {
-                glw_state.mcd_accelerated = false;
-            }
-        }
-        else
-        {
-            glw_state.mcd_accelerated = true;
-        }
+        ri.Con_Printf(PRINT_ALL, "GLimp_InitGL() - SetPixelFormat failed\n");
+        return false;
     }
 
-    /*
-    ** report if stereo is desired but unavailable
-    */
-    if (!(pfd.dwFlags & PFD_STEREO) && (stereo->value != 0))
+    // The pixel format can only be set once per window, so the dummy context
+    // has to share it.
+    if ((dummy = wglCreateContext(glw_state.hDC)) == NULL)
     {
-        ri.Con_Printf(PRINT_ALL, "...failed to select stereo pixel format\n");
-        ri.Cvar_SetValue("cl_stereo", 0);
-        gl_state.stereo_enabled = false;
+        ri.Con_Printf(PRINT_ALL, "GLimp_InitGL() - wglCreateContext failed\n");
+        return false;
+    }
+    if (!wglMakeCurrent(glw_state.hDC, dummy))
+    {
+        ri.Con_Printf(PRINT_ALL, "GLimp_InitGL() - wglMakeCurrent failed\n");
+        wglDeleteContext(dummy);
+        return false;
     }
 
-    /*
-    ** startup the OpenGL subsystem by creating a context and making
-    ** it current
-    */
-    if ((glw_state.hGLRC = qwglCreateContext(glw_state.hDC)) == 0)
+    glw_state.wglCreateContextAttribsARB =
+        (wglCreateContextAttribsARB_t)wglGetProcAddress("wglCreateContextAttribsARB");
+    if (glw_state.wglCreateContextAttribsARB)
     {
-        ri.Con_Printf(PRINT_ALL, "GLimp_Init() - qwglCreateContext failed\n");
+        glw_state.hGLRC = glw_state.wglCreateContextAttribsARB(glw_state.hDC, NULL, attribs);
+    }
+    wglDeleteContext(dummy);
+    wglMakeCurrent(NULL, NULL);
 
+    if (!glw_state.hGLRC)
+    {
+        ri.Con_Printf(PRINT_ALL, "GLimp_InitGL() - couldn't create an OpenGL 3.3 core context\n");
+        return false;
+    }
+    if (!wglMakeCurrent(glw_state.hDC, glw_state.hGLRC))
+    {
+        ri.Con_Printf(PRINT_ALL, "GLimp_InitGL() - wglMakeCurrent failed\n");
+        wglDeleteContext(glw_state.hGLRC);
+        glw_state.hGLRC = NULL;
+        return false;
+    }
+
+    if (!gladLoaderLoadGL())
+    {
+        ri.Con_Printf(PRINT_ALL, "GLimp_InitGL() - gladLoaderLoadGL failed\n");
+        goto fail;
+    }
+    if (!GLAD_GL_VERSION_3_3)
+    {
+        ri.Con_Printf(PRINT_ALL, "GLimp_InitGL() - OpenGL 3.3 not supported by the driver\n");
         goto fail;
     }
 
-    if (!qwglMakeCurrent(glw_state.hDC, glw_state.hGLRC))
-    {
-        ri.Con_Printf(PRINT_ALL, "GLimp_Init() - qwglMakeCurrent failed\n");
+    wglSwapIntervalEXT = (BOOL(WINAPI *)(int))wglGetProcAddress("wglSwapIntervalEXT");
 
-        goto fail;
-    }
-
-    if (!VerifyDriver())
-    {
-        ri.Con_Printf(PRINT_ALL, "GLimp_Init() - no hardware acceleration detected\n");
-        goto fail;
-    }
-
-    /*
-    ** print out PFD specifics
-    */
     ri.Con_Printf(PRINT_ALL, "GL PFD: color(%d-bits) Z(%d-bit)\n", (int)pfd.cColorBits,
                   (int)pfd.cDepthBits);
 
@@ -573,10 +430,10 @@ qboolean GLimp_InitGL(void)
 fail:
     if (glw_state.hGLRC)
     {
-        qwglDeleteContext(glw_state.hGLRC);
+        wglMakeCurrent(NULL, NULL);
+        wglDeleteContext(glw_state.hGLRC);
         glw_state.hGLRC = NULL;
     }
-
     if (glw_state.hDC)
     {
         ReleaseDC(glw_state.hWnd, glw_state.hDC);
@@ -588,49 +445,19 @@ fail:
 /*
 ** GLimp_BeginFrame
 */
-void GLimp_BeginFrame(float camera_separation)
+void GLimp_BeginFrame(void)
 {
-    if (gl_bitdepth->modified)
-    {
-        if (gl_bitdepth->value != 0 && !glw_state.allowdisplaydepthchange)
-        {
-            ri.Cvar_SetValue("gl_bitdepth", 0);
-            ri.Con_Printf(PRINT_ALL, "gl_bitdepth requires Win95 OSR2.x or WinNT 4.x\n");
-        }
-        gl_bitdepth->modified = false;
-    }
-
-    if (camera_separation < 0 && gl_state.stereo_enabled)
-    {
-        qglDrawBuffer(GL_BACK_LEFT);
-    }
-    else if (camera_separation > 0 && gl_state.stereo_enabled)
-    {
-        qglDrawBuffer(GL_BACK_RIGHT);
-    }
-    else
-    {
-        qglDrawBuffer(GL_BACK);
-    }
+    glDrawBuffer(GL_BACK);
 }
 
 /*
 ** GLimp_EndFrame
-**
-** Responsible for doing a swapbuffers and possibly for other stuff
-** as yet to be determined.  Probably better not to make this a GLimp
-** function and instead do a call to GLimp_SwapBuffers.
 */
 void GLimp_EndFrame(void)
 {
-    int err;
-
-    err = qglGetError();
-    assert(err == GL_NO_ERROR);
-
     if (stricmp(gl_drawbuffer->string, "GL_BACK") == 0)
     {
-        if (!qwglSwapBuffers(glw_state.hDC))
+        if (!wglSwapBuffers(glw_state.hDC))
         {
             ri.Sys_Error(ERR_FATAL, "GLimp_EndFrame() - SwapBuffers() failed!\n");
         }
