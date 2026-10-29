@@ -58,8 +58,8 @@ cost anything as long as this file and PROGRESS.md are current.
   headers, libs, rc.exe and the debugger).
 - Presets: `windows-clang-x86`, `windows-clang-x86-debug` in
   `code/CMakePresets.json`; build dir `code/out/build/x86`.
-- Outputs: `duke3d.exe`, `ref_gl.dll`, `OpenAL32.dll` at repo root;
-  `dngamex86.dll`, `cgamex86.dll` in `basedn/`.
+- Outputs: `duke3d.exe`, `ref_gl.dll`, `OpenAL32.dll`, `SDL3.dll` at
+  repo root; `dngamex86.dll`, `cgamex86.dll` in `basedn/`.
 - `win32/dnicon.rc` is compiled only when `3drealms/duke3d.ico` exists;
   the missing-asset build intentionally skips it.
 - Tests and asset pipeline are dormant until the pending restructure in
@@ -97,3 +97,17 @@ cost anything as long as this file and PROGRESS.md are current.
   3drealms/duke3d.grp + code/tools/prepare_assets.py), test suite
   (`BUILD_TESTING` OFF until tests/ and 3drealms/ return), and
   win32/dnicon.rc (needs 3drealms/duke3d.ico).
+
+- 2026-10-29: Full SDL3 platform port on branch `port/sdl3-platform`:
+  new `code/sdl/` layer (`sdl_sys` entry point, message pump and events,
+  `sdl_input`, `sdl_vid`), `ref_gl/glimp_sdl.cpp` replaces `glw_imp`/WGL
+  (GL 3.3 core context through SDL_GL, gladLoaderLoadGL), `menu.cpp`
+  lost the `win_noalttab` option, `Sys_Milliseconds` derives from
+  `SDL_GetTicks`, and `GL_UpdateSwapInterval` uses
+  `SDL_GL_SetSwapInterval`. SDL3 is imported by `third-party.cmake`
+  and ships as `SDL3.dll` next to `duke3d.exe`. Deleted: `sys_win`,
+  `in_win`, `vid_dll`, `glw_imp`, `glw_win.h`, `winquake.h`,
+  `client/x86.cpp` (RDTSC timer), `qgl_win.cpp`, the `rw_*` and
+  `.rc`/`.aps` leftovers. `win32/` keeps `net_wins`, `conproc`,
+  `q_shwin`, `vid_menu`, `dnicon.rc`. SDL3's supported Windows floor
+  is Win7+, the new minimum OS for the engine.

@@ -46,8 +46,12 @@ Legend:
       and move `ref_gl` onto an OpenGL 3.3 core profile (GLSL shader
       pair, batched vertex buffers, fixed-function and ancient GPU
       extension paths removed)
-- [ ] Investigate linking `third-party/sdl3` (vendored prebuilt) for future
-      platform work
+- [x] Port the platform layer to SDL3: `sdl/sdl_sys.cpp`,
+      `sdl/sdl_input.cpp`, `sdl/sdl_vid.cpp` replace `sys_win`/`in_win`/
+      `vid_dll`, `ref_gl/glimp_sdl.cpp` replaces the WGL window code, the
+      vendored SDL3 links into `duke3d` and `ref_gl` and ships as
+      `SDL3.dll`; the RDTSC timer, CD audio check, alt-tab hooks and other
+      pre-Win7 leftovers are removed
 
 ## Engine milestones
 
