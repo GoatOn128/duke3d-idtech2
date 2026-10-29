@@ -333,3 +333,29 @@ cost anything as long as this file and PROGRESS.md are current.
   spinner already covers the same list). License note: policy ported
   from the BFG d3xp/menus/MenuScreen_Shell_Resolution.cpp and
   R_GetModeListForDisplay (GPLv3), references/doom3-bfg, not compiled.
+
+- 2026-10-29: BFG threading port, phase D (thread-safe print and error
+  system) on branch `port/bfg-threadsafe-print` (CI green, 0 errors, 0
+  warnings): like the BFG idLib (framework/Common_printf.cpp) the main
+  thread owns the console buffer, the win32 system console window and
+  the logfile; common.cpp records the Qcommon_Init thread in
+  com_mainThreadId and Com_Printf formats into a local buffer, then
+  prints directly on main through Com_MainPrint or queues on a worker
+  thread. The queue is a 128x1024 ring behind a DN_SysMutex,
+  drop-oldest on overflow with a truncation warning, drained by
+  Qcommon_Frame right after the abortframe setjmp. The rd_target
+  redirect state is thread_local (rcon/status redirects run inside one
+  function scope on one thread). Com_Error off main cannot longjmp into
+  abortframe: it records code+message behind a mutex, unwinds through
+  the thread_local Com_SetThreadUnwind jump target, and falls back to
+  Sys_Error when the thread has no target (the uncaught BFG idException
+  analog). Com_TakePendingError hands the record to the owner thread for
+  the re-raise; the phase E game thread is the first caller. Documented
+  divergence: BFG drops off-main prints to OutputDebugString and Warning
+  early-outs; the queue keeps worker output in the console instead.
+  qcommon.h gained the four declarations plus the setjmp include.
+  License note: policy ported from the BFG framework/Common_printf.cpp
+  (GPLv3), references/doom3-bfg, not compiled. Process lesson: pushing a
+  from-memory retype of qcommon.h clobbered the header with a different
+  codebase's version (CI caught the include-path break); always
+  fetch-and-splice in the sandbox, never retype a whole file.

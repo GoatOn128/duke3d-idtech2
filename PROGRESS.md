@@ -108,7 +108,18 @@ Legend:
       `gl_mode -1`), and the new `VID_DefaultMode` resets an invalid
       `gl_mode` like the BFG `r_vidMode` reset (largest entry that
       fits the desktop when windowed), used by `VID_GetModeInfo`,
-      `VID_ValidateWindowedMode` and `win32/vid_menu.cpp`
+      - [x] Make the print and error system thread safe like the BFG idLib
+      (`framework/Common_printf.cpp`): `qcommon/common.cpp` records the
+      main thread in `Qcommon_Init` and `Com_Printf` from a worker
+      thread goes to a mutex-guarded queue that `Qcommon_Frame`
+      drains every frame instead of being dropped like the BFG
+      `OutputDebugString` path (the console buffer, system console
+      window and logfile stay main thread only), the redirect state
+      is thread-local, and `Com_Error` on a worker thread records a
+      pending error and unwinds through the thread-local
+      `Com_SetThreadUnwind` jump target instead of longjmp-ing across
+      threads, with `Com_TakePendingError` handing the record back
+      to the owning thread for the re-raise
 
 ## Engine milestones
 

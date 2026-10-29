@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // qcommon.h -- definitions common between client and server, but not game.dll
 
 #include "../game/q_shared.h"
+#include <setjmp.h> // Com_SetThreadUnwind takes a jmp_buf
 void CM_DukeApplyWorldState(const entity_state_t *state, qboolean client);
 qboolean CM_SetClientQuery(qboolean client);
 void CM_ClearClientMap(void);
@@ -757,6 +758,12 @@ void Com_Printf(char *fmt, ...);
 void Com_DPrintf(char *fmt, ...);
 void Com_Error(int code, char *fmt, ...);
 void Com_Quit(void);
+// BFG idLib thread-safe printing (implemented in qcommon/common.cpp):
+// the main thread owns the output, other threads queue to it
+qboolean Com_IsMainThread(void);
+void Com_FlushPrintQueue(void);
+void Com_SetThreadUnwind(jmp_buf *unwind);
+qboolean Com_TakePendingError(int *code, char *msg, int msgSize);
 
 int Com_ServerState(void); // this should have just been a cvar...
 void Com_SetServerState(int state);
