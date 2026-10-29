@@ -140,8 +140,8 @@ void Duke_PlaySound( sfxHandle_t sfx ) {
 
 /* the focused item of the focused menu, used to light the lines */
 static qboolean Duke_LineFocused( int ownerDraw ) {
-    menuDef_t *menu = Menu_GetFocused();
-    itemDef_t *item = Menu_GetFocusedItem( menu );
+    dnMenu *menu = Menu_GetFocused();
+    dnItem *item = Menu_GetFocusedItem( menu );
 
     return ( item != NULL && item->window.ownerDraw == ownerDraw ) ? qtrue : qfalse;
 }
@@ -191,8 +191,8 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
 /* ---- item builders ---- */
 
 /* decoration item: paints through an ownerdraw, never focused or hit */
-static void Duke_AddDeco( menuDef_t *menu, int ownerDraw ) {
-    itemDef_t *item = Menu_AddItem( menu, NULL );
+static void Duke_AddDeco( dnMenu *menu, int ownerDraw ) {
+    dnItem *item = Menu_AddItem( menu, NULL );
 
     if ( item == NULL ) {
         return;
@@ -204,9 +204,9 @@ static void Duke_AddDeco( menuDef_t *menu, int ownerDraw ) {
 
 /* selectable line item: the rect is the hit zone in 640x480 virtual
    coordinates, the ownerdraw paints the line itself */
-static itemDef_t *Duke_AddLine( menuDef_t *menu, int lineId, const char *name,
+static dnItem *Duke_AddLine( dnMenu *menu, int lineId, const char *name,
                                 float x, float y, float w, float h, const char *action ) {
-    itemDef_t *item = Menu_AddItem( menu, name );
+    dnItem *item = Menu_AddItem( menu, name );
 
     if ( item == NULL ) {
         return NULL;
@@ -224,10 +224,10 @@ static itemDef_t *Duke_AddLine( menuDef_t *menu, int lineId, const char *name,
 
 /* label plus value item (MULTI, YESNO or BIND) drawn with the framework
    text painting in Duke glyphs */
-static itemDef_t *Duke_AddSetting( menuDef_t *menu, int type, const char *text,
+static dnItem *Duke_AddSetting( dnMenu *menu, int type, const char *text,
                                    const char *cvar, const char *name,
                                    float x, float y, float w, float h ) {
-    itemDef_t *item = Menu_AddItem( menu, name );
+    dnItem *item = Menu_AddItem( menu, name );
 
     if ( item == NULL ) {
         return NULL;
@@ -249,7 +249,7 @@ static itemDef_t *Duke_AddSetting( menuDef_t *menu, int type, const char *text,
 }
 
 /* fill a MULTI item with numeric settings */
-static void Duke_SetMulti( itemDef_t *item, const char **labels, const float *values, int count ) {
+static void Duke_SetMulti( dnItem *item, const char **labels, const float *values, int count ) {
     multiDef_t *multi;
     int i;
 
@@ -274,7 +274,7 @@ static void Duke_SetMulti( itemDef_t *item, const char **labels, const float *va
 }
 
 /* every menu uses the bright-white focused look the Duke cursor lines use */
-static void Duke_MenuSetup( menuDef_t *menu ) {
+static void Duke_MenuSetup( dnMenu *menu ) {
     menu->fullScreen = 1;
     menu->focusColor[0] = 1.0f;
     menu->focusColor[1] = 1.0f;
@@ -296,8 +296,8 @@ static void Duke_Menu_Main( void ) {
         "play kickhit.wav ; close main ; open video",
         "play kickhit.wav ; close main ; open quit"
     };
-    menuDef_t *menu = Menu_Alloc( "main" );
-    itemDef_t *item;
+    dnMenu *menu = Menu_Alloc( "main" );
+    dnItem *item;
     int i;
 
     if ( menu == NULL ) {
@@ -328,7 +328,7 @@ static void Duke_Menu_Episodes( void ) {
         "play kickhit.wav ; setcvar dn_episode 4 ; close game_episodes ; open game_skills"
     };
     static const char *names[4] = {"episode_0", "episode_1", "episode_2", "episode_3"};
-    menuDef_t *menu = Menu_Alloc( "game_episodes" );
+    dnMenu *menu = Menu_Alloc( "game_episodes" );
     int i;
 
     if ( menu == NULL ) {
@@ -352,7 +352,7 @@ static void Duke_Menu_Skills( void ) {
        pointers stay valid */
     static char skillActions[4][256];
     static const char *names[4] = {"skill_0", "skill_1", "skill_2", "skill_3"};
-    menuDef_t *menu = Menu_Alloc( "game_skills" );
+    dnMenu *menu = Menu_Alloc( "game_skills" );
     int i;
 
     if ( menu == NULL ) {
@@ -378,7 +378,7 @@ static void Duke_Menu_Skills( void ) {
 }
 
 static void Duke_Menu_Quit( void ) {
-    menuDef_t *menu = Menu_Alloc( "quit" );
+    dnMenu *menu = Menu_Alloc( "quit" );
 
     if ( menu == NULL ) {
         return;
@@ -406,8 +406,8 @@ static void Duke_Menu_Options( void ) {
     /* mouse sensitivity runs 1.0 to 11.0 in 0.5 steps like the engine slider */
     static char sensLabels[21][8];
     static float sensValues[21];
-    menuDef_t *menu = Menu_Alloc( "options" );
-    itemDef_t *item;
+    dnMenu *menu = Menu_Alloc( "options" );
+    dnItem *item;
     int i;
 
     if ( menu == NULL ) {
@@ -482,7 +482,7 @@ static void Duke_Menu_Keys( void ) {
         {"next item",      "invnext"},
         {"help computer",  "cmd help"}
     };
-    menuDef_t *menu = Menu_Alloc( "keys" );
+    dnMenu *menu = Menu_Alloc( "keys" );
     /* item names live for the whole run: Menu_AddItem keeps the pointer */
     static char names[23][16];
     int i;
@@ -540,7 +540,7 @@ static void Duke_StartGame( void ) {
 }
 
 void Duke_Refresh( void ) {
-    menuDef_t *keys;
+    dnMenu *keys;
 
     /* mirror the connection state so the main menu can gate SAVE GAME */
     uii.Cvar_Set( "dn_serveractive", uii.GetConnState() == DN_CONN_ACTIVE ? "1" : "0" );
@@ -576,7 +576,7 @@ void Duke_Refresh( void ) {
 
 void Duke_KeyEvent( int key, int down ) {
     displayContextDef_t *dc = Display_GetContext();
-    menuDef_t *menu;
+    dnMenu *menu;
 
     /* the engine menus treat right click as escape */
     if ( key == K_MOUSE2 ) {

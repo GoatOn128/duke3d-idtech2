@@ -178,13 +178,13 @@ static char s_adrCvars[9][16];
 /* ---- helper builders, same shapes as ui_duke_menus.cpp ---- */
 
 static qboolean Duke2_LineFocused( int ownerDraw ) {
-    menuDef_t *menu = Menu_GetFocused();
-    itemDef_t *item = Menu_GetFocusedItem( menu );
+    dnMenu *menu = Menu_GetFocused();
+    dnItem *item = Menu_GetFocusedItem( menu );
 
     return ( item != NULL && item->window.ownerDraw == ownerDraw ) ? qtrue : qfalse;
 }
 
-static void Duke2_MenuSetup( menuDef_t *menu ) {
+static void Duke2_MenuSetup( dnMenu *menu ) {
     menu->fullScreen = 1;
     menu->focusColor[0] = 1.0f;
     menu->focusColor[1] = 1.0f;
@@ -192,8 +192,8 @@ static void Duke2_MenuSetup( menuDef_t *menu ) {
     menu->focusColor[3] = 1.0f;
 }
 
-static void Duke2_AddDeco( menuDef_t *menu, int ownerDraw ) {
-    itemDef_t *item = Menu_AddItem( menu, NULL );
+static void Duke2_AddDeco( dnMenu *menu, int ownerDraw ) {
+    dnItem *item = Menu_AddItem( menu, NULL );
 
     if ( item == NULL ) {
         return;
@@ -203,9 +203,9 @@ static void Duke2_AddDeco( menuDef_t *menu, int ownerDraw ) {
     item->window.flags |= WINDOW_VISIBLE | WINDOW_DECORATION;
 }
 
-static itemDef_t *Duke2_AddLine( menuDef_t *menu, int ownerDraw, const char *name,
+static dnItem *Duke2_AddLine( dnMenu *menu, int ownerDraw, const char *name,
                                  float x, float y, float w, float h, const char *action ) {
-    itemDef_t *item = Menu_AddItem( menu, name );
+    dnItem *item = Menu_AddItem( menu, name );
 
     if ( item == NULL ) {
         return NULL;
@@ -221,10 +221,10 @@ static itemDef_t *Duke2_AddLine( menuDef_t *menu, int ownerDraw, const char *nam
     return item;
 }
 
-static itemDef_t *Duke2_AddSetting( menuDef_t *menu, int type, const char *text,
+static dnItem *Duke2_AddSetting( dnMenu *menu, int type, const char *text,
                                     const char *cvar, const char *name,
                                     float x, float y, float w, float h ) {
-    itemDef_t *item = Menu_AddItem( menu, name );
+    dnItem *item = Menu_AddItem( menu, name );
 
     if ( item == NULL ) {
         return NULL;
@@ -245,7 +245,7 @@ static itemDef_t *Duke2_AddSetting( menuDef_t *menu, int type, const char *text,
     return item;
 }
 
-static void Duke2_SetMulti( itemDef_t *item, const char **labels, const float *values, int count ) {
+static void Duke2_SetMulti( dnItem *item, const char **labels, const float *values, int count ) {
     multiDef_t *multi;
     int i;
 
@@ -270,7 +270,7 @@ static void Duke2_SetMulti( itemDef_t *item, const char **labels, const float *v
 }
 
 /* string MULTI: the labels are shown, the strings are written to the cvar */
-static void Duke2_SetMultiStr( itemDef_t *item, const char **labels, const char **strs, int count ) {
+static void Duke2_SetMultiStr( dnItem *item, const char **labels, const char **strs, int count ) {
     multiDef_t *multi;
     int i;
 
@@ -294,11 +294,11 @@ static void Duke2_SetMultiStr( itemDef_t *item, const char **labels, const char 
     item->typeData = multi;
 }
 
-static itemDef_t *Duke2_AddEditField( menuDef_t *menu, const char *text,
+static dnItem *Duke2_AddEditField( dnMenu *menu, const char *text,
                                      const char *cvar, const char *name,
                                      float x, float y, float w, float h,
                                      int maxChars, int maxPaintChars ) {
-    itemDef_t *item = Menu_AddItem( menu, name );
+    dnItem *item = Menu_AddItem( menu, name );
     editFieldDef_t *edit;
 
     if ( item == NULL ) {
@@ -424,7 +424,7 @@ static void Duke2_BuildRefreshRates( int mode ) {
 
 /* rebuild the refresh rate list for the mode currently selected */
 static void Duke2_ReadVideo( void ) {
-    menuDef_t *menu = Menus_FindByName( "video" );
+    dnMenu *menu = Menus_FindByName( "video" );
     int i;
 
     Duke2_BuildRefreshRates( ( int )uii.Cvar_Value( "gl_mode" ) );
@@ -433,7 +433,7 @@ static void Duke2_ReadVideo( void ) {
         return;
     }
     for ( i = 0; i < menu->itemCount; i++ ) {
-        itemDef_t *item = menu->items[i];
+        dnItem *item = menu->items[i];
         if ( item->window.name && Q_strcasecmp( item->window.name, "vid_refresh" ) == 0 ) {
             Duke2_SetMulti( item, ( const char ** )s_rateLabelPtr, s_rateValues, s_rateCount );
             break;
@@ -758,7 +758,7 @@ void Duke_RunScript( char **args ) {
 /* ---- per-frame updates ---- */
 
 static qboolean Duke2_MenuVisible( const char *name ) {
-    menuDef_t *menu = Menus_FindByName( name );
+    dnMenu *menu = Menus_FindByName( name );
 
     return ( menu && ( menu->window.flags & WINDOW_VISIBLE ) ) ? qtrue : qfalse;
 }
@@ -789,7 +789,7 @@ void Duke2_Refresh( void ) {
 /* ---- menus ---- */
 
 static void Duke2_Menu_Save( void ) {
-    menuDef_t *menu = Menu_Alloc( "savegame" );
+    dnMenu *menu = Menu_Alloc( "savegame" );
     /* item names live for the whole run: Menu_AddItem keeps the pointer */
     static char names[DUKE2_MAX_SLOTS][16];
     int i;
@@ -813,7 +813,7 @@ static void Duke2_Menu_Save( void ) {
 }
 
 static void Duke2_Menu_Load( void ) {
-    menuDef_t *menu = Menu_Alloc( "loadgame" );
+    dnMenu *menu = Menu_Alloc( "loadgame" );
     /* item names live for the whole run: Menu_AddItem keeps the pointer */
     static char names[DUKE2_MAX_SLOTS][16];
     int i;
@@ -837,7 +837,7 @@ static void Duke2_Menu_Load( void ) {
 }
 
 static void Duke2_Menu_Multiplayer( void ) {
-    menuDef_t *menu = Menu_Alloc( "multiplayer" );
+    dnMenu *menu = Menu_Alloc( "multiplayer" );
 
     if ( menu == NULL ) {
         return;
@@ -861,7 +861,7 @@ static void Duke2_Menu_Multiplayer( void ) {
 }
 
 static void Duke2_Menu_JoinServer( void ) {
-    menuDef_t *menu = Menu_Alloc( "joinserver" );
+    dnMenu *menu = Menu_Alloc( "joinserver" );
     /* item names live for the whole run: Menu_AddItem keeps the pointer */
     static char names[DUKE2_MAX_SERVERS][24];
     int i;
@@ -892,7 +892,7 @@ static void Duke2_Menu_JoinServer( void ) {
 }
 
 static void Duke2_Menu_AddressBook( void ) {
-    menuDef_t *menu = Menu_Alloc( "addressbook" );
+    dnMenu *menu = Menu_Alloc( "addressbook" );
     int i;
 
     if ( menu == NULL ) {
@@ -916,8 +916,8 @@ static void Duke2_Menu_AddressBook( void ) {
 static void Duke2_Menu_StartServer( void ) {
     static const char *rulesLabels[2] = {"deathmatch", "cooperative"};
     static const float rulesValues[2] = {0.0f, 1.0f};
-    menuDef_t *menu = Menu_Alloc( "startserver" );
-    itemDef_t *item;
+    dnMenu *menu = Menu_Alloc( "startserver" );
+    dnItem *item;
 
     if ( menu == NULL ) {
         return;
@@ -952,7 +952,7 @@ static void Duke2_Menu_StartServer( void ) {
 }
 
 static void Duke2_Menu_DmOptions( void ) {
-    menuDef_t *menu = Menu_Alloc( "dmoptions" );
+    dnMenu *menu = Menu_Alloc( "dmoptions" );
     /* item names live for the whole run: Menu_AddItem keeps the pointer */
     static char names[15][16];
     int i;
@@ -978,7 +978,7 @@ static void Duke2_Menu_DmOptions( void ) {
 }
 
 static void Duke2_Menu_DownloadOptions( void ) {
-    menuDef_t *menu = Menu_Alloc( "downloadoptions" );
+    dnMenu *menu = Menu_Alloc( "downloadoptions" );
 
     if ( menu == NULL ) {
         return;
@@ -1008,7 +1008,7 @@ static void Duke2_Menu_PlayerConfig( void ) {
     static const char *rateLabels[5] = {"28.8 MODEM", "33.6 MODEM", "SINGLE ISDN",
                                         "DUAL ISDN/CABLE", "T1/LAN"};
     static const float rateValues[5] = {2500.0f, 3200.0f, 5000.0f, 10000.0f, 25000.0f};
-    menuDef_t *menu = Menu_Alloc( "playerconfig" );
+    dnMenu *menu = Menu_Alloc( "playerconfig" );
 
     if ( menu == NULL ) {
         return;
@@ -1023,13 +1023,13 @@ static void Duke2_Menu_PlayerConfig( void ) {
        keeps the settings until a Quake 3 renderer brings renderScene */
     Duke2_AddEditField( menu, "name", "name", "pc_name", 80, 64, 480, 24, 16, 16 );
     {
-        itemDef_t *item = Duke2_AddSetting( menu, ITEM_TYPE_MULTI, "handedness", "hand", "pc_hand",
+        dnItem *item = Duke2_AddSetting( menu, ITEM_TYPE_MULTI, "handedness", "hand", "pc_hand",
                                             80, 100, 480, 24 );
         Duke2_SetMulti( item, handLabels, handValues, 3 );
     }
     Duke2_AddEditField( menu, "skin", "skin", "pc_skin", 80, 136, 480, 24, 32, 24 );
     {
-        itemDef_t *item = Duke2_AddSetting( menu, ITEM_TYPE_MULTI, "connection", "rate", "pc_rate",
+        dnItem *item = Duke2_AddSetting( menu, ITEM_TYPE_MULTI, "connection", "rate", "pc_rate",
                                             80, 172, 480, 24 );
         Duke2_SetMulti( item, rateLabels, rateValues, 5 );
     }
@@ -1047,8 +1047,8 @@ static void Duke2_Menu_Video( void ) {
     static const char *tqLabels[4] = {"0", "1", "2", "3"};
     /* engine order: texture quality 0..3 maps to gl_picmip 3..0 */
     static const float tqValues[4] = {3.0f, 2.0f, 1.0f, 0.0f};
-    menuDef_t *menu = Menu_Alloc( "video" );
-    itemDef_t *item;
+    dnMenu *menu = Menu_Alloc( "video" );
+    dnItem *item;
     int i;
 
     if ( menu == NULL ) {
@@ -1104,7 +1104,7 @@ static void Duke2_Menu_Video( void ) {
 }
 
 static void Duke2_Menu_Credits( void ) {
-    menuDef_t *menu = Menu_Alloc( "credits" );
+    dnMenu *menu = Menu_Alloc( "credits" );
 
     if ( menu == NULL ) {
         return;
@@ -1114,7 +1114,7 @@ static void Duke2_Menu_Credits( void ) {
     menu->onESC = "play item15.wav ; close credits ; open main";
 
     {
-        itemDef_t *item = Menu_AddItem( menu, "credits_scroll" );
+        dnItem *item = Menu_AddItem( menu, "credits_scroll" );
         if ( item ) {
             item->type = ITEM_TYPE_OWNERDRAW;
             item->window.ownerDraw = DUKE2_OD_BASE + DUKE2_OD_CREDITS;
