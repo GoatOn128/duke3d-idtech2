@@ -281,6 +281,26 @@ public:
 
 	/* resets the item to its defaults; the parser and the Duke builders share it */
 	void Init( void );
+
+	/* the former Item_* framework helpers as methods */
+	void RunScript( const char *s );
+	void SetScreenCoords( float x, float y );
+	void UpdatePosition( void );
+	qboolean EnableShowViaCvar( int flag );
+	qboolean SetFocus( float x, float y );
+	void MouseEnter( float x, float y );
+	void MouseLeave( void );
+	void SetMouseOver( qboolean focus );
+	void StartCapture( int key );
+	void StopCapture( void );
+	qboolean HandleKey( int key, qboolean down );
+	void Action( void );
+	rectDef_t *CorrectedTextRect( void );
+	void SetTextExtents( int *width, int *height, const char *text );
+	void TextColor( vec4_t *newColor );
+	void Paint( void );
+	void ValidateTypeData( void );
+	void CacheContents( void );
 };
 
 class dnMenu {
@@ -310,6 +330,30 @@ public:
 	dnItem *FindItemByName( const char *p );
 	int ItemsMatchingGroup( const char *name );
 	dnItem *GetMatchingItemByNumber( int index, const char *name );
+
+	/* the former Menu_* framework helpers as methods */
+	static dnMenu *Alloc( const char *name );
+	dnItem *AddItem( const char *name );
+	void PostParse( void );
+	void UpdatePosition( void );
+	dnItem *ClearFocus( void );
+	void ShowItemByName( const char *p, qboolean bShow );
+	void FadeItemByName( const char *p, qboolean fadeOut );
+	void RunCloseScript( void );
+	void TransitionItemByName( const char *p, rectDef_t rectFrom, rectDef_t rectTo, int time, float amt );
+	void OrbitItemByName( const char *p, float x, float y, float cx, float cy, int time );
+	dnItem *HitTest( float x, float y );
+	void CloseCinematics( void );
+	void Activate( void );
+	void HandleKey( int key, qboolean down );
+	void HandleMouseMove( float x, float y );
+	void Paint( qboolean forcePaint );
+	void ScrollFeeder( int feeder, qboolean down );
+	void CacheContents( void );
+	qboolean OverActiveItem( float x, float y );
+	dnItem *GetFocusedItem( void );
+	dnItem *SetPrevCursorItem( void );
+	dnItem *SetNextCursorItem( void );
 };
 
 typedef struct {
@@ -454,14 +498,8 @@ void String_Init();
 void String_Report();
 void Init_Display( displayContextDef_t *dc );
 void Display_ExpandMacros( char * buff );
-/* code-built menus: allocate a menu, add items, then call Menu_PostParse */
-dnMenu *Menu_Alloc( const char *name );
-dnItem *Menu_AddItem( dnMenu *menu, const char *name );
-void Menu_PostParse( dnMenu *menu );
+/* code-built menus: allocate with dnMenu::Alloc, add items with AddItem, then run PostParse */
 dnMenu *Menu_GetFocused();
-void Menu_HandleKey( dnMenu *menu, int key, qboolean down );
-void Menu_HandleMouseMove( dnMenu *menu, float x, float y );
-void Menu_ScrollFeeder( dnMenu *menu, int feeder, qboolean down );
 qboolean Float_Parse( char **p, float *f );
 qboolean Color_Parse( char **p, vec4_t *c );
 qboolean Int_Parse( char **p, int *i );
@@ -481,7 +519,6 @@ void Menu_PaintAll();
 dnMenu *Menus_ActivateByName( const char *p );
 void Menu_Reset();
 qboolean Menus_AnyFullScreenVisible();
-void  Menus_Activate( dnMenu *menu );
 
 displayContextDef_t *Display_GetContext();
 void        *Display_CaptureItem( int x, int y );
@@ -495,7 +532,6 @@ void        Menus_CloseByName( const char *p );
 void        Display_HandleKey( int key, qboolean down, int x, int y );
 void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
 void        Menus_CloseAll();
-void        Menu_Paint( dnMenu *menu, qboolean forcePaint );
 void        Menu_SetFeederSelection( dnMenu *menu, int feeder, int index, const char *name );
 void        Display_CacheAll();
 
