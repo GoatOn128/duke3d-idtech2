@@ -128,21 +128,20 @@ typedef struct {
 
 typedef rectDef_t Rectangle;
 
-// FIXME: do something to separate text vs window stuff
 class dnWindow {
 public:
 	Rectangle rect;                 // client coord rectangle
 	Rectangle rectClient;           // screen coord rectangle
-	const char *name;               //
-	const char *model;              //
+	const char *name;
+	const char *model;
 	const char *group;              // if it belongs to a group
 	const char *cinematicName;      // cinematic name
 	int cinematic;                  // cinematic handle
-	int style;                      //
-	int border;                     //
+	int style;
+	int border;
 	int ownerDraw;                  // ownerDraw style
 	int ownerDrawFlags;             // show flags for ownerdraw items
-	float borderSize;               //
+	float borderSize;
 	int flags;                      // visible, focus, mouseover, cursor
 	Rectangle rectEffects;          // for various effects
 	Rectangle rectEffects2;         // for various effects
@@ -165,16 +164,8 @@ typedef struct {
 	float high;
 } colorRangeDef_t;
 
-// FIXME: combine flags into bitfields to save space
-// FIXME: consolidate all of the common stuff in one structure for menus and items
-// THINKABOUTME: is there any compelling reason not to have items contain items
-// and do away with a menu per say.. major issue is not being able to dynamically allocate
-// and destroy stuff.. Another point to consider is adding an alloc free call for vm's and have
-// the engine just allocate the pool for it based on a cvar
-// many of the vars are re-used for different item types, as such they are not always named appropriately
-// the benefits of c++ in DOOM will greatly help crap like this
-// FIXME: need to put a type ptr that points to specific type info per type
-//
+// the xxxDef_t structs below hang off an item through typeData, one per item
+// type; several fields are shared between types, so the names do not always fit
 #define MAX_LB_COLUMNS 16
 
 typedef struct columnInfo_s {
@@ -199,12 +190,12 @@ typedef struct listBoxDef_s {
 
 typedef struct editFieldDef_s {
 	float minVal;                   //	edit field limits
-	float maxVal;                   //
-	float defVal;                   //
-	float range;                    //
+	float maxVal;
+	float defVal;
+	float range;
 	int maxChars;                   // for edit fields
 	int maxPaintChars;              // for edit fields
-	int paintOffset;                //
+	int paintOffset;
 } editFieldDef_t;
 
 #define MAX_MULTI_CVARS 32
@@ -249,14 +240,14 @@ public:
 	Rectangle textRect;             // rectangle the text ( if any ) consumes
 	int type;                       // text, button, radiobutton, checkbox, textfield, listbox, combo
 	int alignment;                  // left center right
-	int font;                       //		//----(SA)	added
+	int font;
 	int textalignment;              // ( optional ) alignment for text within rect based on text width
 	float textalignx;               // ( optional ) text alignment x coord
-	float textaligny;               // ( optional ) text alignment x coord
+	float textaligny; // ( optional ) text alignment y coord
 	float textscale;                // scale percentage from 72pts
 	int textStyle;                  // ( optional ) style, normal and shadowed are it for now
 	const char *text;               // display text
-	qboolean textSavegameInfo;      //----(SA)	added
+	qboolean textSavegameInfo; // text comes from the ui_savegameInfo cvar
 	void *parent;                   // menu owner
 	qhandle_t asset;                // handle to asset
 	const char *mouseEnterText;     // mouse enter script
@@ -264,7 +255,7 @@ public:
 	const char *mouseEnter;         // mouse enter script
 	const char *mouseExit;          // mouse exit script
 	const char *action;             // select script
-	const char *onAccept;           // NERVE - SMF - run when the users presses the enter key
+	const char *onAccept;           // run when the user presses the enter key
 	const char *onFocus;            // select script
 	const char *leaveFocus;         // select script
 	const char *cvar;               // associated cvar
@@ -274,7 +265,7 @@ public:
 	sfxHandle_t focusSound;
 	int numColors;                  // number of color ranges
 	colorRangeDef_t colorRanges[MAX_COLOR_RANGES];
-	int colorRangeType;             // either
+	int colorRangeType; // whether the color ranges are absolute or cvar relative
 	float special;                  // used for feeder id's etc.. diff per type
 	int cursorPos;                  // cursor position in characters
 	void *typeData;                 // type specific data ptr's
@@ -322,20 +313,20 @@ public:
 	const char  *font;              // font
 	qboolean fullScreen;            // covers entire screen
 	int itemCount;                  // number of items;
-	int fontIndex;                  //
-	int cursorItem;                 // which item as the cursor
-	int fadeCycle;                  //
-	float fadeClamp;                //
-	float fadeAmount;               //
+	int fontIndex;
+	int cursorItem;                 // item the cursor is on
+	int fadeCycle;
+	float fadeClamp;
+	float fadeAmount;
 	const char *onOpen;             // run when the menu is first opened
 	const char *onClose;            // run when the menu is closed
 	const char *onESC;              // run when the menu is closed
-	const char *onKey[255];         // NERVE - SMF - execs commands when a key is pressed
+	const char *onKey[255];         // scripts run when the matching key is pressed
 	const char *soundName;          // background loop sound for menu
-	const char *onROQDone;          //----(SA)	added.  callback for roqs played from menus
+	const char *onROQDone;          // run when a menu cinematic (roq) finishes
 
 	vec4_t focusColor;              // focus color for items
-	vec4_t disableColor;            // focus color for items
+	vec4_t disableColor; // color used while the item is disabled
 	dnItem *items[MAX_MENUITEMS]; // items this menu contains
 
 	/* framework defaults and the by-name item lookups as methods */
@@ -449,12 +440,12 @@ typedef struct {
 	int ( *feederCount )( float feederID );
 	const char *( *feederItemText )( float feederID, int index, int column, qhandle_t * handle );
 
-	const char *( *fileText )( char *flieName );    //----(SA)	added
-	const char *( *getTranslatedString )( const char *inString );   //----(SA)	added
+	const char *( *fileText )( char *flieName );
+	const char *( *getTranslatedString )( const char *inString );
 
 	qhandle_t ( *feederItemImage )( float feederID, int index );
 	void ( *feederSelection )( float feederID, int index );
-	void ( *feederAddItem )( float feederID, const char *name, int index );           // NERVE - SMF
+	void ( *feederAddItem )( float feederID, const char *name, int index );
 
 	void ( *keynumToStringBuf )( int keynum, char *buf, int buflen );
 	void ( *getBindingBuf )( int keynum, char *buf, int buflen );
@@ -464,7 +455,6 @@ typedef struct {
 	void ( *Print )( const char *msg, ... );
 	void ( *Pause )( qboolean b );
 	int ( *ownerDrawWidth )( int ownerDraw, int font, float scale );
-//	sfxHandle_t (*registerSound)(const char *name, qboolean compressed);
 	sfxHandle_t ( *registerSound )( const char *name );
 	void ( *startBackgroundTrack )( const char *intro, const char *loop, int fadeupTime );
 	void ( *stopBackgroundTrack )();
@@ -493,7 +483,6 @@ typedef struct {
 } displayContextDef_t;
 
 
-//----(SA)	added
 
 typedef struct {
 	char *name;
@@ -503,7 +492,6 @@ typedef struct {
 #define MAX_TRANSLATESTRINGS 64
 extern translateString_t translateStrings[MAX_TRANSLATESTRINGS];
 
-//----(SA)	end
 
 
 const char *String_Alloc( const char *p );
@@ -525,7 +513,7 @@ qboolean PC_Int_Parse( int handle, int *i );
 qboolean PC_Rect_Parse( int handle, rectDef_t *r );
 qboolean PC_String_Parse( int handle, const char **out );
 qboolean PC_Script_Parse( int handle, const char **out );
-qboolean PC_Char_Parse( int handle, char *out );              // NERVE - SMF
+qboolean PC_Char_Parse( int handle, char *out );
 int Menu_Count();
 qboolean Menu_New( int handle );
 void Menu_Load( const char *menuFile );

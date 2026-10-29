@@ -26,8 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-//
-// string allocation/managment
+// the idTech 3 menu framework: string pool, items, menus and the .menu parser
 
 #include "ui_local.h"
 
@@ -64,8 +63,8 @@ qboolean g_editingField = qfalse;
 static dnItem *g_bindItem = NULL;
 dnItem *g_editItem = NULL;
 
-dnMenu Menus[MAX_MENUS];      // defined menus
-int menuCount = 0;               // how many
+dnMenu Menus[MAX_MENUS];
+int menuCount = 0;
 
 dnMenu *menuStack[MAX_OPEN_MENUS];
 int openMenuCount = 0;
@@ -125,33 +124,27 @@ translateString_t translateStrings[] = {
 	{"end_exit"},                //	"Proceed forward to exit..."
 	{"end_noexit"},              //	"Exit not yet available"
 
-	{"yes"},                 //
-	{"no"},                      //
+	{"yes"},
+	{"no"},
 	{"keywait"},             //	"Waiting for new key... Press ESCAPE to cancel"
 	{"keychange"},               //	"Press ENTER or CLICK to change, Press BACKSPACE to clear"
 	{"pleasewait"},              //	"Please Wait..."
 	{"dynamitetimer"},           //	"Dynamite timer set at"
-	{"second"},                  //
-	{"seconds"},             //
-	{"minute"},                  //
-	{"minutes"},             //
-	{"hour"},                    //
-	{"hours"},                   //
-	{"day"},                 //
-	{"days"},                    //
-	{"month"},                   //
-	{"months"},                  //
-	{"year"},                    //
-	{"years"},                   //
-	{"or"}                       //
+	{"second"},
+	{"seconds"},
+	{"minute"},
+	{"minutes"},
+	{"hour"},
+	{"hours"},
+	{"day"},
+	{"days"},
+	{"month"},
+	{"months"},
+	{"year"},
+	{"years"},
+	{"or"}
 };
 
-//----(SA)	added
-/*
-==============
-UI_RoQDone
-==============
-*/
 void UI_RoQDone( void ) {
 	dnMenu *menu = Menu_GetFocused();
 	if ( menu->onROQDone ) {
@@ -161,14 +154,8 @@ void UI_RoQDone( void ) {
 
 	}
 }
-//----(SA)	end
 
 
-/*
-===============
-UI_Alloc
-===============
-*/
 void *UI_Alloc( int size ) {
 	char    *p;
 
@@ -177,7 +164,6 @@ void *UI_Alloc( int size ) {
 		if ( DC->Print ) {
 			DC->Print( "UI_Alloc: Failure. Out of memory!\n" );
 		}
-		//DC->UI_Printf(S_COLOR_YELLOW"WARNING: UI Out of Memory!\n");
 		return NULL;
 	}
 
@@ -188,11 +174,6 @@ void *UI_Alloc( int size ) {
 	return p;
 }
 
-/*
-===============
-UI_InitMemory
-===============
-*/
 void UI_InitMemory( void ) {
 	allocPoint = 0;
 	outOfMemory = qfalse;
@@ -305,11 +286,6 @@ void String_Report() {
 }
 
 
-/*
-=================
-String_Init
-=================
-*/
 void String_Init() {
 	int i;
 	for ( i = 0; i < HASH_TABLE_SIZE; i++ ) {
@@ -327,11 +303,6 @@ void String_Init() {
 	}
 }
 
-/*
-=================
-PC_SourceWarning
-=================
-*/
 void PC_SourceWarning( int handle, char *format, ... ) {
 	int line;
 	char filename[128];
@@ -349,11 +320,6 @@ void PC_SourceWarning( int handle, char *format, ... ) {
 	UI_Printf( S_COLOR_YELLOW "WARNING: %s, line %d: %s\n", filename, line, string );
 }
 
-/*
-=================
-PC_SourceError
-=================
-*/
 void PC_SourceError( int handle, char *format, ... ) {
 	int line;
 	char filename[128];
@@ -390,11 +356,6 @@ void LerpColor( vec4_t a, vec4_t b, vec4_t c, float t ) {
 	}
 }
 
-/*
-=================
-Float_Parse
-=================
-*/
 qboolean Float_Parse( char **p, float *f ) {
 	char    *token;
 	token = COM_ParseExt( p, qfalse );
@@ -406,11 +367,6 @@ qboolean Float_Parse( char **p, float *f ) {
 	}
 }
 
-/*
-=================
-PC_Float_Parse
-=================
-*/
 qboolean PC_Float_Parse( int handle, float *f ) {
 	pc_token_t token;
 	int negative = qfalse;
@@ -436,11 +392,6 @@ qboolean PC_Float_Parse( int handle, float *f ) {
 	return qtrue;
 }
 
-/*
-=================
-Color_Parse
-=================
-*/
 qboolean Color_Parse( char **p, vec4_t *c ) {
 	int i;
 	float f;
@@ -454,11 +405,6 @@ qboolean Color_Parse( char **p, vec4_t *c ) {
 	return qtrue;
 }
 
-/*
-=================
-PC_Color_Parse
-=================
-*/
 qboolean PC_Color_Parse( int handle, vec4_t *c ) {
 	int i;
 	float f;
@@ -472,11 +418,6 @@ qboolean PC_Color_Parse( int handle, vec4_t *c ) {
 	return qtrue;
 }
 
-/*
-=================
-Int_Parse
-=================
-*/
 qboolean Int_Parse( char **p, int *i ) {
 	char    *token;
 	token = COM_ParseExt( p, qfalse );
@@ -489,11 +430,6 @@ qboolean Int_Parse( char **p, int *i ) {
 	}
 }
 
-/*
-=================
-PC_Int_Parse
-=================
-*/
 qboolean PC_Int_Parse( int handle, int *i ) {
 	pc_token_t token;
 	int negative = qfalse;
@@ -518,11 +454,6 @@ qboolean PC_Int_Parse( int handle, int *i ) {
 	return qtrue;
 }
 
-/*
-=================
-Rect_Parse
-=================
-*/
 qboolean Rect_Parse( char **p, rectDef_t *r ) {
 	if ( Float_Parse( p, &r->x ) ) {
 		if ( Float_Parse( p, &r->y ) ) {
@@ -536,11 +467,6 @@ qboolean Rect_Parse( char **p, rectDef_t *r ) {
 	return qfalse;
 }
 
-/*
-=================
-PC_Rect_Parse
-=================
-*/
 qboolean PC_Rect_Parse( int handle, rectDef_t *r ) {
 	if ( PC_Float_Parse( handle, &r->x ) ) {
 		if ( PC_Float_Parse( handle, &r->y ) ) {
@@ -554,11 +480,6 @@ qboolean PC_Rect_Parse( int handle, rectDef_t *r ) {
 	return qfalse;
 }
 
-/*
-=================
-String_Parse
-=================
-*/
 qboolean String_Parse( char **p, const char **out ) {
 	char *token;
 
@@ -570,11 +491,6 @@ qboolean String_Parse( char **p, const char **out ) {
 	return qfalse;
 }
 
-/*
-=================
-PC_String_Parse
-=================
-*/
 qboolean PC_String_Parse( int handle, const char **out ) {
 	pc_token_t token;
 
@@ -586,12 +502,6 @@ qboolean PC_String_Parse( int handle, const char **out ) {
 	return qtrue;
 }
 
-// NERVE - SMF
-/*
-=================
-PC_Char_Parse
-=================
-*/
 qboolean PC_Char_Parse( int handle, char *out ) {
 	pc_token_t token;
 
@@ -602,13 +512,7 @@ qboolean PC_Char_Parse( int handle, char *out ) {
 	*( out ) = token.string[0];
 	return qtrue;
 }
-// -NERVE - SMF
 
-/*
-=================
-PC_Script_Parse
-=================
-*/
 qboolean PC_Script_Parse( int handle, const char **out ) {
 	char script[1024];
 	pc_token_t token;
@@ -641,11 +545,9 @@ qboolean PC_Script_Parse( int handle, const char **out ) {
 		}
 		Q_strcat( script, 1024, " " );
 	}
-	//return qfalse;
 }
 
 // display, window, menu, item code
-//
 
 /*
 ==================
@@ -710,7 +612,6 @@ void Fade( int *flags, float *f, float clamp, int *nextTime, int offsetTime, qbo
 
 
 void Window_Paint( Window *w, float fadeAmount, float fadeClamp, float fadeCycle ) {
-	//float bordersize = 0;
 	vec4_t color;
 	rectDef_t fillRect = w->rect;
 
@@ -742,7 +643,6 @@ void Window_Paint( Window *w, float fadeAmount, float fadeClamp, float fadeCycle
 		}
 	} else if ( w->style == WINDOW_STYLE_GRADIENT ) {
 		GradientBar_Paint( &fillRect, w->backColor );
-		// gradient bar
 	} else if ( w->style == WINDOW_STYLE_SHADER ) {
 		if ( w->flags & WINDOW_FORECOLORSET ) {
 			DC->setColor( w->foreColor );
@@ -768,8 +668,7 @@ void Window_Paint( Window *w, float fadeAmount, float fadeClamp, float fadeCycle
 	}
 
 	if ( w->border == WINDOW_BORDER_FULL ) {
-		// full
-		// HACK HACK HACK
+		// the team color border gets lightened so it reads on the fill
 		if ( w->style == WINDOW_STYLE_TEAMCOLOR ) {
 			if ( color[0] > 0 ) {
 				// red
@@ -824,7 +723,6 @@ void dnItem::SetScreenCoords( float x, float y ) {
 	textRect.h = 0;
 }
 
-// FIXME: consolidate this with nearby stuff
 void dnItem::UpdatePosition( void ) {
 	float x, y;
 	dnMenu *menu;
@@ -1214,11 +1112,6 @@ void Script_Close( dnItem *item, char **args ) {
 
 
 
-/*
-==============
-Script_Clipboard
-==============
-*/
 void Script_Clipboard( dnItem *item, char **args ) {
 	char curscript[64];
 	DC->getCVarString( "cg_clipboardName", curscript, sizeof( curscript ) ); // grab the string the client set
@@ -1228,7 +1121,7 @@ void Script_Clipboard( dnItem *item, char **args ) {
 
 
 
-#define NOTEBOOK_MAX_PAGES 6    // this will not be a define
+#define NOTEBOOK_MAX_PAGES 6
 
 
 /*
@@ -1258,14 +1151,12 @@ void Script_NotebookShowpage( dnItem *item, char **args ) {
 		}
 
 		if ( inc == 999 ) {            // jump to end
-//			newpage = NOTEBOOK_MAX_PAGES;	// = lastpage;
 			curpage = 0;
 			inc = -1;
 		} else if ( inc == -999 ) {    // jump to start
 			curpage = 0;
 			inc = 0;
 		} else if ( inc > 500 ) {
-//			curpage = DEBRIEFING_BASE + (inc - 500);
 			curpage = inc;
 			inc = 0;
 		}
@@ -1286,8 +1177,6 @@ void Script_NotebookShowpage( dnItem *item, char **args ) {
 
 					if ( pages & ( 1 << ( newpage - 1 ) ) ) {
 						dec++;
-//						if(dec == inc)
-//							break;
 						break;
 					}
 				}
@@ -1315,7 +1204,6 @@ void Script_NotebookShowpage( dnItem *item, char **args ) {
 
 
 		// hide all the pages
-//		item->parent->ShowItemByName( "page_*", qfalse);
 		( (dnMenu *)item->parent )->ShowItemByName( "cover", qfalse );
 		for ( i = 1; i <= NOTEBOOK_MAX_PAGES; i++ ) {
 			( (dnMenu *)item->parent )->ShowItemByName( va( "page%d", i ), qfalse );
@@ -1462,13 +1350,10 @@ void Script_Play( dnItem *item, char **args ) {
 void Script_playLooped( dnItem *item, char **args ) {
 	const char *val;
 	if ( String_Parse( args, &val ) ) {
-		// (SA) don't think this should happen...
-//		DC->stopBackgroundTrack();
 		DC->startBackgroundTrack( val, val, 0 );
 	}
 }
 
-// NERVE - SMF
 void Script_AddListItem( dnItem *item, char **args ) {
 	const char *itemname, *val, *name;
 	dnItem *t;
@@ -1480,7 +1365,6 @@ void Script_AddListItem( dnItem *item, char **args ) {
 		}
 	}
 }
-// -NERVE - SMF
 
 commandDef_t commandList[] =
 {
@@ -1492,21 +1376,21 @@ commandDef_t commandList[] =
 	{"open", &Script_Open},                      // menu
 	{"close", &Script_Close},                    // menu
 	{"clipboard", &Script_Clipboard},            // show the current clipboard group by name
-	{"showpage", &Script_NotebookShowpage},          //
+	{"showpage", &Script_NotebookShowpage},
 	{"setasset", &Script_SetAsset},              // works on this
 	{"setbackground", &Script_SetBackground},    // works on this
 	{"setitemcolor", &Script_SetItemColor},      // group/name
-	{"setteamcolor", &Script_SetTeamColor},      // sets this background color to team color
-	{"setfocus", &Script_SetFocus},              // sets this background color to team color
-	{"setplayermodel", &Script_SetPlayerModel},  // sets this background color to team color
-	{"setplayerhead", &Script_SetPlayerHead},    // sets this background color to team color
+	{"setteamcolor", &Script_SetTeamColor}, // paint the background in the team color
+	{"setfocus", &Script_SetFocus}, // focus an item by name
+	{"setplayermodel", &Script_SetPlayerModel}, // set the player setup model item
+	{"setplayerhead", &Script_SetPlayerHead}, // set the player setup head item
 	{"transition", &Script_Transition},          // group/name
 	{"setcvar", &Script_SetCvar},                // group/name
-	{"exec", &Script_Exec},                      // group/name
-	{"play", &Script_Play},                      // group/name
-	{"playlooped", &Script_playLooped},          // group/name
+	{"exec", &Script_Exec}, // run a config file
+	{"play", &Script_Play}, // play a sound by name
+	{"playlooped", &Script_playLooped}, // loop a sound by name
 	{"orbit", &Script_Orbit},                    // group/name
-	{"addlistitem", &Script_AddListItem}     // NERVE - SMF - special command to add text items to list box
+	{"addlistitem", &Script_AddListItem} // add text items to a list box
 };
 
 int scriptCommandCount = sizeof( commandList ) / sizeof( commandDef_t );
@@ -1587,7 +1471,7 @@ qboolean dnItem::EnableShowViaCvar( int flag ) {
 }
 
 
-// will optionaly set focus to this item
+// optionally sets focus to this item
 qboolean dnItem::SetFocus( float x, float y ) {
 	int i;
 	dnItem *oldFocus;
@@ -1748,11 +1632,8 @@ float Item_Slider_ThumbPosition( dnItem *item ) {
 	range = editDef->maxVal - editDef->minVal;
 	value -= editDef->minVal;
 	value /= range;
-	//value /= (editDef->maxVal - editDef->minVal);
 	value *= SLIDER_WIDTH;
 	x += value;
-	// vm fuckage
-	//x = x + (((float)value / editDef->maxVal) * SLIDER_WIDTH);
 	return x;
 }
 
@@ -1906,7 +1787,6 @@ void dnItem::MouseEnter( float x, float y ) {
 	} else {
 		// not in the text rect
 		if ( window.flags & WINDOW_MOUSEOVERTEXT ) {
-			// if we were
 			RunScript( mouseExitText );
 			window.flags &= ~WINDOW_MOUSEOVERTEXT;
 		}
@@ -2082,7 +1962,6 @@ qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean 
 					listPtr->startPos = max;
 				}
 			} else if ( item->window.flags & WINDOW_LB_THUMB ) {
-				// Display_SetCaptureItem(item);
 			} else {
 				// select an item
 				if ( DC->realTime < lastListBoxClickTime && listPtr->doubleClick ) {
@@ -2289,16 +2168,14 @@ qboolean Item_TextField_HandleKey( dnItem *item, int key ) {
 			}
 
 
-			// 'valid filename' text entry.  so users can't try to save games like '!**$er' and stuff (from the menu)
+			// filename fields only take characters that make valid save names
 			if ( item->type == ITEM_TYPE_VALIDFILEFIELD ) {
 				if ( !Q_isforfilename( key ) ) {
 					return qtrue;
 				}
 			}
 
-			//
 			// ignore any non printable chars
-			//
 			if ( key < 32 || !item->cvar ) {
 				return qtrue;
 			}
@@ -2363,13 +2240,13 @@ qboolean Item_TextField_HandleKey( dnItem *item, int key ) {
 				return qtrue;
 			}
 
-			if ( key == K_HOME || key == K_KP_HOME ) { // || ( tolower(key) == 'a' && uii.Key_IsDown( K_CTRL ) ) ) {
+			if ( key == K_HOME || key == K_KP_HOME ) {
 				item->cursorPos = 0;
 				editPtr->paintOffset = 0;
 				return qtrue;
 			}
 
-			if ( key == K_END || key == K_KP_END ) { // ( tolower(key) == 'e' && uii.Key_IsDown( K_CTRL ) ) ) {
+			if ( key == K_END || key == K_KP_END ) {
 				item->cursorPos = len;
 				if ( item->cursorPos > editPtr->maxPaintChars ) {
 					editPtr->paintOffset = len - editPtr->maxPaintChars;
@@ -2397,13 +2274,11 @@ qboolean Item_TextField_HandleKey( dnItem *item, int key ) {
 			}
 		}
 
-		// NERVE - SMF
 		if ( key == K_ENTER || key == K_KP_ENTER ) {
 			if ( item->onAccept ) {
 				item->RunScript( item->onAccept );
 			}
 		}
-		// -NERVE - SMF
 
 		if ( key == K_ENTER || key == K_KP_ENTER || key == K_ESCAPE ) {
 			return qfalse;
@@ -2448,7 +2323,6 @@ static void Scroll_ListBox_ThumbFunc( void *p ) {
 		r.h = SCROLLBAR_SIZE;
 		r.w = si->item->window.rect.w - ( SCROLLBAR_SIZE * 2 ) - 2;
 		max = Item_ListBox_MaxScroll( si->item );
-		//
 		pos = ( DC->cursorx - r.x - SCROLLBAR_SIZE / 2 ) * max / ( r.w - SCROLLBAR_SIZE );
 		if ( pos < 0 ) {
 			pos = 0;
@@ -2464,7 +2338,6 @@ static void Scroll_ListBox_ThumbFunc( void *p ) {
 		r.h = si->item->window.rect.h - ( SCROLLBAR_SIZE * 2 ) - 2;
 		r.w = SCROLLBAR_SIZE;
 		max = Item_ListBox_MaxScroll( si->item );
-		//
 		pos = ( DC->cursory - r.y - SCROLLBAR_SIZE / 2 ) * max / ( r.h - SCROLLBAR_SIZE );
 		if ( pos < 0 ) {
 			pos = 0;
@@ -2521,7 +2394,7 @@ void dnItem::StartCapture( int key ) {
 	switch ( type ) {
 	case ITEM_TYPE_EDITFIELD:
 	case ITEM_TYPE_NUMERICFIELD:
-	case ITEM_TYPE_VALIDFILEFIELD:  //----(SA)	added
+	case ITEM_TYPE_VALIDFILEFIELD:
 
 	case ITEM_TYPE_LISTBOX:
 	{
@@ -2571,7 +2444,6 @@ void dnItem::StopCapture( void ) {
 qboolean Item_Slider_HandleKey( dnItem *item, int key, qboolean down ) {
 	float x, value, width, work;
 
-	//DC->Print("slider handle key\n");
 	if ( item->window.flags & WINDOW_HASFOCUS && item->cvar && Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) ) {
 		if ( key == K_MOUSE1 || key == K_ENTER || key == K_MOUSE2 || key == K_MOUSE3 ) {
 			editFieldDef_t *editDef = ( editFieldDef_t * )item->typeData;
@@ -2588,15 +2460,11 @@ qboolean Item_Slider_HandleKey( dnItem *item, int key, qboolean down ) {
 				testRect.x = x;
 				value = (float)SLIDER_THUMB_WIDTH / 2;
 				testRect.x -= value;
-				//DC->Print("slider x: %f\n", testRect.x);
 				testRect.w = ( SLIDER_WIDTH + (float)SLIDER_THUMB_WIDTH / 2 );
-				//DC->Print("slider w: %f\n", testRect.w);
 				if ( Rect_ContainsPoint( &testRect, DC->cursorx, DC->cursory ) ) {
 					work = DC->cursorx - x;
 					value = work / width;
 					value *= ( editDef->maxVal - editDef->minVal );
-					// vm fuckage
-					// value = (((float)(DC->cursorx - x)/ SLIDER_WIDTH) * (editDef->maxVal - editDef->minVal));
 					value += editDef->minVal;
 					DC->setCVar( item->cvar, va( "%f", value ) );
 					return qtrue;
@@ -2604,7 +2472,6 @@ qboolean Item_Slider_HandleKey( dnItem *item, int key, qboolean down ) {
 			}
 		}
 	}
-	//DC->Print("slider handle key exit\n");
 	return qfalse;
 }
 
@@ -2617,10 +2484,7 @@ qboolean dnItem::HandleKey( int key, qboolean down ) {
 		captureFunc = NULL;
 		captureData = NULL;
 	} else {
-		// TTimo: gcc: suggest parentheses around && within ||
-		// initial line:
-		// if (down && key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3) {
-		// changed behaviour
+		// the down check must bind to all three mouse keys, a bare || chain fires on key-up too
 		if ( down && ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3 ) ) {
 			StartCapture( key );
 		}
@@ -2694,7 +2558,7 @@ dnItem *dnMenu::SetNextCursorItem( void ) {
 	while ( cursorItem < itemCount ) {
 
 		cursorItem++;
-		if ( cursorItem >= itemCount ) {  // (SA) had a problem 'tabbing' in dialogs with only one possible button
+		if ( cursorItem >= itemCount ) {  // stop wrapping once every item had its turn
 			if ( !wrapped ) {
 				wrapped = qtrue;
 				cursorItem = 0;
@@ -2749,7 +2613,7 @@ void dnMenu::Activate( void ) {
 	}
 
 	if ( soundName && *soundName ) {
-//		DC->stopBackgroundTrack();					// you don't want to do this since it will reset s_rawend
+		// restarting the track would reset the raw sound buffer, so the old one keeps playing
 		DC->startBackgroundTrack( soundName, soundName, 0 );
 	}
 
@@ -2781,8 +2645,6 @@ void Menus_HandleOOBClick( dnMenu *menu, int key, qboolean down ) {
 
 		for ( i = 0; i < menuCount; i++ ) {
 			if ( Menus[i].OverActiveItem( DC->cursorx, DC->cursory ) ) {
-//				menu->RunCloseScript();			// NERVE - SMF - why do we close the calling menu instead of just removing the focus?
-//				menu->window.flags &= ~(WINDOW_HASFOCUS | WINDOW_VISIBLE);
 				menu->window.flags &= ~( WINDOW_HASFOCUS );
 				Menus[i].Activate();
 				Menus[i].HandleMouseMove( DC->cursorx, DC->cursory );
@@ -2836,7 +2698,6 @@ void dnMenu::HandleKey( int key, qboolean down ) {
 			g_editingField = qfalse;
 			g_editItem = NULL;
 			Display_MouseMove( NULL, DC->cursorx, DC->cursory );
-//		} else if (key == K_TAB || key == K_UPARROW || key == K_DOWNARROW) {
 		} else {
 			return;
 		}
@@ -2845,10 +2706,7 @@ void dnMenu::HandleKey( int key, qboolean down ) {
 	// see if the mouse is within the window bounds and if so is this a mouse click
 	if ( down && !( window.flags & WINDOW_POPUP ) && !Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) ) {
 		static qboolean inHandleKey = qfalse;
-		// TTimo: gcc: suggest parentheses around && within ||
-		// initial line:
-		// if (!inHandleKey && key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3) {
-		// changed behaviour
+		// the guard must bind to all three mouse keys, a bare || chain re-enters the handler
 		if ( !inHandleKey && ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3 ) ) {
 			inHandleKey = qtrue;
 			Menus_HandleOOBClick( this, key, down );
@@ -2878,14 +2736,12 @@ void dnMenu::HandleKey( int key, qboolean down ) {
 		return;
 	}
 
-	// NERVE - SMF
 	if ( key > 0 && key <= 255 && onKey[key] ) {
 		dnItem it;
 		it.parent = this;
 		it.RunScript( onKey[key] );
 		return;
 	}
-	// - NERVE - SMF
 
 	// default handling
 	switch ( key ) {
@@ -3117,14 +2973,12 @@ void Item_Text_AutoWrapped_Paint( dnItem *item ) {
 				}
 				item->textRect.y = y;
 				ToWindowCoords( &item->textRect.x, &item->textRect.y, &item->window );
-				//
 				buff[newLine] = '\0';
 				DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, color, buff, 0, 0, item->textStyle );
 			}
 			if ( *p == '\0' ) {
 				break;
 			}
-			//
 			y += height + 5;
 			p = newLinePtr;
 			len = 0;
@@ -3193,12 +3047,11 @@ void Item_Text_Paint( dnItem *item ) {
 	vec4_t color;
 
 
-//----(SA)	added
 	if ( item->textSavegameInfo ) {
-		DC->getCVarString( "ui_savegameInfo", infostring, sizeof( infostring ) );    // grab the string the client set
+		// the client fills this cvar right before the save info text paints
+		DC->getCVarString( "ui_savegameInfo", infostring, sizeof( infostring ) );
 		item->text = &infostring[0];
 	}
-//----(SA)	end
 
 	if ( item->window.flags & WINDOW_WRAPPED ) {
 		Item_Text_Wrapped_Paint( item );
@@ -3233,42 +3086,13 @@ void Item_Text_Paint( dnItem *item ) {
 
 	item->TextColor( &color );
 
-	//FIXME: this is a fucking mess
-/*
-	adjust = 0;
-	if (item->textStyle == ITEM_TEXTSTYLE_OUTLINED || item->textStyle == ITEM_TEXTSTYLE_OUTLINESHADOWED) {
-		adjust = 0.5;
-	}
-
-	if (item->textStyle == ITEM_TEXTSTYLE_SHADOWED || item->textStyle == ITEM_TEXTSTYLE_OUTLINESHADOWED) {
-		Fade(&item->window.flags, &DC->Assets.shadowColor[3], DC->Assets.fadeClamp, &item->window.nextTime, DC->Assets.fadeCycle, qfalse);
-		DC->drawText(item->textRect.x + DC->Assets.shadowX, item->textRect.y + DC->Assets.shadowY, item->textscale, DC->Assets.shadowColor, textPtr, adjust);
-	}
-*/
-
-
-//	if (item->textStyle == ITEM_TEXTSTYLE_OUTLINED || item->textStyle == ITEM_TEXTSTYLE_OUTLINESHADOWED) {
-//		Fade(&item->window.flags, &item->window.outlineColor[3], DC->Assets.fadeClamp, &item->window.nextTime, DC->Assets.fadeCycle, qfalse);
-//		/*
-//		Text_Paint(item->textRect.x-1, item->textRect.y-1, item->textscale, item->window.foreColor, textPtr, adjust);
-//		Text_Paint(item->textRect.x, item->textRect.y-1, item->textscale, item->window.foreColor, textPtr, adjust);
-//		Text_Paint(item->textRect.x+1, item->textRect.y-1, item->textscale, item->window.foreColor, textPtr, adjust);
-//		Text_Paint(item->textRect.x-1, item->textRect.y, item->textscale, item->window.foreColor, textPtr, adjust);
-//		Text_Paint(item->textRect.x+1, item->textRect.y, item->textscale, item->window.foreColor, textPtr, adjust);
-//		Text_Paint(item->textRect.x-1, item->textRect.y+1, item->textscale, item->window.foreColor, textPtr, adjust);
-//		Text_Paint(item->textRect.x, item->textRect.y+1, item->textscale, item->window.foreColor, textPtr, adjust);
-//		Text_Paint(item->textRect.x+1, item->textRect.y+1, item->textscale, item->window.foreColor, textPtr, adjust);
-//		*/
-//		DC->drawText(item->textRect.x - 1, item->textRect.y + 1, item->textscale * 1.02, item->window.outlineColor, textPtr, adjust);
-//	}
+	// text shadow and outline styles are not ported yet
 
 	DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, color, textPtr, 0, 0, item->textStyle );
 }
 
 
 
-//float			uii.Cvar_Value( const char *var_name );
-//void			uii.Cvar_String( const char *var_name, char *buffer, int bufsize );
 
 void Item_TextField_Paint( dnItem *item ) {
 	char buff[1024];
@@ -3443,9 +3267,9 @@ static bind_t g_bindings[] =
 	{"weapprev",     K_MWHEELDOWN,   -1, -1, -1},
 	{"weapnext",     K_MWHEELUP,     -1, -1, -1},
 	{"weapalt",          -1,             -1, -1, -1},
-	{"weaplastused", -1,             -1, -1, -1},    //----(SA)	added
-	{"weapnextinbank",   -1,             -1, -1, -1},    //----(SA)	added
-	{"weapprevinbank",   -1,             -1, -1, -1},    //----(SA)	added
+	{"weaplastused", -1,             -1, -1, -1},
+	{"weapnextinbank",   -1,             -1, -1, -1},
+	{"weapprevinbank",   -1,             -1, -1, -1},
 	{"+useitem",     K_ENTER,        -1, -1, -1},
 	{"itemprev",     '[',         -1, -1, -1},
 	{"itemnext",     ']',         -1, -1, -1},
@@ -3476,8 +3300,8 @@ static bind_t g_bindings[] =
 	{"messagemode3", -1,             -1, -1, -1},
 	{"messagemode4", -1,             -1, -1, -1},
 
-	{"savegame quicksave",   -1,         -1, -1, -1},    //----(SA)	added
-	{"loadgame quicksave",   -1,         -1, -1, -1},    //----(SA)	added
+	{"savegame quicksave",   -1,         -1, -1, -1},
+	{"loadgame quicksave",   -1,         -1, -1, -1},
 
 	{"+activate",        -1,             -1, -1, -1},
 	{"zoomin",           -1,             -1, -1, -1},
@@ -3486,7 +3310,6 @@ static bind_t g_bindings[] =
 	{"+reload",      -1,             -1, -1, -1},
 	{"+sprint",      -1,             -1, -1, -1},
 	{"notebook",     K_TAB,          -1, -1, -1},
-//	{"help",			K_F1,           -1, -1, -1},
 	{"+leanleft",        -1,             -1, -1, -1},
 	{"+leanright",       -1,             -1, -1, -1},
 	{"kill",         -1,             -1, -1, -1},
@@ -3503,13 +3326,6 @@ static bind_t g_bindings[] =
 
 static const int g_bindCount = sizeof( g_bindings ) / sizeof( bind_t );
 
-// (SA) removed code that made me nervous and didn't do anything.  (10/11/01)
-
-/*
-=================
-Controls_GetKeyAssignment
-=================
-*/
 static void Controls_GetKeyAssignment( char *command, int *twokeys ) {
 	int count;
 	int j;
@@ -3534,11 +3350,6 @@ static void Controls_GetKeyAssignment( char *command, int *twokeys ) {
 	}
 }
 
-/*
-=================
-Controls_GetConfig
-=================
-*/
 void Controls_GetConfig( void ) {
 	int i;
 	int twokeys[2];
@@ -3553,21 +3364,8 @@ void Controls_GetConfig( void ) {
 		g_bindings[i].bind2 = twokeys[1];
 	}
 
-	//s_controls.invertmouse.curvalue  = DC->getCVarValue( "m_pitch" ) < 0;
-	//s_controls.smoothmouse.curvalue  = UI_ClampCvar( 0, 1, Controls_GetCvarValue( "m_filter" ) );
-	//s_controls.alwaysrun.curvalue    = UI_ClampCvar( 0, 1, Controls_GetCvarValue( "cl_run" ) );
-	//s_controls.autoswitch.curvalue   = UI_ClampCvar( 0, 1, Controls_GetCvarValue( "cg_autoswitch" ) );
-	//s_controls.sensitivity.curvalue  = UI_ClampCvar( 2, 30, Controls_GetCvarValue( "sensitivity" ) );
-	//s_controls.joyenable.curvalue    = UI_ClampCvar( 0, 1, Controls_GetCvarValue( "in_joystick" ) );
-	//s_controls.joythreshold.curvalue = UI_ClampCvar( 0.05, 0.75, Controls_GetCvarValue( "joy_threshold" ) );
-	//s_controls.freelook.curvalue     = UI_ClampCvar( 0, 1, Controls_GetCvarValue( "cl_freelook" ) );
 }
 
-/*
-=================
-Controls_SetConfig
-=================
-*/
 void Controls_SetConfig( qboolean restart ) {
 	int i;
 
@@ -3584,18 +3382,11 @@ void Controls_SetConfig( qboolean restart ) {
 		}
 	}
 
-	// TTimo: FIXME
-	// show_bug.cgi?id=430
 #if !defined( __MACOS__ )
 	DC->executeText( DN_EXEC_APPEND, "in_restart\n" );
 #endif
 }
 
-/*
-=================
-Controls_SetDefaults
-=================
-*/
 void Controls_SetDefaults( void ) {
 	int i;
 
@@ -3606,14 +3397,6 @@ void Controls_SetDefaults( void ) {
 		g_bindings[i].bind2 = g_bindings[i].defaultbind2;
 	}
 
-	//s_controls.invertmouse.curvalue  = Controls_GetCvarDefault( "m_pitch" ) < 0;
-	//s_controls.smoothmouse.curvalue  = Controls_GetCvarDefault( "m_filter" );
-	//s_controls.alwaysrun.curvalue    = Controls_GetCvarDefault( "cl_run" );
-	//s_controls.autoswitch.curvalue   = Controls_GetCvarDefault( "cg_autoswitch" );
-	//s_controls.sensitivity.curvalue  = Controls_GetCvarDefault( "sensitivity" );
-	//s_controls.joyenable.curvalue    = Controls_GetCvarDefault( "in_joystick" );
-	//s_controls.joythreshold.curvalue = Controls_GetCvarDefault( "joy_threshold" );
-	//s_controls.freelook.curvalue     = Controls_GetCvarDefault( "cl_freelook" );
 }
 
 int BindingIDFromName( const char *name ) {
@@ -3759,20 +3542,10 @@ qboolean Item_Bind_HandleKey( dnItem *item, int key, qboolean down ) {
 		case K_BACKSPACE:
 			id = BindingIDFromName( item->cvar );
 			if ( id != -1 ) {
-				key = -1;       // null out the key, but let it pass down so it can get 'unbound'
-								// if it just returns here, the old bindings don't get cleared out.
-								// so if user has both 'r' and 'g' bound to '+attack' and they only want the 'r',
-								// they click to bind the key, <backsp> to kill the bindings (which appears to the user to work)
-								// then they click to bind and hit 'r'.  now the menu looks right to them, but if you drop the menu
-								// and come back, the 'g' is magically re-bound since it didn't get bound to "" on the <backsp>.  <phew>
-								// does this seem reasonable to anybody reading this? (SA)
-//					g_bindings[id].bind1 = -1;
-//					g_bindings[id].bind2 = -1;
+				// a -1 key clears every binding of the command on the way down;
+				// returning early would leave the old second binding active
+				key = -1;
 			}
-//				Controls_SetConfig(qtrue);
-//				g_waitingForKey = qfalse;
-//				g_bindItem = NULL;
-//				return qtrue;
 			break;
 
 		case '`':
@@ -3830,7 +3603,6 @@ qboolean Item_Bind_HandleKey( dnItem *item, int key, qboolean down ) {
 
 
 void AdjustFrom640( float *x, float *y, float *w, float *h ) {
-	//*x = *x * DC->scale + DC->bias;
 	*x *= DC->xscale;
 	*y *= DC->yscale;
 	*w *= DC->xscale;
@@ -3838,7 +3610,7 @@ void AdjustFrom640( float *x, float *y, float *w, float *h ) {
 }
 
 void Item_Model_Paint( dnItem *item ) {
-	float x, y, w, h;   //,xx;
+	float x, y, w, h;
 	refdef_t refdef;
 	qhandle_t hModel;
 	refEntity_t ent;
@@ -3882,7 +3654,6 @@ void Item_Model_Paint( dnItem *item ) {
 	if ( qtrue ) {
 		float len = 0.5 * ( maxs[2] - mins[2] );
 		origin[0] = len / 0.268;    // len / tan( fov/2 )
-		//origin[0] = len / tan(w/2);
 	} else {
 		origin[0] = item->textscale;
 	}
@@ -3905,9 +3676,6 @@ void Item_Model_Paint( dnItem *item ) {
 
 	memset( &ent, 0, sizeof( ent ) );
 
-	//adjust = 5.0 * sin( (float)uis.realtime / 500 );
-	//adjust = 360 % (int)((float)uis.realtime / 1000);
-	//VectorSet( angles, 0, 0, 1 );
 
 	// use item storage to track
 	if ( modelPtr->rotationSpeed ) {
@@ -3931,12 +3699,12 @@ void Item_Model_Paint( dnItem *item ) {
 
 		modelPtr->frame += ( backLerpWhole );
 		if ( ( modelPtr->frame - modelPtr->startframe ) > modelPtr->numframes ) {
-			modelPtr->frame = modelPtr->startframe + modelPtr->frame % modelPtr->numframes; // todo: ignoring loopframes
+			modelPtr->frame = modelPtr->startframe + modelPtr->frame % modelPtr->numframes; // frame wrapping ignores loopframes
 
 		}
 		modelPtr->oldframe += ( backLerpWhole );
 		if ( ( modelPtr->oldframe - modelPtr->startframe ) > modelPtr->numframes ) {
-			modelPtr->oldframe = modelPtr->startframe + modelPtr->oldframe % modelPtr->numframes;   // todo: ignoring loopframes
+			modelPtr->oldframe = modelPtr->startframe + modelPtr->oldframe % modelPtr->numframes;   // frame wrapping ignores loopframes
 
 		}
 		modelPtr->backlerp = modelPtr->backlerp - backLerpWhole;
@@ -3995,13 +3763,11 @@ void Item_ListBox_Paint( dnItem *item ) {
 			thumb = x - SCROLLBAR_SIZE - 1;
 		}
 		DC->drawHandlePic( thumb, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarThumb );
-		//
 		listPtr->endPos = listPtr->startPos;
 		size = item->window.rect.w - 2;
 		// items
 		// size contains max available space
 		if ( listPtr->elementStyle == LISTBOX_IMAGE ) {
-			// fit = 0;
 			x = item->window.rect.x + 1;
 			y = item->window.rect.y + 1;
 			for ( i = listPtr->startPos; i < count; i++ ) {
@@ -4018,15 +3784,13 @@ void Item_ListBox_Paint( dnItem *item ) {
 
 				size -= listPtr->elementWidth;
 				if ( size < listPtr->elementWidth ) {
-					listPtr->drawPadding = size; //listPtr->elementWidth - size;
+					listPtr->drawPadding = size;
 					break;
 				}
 				x += listPtr->elementWidth;
 				listPtr->endPos++;
-				// fit++;
 			}
 		} else {
-			//
 		}
 	} else {
 		// draw scrollbar to right side of the window
@@ -4050,7 +3814,6 @@ void Item_ListBox_Paint( dnItem *item ) {
 		// adjust size for item painting
 		size = item->window.rect.h - 2;
 		if ( listPtr->elementStyle == LISTBOX_IMAGE ) {
-			// fit = 0;
 			x = item->window.rect.x + 1;
 			y = item->window.rect.y + 1;
 			for ( i = listPtr->startPos; i < count; i++ ) {
@@ -4072,7 +3835,6 @@ void Item_ListBox_Paint( dnItem *item ) {
 					break;
 				}
 				y += listPtr->elementHeight;
-				// fit++;
 			}
 		} else {
 			x = item->window.rect.x + 1;
@@ -4095,7 +3857,7 @@ void Item_ListBox_Paint( dnItem *item ) {
 				} else {
 					text = DC->feederItemText( item->special, i, 0, &optionalImage );
 					if ( optionalImage != NULL ) {
-						//DC->drawHandlePic(x + 4 + listPtr->elementHeight, y, listPtr->columnInfo[j].width, listPtr->columnInfo[j].width, optionalImage);
+						// image columns from the feeder are not drawn yet
 					} else if ( text ) {
 						DC->drawText( x + 4, y + listPtr->elementHeight, item->font, item->textscale, item->window.foreColor, text, 0, 0, item->textStyle );
 					}
@@ -4112,7 +3874,6 @@ void Item_ListBox_Paint( dnItem *item ) {
 				}
 				listPtr->endPos++;
 				y += listPtr->elementHeight;
-				// fit++;
 			}
 		}
 	}
@@ -4172,7 +3933,7 @@ void Item_OwnerDraw_Paint( dnItem *item ) {
 		if ( item->text ) {
 			Item_Text_Paint( item );
 			if ( item->text[0] ) {
-				// +8 is an offset kludge to properly align owner draw items that have text combined with them
+				// +8 shifts the bar past the label of owner draw items with text
 				DC->ownerDrawItem( item->textRect.x + item->textRect.w + 8, item->window.rect.y, item->window.rect.w, item->window.rect.h, 0, item->textaligny, item->window.ownerDraw, item->window.ownerDrawFlags, item->alignment, item->special, item->font, item->textscale, color, item->window.background, item->textStyle );
 			} else {
 				DC->ownerDrawItem( item->textRect.x + item->textRect.w, item->window.rect.y, item->window.rect.w, item->window.rect.h, 0, item->textaligny, item->window.ownerDraw, item->window.ownerDrawFlags, item->alignment, item->special, item->font, item->textscale, color, item->window.background, item->textStyle );
@@ -4326,7 +4087,6 @@ void dnItem::Paint( void ) {
 		DC->drawRect( r->x, r->y, r->w, r->h, 1, color );
 	}
 
-	//DC->drawRect(window.rect.x, window.rect.y, window.rect.w, window.rect.h, 1, red);
 
 	PaintType();
 }
@@ -4627,7 +4387,6 @@ void dnMenu::HandleMouseMove( float x, float y ) {
 	}
 
 	if ( itemCapture ) {
-		//Item_MouseMove(itemCapture, x, y);
 		return;
 	}
 
@@ -4635,12 +4394,9 @@ void dnMenu::HandleMouseMove( float x, float y ) {
 		return;
 	}
 
-	// FIXME: this is the whole issue of focus vs. mouse over..
-	// need a better overall solution as i don't like going through everything twice
+	// two passes: the first sets mouse-over, the second hands out focus
 	for ( pass = 0; pass < 2; pass++ ) {
 		for ( i = 0; i < itemCount; i++ ) {
-			// turn off focus each item
-			// items[i].window.flags &= ~WINDOW_HASFOCUS;
 
 			if ( !( items[i]->window.flags & ( WINDOW_VISIBLE | WINDOW_FORCED ) ) ) {
 				continue;
@@ -4669,7 +4425,6 @@ void dnMenu::HandleMouseMove( float x, float y ) {
 					if ( IsVisible( overItem->window.flags ) ) {
 						// different one
 						overItem->MouseEnter( x, y );
-						// overItem->SetMouseOver( qtrue);
 
 						// if item is not a decoration see if it can take focus
 						if ( !focusSet ) {
@@ -4703,12 +4458,10 @@ void dnMenu::Paint( qboolean forcePaint ) {
 
 	// draw the background if necessary
 	if ( fullScreen ) {
-		// implies a background shader
-		// FIXME: make sure we have a default shader if fullscreen is set with no background
+		// FIXME: fullscreen menus without a background shader draw nothing
 		DC->drawHandlePic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, window.background );
 	} else if ( window.background ) {
-		// this allows a background shader without being full screen
-		//UI_DrawHandlePic(window.rect.x, window.rect.y, window.rect.w, window.rect.h, backgroundShader);
+		// a background without fullscreen is painted by Window_Paint below
 	}
 
 	// paint the background and or border
@@ -4726,11 +4479,6 @@ void dnMenu::Paint( qboolean forcePaint ) {
 	}
 }
 
-/*
-===============
-dnItem::ValidateTypeData
-===============
-*/
 void dnItem::ValidateTypeData( void ) {
 	if ( typeData ) {
 		return;
@@ -4756,11 +4504,6 @@ void dnItem::ValidateTypeData( void ) {
 	}
 }
 
-/*
-===============
-Keyword Hash
-===============
-*/
 
 #define KEYWORDHASH_SIZE    512
 
@@ -4845,7 +4588,6 @@ qboolean ItemParse_text( dnItem *item, int handle ) {
 	return qtrue;
 }
 
-//----(SA)	added
 
 // textfile <string>
 // read an external textfile into item->text
@@ -4862,10 +4604,8 @@ qboolean ItemParse_textfile( dnItem *item, int handle ) {
 
 	return qtrue;
 }
-//----(SA)
 
 
-//----(SA)	added
 qboolean ItemParse_textsavegame( dnItem *item, int handle ) {
 
 	// this'll get picked up when the savegames are parsed
@@ -4873,7 +4613,6 @@ qboolean ItemParse_textsavegame( dnItem *item, int handle ) {
 	item->textSavegameInfo = qtrue;
 	return qtrue;
 }
-//----(SA)	end
 
 
 
@@ -4898,7 +4637,6 @@ qboolean ItemParse_asset_model( dnItem *item, int handle ) {
 	}
 	if ( !( item->asset ) ) {
 		item->asset = DC->registerModel( temp );
-//		modelPtr->angle = rand() % 360;
 	}
 	return qtrue;
 }
@@ -5226,14 +4964,12 @@ qboolean ItemParse_textstyle( dnItem *item, int handle ) {
 	return qtrue;
 }
 
-//----(SA)	added for forcing a font for a given item
 qboolean ItemParse_textfont( dnItem *item, int handle ) {
 	if ( !PC_Int_Parse( handle, &item->font ) ) {
 		return qfalse;
 	}
 	return qtrue;
 }
-//----(SA)	end
 
 qboolean ItemParse_backcolor( dnItem *item, int handle ) {
 	int i;
@@ -5364,14 +5100,12 @@ qboolean ItemParse_action( dnItem *item, int handle ) {
 	return qtrue;
 }
 
-// NERVE - SMF
 qboolean ItemParse_accept( dnItem *item, int handle ) {
 	if ( !PC_Script_Parse( handle, &item->onAccept ) ) {
 		return qfalse;
 	}
 	return qtrue;
 }
-// -NERVE - SMF
 
 qboolean ItemParse_special( dnItem *item, int handle ) {
 	if ( !PC_Float_Parse( handle, &item->special ) ) {
@@ -5505,7 +5239,6 @@ qboolean ItemParse_cvarStrList( dnItem *item, int handle ) {
 
 	}
 
-	//return qfalse;
 }
 
 qboolean ItemParse_cvarFloatList( dnItem *item, int handle ) {
@@ -5553,7 +5286,6 @@ qboolean ItemParse_cvarFloatList( dnItem *item, int handle ) {
 
 	}
 
-	//return qfalse;
 }
 
 
@@ -5634,8 +5366,8 @@ qboolean ItemParse_hideCvar( dnItem *item, int handle ) {
 keywordHash_t itemParseKeywords[] = {
 	{"name", ItemParse_name, NULL},
 	{"text", ItemParse_text, NULL},
-	{"textfile", ItemParse_textfile, NULL},  //----(SA)	added
-	{"textsavegame", ItemParse_textsavegame, NULL},  //----(SA)	added
+	{"textfile", ItemParse_textfile, NULL},
+	{"textsavegame", ItemParse_textsavegame, NULL},
 	{"group", ItemParse_group, NULL},
 	{"asset_model", ItemParse_asset_model, NULL},
 	{"asset_shader", ItemParse_asset_shader, NULL},
@@ -5681,7 +5413,7 @@ keywordHash_t itemParseKeywords[] = {
 	{"mouseEnterText", ItemParse_mouseEnterText, NULL},
 	{"mouseExitText", ItemParse_mouseExitText, NULL},
 	{"action", ItemParse_action, NULL},
-	{"accept", ItemParse_accept, NULL},              // NERVE - SMF
+	{"accept", ItemParse_accept, NULL},
 	{"special", ItemParse_special, NULL},
 	{"cvar", ItemParse_cvar, NULL},
 	{"maxChars", ItemParse_maxChars, NULL},
@@ -5705,11 +5437,6 @@ keywordHash_t itemParseKeywords[] = {
 
 keywordHash_t *itemParseKeywordHash[KEYWORDHASH_SIZE];
 
-/*
-===============
-Item_SetupKeywordHash
-===============
-*/
 void Item_SetupKeywordHash( void ) {
 	int i;
 
@@ -5719,11 +5446,6 @@ void Item_SetupKeywordHash( void ) {
 	}
 }
 
-/*
-===============
-Item_Parse
-===============
-*/
 qboolean Item_Parse( int handle, dnItem *item ) {
 	pc_token_t token;
 	keywordHash_t *key;
@@ -5783,8 +5505,6 @@ qboolean MenuParse_name( dnItem *item, int handle ) {
 		return qfalse;
 	}
 	if ( Q_strcasecmp( menu->window.name, "main" ) == 0 ) {
-		// default main as having focus
-		//menu->window.flags |= WINDOW_HASFOCUS;
 	}
 	return qtrue;
 }
@@ -5850,7 +5570,6 @@ qboolean MenuParse_onESC( dnItem *item, int handle ) {
 	return qtrue;
 }
 
-//----(SA)	added
 qboolean MenuParse_onROQDone( dnItem *item, int handle ) {
 	dnMenu *menu = (dnMenu*)item;
 	if ( !PC_Script_Parse( handle, &menu->onROQDone ) ) {
@@ -5859,7 +5578,6 @@ qboolean MenuParse_onROQDone( dnItem *item, int handle ) {
 	return qtrue;
 }
 
-//----(SA)	end
 
 
 
@@ -5999,7 +5717,6 @@ qboolean MenuParse_ownerdraw( dnItem *item, int handle ) {
 }
 
 
-// decoration
 qboolean MenuParse_popup( dnItem *item, int handle ) {
 	dnMenu *menu = (dnMenu*)item;
 	menu->window.flags |= WINDOW_POPUP;
@@ -6071,7 +5788,6 @@ qboolean MenuParse_itemDef( dnItem *item, int handle ) {
 	return qtrue;
 }
 
-// NERVE - SMF
 qboolean MenuParse_execKey( dnItem *item, int handle ) {
 	dnMenu *menu = ( dnMenu* )item;
 	char keyname;
@@ -6101,7 +5817,6 @@ qboolean MenuParse_execKeyInt( dnItem *item, int handle ) {
 	}
 	return qtrue;
 }
-// -NERVE - SMF
 
 keywordHash_t menuParseKeywords[] = {
 	{"font", MenuParse_font, NULL},
@@ -6113,7 +5828,7 @@ keywordHash_t menuParseKeywords[] = {
 	{"onOpen", MenuParse_onOpen, NULL},
 	{"onClose", MenuParse_onClose, NULL},
 	{"onESC", MenuParse_onESC, NULL},
-	{"onROQDone", MenuParse_onROQDone, NULL},    //----(SA)	added
+	{"onROQDone", MenuParse_onROQDone, NULL},
 	{"border", MenuParse_border, NULL},
 	{"borderSize", MenuParse_borderSize, NULL},
 	{"backcolor", MenuParse_backcolor, NULL},
@@ -6133,18 +5848,13 @@ keywordHash_t menuParseKeywords[] = {
 	{"fadeClamp", MenuParse_fadeClamp, NULL},
 	{"fadeCycle", MenuParse_fadeCycle, NULL},
 	{"fadeAmount", MenuParse_fadeAmount, NULL},
-	{"execKey", MenuParse_execKey, NULL},                // NERVE - SMF
-	{"execKeyInt", MenuParse_execKeyInt, NULL},          // NERVE - SMF
+	{"execKey", MenuParse_execKey, NULL},
+	{"execKeyInt", MenuParse_execKeyInt, NULL},
 	{NULL, NULL, NULL}
 };
 
 keywordHash_t *menuParseKeywordHash[KEYWORDHASH_SIZE];
 
-/*
-===============
-Menu_SetupKeywordHash
-===============
-*/
 void Menu_SetupKeywordHash( void ) {
 	int i;
 
@@ -6154,11 +5864,6 @@ void Menu_SetupKeywordHash( void ) {
 	}
 }
 
-/*
-===============
-Menu_Parse
-===============
-*/
 qboolean Menu_Parse( int handle, dnMenu *menu ) {
 	pc_token_t token;
 	keywordHash_t *key;
@@ -6194,11 +5899,6 @@ qboolean Menu_Parse( int handle, dnMenu *menu ) {
 	}
 }
 
-/*
-===============
-Menu_New
-===============
-*/
 qboolean Menu_New( int handle ) {
 	dnMenu *menu = &Menus[menuCount];
 
@@ -6349,18 +6049,11 @@ displayContextDef_t *Display_GetContext() {
 	return DC;
 }
 
-// TTimo: unused
-/*
-static float captureX;
-static float captureY;
-*/
 
 void *Display_CaptureItem( int x, int y ) {
 	int i;
 
 	for ( i = 0; i < menuCount; i++ ) {
-		// turn off focus each item
-		// menu->items[i].window.flags &= ~WINDOW_HASFOCUS;
 		if ( Rect_ContainsPoint( &Menus[i].window.rect, x, y ) ) {
 			return &Menus[i];
 		}
@@ -6369,7 +6062,6 @@ void *Display_CaptureItem( int x, int y ) {
 }
 
 
-// FIXME:
 qboolean Display_MouseMove( void *p, int x, int y ) {
 	int i;
 	dnMenu *menu = (dnMenu *)p;
@@ -6425,9 +6117,6 @@ static void Window_CacheContents( dnWindow *window ) {
 			int cin = DC->playCinematic( window->cinematicName, 0, 0, 0, 0 );
 			DC->stopCinematic( cin );
 		}
-		// (SA) added for cachinig in music
-//		if(window->
-//----(SA)	end
 	}
 }
 
@@ -6465,8 +6154,6 @@ qboolean dnMenu::OverActiveItem( float x, float y ) {
 		if ( Rect_ContainsPoint( &window.rect, x, y ) ) {
 			int i;
 			for ( i = 0; i < itemCount; i++ ) {
-				// turn off focus each item
-				// items[i]->window.flags &= ~WINDOW_HASFOCUS;
 
 				if ( !( items[i]->window.flags & ( WINDOW_VISIBLE | WINDOW_FORCED ) ) ) {
 					continue;
