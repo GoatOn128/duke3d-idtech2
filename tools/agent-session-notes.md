@@ -404,3 +404,44 @@ cost anything as long as this file and PROGRESS.md are current.
   PR retriggered the main build. Standing rule confirmed again: the
   owner merges through the UI default (squash); expect a retrigger
   chore after every PR that carries CI digest commits.
+- 2026-10-29 (later): follow-up session, four changes squash-merged to
+  main. 1) Menu music after disconnect (PR #31, squash 0499c1d5): the
+  disconnect music stop also killed the menu theme and nothing
+  restarted it; M_Menu_Main_f now plays the menu theme again while the
+  client is disconnected. 2) Menu mouse clicks (PR #33, squash
+  bef67350): clicks stopped registering after the first one because
+  IN_ClearStates wiped mouse_oldbuttonstate every frame in menus, so
+  the physical mouse up never reached Key_Event and the autorepeat
+  filter swallowed every later click; IN_ClearStates now releases the
+  buttons it still sees as held, mirroring Key_ClearStates. 3) Fixed-
+  rate usercmds (PR #35, squash af57a1fd): cl_maxfps 0 built one
+  usercmd per render frame, flooding the command stream with tiny msec
+  values and losing button edges (skipped weapon frames, needing a
+  second click to fire); the BFG-style split runs view and mouse
+  updates every render frame (CL_LookFrame/IN_LookFrame) while
+  usercmds are built and sent at a fixed 60Hz accumulator
+  (CL_USERCMD_MSEC), with pending strafe/forward motion
+  (IN_AddPendingMove) and per-command joystick sampling. 4) BFG
+  com_showfps backport (PR #36, squash fceeef61): a one-second average
+  fps counter in the top right corner.
+- 2026-10-29: NEW merge convention from the owner: create PRs as
+  before, but merge every PR as a squash with a clean commit_title and
+  commit_message (written through merge_pull_request, not the UI
+  default body) and delete the branch after merge. The clean body
+  avoids the [skip ci] digest-subject pitfall: main's post-merge
+  workflow ran and committed its own build digest after every squash
+  this session (0499c1d5, bef67350, af57a1fd, fceeef61 each followed
+  by a main digest commit). The GitHub App connector has no
+  delete-branch tool and merge_pull_request has no delete option, so
+  branches must be deleted in the UI, ideally through the repo setting
+  "Automatically delete head branches" (recommended to enable).
+- 2026-10-29: digest-conflict rule (hit twice this session, PRs #32 and
+  #34 closed as superseded): the CI bot commits build-digest.md on
+  every branch push AND on main after every merge, so any branch cut
+  before main's post-merge digest lands conflicts on build-digest.md at
+  merge time. Working flow: merge one PR, wait for main's digest commit
+  to land, only then cut the next branch from main's tip, and merge it
+  before anything else moves main. A branch cut from a stale main is
+  closed and recreated (update_pull_request state closed; the code
+  content can be re-pushed from the old branch).
+
