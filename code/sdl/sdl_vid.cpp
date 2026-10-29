@@ -295,11 +295,18 @@ static int VID_ModeCompare(const void *a, const void *b)
 VID_BuildModeList
 
 Builds the mode list for one display. This is the SDL version of
-R_GetModeListForDisplay from Doom 3 BFG. Unlike BFG we keep one entry per
-resolution with its fastest refresh rate (BFG only allowed 60 and 120
-hz for its target displays; vid_displayrefresh can force another rate)
-and allow modes down to 480 lines so the classic 640x480 default stays
-selectable.
+R_GetModeListForDisplay from Doom 3 BFG, and like the list the BFG
+resolution menu (MenuScreen_Shell_Resolution) is filled from, the list
+contains only entries the display actually reports: no hardcoded
+resolutions. The live desktop mode is always offered as well, so a
+display whose driver reports no usable fullscreen modes still has one
+valid entry. Windowed windows can be any size, so a size the display
+does not report stays reachable through gl_mode -1 with
+vid_customWidth/vid_customHeight, the BFG r_vidMode -1 custom size.
+Unlike BFG we keep one entry per resolution with its fastest refresh
+rate (BFG only allowed 60 and 120 hz for its target displays;
+vid_displayrefresh can force another rate) and allow modes down to 480
+lines so the classic 640x480 default stays selectable.
 ============
 */
 static void VID_BuildModeList(int display)
@@ -327,6 +334,11 @@ static void VID_BuildModeList(int display)
         vid_desktop_width = desktop->w;
         vid_desktop_height = desktop->h;
     }
+    else
+    {
+        vid_desktop_width = 0;
+        vid_desktop_height = 0;
+    }
 
     modes = SDL_GetFullscreenDisplayModes(vid_display_ids[display], &count);
     if (modes)
@@ -346,39 +358,9 @@ static void VID_BuildModeList(int display)
         SDL_free(modes);
     }
 
-    if (vid_num_modes == 0)
+    if (desktop)
     {
-        // never hand out an empty list; fall back to the current desktop mode
-        desktop = SDL_GetDesktopDisplayMode(vid_display_ids[display]);
-        if (desktop)
-        {
-            VID_AddMode(desktop->w, desktop->h, (int)(desktop->refresh_rate + 0.5f));
-        }
-    }
-
-    /* A windowed window can be any size, so also offer the common
-       resolutions that fit the desktop: HDTVs often report no fullscreen
-       mode under 1080p, which would leave no sensible windowed size in
-       the list. The rate stays 0 (undiscovered); exclusive fullscreen
-       resolves the size again and falls back to windowed if the display
-       cannot do it. */
-    if (vid_desktop_width > 0 && vid_desktop_height > 0)
-    {
-        static const int std_modes[][2] = {
-            {640, 480}, {800, 600}, {1024, 768}, {1152, 864},
-            {1280, 720}, {1280, 800}, {1280, 960}, {1280, 1024},
-            {1366, 768}, {1400, 1050}, {1440, 900}, {1600, 900},
-            {1680, 1050}, {1920, 1080}, {2560, 1440}, {3840, 2160}
-        };
-        for (i = 0; i < (int)(sizeof(std_modes) / sizeof(std_modes[0])); i++)
-        {
-            if (std_modes[i][0] > vid_desktop_width - 32 ||
-                std_modes[i][1] > vid_desktop_height - 48)
-            {
-                continue;
-            }
-            VID_AddMode(std_modes[i][0], std_modes[i][1], 0);
-        }
+        VID_AddMode(desktop->w, desktop->h, (int)(desktop->refresh_rate + 0.5f));
     }
 
     qsort(vid_modes, vid_num_modes, sizeof(vid_modes[0]), VID_ModeCompare);
@@ -412,7 +394,7 @@ qboolean VID_GetModeInfo(int *width, int *height, int *displayHz, int mode)
     }
     if (mode >= vid_num_modes)
     {
-        mode = vid_num_modes > 3 ? 3 : vid_num_modes - 1;
+        mode = VID_DefaultMode();
         Cvar_SetValue("gl_mode", mode);
         Com_Printf("gl_mode reset to %i because the mode list changed\n", mode);
     }
@@ -448,6 +430,37 @@ void VID_ModeData(int mode, int *width, int *height, int *displayHz)
     *width = vid_modes[mode].width;
     *height = vid_modes[mode].height;
     *displayHz = vid_modes[mode].displayHz;
+}
+
+/*
+** VID_DefaultMode
+**
+** The mode entry used when an archived gl_mode is no longer valid, like
+** the r_vidMode reset to 0 in Doom 3 BFG. BFG always falls back to the
+** first (smallest) entry; a windowed window also has to fit the desktop
+** here, so when the list has entries that fit, default to the largest
+** of them instead of the smallest.
+*/
+int VID_DefaultMode(void)
+{
+    int i;
+    int best = 0;
+
+    if (vid_num_modes == 0)
+    {
+        return 0;
+    }
+    for (i = 0; i < vid_num_modes; i++)
+    {
+        if (vid_desktop_width > 0 && vid_desktop_height > 0 &&
+            vid_modes[i].width <= vid_desktop_width - 32 &&
+            vid_modes[i].height <= vid_desktop_height - 48)
+        {
+            // the list is sorted smallest first, so the last hit is the largest
+            best = i;
+        }
+    }
+    return best;
 }
 
 int VID_NumDisplays(void)
@@ -496,7 +509,7 @@ static void VID_ValidateWindowedMode(void)
     {
         Com_Printf("windowed mode %ix%i does not fit the %ix%i desktop, resetting to the default mode\n",
                    width, height, vid_desktop_width, vid_desktop_height);
-        Cvar_SetValue("gl_mode", 3);
+        Cvar_SetValue("gl_mode", VID_DefaultMode());
     }
 }
 

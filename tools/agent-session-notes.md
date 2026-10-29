@@ -100,9 +100,9 @@ cost anything as long as this file and PROGRESS.md are current.
 
 - 2026-10-29: Full SDL3 platform port on branch `port/sdl3-platform`:
   new `code/sdl/` layer (`sdl_sys` entry point, message pump and events,
-  `sdl_input`, `sdl_vid`), `ref_gl/glimp_sdl.cpp` replaces `glw_imp`/WGL
-  (GL 3.3 core context through SDL_GL, gladLoaderLoadGL), `menu.cpp`
-  lost the `win_noalttab` option, `Sys_Milliseconds` derives from
+  `sdl_input`, `sdl_vid`), `ref_gl/glimp_sdl.cpp` replaces
+  `glw_imp`/WGL (GL 3.3 core context through SDL_GL, gladLoaderLoadGL),
+  `menu.cpp` lost the `win_noalttab` option, `Sys_Milliseconds` derives from
   `SDL_GetTicks`, and `GL_UpdateSwapInterval` uses
   `SDL_GL_SetSwapInterval`. SDL3 is imported by `third-party.cmake`
   and ships as `SDL3.dll` next to `duke3d.exe`. Deleted: `sys_win`,
@@ -310,3 +310,26 @@ cost anything as long as this file and PROGRESS.md are current.
   verify a post-merge run exists (the public Actions API endpoint
   /actions/runs?head_sha=<sha> answers without auth) and prefer a plain
   merge over a squash for such branches.
+
+- 2026-10-29: BFG resolution list auto-fill on branch
+  `port/bfg-resolution-autofill` (CI green, 0 errors, 0 warnings): like
+  the BFG MenuScreen_Shell_Resolution options are filled from
+  R_GetModeListForDisplay instead of a fixed table, sdl_vid.cpp no
+  longer merges the hardcoded std_modes standard-resolution table into
+  the list - VID_BuildModeList adds only the live SDL fullscreen modes
+  (32bpp, >= 480 lines, one entry per resolution keeping the fastest
+  rate) plus the desktop mode as a guaranteed valid entry, so the menu
+  and gl_mode only ever offer what the display reports; sizes the
+  display does not report stay reachable through gl_mode -1 +
+  vid_customWidth/vid_customHeight. New VID_DefaultMode() is the reset
+  target: largest entry fitting the desktop minus window borders when
+  windowed, smallest entry (0) when fullscreen, mirroring the BFG
+  r_vidMode reset; VID_GetModeInfo resets an off-list gl_mode through
+  it (was: clamp to the largest entry), VID_ValidateWindowedMode resets
+  through it, and vid_menu.cpp ClampMode returns it off-list with
+  ResetDefaults starting from it. Dropped on purpose: the BFG 60/120 hz
+  filter (the list already dedupes per resolution; vid_displayrefresh
+  forces other rates) and the BFG per-display submenus (the DISPLAY
+  spinner already covers the same list). License note: policy ported
+  from the BFG d3xp/menus/MenuScreen_Shell_Resolution.cpp and
+  R_GetModeListForDisplay (GPLv3), references/doom3-bfg, not compiled.

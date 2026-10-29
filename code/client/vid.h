@@ -46,3 +46,4 @@ int		VID_NumModes( void );
 void	VID_ModeData( int mode, int *width, int *height, int *displayHz );
 int		VID_NumDisplays( void );
 const char *VID_DisplayName( int display );
+int		VID_DefaultMode( void );
