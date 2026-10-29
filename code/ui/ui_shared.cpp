@@ -621,7 +621,7 @@ qboolean PC_Script_Parse( int handle, const char **out ) {
 	if ( !UI_PC_ReadToken( handle, &token ) ) {
 		return qfalse;
 	}
-	if ( Q_stricmp( token.string, "{" ) != 0 ) {
+	if ( Q_strcasecmp( token.string, "{" ) != 0 ) {
 		return qfalse;
 	}
 
@@ -630,7 +630,7 @@ qboolean PC_Script_Parse( int handle, const char **out ) {
 			return qfalse;
 		}
 
-		if ( Q_stricmp( token.string, "}" ) == 0 ) {
+		if ( Q_strcasecmp( token.string, "}" ) == 0 ) {
 			*out = String_Alloc( script );
 			return qtrue;
 		}
@@ -927,7 +927,7 @@ int Menu_ItemsMatchingGroup( menuDef_t *menu, const char *name ) {
 	int wildcard = -1;  // if wildcard is set, it's value is the number of characters to compare
 
 
-	pdest = strstr( name, "*" ); // allow wildcard strings (ex.  "hide nb_*" would translate to "hide nb_pg1; hide nb_extra" etc)
+	pdest = ( char * )strstr( name, "*" ); // allow wildcard strings (ex.  "hide nb_*" would translate to "hide nb_pg1; hide nb_extra" etc)
 	if ( pdest ) {
 		wildcard = pdest - name;
 	}
@@ -938,7 +938,7 @@ int Menu_ItemsMatchingGroup( menuDef_t *menu, const char *name ) {
 				count++;
 			}
 		} else {
-			if ( Q_stricmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_stricmp( menu->items[i]->window.group, name ) == 0 ) ) {
+			if ( Q_strcasecmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_strcasecmp( menu->items[i]->window.group, name ) == 0 ) ) {
 				count++;
 			}
 		}
@@ -953,7 +953,7 @@ itemDef_t *Menu_GetMatchingItemByNumber( menuDef_t *menu, int index, const char 
 	char *pdest;
 	int wildcard = -1;  // if wildcard is set, it's value is the number of characters to compare
 
-	pdest = strstr( name, "*" ); // allow wildcard strings (ex.  "hide nb_*" would translate to "hide nb_pg1; hide nb_extra" etc)
+	pdest = ( char * )strstr( name, "*" ); // allow wildcard strings (ex.  "hide nb_*" would translate to "hide nb_pg1; hide nb_extra" etc)
 	if ( pdest ) {
 		wildcard = pdest - name;
 	}
@@ -967,7 +967,7 @@ itemDef_t *Menu_GetMatchingItemByNumber( menuDef_t *menu, int index, const char 
 				count++;
 			}
 		} else {
-			if ( Q_stricmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_stricmp( menu->items[i]->window.group, name ) == 0 ) ) {
+			if ( Q_strcasecmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_strcasecmp( menu->items[i]->window.group, name ) == 0 ) ) {
 				if ( count == index ) {
 					return menu->items[i];
 				}
@@ -988,13 +988,13 @@ void Script_SetColor( itemDef_t *item, char **args ) {
 	// expecting type of color to set and 4 args for the color
 	if ( String_Parse( args, &name ) ) {
 		out = NULL;
-		if ( Q_stricmp( name, "backcolor" ) == 0 ) {
+		if ( Q_strcasecmp( name, "backcolor" ) == 0 ) {
 			out = &item->window.backColor;
 			item->window.flags |= WINDOW_BACKCOLORSET;
-		} else if ( Q_stricmp( name, "forecolor" ) == 0 ) {
+		} else if ( Q_strcasecmp( name, "forecolor" ) == 0 ) {
 			out = &item->window.foreColor;
 			item->window.flags |= WINDOW_FORECOLORSET;
-		} else if ( Q_stricmp( name, "bordercolor" ) == 0 ) {
+		} else if ( Q_strcasecmp( name, "bordercolor" ) == 0 ) {
 			out = &item->window.borderColor;
 		}
 
@@ -1038,7 +1038,7 @@ itemDef_t *Menu_FindItemByName( menuDef_t *menu, const char *p ) {
 	}
 
 	for ( i = 0; i < menu->itemCount; i++ ) {
-		if ( Q_stricmp( p, menu->items[i]->window.name ) == 0 ) {
+		if ( Q_strcasecmp( p, menu->items[i]->window.name ) == 0 ) {
 			return menu->items[i];
 		}
 	}
@@ -1077,12 +1077,12 @@ void Script_SetItemColor( itemDef_t *item, char **args ) {
 			item2 = Menu_GetMatchingItemByNumber( (menuDef_t *)item->parent, j, itemname );
 			if ( item2 != NULL ) {
 				out = NULL;
-				if ( Q_stricmp( name, "backcolor" ) == 0 ) {
+				if ( Q_strcasecmp( name, "backcolor" ) == 0 ) {
 					out = &item2->window.backColor;
-				} else if ( Q_stricmp( name, "forecolor" ) == 0 ) {
+				} else if ( Q_strcasecmp( name, "forecolor" ) == 0 ) {
 					out = &item2->window.foreColor;
 					item2->window.flags |= WINDOW_FORECOLORSET;
-				} else if ( Q_stricmp( name, "bordercolor" ) == 0 ) {
+				} else if ( Q_strcasecmp( name, "bordercolor" ) == 0 ) {
 					out = &item2->window.borderColor;
 				}
 
@@ -1139,7 +1139,7 @@ void Menu_FadeItemByName( menuDef_t *menu, const char *p, qboolean fadeOut ) {
 menuDef_t *Menus_FindByName( const char *p ) {
 	int i;
 	for ( i = 0; i < menuCount; i++ ) {
-		if ( Q_stricmp( Menus[i].window.name, p ) == 0 ) {
+		if ( Q_strcasecmp( Menus[i].window.name, p ) == 0 ) {
 			return &Menus[i];
 		}
 	}
@@ -1362,10 +1362,10 @@ void Menu_TransitionItemByName( menuDef_t *menu, const char *p, rectDef_t rectFr
 			item->window.offsetTime = time;
 			memcpy( &item->window.rectClient, &rectFrom, sizeof( rectDef_t ) );
 			memcpy( &item->window.rectEffects, &rectTo, sizeof( rectDef_t ) );
-			item->window.rectEffects2.x = abs( rectTo.x - rectFrom.x ) / amt;
-			item->window.rectEffects2.y = abs( rectTo.y - rectFrom.y ) / amt;
-			item->window.rectEffects2.w = abs( rectTo.w - rectFrom.w ) / amt;
-			item->window.rectEffects2.h = abs( rectTo.h - rectFrom.h ) / amt;
+			item->window.rectEffects2.x = fabs( rectTo.x - rectFrom.x ) / amt;
+			item->window.rectEffects2.y = fabs( rectTo.y - rectFrom.y ) / amt;
+			item->window.rectEffects2.w = fabs( rectTo.w - rectFrom.w ) / amt;
+			item->window.rectEffects2.h = fabs( rectTo.h - rectFrom.h ) / amt;
 			Item_UpdatePosition( item );
 		}
 	}
@@ -1548,7 +1548,7 @@ void Item_RunScript( itemDef_t *item, const char *s ) {
 
 			bRan = qfalse;
 			for ( i = 0; i < scriptCommandCount; i++ ) {
-				if ( Q_stricmp( command, commandList[i].name ) == 0 ) {
+				if ( Q_strcasecmp( command, commandList[i].name ) == 0 ) {
 					( commandList[i].handler( item, &p ) );
 					bRan = qtrue;
 					break;
@@ -1585,12 +1585,12 @@ qboolean Item_EnableShowViaCvar( itemDef_t *item, int flag ) {
 
 			// enable it if any of the values are true
 			if ( item->cvarFlags & flag ) {
-				if ( Q_stricmp( buff, val ) == 0 ) {
+				if ( Q_strcasecmp( buff, val ) == 0 ) {
 					return qtrue;
 				}
 			} else {
 				// disable it if any of the values are true
-				if ( Q_stricmp( buff, val ) == 0 ) {
+				if ( Q_strcasecmp( buff, val ) == 0 ) {
 					return qfalse;
 				}
 			}
@@ -1740,7 +1740,7 @@ int Item_ListBox_ThumbDrawPosition( itemDef_t *item ) {
 
 float Item_Slider_ThumbPosition( itemDef_t *item ) {
 	float value, range, x;
-	editFieldDef_t *editDef = item->typeData;
+	editFieldDef_t *editDef = ( editFieldDef_t * )item->typeData;
 
 	if ( item->text ) {
 		x = item->textRect.x + item->textRect.w + 8;
@@ -2212,7 +2212,7 @@ int Item_Multi_FindCvarByValue( itemDef_t *item ) {
 		}
 		for ( i = 0; i < multiPtr->count; i++ ) {
 			if ( multiPtr->strDef ) {
-				if ( Q_stricmp( buff, multiPtr->cvarStr[i] ) == 0 ) {
+				if ( Q_strcasecmp( buff, multiPtr->cvarStr[i] ) == 0 ) {
 					return i;
 				}
 			} else {
@@ -2238,7 +2238,7 @@ const char *Item_Multi_Setting( itemDef_t *item ) {
 		}
 		for ( i = 0; i < multiPtr->count; i++ ) {
 			if ( multiPtr->strDef ) {
-				if ( Q_stricmp( buff, multiPtr->cvarStr[i] ) == 0 ) {
+				if ( Q_strcasecmp( buff, multiPtr->cvarStr[i] ) == 0 ) {
 					return multiPtr->cvarList[i];
 				}
 			} else {
@@ -2514,7 +2514,7 @@ static void Scroll_ListBox_ThumbFunc( void *p ) {
 static void Scroll_Slider_ThumbFunc( void *p ) {
 	float x, value, cursorx;
 	scrollInfo_t *si = (scrollInfo_t*)p;
-	editFieldDef_t *editDef = si->item->typeData;
+	editFieldDef_t *editDef = ( editFieldDef_t * )si->item->typeData;
 
 	if ( si->item->text ) {
 		x = si->item->textRect.x + si->item->textRect.w + 8;
@@ -2594,7 +2594,7 @@ qboolean Item_Slider_HandleKey( itemDef_t *item, int key, qboolean down ) {
 	//DC->Print("slider handle key\n");
 	if ( item->window.flags & WINDOW_HASFOCUS && item->cvar && Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) ) {
 		if ( key == K_MOUSE1 || key == K_ENTER || key == K_MOUSE2 || key == K_MOUSE3 ) {
-			editFieldDef_t *editDef = item->typeData;
+			editFieldDef_t *editDef = ( editFieldDef_t * )item->typeData;
 			if ( editDef ) {
 				rectDef_t testRect;
 				width = SLIDER_WIDTH;
@@ -3574,7 +3574,7 @@ static void Controls_GetKeyAssignment( char *command, int *twokeys ) {
 		if ( *b == 0 ) {
 			continue;
 		}
-		if ( !Q_stricmp( b, command ) ) {
+		if ( !Q_strcasecmp( b, command ) ) {
 			twokeys[count] = j;
 			count++;
 			if ( count == 2 ) {
@@ -3670,7 +3670,7 @@ int BindingIDFromName( const char *name ) {
 	int i;
 	for ( i = 0; i < g_bindCount; i++ )
 	{
-		if ( Q_stricmp( name, g_bindings[i].command ) == 0 ) {
+		if ( Q_strcasecmp( name, g_bindings[i].command ) == 0 ) {
 			return i;
 		}
 	}
@@ -3686,7 +3686,7 @@ void BindingFromName( const char *cvar ) {
 	// iterate each command, set its default binding
 	for ( i = 0; i < g_bindCount; i++ )
 	{
-		if ( Q_stricmp( cvar, g_bindings[i].command ) == 0 ) {
+		if ( Q_strcasecmp( cvar, g_bindings[i].command ) == 0 ) {
 			b1 = g_bindings[i].bind1;
 			if ( b1 == -1 ) {
 				break;
@@ -4136,7 +4136,7 @@ void Item_ListBox_Paint( itemDef_t *item ) {
 					int j;
 					for ( j = 0; j < listPtr->numColumns; j++ ) {
 						text = DC->feederItemText( item->special, i, j, &optionalImage );
-						if ( optionalImage >= 0 ) {
+						if ( optionalImage != NULL ) {
 							DC->drawHandlePic( x + 4 + listPtr->columnInfo[j].pos, y - 1 + listPtr->elementHeight / 2, listPtr->columnInfo[j].width, listPtr->columnInfo[j].width, optionalImage );
 						} else if ( text ) {
 							DC->drawText( x + 4 + listPtr->columnInfo[j].pos, y + listPtr->elementHeight, item->font, item->textscale, item->window.foreColor, text, 0, listPtr->columnInfo[j].maxChars, item->textStyle );
@@ -4144,7 +4144,7 @@ void Item_ListBox_Paint( itemDef_t *item ) {
 					}
 				} else {
 					text = DC->feederItemText( item->special, i, 0, &optionalImage );
-					if ( optionalImage >= 0 ) {
+					if ( optionalImage != NULL ) {
 						//DC->drawHandlePic(x + 4 + listPtr->elementHeight, y, listPtr->columnInfo[j].width, listPtr->columnInfo[j].width, optionalImage);
 					} else if ( text ) {
 						DC->drawText( x + 4, y + listPtr->elementHeight, item->font, item->textscale, item->window.foreColor, text, 0, 0, item->textStyle );
@@ -4516,7 +4516,7 @@ menuDef_t *Menus_ActivateByName( const char *p ) {
 	menuDef_t *m = NULL;
 	menuDef_t *focus = Menu_GetFocused();
 	for ( i = 0; i < menuCount; i++ ) {
-		if ( Q_stricmp( Menus[i].window.name, p ) == 0 ) {
+		if ( Q_strcasecmp( Menus[i].window.name, p ) == 0 ) {
 			m = &Menus[i];
 			Menus_Activate( m );
 			if ( openMenuCount < MAX_OPEN_MENUS && focus != NULL ) {
@@ -4700,7 +4700,7 @@ typedef struct keywordHash_s
 } keywordHash_t;
 
 int KeywordHash_Key( char *keyword ) {
-	int register hash, i;
+	int hash, i;
 
 	hash = 0;
 	for ( i = 0; keyword[i] != '\0'; i++ ) {
@@ -4733,7 +4733,7 @@ keywordHash_t *KeywordHash_Find( keywordHash_t *table[], char *keyword ) {
 
 	hash = KeywordHash_Key( keyword );
 	for ( key = table[hash]; key; key = key->next ) {
-		if ( !Q_stricmp( key->keyword, keyword ) ) {
+		if ( !Q_strcasecmp( key->keyword, keyword ) ) {
 			return key;
 		}
 	}
@@ -5727,7 +5727,7 @@ qboolean MenuParse_name( itemDef_t *item, int handle ) {
 	if ( !PC_String_Parse( handle, &menu->window.name ) ) {
 		return qfalse;
 	}
-	if ( Q_stricmp( menu->window.name, "main" ) == 0 ) {
+	if ( Q_strcasecmp( menu->window.name, "main" ) == 0 ) {
 		// default main as having focus
 		//menu->window.flags |= WINDOW_HASFOCUS;
 	}

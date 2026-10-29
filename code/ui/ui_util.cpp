@@ -99,7 +99,7 @@ int Q_isforfilename( int c ) {
 void AnglesToAxis( const vec3_t angles, vec3_t axis[3] ) {
     vec3_t forward, right, up;
 
-    AngleVectors( (vec3_t)angles, forward, right, up );
+    AngleVectors( ( float * )angles, forward, right, up );
     VectorCopy( forward, axis[0] );
     VectorNegate( right, axis[1] );  /* viewaxis[1] is the left vector */
     VectorCopy( up, axis[2] );
