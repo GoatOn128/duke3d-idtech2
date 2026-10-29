@@ -245,6 +245,9 @@ typedef struct model_s
 
 //============================================================================
 
+// Tallest skin the alias loader accepts.
+#define MAX_LBM_HEIGHT 480
+
 void Mod_Init(void);
 void Mod_ClearAll(void);
 model_t *Mod_ForName(char *name, qboolean crash);
