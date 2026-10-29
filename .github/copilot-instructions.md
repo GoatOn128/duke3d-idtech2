@@ -28,7 +28,8 @@ three.
     `gl_rsurf`, `gl_rmain`, `gl_light`, `gl_mesh`, `gl_warp`, `gl_draw`, the GLSL shader
     backend (`gl_shaders`), the SDL GL context and Doom 3 BFG display/fullscreen
     handling (`glimp_sdl`), and the
-    Duke-specific layer `dnrender.cpp`.
+    Duke-specific layer `dnrender.cpp` (sector meshes tessellated on
+    the parallel job threads).
   - `sound/` — OpenAL backend (`sndopenal`), music (`sndmusic`, decoded by
     `third-party/mp3` via dr_mp3), ambience.
   - `game/` — the `dngamex86` game module: Duke gameplay (actors, AI
@@ -173,4 +174,5 @@ assuming a build ran against it.
 | Platform specifics | `sdl/sdl_sys.cpp`, `sdl/sdl_vid.cpp`, `ref_gl/glimp_sdl.cpp` |
 | Parallel jobs and threads | `qcommon/dnjobs.cpp`, `qcommon/dnthreads.cpp` |
 | Frame stepping and rate caps | `qcommon/common.cpp` (`Qcommon_Frame`), `client/cl_main.cpp` (`CL_Frame`) |
+| Parallel mesh builds | `ref_gl/dnrender.cpp`, `qcommon/dnjobs.cpp` (`DN_JobsParallelFor`) |
 | CI behavior | `.github/workflows/build-windows.yml` |

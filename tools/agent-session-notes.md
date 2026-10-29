@@ -204,3 +204,29 @@ cost anything as long as this file and PROGRESS.md are current.
   frame rates the 64-entry usercmd ring (CMD_BACKUP) can wrap before the
   10 Hz server acks arrive, so vsync or a finite cl_maxfps avoids
   prediction jitter.
+
+- 2026-10-29: BFG threading port, phase 3 (parallel renderer frontend), on
+  branch `port/bfg-parallel-render-frontend` (CI green, 0 errors, 0
+  warnings): the Duke renderer's per-sector mesh tessellation is pure
+  CPU work with no GL calls, so it now runs on the phase 1 job threads -
+  one job per dirty sector in R_DukeApplyWorldStates, and the full sector
+  list at map load (the JOBLIST_RENDERER_FRONTEND analog). Wiring:
+  DN_JobsParallelFor(count, run, userdata) in qcommon/dnjobs.cpp submits
+  one job per index to a reusable utility list (DN_JobList gained
+  ClearFinishedJobs for reuse); refimport_t gained a ParallelFor entry,
+  populated in VID_LoadRefresh. dnrender.cpp: the GLU tess callbacks now
+  run on job threads, so the tess statics are thread_local, and errors
+  are recorded per sector (dn_meshError_t) and raised on the main thread
+  after the wait, because Com_Error cannot unwind from a worker.
+  r_parallelMeshes 1 by default; under 4 sectors the builds stay serial
+  (the per-job lock overhead beats the tessellation cost). Scoped out on
+  purpose: the full BFG frontend/backend command buffer split - ref_gl is
+  immediate-mode with an RB_* batching facade, so a faithful port would
+  be a renderer rewrite, not a port.
+
+- 2026-10-29: BFG threading port, phase 4 (sound) closed as a documented
+  divergence, folded into the phase 3 PR: the engine mixes through OpenAL
+  (sound/sndopenal.cpp), which runs its own mixer thread inside the OpenAL
+  implementation, and the per-frame sound updates already run once per
+  render frame after the phase 2 uncap. A BFG-style dedicated sound
+  thread would duplicate existing threading, so no code was added.
