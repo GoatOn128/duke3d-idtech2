@@ -3547,7 +3547,15 @@ static bind_t g_bindings[] =
 //	{"help",			K_F1,           -1, -1, -1},
 	{"+leanleft",        -1,             -1, -1, -1},
 	{"+leanright",       -1,             -1, -1, -1},
-	{"kill",         -1,             -1, -1, -1}
+	{"kill",         -1,             -1, -1, -1},
+	// Q2 engine commands shown in the Duke customize controls list
+	{"+klook",       -1,             -1, -1, -1},
+	{"inven",        -1,             -1, -1, -1},
+	{"invuse",       -1,             -1, -1, -1},
+	{"invdrop",      -1,             -1, -1, -1},
+	{"invprev",      -1,             -1, -1, -1},
+	{"invnext",      -1,             -1, -1, -1},
+	{"cmd help",     -1,             -1, -1, -1}
 };
 
 
@@ -6153,6 +6161,58 @@ void Menu_New( int handle ) {
 
 int Menu_Count() {
 	return menuCount;
+}
+
+/*
+===============
+Menu_Alloc
+
+code-built menus (the Duke menus) do not come from parsed .menu files:
+allocate a menu, add items with Menu_AddItem, then run Menu_PostParse
+===============
+*/
+menuDef_t *Menu_Alloc( const char *name ) {
+	menuDef_t *menu;
+
+	if ( menuCount >= MAX_MENUS ) {
+		return NULL;
+	}
+
+	menu = &Menus[menuCount];
+	Menu_Init( menu );
+	menu->window.name = name;
+	menuCount++;
+	return menu;
+}
+
+/*
+===============
+Menu_AddItem
+
+allocate an item from the UI memory pool and attach it to a menu; the
+caller fills in the type specific fields afterwards
+===============
+*/
+itemDef_t *Menu_AddItem( menuDef_t *menu, const char *name ) {
+	itemDef_t *item;
+
+	if ( menu == NULL || menu->itemCount >= MAX_MENUITEMS ) {
+		return NULL;
+	}
+
+	item = ( itemDef_t * )UI_Alloc( sizeof( itemDef_t ) );
+	if ( item == NULL ) {
+		return NULL;
+	}
+
+	Item_Init( item );
+	item->parent = menu;
+	if ( name ) {
+		item->window.name = name;
+	}
+	menu->items[menu->itemCount] = item;
+	menu->itemCount++;
+	return item;
 }
 
 void Menu_PaintAll() {

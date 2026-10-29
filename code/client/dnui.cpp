@@ -242,6 +242,12 @@ static void UI_StartLocalSound(const char *name)
     }
 }
 
+static int UI_IsLocalSoundPlaying(const char *name)
+{
+    struct sfx_s *sfx = name && name[0] ? S_RegisterSound((char *)name) : NULL;
+    return sfx ? S_IsSoundPlaying(sfx) : 0;
+}
+
 static void UI_UpdateScreen(void)
 {
     SCR_UpdateScreen();
@@ -341,6 +347,7 @@ dn_ui_export_t *CL_LoadUI(void)
     imports.GetPicSize = UI_GetPicSize;
     imports.DrawStretchPic = UI_DrawStretchPic;
     imports.StartLocalSound = UI_StartLocalSound;
+    imports.IsLocalSoundPlaying = UI_IsLocalSoundPlaying;
     imports.UpdateScreen = UI_UpdateScreen;
     imports.UiTile = UI_UiTile;
     imports.MenuText = UI_MenuText;

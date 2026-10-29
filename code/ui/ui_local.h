@@ -32,4 +32,18 @@ int     Q_isforfilename( int c );
 char    *COM_ParseExt( char **data_p, qboolean allowLineBreak );
 void    AnglesToAxis( const vec3_t angles, vec3_t axis[3] );
 
+/* framework helper without a ui_shared.h prototype */
+itemDef_t *Menu_GetFocusedItem( menuDef_t *menu );
+
+/* Duke menus coded on the framework (ui_duke_menus.cpp) */
+void        Duke_MenusInit( void );
+void        Duke_Refresh( void );
+void        Duke_KeyEvent( int key, int down );
+void        Duke_MouseEvent( int dx, int dy );
+void        Duke_SetActiveMenu( dn_uimenu_t menu );
+int         Duke_IsFullscreen( void );
+void        Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t color );
+sfxHandle_t Duke_RegisterSound( const char *name );
+void        Duke_PlaySound( sfxHandle_t sfx );
+
 #endif

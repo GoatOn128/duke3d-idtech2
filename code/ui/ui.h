@@ -3,7 +3,7 @@
 #ifndef DN_UI_H
 #define DN_UI_H
 #include "../game/q_shared.h"
-#define DN_UI_API_VERSION 2
+#define DN_UI_API_VERSION 3
 
 /* Command execution timings, mirroring the engine EXEC_* values. */
 #define DN_EXEC_NOW 0
@@ -60,6 +60,7 @@ typedef struct
     void (*GetPicSize)(void *pic, int *width, int *height);
     void (*DrawStretchPic)(float x, float y, float w, float h, float s1, float t1, float s2, float t2, void *pic);
     void (*StartLocalSound)(const char *name);
+    int (*IsLocalSoundPlaying)(const char *name);
     void (*UpdateScreen)(void);
     void (*UiTile)(float x, float y, int tile, int shade, int palette, int topLeft);
     int (*MenuText)(int x, int y, const char *text, int selected);
