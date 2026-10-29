@@ -18,8 +18,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 // common.cpp -- misc functions used in client and server
+// Printing is thread safe like the BFG idLib (framework/Common_printf.cpp):
+// the main thread owns the console, the system console window and the
+// logfile, prints from worker threads are queued to it, and Com_Error
+// unwinds the calling thread instead of longjmping across threads
 #include "qcommon.h"
 #include <setjmp.h>
+#include "dnthreads.h"
 
 #define MAXPRINTMSG 4096
 
@@ -65,10 +70,14 @@ CLIENT / SERVER interactions
 ============================================================================
 */
 
-static int rd_target;
-static char *rd_buffer;
-static int rd_buffersize;
-static void (*rd_flush)(int target, char *buffer);
+// The redirect is opened and closed inside one function scope on one
+// thread (rcon and status packet handling), so it is thread local: a
+// worker thread redirecting its output cannot touch a redirected buffer
+// the main thread owns.
+static thread_local int rd_target;
+static thread_local char *rd_buffer;
+static thread_local int rd_buffersize;
+static thread_local void (*rd_flush)(int target, char *buffer);
 
 void Com_BeginRedirect(int target, char *buffer, int buffersize, void(*flush))
 {
@@ -95,33 +104,64 @@ void Com_EndRedirect(void)
 }
 
 /*
-=============
-Com_Printf
+============================================================================
 
-Both client and server can use this, and it will output
-to the apropriate place.
+THREAD SAFE PRINTING (BFG idLib framework/Common_printf.cpp port)
+
+BFG keeps every print on the main thread: VPrintf from another thread
+goes to OutputDebugString only and Warning early-outs with "not thread
+safe!". The console buffer, the system console window and the logfile
+all stay main thread only here as well, but a worker thread print is
+queued and printed by the main thread on the next frame instead of
+being dropped, so server and job thread output still reaches the console.
+
+============================================================================
+*/
+
+// the thread that ran Qcommon_Init; 0 before that (startup prints are main)
+static SDL_ThreadID com_mainThreadId = 0;
+
+// prints queued by worker threads, drained once per frame by the main thread
+#define COM_MAX_QUEUED_MESSAGES 128
+#define COM_QUEUED_MESSAGE_SIZE 1024
+static char com_printQueue[COM_MAX_QUEUED_MESSAGES][COM_QUEUED_MESSAGE_SIZE];
+static int com_printQueueHead; // monotonically growing write count
+static int com_printQueueTail;  // monotonically growing read count
+static qboolean com_printQueueOverflow;
+static DN_SysMutex *com_printQueueMutex;
+
+// A Com_Error on a worker thread cannot longjmp into the main thread's
+// abortframe, so it is recorded here and the worker unwinds through its
+// thread-local jump target; the main thread re-raises the error when the
+// worker returns to it. BFG throws idException for the same purpose.
+static DN_SysMutex *com_pendingErrorMutex;
+static qboolean com_pendingErrorSet;
+static int com_pendingErrorCode;
+static char com_pendingErrorMsg[MAXPRINTMSG];
+static thread_local jmp_buf *com_threadUnwind;
+
+/*
+=============
+Com_IsMainThread
+
+BFG idLib::IsMainThread(): the main thread owns the console, the system
+console window and the logfile.
 =============
 */
-void Com_Printf(char *fmt, ...)
+qboolean Com_IsMainThread(void)
 {
-    va_list argptr;
-    char msg[MAXPRINTMSG];
+    return com_mainThreadId == 0 || SDL_GetCurrentThreadID() == com_mainThreadId;
+}
 
-    va_start(argptr, fmt);
-    vsnprintf(msg, sizeof(msg), fmt, argptr);
-    va_end(argptr);
+/*
+=============
+Com_MainPrint
 
-    if (rd_target)
-    {
-        if ((strlen(msg) + strlen(rd_buffer)) > (rd_buffersize - 1))
-        {
-            rd_flush(rd_target, rd_buffer);
-            *rd_buffer = 0;
-        }
-        strcat(rd_buffer, msg);
-        return;
-    }
-
+Console, system console and logfile output. Main thread only.
+=============
+*/
+static void Com_MainPrint(char *msg)
+{
     Con_Print(msg);
 
     // also echo to debugging console
@@ -147,6 +187,160 @@ void Com_Printf(char *fmt, ...)
             fflush(logfile); // force it to save every time
         }
     }
+}
+
+/*
+=============
+Com_QueuePrint
+
+Hands a formatted message from a worker thread to the main thread.
+When the queue is full the oldest entry is dropped, so a burst cannot
+lose the newest output.
+=============
+*/
+static void Com_QueuePrint(const char *msg)
+{
+    char *entry;
+
+    if (!com_printQueueMutex)
+    {
+        return;
+    }
+
+    DN_ScopedCriticalSection lock(*com_printQueueMutex);
+
+    if (com_printQueueHead - com_printQueueTail >= COM_MAX_QUEUED_MESSAGES)
+    {
+        com_printQueueTail++;
+        com_printQueueOverflow = true;
+    }
+
+    entry = com_printQueue[com_printQueueHead % COM_MAX_QUEUED_MESSAGES];
+    strncpy(entry, msg, COM_QUEUED_MESSAGE_SIZE - 1);
+    entry[COM_QUEUED_MESSAGE_SIZE - 1] = 0;
+    com_printQueueHead++;
+}
+
+/*
+=============
+Com_FlushPrintQueue
+
+Prints everything the worker threads queued; called once per frame on
+the main thread.
+=============
+*/
+void Com_FlushPrintQueue(void)
+{
+    char entry[COM_QUEUED_MESSAGE_SIZE];
+
+    if (!com_printQueueMutex)
+    {
+        return;
+    }
+
+    for (;;)
+    {
+        DN_ScopedCriticalSection lock(*com_printQueueMutex);
+
+        if (com_printQueueHead == com_printQueueTail)
+        {
+            break;
+        }
+        memcpy(entry, com_printQueue[com_printQueueTail % COM_MAX_QUEUED_MESSAGES],
+               COM_QUEUED_MESSAGE_SIZE);
+        com_printQueueTail++;
+
+        Com_MainPrint(entry);
+    }
+
+    if (com_printQueueOverflow)
+    {
+        com_printQueueOverflow = false;
+        Com_MainPrint("WARNING: worker thread print output was truncated\n");
+    }
+}
+
+/*
+=============
+Com_TakePendingError
+
+Returns true when a worker thread hit Com_Error and recorded it; the
+main thread re-raises it with Com_Error so the drop and fatal paths run
+on the thread that owns the game state.
+=============
+*/
+qboolean Com_TakePendingError(int *code, char *msg, int msgSize)
+{
+    qboolean taken = false;
+
+    if (!com_pendingErrorMutex)
+    {
+        return false;
+    }
+
+    DN_ScopedCriticalSection lock(*com_pendingErrorMutex);
+
+    if (com_pendingErrorSet)
+    {
+        com_pendingErrorSet = false;
+        *code = com_pendingErrorCode;
+        strncpy(msg, com_pendingErrorMsg, msgSize - 1);
+        msg[msgSize - 1] = 0;
+        taken = true;
+    }
+    return taken;
+}
+
+/*
+=============
+Com_SetThreadUnwind
+
+Installs the jump target Com_Error unwinds through when it fires on
+this thread (a worker thread calls this around its frame work). Passing
+NULL removes the target again.
+=============
+*/
+void Com_SetThreadUnwind(jmp_buf *unwind)
+{
+    com_threadUnwind = unwind;
+}
+
+/*
+=============
+Com_Printf
+
+Both client and server can use this, and it will output
+to the apropriate place. Off the main thread the message is
+queued and printed by the main thread on the next frame.
+=============
+*/
+void Com_Printf(char *fmt, ...)
+{
+    va_list argptr;
+    char msg[MAXPRINTMSG];
+
+    va_start(argptr, fmt);
+    vsnprintf(msg, sizeof(msg), fmt, argptr);
+    va_end(argptr);
+
+    if (rd_target)
+    {
+        if ((strlen(msg) + strlen(rd_buffer)) > (rd_buffersize - 1))
+        {
+            rd_flush(rd_target, rd_buffer);
+            *rd_buffer = 0;
+        }
+        strcat(rd_buffer, msg);
+        return;
+    }
+
+    if (!Com_IsMainThread())
+    {
+        Com_QueuePrint(msg);
+        return;
+    }
+
+    Com_MainPrint(msg);
 }
 
 /*
@@ -196,6 +390,28 @@ void Com_Error(int code, char *fmt, ...)
     va_start(argptr, fmt);
     vsnprintf(msg, sizeof(msg), fmt, argptr);
     va_end(argptr);
+
+    if (!Com_IsMainThread())
+    {
+        // Com_Error cannot longjmp across threads: record the error so the
+        // main thread can re-raise it, then unwind this thread through its
+        // jump target. Without a target there is no way back to a safe
+        // state, so abort like an uncaught BFG idException.
+        if (com_pendingErrorMutex)
+        {
+            DN_ScopedCriticalSection lock(*com_pendingErrorMutex);
+            com_pendingErrorCode = code;
+            strncpy(com_pendingErrorMsg, msg, sizeof(com_pendingErrorMsg) - 1);
+            com_pendingErrorMsg[sizeof(com_pendingErrorMsg) - 1] = 0;
+            com_pendingErrorSet = true;
+        }
+        if (com_threadUnwind)
+        {
+            recursive = false;
+            longjmp(*com_threadUnwind, 1);
+        }
+        Sys_Error("Com_Error on a worker thread: %s", msg);
+    }
 
     if (code == ERR_DISCONNECT)
     {
@@ -1653,6 +1869,12 @@ void Qcommon_Init(int argc, char **argv)
 {
     char *s;
 
+    // the thread running Qcommon_Init owns the console output; prints and
+    // errors from any other thread are handed to it (see Com_Printf)
+    com_mainThreadId = SDL_GetCurrentThreadID();
+    com_printQueueMutex = new DN_SysMutex();
+    com_pendingErrorMutex = new DN_SysMutex();
+
     if (setjmp(abortframe))
     {
         Sys_Error("Error during initialization");
@@ -1781,6 +2003,9 @@ void Qcommon_Frame(int msec)
     {
         return; // an ERR_DROP was thrown
     }
+
+    // prints queued by worker threads while the last frame ran
+    Com_FlushPrintQueue();
 
     if (log_stats->modified)
     {
