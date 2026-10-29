@@ -100,6 +100,7 @@ private:
     static qboolean PC_String_Parse( int handle, const char **out );
     static qboolean PC_Char_Parse( int handle, char *out );
     static qboolean PC_Script_Parse( int handle, const char **out );
+    static qboolean ParseColorRange( dnItem *item, int handle, int type );
 
     /* ---- keyword hash ---- */
     static int KeywordHash_Key( char *keyword );

@@ -1202,7 +1202,7 @@ qboolean dnMenuParser::ItemParse_cvarFloatList( dnItem *item, int handle ) {
 }
 
 
-qboolean ParseColorRange( dnItem *item, int handle, int type ) {
+qboolean dnMenuParser::ParseColorRange( dnItem *item, int handle, int type ) {
     colorRangeDef_t color;
 
     if ( item->numColors && type != item->colorRangeType ) {
