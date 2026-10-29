@@ -20,16 +20,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // console.cpp
 
 #include "client.h"
+#include "../qcommon/dneditfield.h"
+#include "../qcommon/dnconsolehistory.h"
 
 console_t	con;
 
 cvar_t		*con_notifytime;
 
+// the BFG consoleField: edit line with cycling tab completion
+DN_EditField	consoleField;
+
+// BFG style key repeat bookkeeping for the console scroll keys
+#define CONSOLE_FIRSTREPEAT	200
+#define CONSOLE_REPEAT		100
+static int	con_lastKeyEvent = -1;
+static int	con_nextKeyEvent = CONSOLE_FIRSTREPEAT;
+
+extern	qboolean	keydown[256];
+
 
 #define		MAXCMDLINE	256
-extern	char	key_lines[32][MAXCMDLINE];
-extern	int		edit_line;
-extern	int		key_linepos;
 		
 
 void DrawString (int x, int y, char *s)
@@ -55,8 +65,8 @@ void DrawAltString (int x, int y, char *s)
 
 void Key_ClearTyping (void)
 {
-	key_lines[edit_line][1] = 0;	// clear any typing
-	key_linepos = 1;
+	consoleField.ClearAutoComplete ();	// clear any typing
+	consoleField.Clear ();
 }
 
 /*
@@ -130,6 +140,7 @@ Con_Clear_f
 void Con_Clear_f (void)
 {
 	memset (con.text, ' ', CON_TEXTSIZE);
+	con.display = con.current;	// BFG Clear() goes to the end
 }
 
 						
@@ -291,6 +302,8 @@ void Con_CheckResize (void)
 		Con_ClearNotify ();
 	}
 
+	consoleField.SetWidthInChars (con.linewidth);
+
 	con.current = con.totallines - 1;
 	con.display = con.current;
 }
@@ -320,6 +333,9 @@ void Con_Init (void)
 	Cmd_AddCommand ("messagemode2", Con_MessageMode2_f);
 	Cmd_AddCommand ("clear", Con_Clear_f);
 	Cmd_AddCommand ("condump", Con_Dump_f);
+
+	consoleField.SetWidthInChars (con.linewidth);
+	DN_ConsoleHistoryInit ();
 	con.initialized = true;
 }
 
@@ -440,6 +456,242 @@ void Con_CenteredPrint (char *text)
 }
 
 /*
+
+==============================================================================
+
+CONSOLE LINE EDITING (BFG idConsoleLocal::KeyDownEvent port)
+
+==============================================================================
+*/
+
+/*
+====================
+Con_PageUp
+====================
+*/
+static void Con_PageUp (void)
+{
+	con.display -= 2;
+	if (con.current - con.display >= con.totallines)
+		con.display = con.current - con.totallines + 1;
+}
+
+/*
+====================
+Con_PageDown
+====================
+*/
+static void Con_PageDown (void)
+{
+	con.display += 2;
+	if (con.display > con.current)
+		con.display = con.current;
+}
+
+/*
+====================
+Con_Scroll
+
+BFG idConsoleLocal::Scroll: deals with scrolling text because the SDL
+layer filters key repeats. The first repeat is delayed by
+CONSOLE_FIRSTREPEAT, the following ones by CONSOLE_REPEAT.
+====================
+*/
+static void Con_Scroll (void)
+{
+	if (con_lastKeyEvent == -1 || (con_lastKeyEvent + con_nextKeyEvent) > Sys_Milliseconds())
+		return;
+
+	if (keydown[K_PGUP] || keydown[K_KP_PGUP])
+	{
+		Con_PageUp ();
+		con_lastKeyEvent = Sys_Milliseconds ();
+		con_nextKeyEvent = CONSOLE_REPEAT;
+		return;
+	}
+
+	if (keydown[K_PGDN] || keydown[K_KP_PGDN])
+	{
+		Con_PageDown ();
+		con_lastKeyEvent = Sys_Milliseconds ();
+		con_nextKeyEvent = CONSOLE_REPEAT;
+		return;
+	}
+}
+
+/*
+====================
+Con_KeyDownEvent
+
+Port of the BFG console key handling. The Q2 Key_Event merges key and
+char events and applies keyshift itself, so printable keys are routed
+to the field CharEvent and the BFG control codes became keydown checks.
+====================
+*/
+void Con_KeyDownEvent (int key)
+{
+	char		*cmd;
+	const char	*hist;
+
+// keypad keys type their digit, like the Q2 console always did
+	switch (key)
+	{
+	case K_KP_SLASH:		key = '/'; break;
+	case K_KP_MINUS:		key = '-'; break;
+	case K_KP_PLUS:			key = '+'; break;
+	case K_KP_HOME:			key = '7'; break;
+	case K_KP_UPARROW:		key = '8'; break;
+	case K_KP_PGUP:			key = '9'; break;
+	case K_KP_LEFTARROW:	key = '4'; break;
+	case K_KP_5:			key = '5'; break;
+	case K_KP_RIGHTARROW:	key = '6'; break;
+	case K_KP_END:			key = '1'; break;
+	case K_KP_DOWNARROW:	key = '2'; break;
+	case K_KP_PGDN:			key = '3'; break;
+	case K_KP_INS:			key = '0'; break;
+	case K_KP_DEL:			key = '.'; break;
+	}
+
+// ctrl-l clears the console
+	if (key == 'l' && keydown[K_CTRL])
+	{
+		Con_Clear_f ();
+		return;
+	}
+
+// ctrl-v pastes, shift-insert pastes
+	if ((toupper(key) == 'V' && keydown[K_CTRL]) ||
+		((key == K_INS || key == K_KP_INS) && keydown[K_SHIFT]))
+	{
+		consoleField.Paste ();
+		return;
+	}
+
+// enter finishes the line
+	if (key == K_ENTER || key == K_KP_ENTER)
+	{
+		cmd = consoleField.GetBuffer ();
+
+		Com_Printf ("]%s\n", cmd);
+
+	// backslash text are commands, else chat
+		if (cmd[0] == '\\' || cmd[0] == '/')
+			Cbuf_AddText (cmd+1);	// skip the slash
+		else
+			Cbuf_AddText (cmd);		// valid command
+		Cbuf_AddText ("\n");
+
+	// copy line to history buffer
+		if (cmd[0])
+			consoleHistory.AddToHistory (cmd);
+
+		consoleField.Clear ();
+		consoleField.SetWidthInChars (con.linewidth);
+
+		if (cls.state == ca_disconnected)
+			SCR_UpdateScreen ();	// force an update, because the command
+						// may take some time
+		return;
+	}
+
+// command completion
+	if (key == K_TAB)
+	{
+		consoleField.AutoComplete ();
+		return;
+	}
+
+// command history, ctrl-p and ctrl-n unix style
+	if ((key == K_UPARROW) ||
+		(key == 'p' && keydown[K_CTRL]))
+	{
+		hist = consoleHistory.RetrieveFromHistory (true);
+		if (hist[0])
+			consoleField.SetBuffer (hist);
+		return;
+	}
+
+	if ((key == K_DOWNARROW) ||
+		(key == 'n' && keydown[K_CTRL]))
+	{
+		hist = consoleHistory.RetrieveFromHistory (false);
+		if (hist[0])
+			consoleField.SetBuffer (hist);
+		else
+			consoleField.Clear ();	// no more history, blank line again
+		return;
+	}
+
+// console scrolling
+	if (key == K_PGUP || key == K_KP_PGUP)
+	{
+		Con_PageUp ();
+		con_lastKeyEvent = Sys_Milliseconds ();
+		con_nextKeyEvent = CONSOLE_FIRSTREPEAT;
+		return;
+	}
+
+	if (key == K_PGDN || key == K_KP_PGDN)
+	{
+		Con_PageDown ();
+		con_lastKeyEvent = Sys_Milliseconds ();
+		con_nextKeyEvent = CONSOLE_FIRSTREPEAT;
+		return;
+	}
+
+	if (key == K_MWHEELUP)
+	{
+		Con_PageUp ();
+		return;
+	}
+
+	if (key == K_MWHEELDOWN)
+	{
+		Con_PageDown ();
+		return;
+	}
+
+// ctrl-home = top of console, ctrl-end = bottom of console
+	if ((key == K_HOME || key == K_KP_HOME) && keydown[K_CTRL])
+	{
+		con.display = 0;
+		return;
+	}
+
+	if ((key == K_END || key == K_KP_END) && keydown[K_CTRL])
+	{
+		con.display = con.current;
+		return;
+	}
+
+// backspace deletes through the field CharEvent, which treats it
+// as ctrl-h like the BFG char events do
+	if (key == K_BACKSPACE)
+	{
+		consoleField.CharEvent (K_BACKSPACE);
+		return;
+	}
+
+// BFG delivers ctrl+letter as control codes through SE_CHAR, the Q2
+// event pump never does, so the remaining console field combos are
+// sent to the field as control codes here
+	if (keydown[K_CTRL] && key >= 'a' && key <= 'z')
+	{
+		if (key == 'c')
+			consoleField.Clear ();	// ctrl-c clears the field
+		else
+			consoleField.CharEvent (key - 'a' + 1);
+		return;
+	}
+
+	if (key >= 32 && key <= 127)
+		consoleField.CharEvent (key);
+	else
+	// pass to the normal editline routine
+		consoleField.KeyDownEvent (key, keydown[K_CTRL], keydown[K_SHIFT]);
+}
+
+/*
 ==============================================================================
 
 DRAWING
@@ -455,40 +707,24 @@ Con_DrawInput
 The input line scrolls horizontally if typing goes beyond the right edge
 ================
 */
+static void Con_DrawFieldChar (int x, int y, int c)
+{
+	re.DrawChar (x, y, c);
+}
+
 void Con_DrawInput (void)
 {
-	int		y;
-	int		i;
-	char	*text;
-
 	if (cls.key_dest == key_menu)
 		return;
 	if (cls.key_dest != key_console && cls.state == ca_active)
-		return;		// don't draw anything (always draw if not active)
+		return;	// don't draw anything (always draw if not active)
 
-	text = key_lines[edit_line];
-	
-// add the cursor frame
-	text[key_linepos] = 10+((int)(cls.realtime>>8)&1);
-	
-// fill out remainder with spaces
-	for (i=key_linepos+1 ; i< con.linewidth ; i++)
-		text[i] = ' ';
-		
-//	prestep if horizontally scrolling
-	if (key_linepos >= con.linewidth)
-		text += 1 + key_linepos - con.linewidth;
-		
-// draw it
-	y = con.vislines-16;
+// the ] prompt, then the field with its blinking cursor
+	re.DrawChar (8, con.vislines - 22, ']');
 
-	for (i=0 ; i<con.linewidth ; i++)
-		re.DrawChar ( (i+1)<<3, con.vislines - 22, text[i]);
-
-// remove cursor
-	key_lines[edit_line][key_linepos] = 0;
+	consoleField.Draw (16, con.vislines - 22,
+		!((int)(cls.realtime>>8)&1), Con_DrawFieldChar);
 }
-
 
 /*
 ================
@@ -575,6 +811,8 @@ void Con_DrawConsole (float frac)
 	int				lines;
 	char			version[64];
 	char			dlbar[1024];
+
+	Con_Scroll ();
 
 	lines = viddef.height * frac;
 	if (lines <= 0)

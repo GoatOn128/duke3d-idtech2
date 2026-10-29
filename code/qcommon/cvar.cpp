@@ -118,6 +118,23 @@ char *Cvar_CompleteVariable (char *partial)
 
 /*
 ============
+Cvar_CommandCompletion
+
+BFG style completion support: every cvar name is passed to the
+callback, which does its own prefix matching.
+============
+*/
+void Cvar_CommandCompletion(void (*callback)(const char *command))
+{
+	cvar_t		*cvar;
+
+	for (cvar=cvar_vars ; cvar ; cvar=cvar->next)
+		callback(cvar->name);
+}
+
+
+/*
+============
 Cvar_Get
 
 If the variable already exists, the value will not be set
