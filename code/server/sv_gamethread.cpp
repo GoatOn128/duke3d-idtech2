@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <SDL3/SDL_timer.h>
 
-#include "dnerrortrap.h"
+#include "../qcommon/dnerrortrap.h"
 
 static cvar_t *com_smp;
 static cvar_t *com_sleepGame;

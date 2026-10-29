@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <setjmp.h>
 
-#include "dnthreads.h"
+#include "../qcommon/dnthreads.h"
 
 class DN_GameThread : public DN_SysThread
 {
