@@ -387,7 +387,7 @@ fov pair widens with the aspect ratio and the horizontal angle never
 shrinks below the base fov, so widescreen resolutions only add view.
 ====================
 */
-static void CalcFov(float base_fov, int width, int height, float *fov_x, float *fov_y)
+void CalcFov(float base_fov, int width, int height, float *fov_x, float *fov_y)
 {
     float x, y;
     float ratio_x, ratio_y;
