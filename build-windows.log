@@ -17,152 +17,991 @@ InstalledDir: C:\Program Files\LLVM\bin
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Asset preparation skipped: needs 3drealms/duke3d.grp.
--- Configuring done (11.0s)
+-- Configuring done (6.3s)
 -- Generating done (0.1s)
 -- Build files have been written to: D:/a/duke3d-idtech2/duke3d-idtech2/code/out/build/x86
 === build: windows-clang-x86 preset ===
 [x86] VS environment ready: llvm.org clang-cl + lld-link with MSVC headers and libraries.
-[1/144] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj
-[2/144] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj
-[3/144] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
-[4/144] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
-[5/144] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj
-[6/144] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
-[7/144] Building CXX object CMakeFiles\ref_gl.dir\game\q_shared.cpp.obj
-[8/144] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
-[9/144] Building CXX object CMakeFiles\ref_gl.dir\win32\glw_imp.cpp.obj
-[10/144] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_shaders.cpp.obj
-[11/144] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rsurf.cpp.obj
-[12/144] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_warp.cpp.obj
-[13/144] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dntransport.cpp.obj
-[14/144] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
-[15/144] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnpcx.cpp.obj
-[16/144] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
-[17/144] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
-[18/144] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
-[19/144] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj
-[20/144] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
-[21/144] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
-[22/144] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
-[23/144] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
-[24/144] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
-[25/144] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
-[26/144] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
-[27/144] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
-[28/144] Building CXX object CMakeFiles\game.dir\game\dnintermission.cpp.obj
-[29/144] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
-[30/144] Building CXX object CMakeFiles\game.dir\game\dnplayer.cpp.obj
-[31/144] Building CXX object CMakeFiles\game.dir\game\dnweapons.cpp.obj
-[32/144] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
-[33/144] Building CXX object CMakeFiles\game.dir\game\dndamage.cpp.obj
-[34/144] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
-[35/144] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
-[36/144] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
-[37/144] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
-[38/144] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
-[39/144] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
-[40/144] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
-[41/144] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
-[42/144] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
-[43/144] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
-[44/144] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
-[45/144] Building CXX object CMakeFiles\game.dir\game\dntransport.cpp.obj
-[46/144] Building CXX object CMakeFiles\game.dir\game\dnstyles.cpp.obj
-[47/144] Building CXX object CMakeFiles\game.dir\game\dndestruct.cpp.obj
-[48/144] Building CXX object CMakeFiles\game.dir\game\dnfallers.cpp.obj
-[49/144] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
-[50/144] Building CXX object CMakeFiles\game.dir\game\dnsectors.cpp.obj
-[51/144] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
-[52/144] Building CXX object CMakeFiles\game.dir\game\dneffects.cpp.obj
-[53/144] Building CXX object CMakeFiles\game.dir\game\dngibs.cpp.obj
-[54/144] Building CXX object CMakeFiles\game.dir\game\dnmapspawn.cpp.obj
-[55/144] Building CXX object CMakeFiles\game.dir\game\dndecals.cpp.obj
-[56/144] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
-[57/144] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
-[58/144] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
-[59/144] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
-[60/144] Building CXX object CMakeFiles\game.dir\qcommon\dnanimation.cpp.obj
-[61/144] Building CXX object CMakeFiles\game.dir\qcommon\dnmath.cpp.obj
-[62/144] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
-[63/144] Building CXX object CMakeFiles\game.dir\game\dnconrun.cpp.obj
-[64/144] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
-[65/144] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
-[66/144] Building CXX object CMakeFiles\cgame.dir\qcommon\dnenemies.cpp.obj
-[67/144] Building CXX object CMakeFiles\cgame.dir\cgame\dnmain.cpp.obj
-[68/144] Building CXX object CMakeFiles\game.dir\game\q_shared.cpp.obj
-[69/144] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
-[70/144] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponview.cpp.obj
-[71/144] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
-[72/144] Building CXX object CMakeFiles\cgame.dir\qcommon\dnzrange.cpp.obj
-[73/144] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
-[74/144] Building CXX object CMakeFiles\cgame.dir\qcommon\dnanimation.cpp.obj
-[75/144] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
-[76/144] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
-[77/144] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
-[78/144] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
-[79/144] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
-[80/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
-[81/144] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
-[82/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_ents.cpp.obj
-[83/144] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
-[84/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_input.cpp.obj
-[85/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
-[86/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_inv.cpp.obj
-[87/144] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
-[88/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_parse.cpp.obj
-[89/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
-[90/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_newfx.cpp.obj
-[91/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_pred.cpp.obj
-[92/144] Building CXX object CMakeFiles\duke3d.dir\client\dnmenu.cpp.obj
-[93/144] Building CXX object CMakeFiles\duke3d.dir\client\dnhud.cpp.obj
-[94/144] Building CXX object CMakeFiles\duke3d.dir\client\dnsavemenu.cpp.obj
-[95/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_scrn.cpp.obj
-[96/144] Building CXX object CMakeFiles\duke3d.dir\client\dnintermission.cpp.obj
-[97/144] Building CXX object CMakeFiles\duke3d.dir\client\dnintro.cpp.obj
-[98/144] Building CXX object CMakeFiles\duke3d.dir\qcommon\cmd.cpp.obj
-[99/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_view.cpp.obj
-[100/144] Building CXX object CMakeFiles\duke3d.dir\client\dncgame.cpp.obj
-[101/144] Building CXX object CMakeFiles\duke3d.dir\client\cl_tent.cpp.obj
-[102/144] Building CXX object CMakeFiles\duke3d.dir\qcommon\cmodel.cpp.obj
-[103/144] Building CXX object CMakeFiles\duke3d.dir\qcommon\crc.cpp.obj
-[104/144] Building CXX object CMakeFiles\duke3d.dir\client\console.cpp.obj
-[105/144] Building CXX object CMakeFiles\duke3d.dir\qcommon\cvar.cpp.obj
-[106/144] Building CXX object CMakeFiles\duke3d.dir\qcommon\common.cpp.obj
-[107/144] Building CXX object CMakeFiles\duke3d.dir\qcommon\files.cpp.obj
-[108/144] Building CXX object CMakeFiles\duke3d.dir\game\m_flash.cpp.obj
-[109/144] Building CXX object CMakeFiles\duke3d.dir\qcommon\md4.cpp.obj
-[110/144] Building CXX object CMakeFiles\duke3d.dir\client\keys.cpp.obj
-[111/144] Building CXX object CMakeFiles\duke3d.dir\win32\conproc.cpp.obj
-[112/144] Building CXX object CMakeFiles\duke3d.dir\qcommon\net_chan.cpp.obj
-[113/144] Building CXX object CMakeFiles\duke3d.dir\qcommon\pmove.cpp.obj
-[114/144] Building CXX object CMakeFiles\duke3d.dir\game\q_shared.cpp.obj
-[115/144] Building CXX object CMakeFiles\duke3d.dir\client\menu.cpp.obj
-[116/144] Building CXX object CMakeFiles\duke3d.dir\win32\in_win.cpp.obj
-[117/144] Building CXX object CMakeFiles\duke3d.dir\client\qmenu.cpp.obj
-[118/144] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
-[119/144] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
-[120/144] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
-[121/144] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
-[122/144] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
-[123/144] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
-[124/144] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
-[125/144] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
-[126/144] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
-[127/144] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
-[128/144] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
-[129/144] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
-[130/144] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
-[131/144] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
-[132/144] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
-[133/144] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
-[134/144] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
-[135/144] Building CXX object CMakeFiles\duke3d.dir\client\x86.cpp.obj
-[136/144] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
-[137/144] Building RC object CMakeFiles\duke3d.dir\win32\dnicon.rc.res
-[138/144] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
-[139/144] Building CXX object CMakeFiles\duke3d.dir\win32\sys_win.cpp.obj
-[140/144] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
-[141/144] Building CXX object CMakeFiles\duke3d.dir\win32\vid_dll.cpp.obj
-[142/144] Building C object CMakeFiles\convertgrp.dir\tools\convertGRP\convert_grp.c.obj
-[143/144] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll
-[144/144] Linking C executable convertgrp.exe
+[1/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj
+[2/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj
+[3/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj
+[4/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
+[5/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
+[6/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
+[7/143] Building CXX object CMakeFiles\ref_gl.dir\game\q_shared.cpp.obj
+[8/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_shaders.cpp.obj
+[9/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rsurf.cpp.obj
+[10/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_warp.cpp.obj
+[11/143] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dntransport.cpp.obj
+[12/143] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnpcx.cpp.obj
+[13/143] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
+[14/143] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj
+[15/143] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
+[16/143] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
+[17/143] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
+[18/143] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
+[19/143] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
+[20/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
+[21/143] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
+[22/143] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
+[23/143] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
+[24/143] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
+[25/143] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
+[26/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
+[27/143] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
+[28/143] Building CXX object CMakeFiles\game.dir\game\dnintermission.cpp.obj
+[29/143] Building CXX object CMakeFiles\game.dir\game\dnplayer.cpp.obj
+[30/143] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
+[31/143] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
+[32/143] Building CXX object CMakeFiles\game.dir\game\dndamage.cpp.obj
+[33/143] Building CXX object CMakeFiles\game.dir\game\dnweapons.cpp.obj
+[34/143] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
+[35/143] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
+[36/143] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
+[37/143] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
+[38/143] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
+[39/143] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\glimp_sdl.cpp.obj
+[40/143] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
+[41/143] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
+[42/143] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
+[43/143] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
+[44/143] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
+[45/143] Building CXX object CMakeFiles\game.dir\game\dntransport.cpp.obj
+[46/143] Building CXX object CMakeFiles\game.dir\game\dnstyles.cpp.obj
+[47/143] Building CXX object CMakeFiles\game.dir\game\dnsectors.cpp.obj
+[48/143] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
+[49/143] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
+[50/143] Building CXX object CMakeFiles\game.dir\game\dnfallers.cpp.obj
+[51/143] Building CXX object CMakeFiles\game.dir\game\dndestruct.cpp.obj
+[52/143] Building CXX object CMakeFiles\game.dir\game\dneffects.cpp.obj
+[53/143] Building CXX object CMakeFiles\game.dir\game\dndecals.cpp.obj
+[54/143] Building CXX object CMakeFiles\game.dir\game\dngibs.cpp.obj
+[55/143] Building CXX object CMakeFiles\game.dir\game\dnmapspawn.cpp.obj
+[56/143] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
+[57/143] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
+[58/143] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
+[59/143] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
+[60/143] Building CXX object CMakeFiles\game.dir\qcommon\dnanimation.cpp.obj
+[61/143] Building CXX object CMakeFiles\game.dir\qcommon\dnmath.cpp.obj
+[62/143] Building CXX object CMakeFiles\game.dir\game\dnconrun.cpp.obj
+[63/143] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
+[64/143] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
+[65/143] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
+[66/143] Building CXX object CMakeFiles\cgame.dir\cgame\dnmain.cpp.obj
+[67/143] Building CXX object CMakeFiles\cgame.dir\qcommon\dnenemies.cpp.obj
+[68/143] Building CXX object CMakeFiles\game.dir\game\q_shared.cpp.obj
+[69/143] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponview.cpp.obj
+[70/143] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
+[71/143] Building CXX object CMakeFiles\cgame.dir\qcommon\dnzrange.cpp.obj
+[72/143] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
+[73/143] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
+[74/143] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
+[75/143] Building CXX object CMakeFiles\cgame.dir\qcommon\dnanimation.cpp.obj
+[76/143] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
+[77/143] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
+[78/143] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
+[79/143] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
+[80/143] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
+[81/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
+[82/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_ents.cpp.obj
+[83/143] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
+[84/143] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
+[85/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_input.cpp.obj
+[86/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_inv.cpp.obj
+[87/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
+[88/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_pred.cpp.obj
+[89/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_parse.cpp.obj
+[90/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_newfx.cpp.obj
+[91/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
+[92/143] Building CXX object CMakeFiles\duke3d.dir\client\dnmenu.cpp.obj
+[93/143] Building CXX object CMakeFiles\duke3d.dir\client\dnhud.cpp.obj
+[94/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_scrn.cpp.obj
+[95/143] Building CXX object CMakeFiles\duke3d.dir\client\dnsavemenu.cpp.obj
+[96/143] Building CXX object CMakeFiles\duke3d.dir\client\dncgame.cpp.obj
+[97/143] Building CXX object CMakeFiles\duke3d.dir\client\dnintermission.cpp.obj
+[98/143] Building CXX object CMakeFiles\duke3d.dir\client\dnintro.cpp.obj
+[99/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\cmd.cpp.obj
+[100/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_view.cpp.obj
+[101/143] Building CXX object CMakeFiles\duke3d.dir\client\cl_tent.cpp.obj
+[102/143] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+[103/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\common.cpp.obj
+[104/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\cmodel.cpp.obj
+[105/143] Building CXX object CMakeFiles\duke3d.dir\client\console.cpp.obj
+[106/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\crc.cpp.obj
+[107/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\cvar.cpp.obj
+[108/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\files.cpp.obj
+[109/143] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
+[110/143] Building CXX object CMakeFiles\duke3d.dir\game\m_flash.cpp.obj
+[111/143] Building CXX object CMakeFiles\duke3d.dir\client\keys.cpp.obj
+[112/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\md4.cpp.obj
+[113/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\net_chan.cpp.obj
+[114/143] Building CXX object CMakeFiles\duke3d.dir\win32\conproc.cpp.obj
+[115/143] Building CXX object CMakeFiles\duke3d.dir\qcommon\pmove.cpp.obj
+[116/143] Building CXX object CMakeFiles\duke3d.dir\game\q_shared.cpp.obj
+[117/143] Building CXX object CMakeFiles\duke3d.dir\client\qmenu.cpp.obj
+[118/143] Building CXX object CMakeFiles\duke3d.dir\client\menu.cpp.obj
+FAILED: [code=1] CMakeFiles/duke3d.dir/client/menu.cpp.obj 
+"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\openal-soft\include -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\sdl3\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\duke3d.dir\client\menu.cpp.obj -clang:-MFCMakeFiles\duke3d.dir\client\menu.cpp.obj.d /FoCMakeFiles\duke3d.dir\client\menu.cpp.obj /FdCMakeFiles\duke3d.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1186,1): error: function definition is not allowed here
+ 1186 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1194,1): error: function definition is not allowed here
+ 1194 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1206,1): error: function definition is not allowed here
+ 1206 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1211,1): error: function definition is not allowed here
+ 1211 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1216,1): error: function definition is not allowed here
+ 1216 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1221,1): error: function definition is not allowed here
+ 1221 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1226,1): error: function definition is not allowed here
+ 1226 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1246,1): error: function definition is not allowed here
+ 1246 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1251,1): error: function definition is not allowed here
+ 1251 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1256,1): error: function definition is not allowed here
+ 1256 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1399,1): error: function definition is not allowed here
+ 1399 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1406,1): error: function definition is not allowed here
+ 1406 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1411,1): error: function definition is not allowed here
+ 1411 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1425,1): error: function definition is not allowed here
+ 1425 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1779,1): error: function definition is not allowed here
+ 1779 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1832,1): error: function definition is not allowed here
+ 1832 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1850,1): error: function definition is not allowed here
+ 1850 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1928,1): error: function definition is not allowed here
+ 1928 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1941,1): error: function definition is not allowed here
+ 1941 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1970,1): error: function definition is not allowed here
+ 1970 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1989,1): error: function definition is not allowed here
+ 1989 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2013,1): error: function definition is not allowed here
+ 2013 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2028,1): error: function definition is not allowed here
+ 2028 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2061,1): error: function definition is not allowed here
+ 2061 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2088,1): error: function definition is not allowed here
+ 2088 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2111,1): error: function definition is not allowed here
+ 2111 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2116,1): error: function definition is not allowed here
+ 2116 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2120,1): error: function definition is not allowed here
+ 2120 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2142,1): error: function definition is not allowed here
+ 2142 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2147,1): error: function definition is not allowed here
+ 2147 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2200,1): error: function definition is not allowed here
+ 2200 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2206,1): error: function definition is not allowed here
+ 2206 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2211,1): error: function definition is not allowed here
+ 2211 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2237,1): error: function definition is not allowed here
+ 2237 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2246,1): error: function definition is not allowed here
+ 2246 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2285,1): error: function definition is not allowed here
+ 2285 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2374,1): error: function definition is not allowed here
+ 2374 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2589,1): error: function definition is not allowed here
+ 2589 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2594,1): error: function definition is not allowed here
+ 2594 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2615,1): error: function definition is not allowed here
+ 2615 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2656,1): error: function definition is not allowed here
+ 2656 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(2822,1): error: function definition is not allowed here
+ 2822 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3025,1): error: function definition is not allowed here
+ 3025 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3030,1): error: function definition is not allowed here
+ 3030 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3035,1): error: function definition is not allowed here
+ 3035 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3057,1): error: function definition is not allowed here
+ 3057 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3087,1): error: function definition is not allowed here
+ 3087 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3156,1): error: function definition is not allowed here
+ 3156 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3161,1): error: function definition is not allowed here
+ 3161 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3166,1): error: function definition is not allowed here
+ 3166 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3184,1): error: function definition is not allowed here
+ 3184 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3217,1): error: function definition is not allowed here
+ 3217 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3233,1): error: function definition is not allowed here
+ 3233 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3239,1): error: function definition is not allowed here
+ 3239 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3283,1): error: function definition is not allowed here
+ 3283 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3288,1): error: function definition is not allowed here
+ 3288 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3293,1): error: function definition is not allowed here
+ 3293 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3301,1): error: function definition is not allowed here
+ 3301 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3307,1): error: function definition is not allowed here
+ 3307 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3322,1): error: function definition is not allowed here
+ 3322 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3342,1): error: function definition is not allowed here
+ 3342 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3505,1): error: function definition is not allowed here
+ 3505 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3534,1): error: function definition is not allowed here
+ 3534 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3705,1): error: function definition is not allowed here
+ 3705 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3774,1): error: function definition is not allowed here
+ 3774 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3810,1): error: function definition is not allowed here
+ 3810 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3848,1): error: function definition is not allowed here
+ 3848 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3881,1): error: function definition is not allowed here
+ 3881 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3894,1): error: function definition is not allowed here
+ 3894 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3908,1): error: function definition is not allowed here
+ 3908 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3922,1): error: function definition is not allowed here
+ 3922 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3950,1): error: function definition is not allowed here
+ 3950 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(3995,1): error: function definition is not allowed here
+ 3995 | {
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(4018,2): error: expected '}'
+ 4018 | }
+      |  ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\client\menu.cpp(1157,1): note: to match this '{'
+ 1157 | {
+      | ^
+74 errors generated.
+[119/143] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
+[120/143] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
+[121/143] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_input.cpp.obj
+FAILED: [code=1] CMakeFiles/duke3d.dir/sdl/sdl_input.cpp.obj 
+"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\openal-soft\include -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\sdl3\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\duke3d.dir\sdl\sdl_input.cpp.obj -clang:-MFCMakeFiles\duke3d.dir\sdl\sdl_input.cpp.obj.d /FoCMakeFiles\duke3d.dir\sdl\sdl_input.cpp.obj /FdCMakeFiles\duke3d.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(89,16): error: redefinition of 'sizebuf_s'
+   89 | typedef struct sizebuf_s
+      |                ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(89,16): note: unguarded header; consider using #ifdef guards or #pragma once
+   89 | typedef struct sizebuf_s
+      |                ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(212,6): error: redefinition of 'svc_ops_e'
+  212 | enum svc_ops_e
+      |      ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(212,6): note: unguarded header; consider using #ifdef guards or #pragma once
+  212 | enum svc_ops_e
+      |      ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(246,6): error: redefinition of 'clc_ops_e'
+  246 | enum clc_ops_e
+      |      ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(246,6): note: unguarded header; consider using #ifdef guards or #pragma once
+  246 | enum clc_ops_e
+      |      ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(541,5): error: redefinition of enumerator 'NA_LOOPBACK'
+  541 |     NA_LOOPBACK,
+      |     ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(541,5): note: unguarded header; consider using #ifdef guards or #pragma once
+  541 |     NA_LOOPBACK,
+      |     ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(542,5): error: redefinition of enumerator 'NA_BROADCAST'
+  542 |     NA_BROADCAST,
+      |     ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(542,5): note: unguarded header; consider using #ifdef guards or #pragma once
+  542 |     NA_BROADCAST,
+      |     ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(543,5): error: redefinition of enumerator 'NA_IP'
+  543 |     NA_IP,
+      |     ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(543,5): note: unguarded header; consider using #ifdef guards or #pragma once
+  543 |     NA_IP,
+      |     ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(544,5): error: redefinition of enumerator 'NA_IPX'
+  544 |     NA_IPX,
+      |     ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(544,5): note: unguarded header; consider using #ifdef guards or #pragma once
+  544 |     NA_IPX,
+      |     ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(545,5): error: redefinition of enumerator 'NA_BROADCAST_IPX'
+  545 |     NA_BROADCAST_IPX
+      |     ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(545,5): note: unguarded header; consider using #ifdef guards or #pragma once
+  545 |     NA_BROADCAST_IPX
+      |     ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(546,3): error: typedef redefinition with different types ('enum netadrtype_t' vs 'enum netadrtype_t')
+  546 | } netadrtype_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(546,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  546 | } netadrtype_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(550,5): error: redefinition of enumerator 'NS_CLIENT'
+  550 |     NS_CLIENT,
+      |     ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(550,5): note: unguarded header; consider using #ifdef guards or #pragma once
+  550 |     NS_CLIENT,
+      |     ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(551,5): error: redefinition of enumerator 'NS_SERVER'
+  551 |     NS_SERVER
+      |     ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(551,5): note: unguarded header; consider using #ifdef guards or #pragma once
+  551 |     NS_SERVER
+      |     ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(552,3): error: typedef redefinition with different types ('enum netsrc_t' vs 'enum netsrc_t')
+  552 | } netsrc_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(552,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  552 | } netsrc_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(562,3): error: typedef redefinition with different types ('struct netadr_t' vs 'struct netadr_t')
+  562 | } netadr_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(562,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  562 | } netadr_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(617,3): error: typedef redefinition with different types ('struct netchan_t' vs 'struct netchan_t')
+  617 | } netchan_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\ref.h(21,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+   21 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h(4,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h' included multiple times, additional include site here
+    4 | #include "../qcommon/qcommon.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(617,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  617 | } netchan_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(40,3): error: typedef redefinition with different types ('struct dpackfile_t' vs 'struct dpackfile_t')
+   40 | } dpackfile_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(40,3): note: unguarded header; consider using #ifdef guards or #pragma once
+   40 | } dpackfile_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(47,3): error: typedef redefinition with different types ('struct dpackheader_t' vs 'struct dpackheader_t')
+   47 | } dpackheader_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(47,3): note: unguarded header; consider using #ifdef guards or #pragma once
+   47 | } dpackheader_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(74,3): error: typedef redefinition with different types ('struct pcx_t' vs 'struct pcx_t')
+   74 | } pcx_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(74,3): note: unguarded header; consider using #ifdef guards or #pragma once
+   74 | } pcx_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(97,3): error: typedef redefinition with different types ('struct dstvert_t' vs 'struct dstvert_t')
+   97 | } dstvert_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(97,3): note: unguarded header; consider using #ifdef guards or #pragma once
+   97 | } dstvert_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(103,3): error: typedef redefinition with different types ('struct dtriangle_t' vs 'struct dtriangle_t')
+  103 | } dtriangle_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(103,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  103 | } dtriangle_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(109,3): error: typedef redefinition with different types ('struct dtrivertx_t' vs 'struct dtrivertx_t')
+  109 | } dtrivertx_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(109,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  109 | } dtrivertx_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(123,3): error: typedef redefinition with different types ('struct daliasframe_t' vs 'struct daliasframe_t')
+  123 | } daliasframe_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(123,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  123 | } daliasframe_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(156,3): error: typedef redefinition with different types ('struct dmdl_t' vs 'struct dmdl_t')
+  156 | } dmdl_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(156,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  156 | } dmdl_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(175,3): error: typedef redefinition with different types ('struct dsprframe_t' vs 'struct dsprframe_t')
+  175 | } dsprframe_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(175,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  175 | } dsprframe_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(183,3): error: typedef redefinition with different types ('struct dsprite_t' vs 'struct dsprite_t')
+  183 | } dsprite_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(183,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  183 | } dsprite_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(195,16): error: redefinition of 'miptex_s'
+  195 | typedef struct miptex_s
+      |                ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(195,16): note: unguarded header; consider using #ifdef guards or #pragma once
+  195 | typedef struct miptex_s
+      |                ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(254,3): error: typedef redefinition with different types ('struct lump_t' vs 'struct lump_t')
+  254 | } lump_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(254,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  254 | } lump_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(282,3): error: typedef redefinition with different types ('struct dheader_t' vs 'struct dheader_t')
+  282 | } dheader_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(282,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  282 | } dheader_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(291,3): error: typedef redefinition with different types ('struct dmodel_t' vs 'struct dmodel_t')
+  291 | } dmodel_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(291,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  291 | } dmodel_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(296,3): error: typedef redefinition with different types ('struct dvertex_t' vs 'struct dvertex_t')
+  296 | } dvertex_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(296,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  296 | } dvertex_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(315,3): error: typedef redefinition with different types ('struct dplane_t' vs 'struct dplane_t')
+  315 | } dplane_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(315,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  315 | } dplane_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(375,3): error: typedef redefinition with different types ('struct dnode_t' vs 'struct dnode_t')
+  375 | } dnode_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(375,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  375 | } dnode_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(377,16): error: redefinition of 'texinfo_s'
+  377 | typedef struct texinfo_s
+      |                ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(377,16): note: unguarded header; consider using #ifdef guards or #pragma once
+  377 | typedef struct texinfo_s
+      |                ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(391,3): error: typedef redefinition with different types ('struct dedge_t' vs 'struct dedge_t')
+  391 | } dedge_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(391,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  391 | } dedge_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(407,3): error: typedef redefinition with different types ('struct dface_t' vs 'struct dface_t')
+  407 | } dface_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(407,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  407 | } dface_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(424,3): error: typedef redefinition with different types ('struct dleaf_t' vs 'struct dleaf_t')
+  424 | } dleaf_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(424,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  424 | } dleaf_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(430,3): error: typedef redefinition with different types ('struct dbrushside_t' vs 'struct dbrushside_t')
+  430 | } dbrushside_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(430,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  430 | } dbrushside_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(437,3): error: typedef redefinition with different types ('struct dbrush_t' vs 'struct dbrush_t')
+  437 | } dbrush_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(437,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  437 | } dbrush_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(452,3): error: typedef redefinition with different types ('struct dvis_t' vs 'struct dvis_t')
+  452 | } dvis_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(452,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  452 | } dvis_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(461,3): error: typedef redefinition with different types ('struct dareaportal_t' vs 'struct dareaportal_t')
+  461 | } dareaportal_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(461,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  461 | } dareaportal_t;
+      |   ^
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp:24:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_sys.h:4:
+In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h:642:
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(467,3): error: typedef redefinition with different types ('struct darea_t' vs 'struct darea_t')
+  467 | } darea_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon/qcommon.h(642,10): note: 'D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h' included multiple times, additional include site here
+  642 | #include "../qcommon/qfiles.h"
+      |          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\../client\../qcommon\../qcommon/qfiles.h(467,3): note: unguarded header; consider using #ifdef guards or #pragma once
+  467 | } darea_t;
+      |   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(540,19): error: use of undeclared identifier 'JOY_AXIS_X'
+  540 |         dwAxisMap[JOY_AXIS_X] = AxisTurn;
+      |                   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(541,19): error: use of undeclared identifier 'JOY_AXIS_Y'
+  541 |         dwAxisMap[JOY_AXIS_Y] = AxisForward;
+      |                   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(554,19): error: use of undeclared identifier 'JOY_AXIS_X'
+  554 |         dwAxisMap[JOY_AXIS_X] = dwTemp & 0x0000000f;
+      |                   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(555,22): error: use of undeclared identifier 'JOY_AXIS_X'
+  555 |         dwControlMap[JOY_AXIS_X] = dwTemp & JOY_RELATIVE_AXIS;
+      |                      ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(557,19): error: use of undeclared identifier 'JOY_AXIS_Y'
+  557 |         dwAxisMap[JOY_AXIS_Y] = dwTemp & 0x0000000f;
+      |                   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(558,22): error: use of undeclared identifier 'JOY_AXIS_Y'
+  558 |         dwControlMap[JOY_AXIS_Y] = dwTemp & JOY_RELATIVE_AXIS;
+      |                      ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(560,19): error: use of undeclared identifier 'JOY_AXIS_Z'
+  560 |         dwAxisMap[JOY_AXIS_Z] = dwTemp & 0x0000000f;
+      |                   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(561,22): error: use of undeclared identifier 'JOY_AXIS_Z'
+  561 |         dwControlMap[JOY_AXIS_Z] = dwTemp & JOY_RELATIVE_AXIS;
+      |                      ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(563,19): error: use of undeclared identifier 'JOY_AXIS_R'
+  563 |         dwAxisMap[JOY_AXIS_R] = dwTemp & 0x0000000f;
+      |                   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(564,22): error: use of undeclared identifier 'JOY_AXIS_R'
+  564 |         dwControlMap[JOY_AXIS_R] = dwTemp & JOY_RELATIVE_AXIS;
+      |                      ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(566,19): error: use of undeclared identifier 'JOY_AXIS_U'
+  566 |         dwAxisMap[JOY_AXIS_U] = dwTemp & 0x0000000f;
+      |                   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(567,22): error: use of undeclared identifier 'JOY_AXIS_U'
+  567 |         dwControlMap[JOY_AXIS_U] = dwTemp & JOY_RELATIVE_AXIS;
+      |                      ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(569,19): error: use of undeclared identifier 'JOY_AXIS_V'
+  569 |         dwAxisMap[JOY_AXIS_V] = dwTemp & 0x0000000f;
+      |                   ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\sdl\sdl_input.cpp(570,22): error: use of undeclared identifier 'JOY_AXIS_V'
+  570 |         dwControlMap[JOY_AXIS_V] = dwTemp & JOY_RELATIVE_AXIS;
+      |                      ^
+54 errors generated.
+[122/143] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
+[123/143] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
+ninja: build stopped: subcommand failed.
