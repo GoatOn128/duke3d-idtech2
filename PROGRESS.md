@@ -107,8 +107,9 @@ Legend:
       display does not report stay reachable through the custom
       `gl_mode -1`), and the new `VID_DefaultMode` resets an invalid
       `gl_mode` like the BFG `r_vidMode` reset (largest entry that
-      fits the desktop when windowed), used by `VID_GetModeInfo`,
-      - [x] Make the print and error system thread safe like the BFG idLib
+      fits the desktop when windowed), used by `VID_GetModeInfo`, `VID_ValidateWindowedMode` and the
+      video menu `ClampMode`
+- [x] Make the print and error system thread safe like the BFG idLib
       (`framework/Common_printf.cpp`): `qcommon/common.cpp` records the
       main thread in `Qcommon_Init` and `Com_Printf` from a worker
       thread goes to a mutex-guarded queue that `Qcommon_Frame`
@@ -120,6 +121,20 @@ Legend:
       `Com_SetThreadUnwind` jump target instead of longjmp-ing across
       threads, with `Com_TakePendingError` handing the record back
       to the owning thread for the re-raise
+- [x] Run the server frame on a game thread like the BFG idGameThread
+      (`framework/common_frame.cpp`): `Qcommon_Frame` hands the server
+      frame to a `DN_GameThread` worker (signal, overlap the client
+      frame, wait at the sync point, re-raise a recorded error on the
+      main thread), `com_smp` toggles it (1 by default) and
+      `com_sleepGame` stalls the worker for overlap testing. The shared
+      state the game thread touches is guarded first: the zone
+      allocator and the loopback buffers sit behind `DN_SysMutex`
+      locks, the va/com_token/cvar-info/address-string scratch buffers
+      and the command tokenizer are `thread_local`, and remote console
+      commands are queued and executed on the main thread. Divergence:
+      the BFG game thread also builds draw commands; `ref_gl` is
+      immediate-mode, so the client frame still runs on the main thread
+      and the main thread waits at the sync point
 
 ## Engine milestones
 

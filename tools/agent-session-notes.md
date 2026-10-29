@@ -359,3 +359,48 @@ cost anything as long as this file and PROGRESS.md are current.
   from-memory retype of qcommon.h clobbered the header with a different
   codebase's version (CI caught the include-path break); always
   fetch-and-splice in the sandbox, never retype a whole file.
+
+- 2026-10-29: BFG threading port, phase E (game thread) on branch
+  `port/bfg-game-thread` (CI green, 0 errors, 0 warnings): like the BFG
+  idGameThread (framework/common_frame.cpp) the server frame now runs on
+  its own worker thread. common.cpp gained DN_GameThread (a DN_SysThread
+  worker: SignalWork per frame, WaitForThread at the sync point),
+  started in Qcommon_Init after DN_JobsInit; Qcommon_Frame drains the
+  print queue, runs queued rcon commands and the command buffer while
+  the game thread is idle, hands SV_Frame(msec) to the worker through
+  SetFrameTime + SignalWork, overlaps it with CL_Frame on main, then
+  waits and re-raises any recorded Com_Error through Com_TakePendingError
+  (the phase D mechanism; BFG catches idException here instead). The
+  worker installs Com_SetThreadUnwind around SV_Frame so Com_Error off
+  main unwinds instead of longjmping across threads. com_smp 1 by
+  default (BFG parity), com_sleepGame stalls the worker for testing.
+  Qcommon_Shutdown stops the worker before DN_JobsShutdown.
+  Shared-state safety landed as its own commits first: q_shared va/
+  com_token/Info_ValueForKey/COM_FileExtension, cmd.cpp cmd_argc/argv/
+  args/Cmd_MacroExpandString, cvar Cvar_BitInfo and net_wins
+  NET_AdrToString scratch buffers are thread_local; the zone allocator
+  (z_chain/Z_TagMalloc/Z_Free/Z_FreeTags, mutex created at the top of
+  Qcommon_Init before any allocation) and the loopback buffers
+  (NET_GetLoopPacket/NET_SendLoopPacket, mutex in NET_Init) are behind
+  DN_SysMutex locks (Z_FreeTags sweeps under one lock and frees in
+  place, because calling the locked Z_Free would deadlock); Com_Error's
+  msg/recursive state is thread_local. SVC_RemoteCommand no longer
+  executes console commands on the game thread: it validates and queues
+  (8-entry ring, DN_SysMutex created in SV_Init) and the new
+  SV_ExecuteQueuedRconCommands runs them on main between frames,
+  answering through sv_rconAdr (sv_send.cpp SV_FlushRedirect uses it
+  instead of net_from, which the game thread now owns) - the same
+  reason BFG hands the game thread a frozen userCmdMgr. Divergences:
+  BFG's game thread also generates draw commands for the main thread to
+  submit, but ref_gl is immediate-mode with no command buffers, so only
+  the server frame moved and the main thread waits at the sync point
+  after CL_Frame; CL_Frame itself stays on main (it interleaves the
+  client sim with OS input pumping and immediate rendering; moving it
+  needs the command-buffer split scoped out on purpose). Accepted
+  BFG-style risks, recorded for later phases: cvar reads across
+  threads, game DLL cvar writes mid-frame, game-thread file access for
+  downloads, and process-exit paths firing while the game thread is
+  mid-frame (the syscon quit button exits the process). NET_Sleep now
+  blocks the game thread in dedicated mode instead of the main loop.
+  License note: ported from the BFG framework/common_frame.cpp
+  idGameThread (GPLv3), references/doom3-bfg, not compiled.
