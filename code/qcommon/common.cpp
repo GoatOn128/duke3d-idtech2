@@ -378,8 +378,10 @@ do the apropriate things.
 void Com_Error(int code, char *fmt, ...)
 {
     va_list argptr;
-    static char msg[MAXPRINTMSG];
-    static qboolean recursive;
+    // per thread: an error on the game thread must not clobber the state
+    // of an error being handled on the main thread
+    static thread_local char msg[MAXPRINTMSG];
+    static thread_local qboolean recursive;
 
     if (recursive)
     {
@@ -1569,6 +1571,11 @@ typedef struct zhead_s
 zhead_t z_chain;
 int z_count, z_bytes;
 
+// Both threads allocate and free through the zone (command tokens, cvars,
+// strings), so the block chain is guarded by this lock. It is created at
+// the top of Qcommon_Init; nothing allocates before that point.
+static DN_SysMutex *com_zoneMutex;
+
 /*
 ========================
 Z_Free
@@ -1584,6 +1591,9 @@ void Z_Free(void *ptr)
     {
         Com_Error(ERR_FATAL, "Z_Free: bad magic");
     }
+
+    // both threads free through the zone, so keep the chain consistent
+    DN_ScopedCriticalSection lock(*com_zoneMutex);
 
     z->prev->next = z->next;
     z->next->prev = z->prev;
@@ -1612,12 +1622,21 @@ void Z_FreeTags(int tag)
 {
     zhead_t *z, *next;
 
+    // the sweep is one critical section; calling Z_Free here would
+    // deadlock on the same lock, so the blocks are unlinked and freed here
+    DN_ScopedCriticalSection lock(*com_zoneMutex);
+
     for (z = z_chain.next; z != &z_chain; z = next)
     {
         next = z->next;
         if (z->tag == tag)
         {
-            Z_Free((void *)(z + 1));
+            z->prev->next = z->next;
+            z->next->prev = z->prev;
+
+            z_count--;
+            z_bytes -= z->size;
+            free(z);
         }
     }
 }
@@ -1638,6 +1657,10 @@ void *Z_TagMalloc(int size, int tag)
         Com_Error(ERR_FATAL, "Z_Malloc: failed on allocation of %i bytes", size);
     }
     memset(z, 0, size);
+
+    // link the new block under the zone lock; both threads allocate
+    DN_ScopedCriticalSection lock(*com_zoneMutex);
+
     z_count++;
     z_bytes += size;
     z->magic = Z_MAGIC;
@@ -1874,6 +1897,7 @@ void Qcommon_Init(int argc, char **argv)
     com_mainThreadId = SDL_GetCurrentThreadID();
     com_printQueueMutex = new DN_SysMutex();
     com_pendingErrorMutex = new DN_SysMutex();
+    com_zoneMutex = new DN_SysMutex(); // both threads use the zone allocator
 
     if (setjmp(abortframe))
     {
