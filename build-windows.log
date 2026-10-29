@@ -17,7 +17,7 @@ InstalledDir: C:\Program Files\LLVM\bin
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Asset preparation skipped: needs 3drealms/duke3d.grp.
--- Configuring done (10.3s)
+-- Configuring done (7.5s)
 -- Generating done (0.1s)
 -- Build files have been written to: D:/a/duke3d-idtech2/duke3d-idtech2/code/out/build/x86
 === build: windows-clang-x86 preset ===
@@ -25,350 +25,113 @@ InstalledDir: C:\Program Files\LLVM\bin
 [1/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj
 [2/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj
 [3/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj
-[4/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
-[5/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
-[6/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
+[4/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
+[5/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
+[6/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
 [7/156] Building CXX object CMakeFiles\ref_gl.dir\game\q_shared.cpp.obj
 [8/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_shaders.cpp.obj
 [9/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_warp.cpp.obj
 [10/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rsurf.cpp.obj
 [11/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dntransport.cpp.obj
 [12/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnpcx.cpp.obj
-[13/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj
-[14/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
-[15/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
+[13/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
+[14/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj
+[15/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
 [16/156] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
-[17/156] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
-[18/156] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
-[19/156] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
-[20/156] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
-[21/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
-[22/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
-[23/156] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
-[24/156] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
-[25/156] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
-[26/156] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
-[27/156] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
+[17/156] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
+[18/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
+[19/156] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
+[20/156] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
+[21/156] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
+[22/156] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
+[23/156] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
+[24/156] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
+[25/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\glimp_sdl.cpp.obj
+[26/156] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
+[27/156] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
 [28/156] Building CXX object CMakeFiles\game.dir\game\dnintermission.cpp.obj
 [29/156] Building CXX object CMakeFiles\game.dir\game\dnplayer.cpp.obj
 [30/156] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
 [31/156] Building CXX object CMakeFiles\game.dir\game\dnweapons.cpp.obj
-[32/156] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
-[33/156] Building CXX object CMakeFiles\game.dir\game\dndamage.cpp.obj
-[34/156] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
-[35/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\glimp_sdl.cpp.obj
-[36/156] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
-[37/156] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
-[38/156] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
-[39/156] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
-[40/156] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
-[41/156] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
-[42/156] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
-[43/156] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
-[44/156] Building CXX object CMakeFiles\game.dir\game\dnstyles.cpp.obj
+[32/156] Building CXX object CMakeFiles\game.dir\game\dndamage.cpp.obj
+[33/156] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
+[34/156] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
+[35/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
+[36/156] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
+[37/156] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
+[38/156] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
+[39/156] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
+[40/156] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
+[41/156] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
+[42/156] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
+[43/156] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
+[44/156] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
 [45/156] Building CXX object CMakeFiles\game.dir\game\dntransport.cpp.obj
-[46/156] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
-[47/156] Building CXX object CMakeFiles\game.dir\game\dndestruct.cpp.obj
-[48/156] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
-[49/156] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
+[46/156] Building CXX object CMakeFiles\game.dir\game\dnstyles.cpp.obj
+[47/156] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
+[48/156] Building CXX object CMakeFiles\game.dir\game\dndestruct.cpp.obj
+[49/156] Building CXX object CMakeFiles\game.dir\game\dnsectors.cpp.obj
 [50/156] Building CXX object CMakeFiles\game.dir\game\dnfallers.cpp.obj
-[51/156] Building CXX object CMakeFiles\game.dir\game\dnsectors.cpp.obj
+[51/156] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
 [52/156] Building CXX object CMakeFiles\game.dir\game\dneffects.cpp.obj
 [53/156] Building CXX object CMakeFiles\game.dir\game\dngibs.cpp.obj
 [54/156] Building CXX object CMakeFiles\game.dir\game\dndecals.cpp.obj
 [55/156] Building CXX object CMakeFiles\game.dir\game\dnmapspawn.cpp.obj
-[56/156] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
-[57/156] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
-[58/156] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
+[56/156] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
+[57/156] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
+[58/156] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
 [59/156] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
 [60/156] Building CXX object CMakeFiles\game.dir\qcommon\dnanimation.cpp.obj
 [61/156] Building CXX object CMakeFiles\game.dir\qcommon\dnmath.cpp.obj
 [62/156] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
 [63/156] Building CXX object CMakeFiles\game.dir\game\dnconrun.cpp.obj
-[64/156] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
-[65/156] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
+[64/156] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
+[65/156] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
 [66/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnenemies.cpp.obj
 [67/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnmain.cpp.obj
 [68/156] Building CXX object CMakeFiles\game.dir\game\q_shared.cpp.obj
-[69/156] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
-[70/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponview.cpp.obj
-[71/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
-[72/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnzrange.cpp.obj
-[73/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
-[74/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
+[69/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnzrange.cpp.obj
+[70/156] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
+[71/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponview.cpp.obj
+[72/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
+[73/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
+[74/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
 [75/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnanimation.cpp.obj
-[76/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
-[77/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
-[78/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
+[76/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
+[77/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
+[78/156] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
 [79/156] Building CXX object CMakeFiles\ui.dir\ui\ui_main.cpp.obj
-[80/156] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
+[80/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
 [81/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
-[82/156] Building CXX object CMakeFiles\ui.dir\game\q_shared.cpp.obj
-[83/156] Building CXX object CMakeFiles\ui.dir\ui\ui_util.cpp.obj
-FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_util.cpp.obj 
-"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_util.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_util.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_util.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(102,19): error: C-style cast from 'const vec_t *' (aka 'const float *') to 'vec3_t' (aka 'float[3]') is not allowed
-  102 |     AngleVectors( (vec3_t)angles, forward, right, up );
-      |                   ^~~~~~~~~~~~~~
-1 error generated.
-[84/156] Building CXX object CMakeFiles\ui.dir\ui\ui_shared.cpp.obj
-FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_shared.cpp.obj 
-"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_shared.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_shared.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_shared.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(930,10): error: assigning to 'char *' from 'const char *' discards qualifiers
-  930 |         pdest = strstr( name, "*" ); // allow wildcard strings (ex.  "hide nb_*" would translate to "hide nb_pg1; hide nb_extra" etc)
-      |                 ^~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(941,9): error: no matching function for call to 'Q_stricmp'
-  941 |                         if ( Q_stricmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_stricmp( menu->items[i]->window.group, name ) == 0 ) ) {
-      |                              ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(941,98): error: no matching function for call to 'Q_stricmp'
-  941 |                         if ( Q_stricmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_stricmp( menu->items[i]->window.group, name ) == 0 ) ) {
-      |                                                                                                                       ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(956,10): error: assigning to 'char *' from 'const char *' discards qualifiers
-  956 |         pdest = strstr( name, "*" ); // allow wildcard strings (ex.  "hide nb_*" would translate to "hide nb_pg1; hide nb_extra" etc)
-      |                 ^~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(970,9): error: no matching function for call to 'Q_stricmp'
-  970 |                         if ( Q_stricmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_stricmp( menu->items[i]->window.group, name ) == 0 ) ) {
-      |                              ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(970,98): error: no matching function for call to 'Q_stricmp'
-  970 |                         if ( Q_stricmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_stricmp( menu->items[i]->window.group, name ) == 0 ) ) {
-      |                                                                                                                       ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(991,8): error: no matching function for call to 'Q_stricmp'
-  991 |                 if ( Q_stricmp( name, "backcolor" ) == 0 ) {
-      |                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(994,15): error: no matching function for call to 'Q_stricmp'
-  994 |                 } else if ( Q_stricmp( name, "forecolor" ) == 0 ) {
-      |                             ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(997,15): error: no matching function for call to 'Q_stricmp'
-  997 |                 } else if ( Q_stricmp( name, "bordercolor" ) == 0 ) {
-      |                             ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1041,8): error: no matching function for call to 'Q_stricmp'
- 1041 |                 if ( Q_stricmp( p, menu->items[i]->window.name ) == 0 ) {
-      |                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1080,10): error: no matching function for call to 'Q_stricmp'
- 1080 |                                 if ( Q_stricmp( name, "backcolor" ) == 0 ) {
-      |                                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1082,17): error: no matching function for call to 'Q_stricmp'
- 1082 |                                 } else if ( Q_stricmp( name, "forecolor" ) == 0 ) {
-      |                                             ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1085,17): error: no matching function for call to 'Q_stricmp'
- 1085 |                                 } else if ( Q_stricmp( name, "bordercolor" ) == 0 ) {
-      |                                             ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1142,8): error: no matching function for call to 'Q_stricmp'
- 1142 |                 if ( Q_stricmp( Menus[i].window.name, p ) == 0 ) {
-      |                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1365,34): error: call to 'abs' is ambiguous
- 1365 |                         item->window.rectEffects2.x = abs( rectTo.x - rectFrom.x ) / amt;
-      |                                                       ^~~
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(293,34): note: candidate function
-  293 | _Check_return_ int       __cdecl abs   (_In_ int       _Number);
-      |                                  ^
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(363,17): note: candidate function
-  363 |     inline long abs(long const _X) throw()
-      |                 ^
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(368,22): note: candidate function
-  368 |     inline long long abs(long long const _X) throw()
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1366,34): error: call to 'abs' is ambiguous
- 1366 |                         item->window.rectEffects2.y = abs( rectTo.y - rectFrom.y ) / amt;
-      |                                                       ^~~
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(293,34): note: candidate function
-  293 | _Check_return_ int       __cdecl abs   (_In_ int       _Number);
-      |                                  ^
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(363,17): note: candidate function
-  363 |     inline long abs(long const _X) throw()
-      |                 ^
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(368,22): note: candidate function
-  368 |     inline long long abs(long long const _X) throw()
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1367,34): error: call to 'abs' is ambiguous
- 1367 |                         item->window.rectEffects2.w = abs( rectTo.w - rectFrom.w ) / amt;
-      |                                                       ^~~
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(293,34): note: candidate function
-  293 | _Check_return_ int       __cdecl abs   (_In_ int       _Number);
-      |                                  ^
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(363,17): note: candidate function
-  363 |     inline long abs(long const _X) throw()
-      |                 ^
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(368,22): note: candidate function
-  368 |     inline long long abs(long long const _X) throw()
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1368,34): error: call to 'abs' is ambiguous
- 1368 |                         item->window.rectEffects2.h = abs( rectTo.h - rectFrom.h ) / amt;
-      |                                                       ^~~
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(293,34): note: candidate function
-  293 | _Check_return_ int       __cdecl abs   (_In_ int       _Number);
-      |                                  ^
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(363,17): note: candidate function
-  363 |     inline long abs(long const _X) throw()
-      |                 ^
-C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(368,22): note: candidate function
-  368 |     inline long long abs(long long const _X) throw()
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1435,53): error: use of undeclared identifier 'CHAN_LOCAL_SOUND'
- 1435 |                                 DC->startLocalSound( DC->Assets.itemFocusSound, CHAN_LOCAL_SOUND );
-      |                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1473,50): error: use of undeclared identifier 'CHAN_LOCAL_SOUND'
- 1473 |                 DC->startLocalSound( DC->registerSound( val ), CHAN_LOCAL_SOUND );      // all sounds are not 3d
-      |                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1551,10): error: no matching function for call to 'Q_stricmp'
- 1551 |                                 if ( Q_stricmp( command, commandList[i].name ) == 0 ) {
-      |                                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1588,10): error: no matching function for call to 'Q_stricmp'
- 1588 |                                 if ( Q_stricmp( buff, val ) == 0 ) {
-      |                                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 2nd argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^                   ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1593,10): error: no matching function for call to 'Q_stricmp'
- 1593 |                                 if ( Q_stricmp( buff, val ) == 0 ) {
-      |                                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 2nd argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^                   ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1660,30): error: use of undeclared identifier 'CHAN_LOCAL_SOUND'
- 1660 |                 DC->startLocalSound( *sfx, CHAN_LOCAL_SOUND );
-      |                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1743,18): error: cannot initialize a variable of type 'editFieldDef_t *' (aka 'editFieldDef_s *') with an lvalue of type 'void *'
- 1743 |         editFieldDef_t *editDef = item->typeData;
-      |                         ^         ~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2215,10): error: no matching function for call to 'Q_stricmp'
- 2215 |                                 if ( Q_stricmp( buff, multiPtr->cvarStr[i] ) == 0 ) {
-      |                                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 2nd argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^                   ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2241,10): error: no matching function for call to 'Q_stricmp'
- 2241 |                                 if ( Q_stricmp( buff, multiPtr->cvarStr[i] ) == 0 ) {
-      |                                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 2nd argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^                   ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2517,18): error: cannot initialize a variable of type 'editFieldDef_t *' (aka 'editFieldDef_s *') with an lvalue of type 'void *'
- 2517 |         editFieldDef_t *editDef = si->item->typeData;
-      |                         ^         ~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2597,20): error: cannot initialize a variable of type 'editFieldDef_t *' (aka 'editFieldDef_s *') with an lvalue of type 'void *'
- 2597 |                         editFieldDef_t *editDef = item->typeData;
-      |                                         ^         ~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3108,84): error: use of undeclared identifier 'PULSE_DIVISOR'
- 3108 |                 LerpColor( parent->focusColor,lowLight,*newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3109,77): error: use of undeclared identifier 'BLINK_DIVISOR'
- 3109 |         } else if ( item->textStyle == ITEM_TEXTSTYLE_BLINK && !( ( DC->realTime / BLINK_DIVISOR ) & 1 ) ) {
-      |                                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3114,88): error: use of undeclared identifier 'PULSE_DIVISOR'
- 3114 |                 LerpColor( item->window.foreColor,lowLight,*newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3248,18): error: use of undeclared identifier 'SAVE_INFOSTRING_LENGTH'
- 3248 |         char infostring[SAVE_INFOSTRING_LENGTH];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3353,83): error: use of undeclared identifier 'PULSE_DIVISOR'
- 3353 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3381,83): error: use of undeclared identifier 'PULSE_DIVISOR'
- 3381 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3407,83): error: use of undeclared identifier 'PULSE_DIVISOR'
- 3407 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3673,8): error: no matching function for call to 'Q_stricmp'
- 3673 |                 if ( Q_stricmp( name, g_bindings[i].command ) == 0 ) {
-      |                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3689,8): error: no matching function for call to 'Q_stricmp'
- 3689 |                 if ( Q_stricmp( cvar, g_bindings[i].command ) == 0 ) {
-      |                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3722,83): error: use of undeclared identifier 'PULSE_DIVISOR'
- 3722 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3765,83): error: use of undeclared identifier 'PULSE_DIVISOR'
- 3765 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4139,26): error: ordered comparison between pointer and zero ('qhandle_t' (aka 'void *') and 'int')
- 4139 |                                                 if ( optionalImage >= 0 ) {
-      |                                                      ~~~~~~~~~~~~~ ^  ~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4147,25): error: ordered comparison between pointer and zero ('qhandle_t' (aka 'void *') and 'int')
- 4147 |                                         if ( optionalImage >= 0 ) {
-      |                                              ~~~~~~~~~~~~~ ^  ~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4209,81): error: use of undeclared identifier 'PULSE_DIVISOR'
- 4209 |                         LerpColor( parent->focusColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4210,78): error: use of undeclared identifier 'BLINK_DIVISOR'
- 4210 |                 } else if ( item->textStyle == ITEM_TEXTSTYLE_BLINK && !( ( DC->realTime / BLINK_DIVISOR ) & 1 ) ) {
-      |                                                                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4215,85): error: use of undeclared identifier 'PULSE_DIVISOR'
- 4215 |                         LerpColor( item->window.foreColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4519,8): error: no matching function for call to 'Q_stricmp'
- 4519 |                 if ( Q_stricmp( Menus[i].window.name, p ) == 0 ) {
-      |                      ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4636,28): error: use of undeclared identifier 'SCREEN_WIDTH'
- 4636 |                 DC->drawHandlePic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, menu->window.background );
-      |                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4636,42): error: use of undeclared identifier 'SCREEN_HEIGHT'
- 4636 |                 DC->drawHandlePic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, menu->window.background );
-      |                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4703,6): error: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
- 4703 |         int register hash, i;
-      |             ^~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4703,6): error: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
- 4703 |         int register hash, i;
-      |             ^~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5730,7): error: no matching function for call to 'Q_stricmp'
- 5730 |         if ( Q_stricmp( menu->window.name, "main" ) == 0 ) {
-      |              ^~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
-  227 | int Q_stricmp(char *s1, char *s2);
-      |     ^         ~~~~~~~~
-51 errors generated.
-[85/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
+[82/156] Building CXX object CMakeFiles\ui.dir\ui\ui_util.cpp.obj
+[83/156] Building CXX object CMakeFiles\ui.dir\game\q_shared.cpp.obj
+[84/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
+[85/156] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
 [86/156] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
-[87/156] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
-[88/156] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+[87/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_input.cpp.obj
+[88/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_inv.cpp.obj
+[89/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_ents.cpp.obj
+[90/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
+[91/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_parse.cpp.obj
+[92/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
+[93/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_newfx.cpp.obj
+[94/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_pred.cpp.obj
+[95/156] Building CXX object CMakeFiles\ui.dir\ui\ui_shared.cpp.obj
+[96/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_scrn.cpp.obj
+[97/156] Building CXX object CMakeFiles\duke3d.dir\client\dnhud.cpp.obj
+[98/156] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.dll
+FAILED: [code=4294967295] D:/a/duke3d-idtech2/duke3d-idtech2/basedn/uix86.dll uix86.lib 
+C:\Windows\system32\cmd.exe /C "cd . && "C:\Program Files\CMake\bin\cmake.exe" -E vs_link_dll --msvc-ver=1951 --intdir=CMakeFiles\ui.dir --rc="C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe" --mt="C:\Program Files\LLVM\bin\llvm-mt.exe" --manifests  -- "C:\Program Files\LLVM\bin\lld-link.exe" /nologo CMakeFiles\ui.dir\ui\ui_main.cpp.obj CMakeFiles\ui.dir\ui\ui_shared.cpp.obj CMakeFiles\ui.dir\ui\ui_util.cpp.obj CMakeFiles\ui.dir\game\q_shared.cpp.obj  /out:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.dll /implib:uix86.lib /pdb:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.pdb /dll /version:0.0 /machine:X86 /INCREMENTAL:NO /DEF:D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui.def  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK: command "C:\Program Files\LLVM\bin\lld-link.exe /nologo CMakeFiles\ui.dir\ui\ui_main.cpp.obj CMakeFiles\ui.dir\ui\ui_shared.cpp.obj CMakeFiles\ui.dir\ui\ui_util.cpp.obj CMakeFiles\ui.dir\game\q_shared.cpp.obj /out:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.dll /implib:uix86.lib /pdb:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.pdb /dll /version:0.0 /machine:X86 /INCREMENTAL:NO /DEF:D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui.def kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST:EMBED,ID=2" failed (exit code 1) with the following output:
+lld-link: error: undefined symbol: void __cdecl Com_Printf(char *, ...)
+
+>>> referenced by CMakeFiles\ui.dir\game\q_shared.cpp.obj:(void __cdecl Com_sprintf(char *, int, char *, ...))
+
+>>> referenced by CMakeFiles\ui.dir\game\q_shared.cpp.obj:(void __cdecl Info_SetValueForKey(char *, char *, char *))
+
+[99/156] Building CXX object CMakeFiles\duke3d.dir\client\dnmenu.cpp.obj
+[100/156] Building CXX object CMakeFiles\duke3d.dir\client\dnsavemenu.cpp.obj
+[101/156] Building CXX object CMakeFiles\duke3d.dir\client\dncgame.cpp.obj
+[102/156] Building CXX object CMakeFiles\duke3d.dir\client\dnui.cpp.obj
+[103/156] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
 ninja: build stopped: subcommand failed.
