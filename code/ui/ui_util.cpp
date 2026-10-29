@@ -18,6 +18,20 @@ void UI_Printf( const char *fmt, ... ) {
     uii.Print( "%s", string );
 }
 
+/* the engine Q2 q_shared helpers (Com_sprintf, Info_SetValueForKey) call
+   Com_Printf; the module has no console of its own, so the lines route to
+   the engine through the import table */
+void Com_Printf( char *msg, ... ) {
+    va_list argptr;
+    static char string[4096];
+
+    va_start( argptr, msg );
+    vsnprintf( string, sizeof( string ), msg, argptr );
+    va_end( argptr );
+    string[sizeof( string ) - 1] = '\0';
+    uii.Print( "%s", string );
+}
+
 /* .menu tokenizing is not wired up: reading a token always fails so the
    script-driven menu paths simply stay dormant */
 int UI_PC_ReadToken( int handle, pc_token_t *token ) {
