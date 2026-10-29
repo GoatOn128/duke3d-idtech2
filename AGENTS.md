@@ -23,8 +23,9 @@ three.
     `dntransport` (subst/travel moves), `dncon` (CON scripting),
     `dnplayermove`, `dnmath`, `dnpcx`, `dnanimation`, `dnzrange`.
   - `ref_gl/` — the OpenGL renderer module: `gl_image`, `gl_model`,
-    `gl_rsurf`, `gl_rmain`, `gl_light`, `gl_mesh`, `gl_warp`, `gl_draw`, and
-    the Duke-specific layer `dnrender.cpp`.
+    `gl_rsurf`, `gl_rmain`, `gl_light`, `gl_mesh`, `gl_warp`, `gl_draw`, the GLSL shader
+    backend (`gl_shaders`), the SDL GL context (`glimp_sdl`), and the
+    Duke-specific layer `dnrender.cpp`.
   - `sound/` — OpenAL backend (`sndopenal`), music (`sndmusic`, decoded by
     `third-party/mp3` via dr_mp3), ambience.
   - `game/` — the `dngamex86` game module: Duke gameplay (actors, AI
@@ -32,13 +33,16 @@ three.
     save/load, drops, gibs, effects).
   - `cgame/` — the `cgamex86` client game module (weapon view and weapon
     animation).
-  - `win32/` — Windows platform layer: `sys_win`, input (`in_win`), network
-    (`net_wins`), GL window (`glw_imp`), video (`vid_dll`), GL loader
-    (`qgl_win`), console helper (`conproc`), resources.
+  - `sdl/` — the SDL3 platform layer: entry point, message pump and events
+    (`sdl_sys`), input and joystick (`sdl_input`), video and the refresh
+    driver (`sdl_vid`).
+  - `win32/` — the remaining Windows pieces: sockets (`net_wins`), console
+    helper (`conproc`), shared timing (`q_shwin`), video menu (`vid_menu`),
+    resources (`dnicon.rc`, `q2.ico`).
   - `third-party/` — vendored dependencies, nothing is fetched online:
     `openal-soft` (prebuilt import lib + `soft_oal.dll`, LGPL, linked
-    dynamically), `sdl3` (prebuilt, zlib, not linked yet), `glad` (MIT, not
-    linked yet), `mp3` (dr_mp3, MIT).
+    dynamically), `sdl3` (prebuilt import lib + `SDL3.dll`, zlib, linked
+    dynamically), `glad` (MIT, compiled into `ref_gl`), `mp3` (dr_mp3, MIT).
 - `basedn/` — game data the engine reads at runtime (config, maps,
   textures, sounds). The game modules build directly into it.
 - `references/` — reference code kept for study and behavior comparison.
@@ -77,7 +81,8 @@ vendored OpenAL import lib is picked from `libs/Win32`. Pass
 
 Outputs: `duke3d.exe` and `ref_gl.dll` at the repo root,
 `dngamex86.dll` and `cgamex86.dll` in `basedn/`, `OpenAL32.dll` (copied
-from the vendored `soft_oal.dll`) next to the executable.
+from the vendored `soft_oal.dll`) and `SDL3.dll` (copied from the vendored
+SDL3 package) next to the executable.
 
 VS Code: open `duke3d-idtech2.code-workspace`, run the `build` task
 (Ctrl+Shift+B), F5 to debug. The tasks call `tools/vsenv.cmd` themselves.
@@ -92,7 +97,7 @@ one include per project. Every project file is included from the root so
   target-architecture check, output-directory handling, the game-module
   declaration used by `game` and `cgame`.
 - `code/cmake/third-party.cmake` — the vendored dependencies and the
-  imported `OpenAL` target.
+  imported `OpenAL` and `SDL3` targets.
 - `code/cmake/engine.cmake` — `duke3d.exe`.
 - `code/cmake/renderer.cmake` — `ref_gl.dll`.
 - `code/cmake/game.cmake` — `dngamex86.dll`.
@@ -155,9 +160,9 @@ assuming a build ran against it.
 | Renderer | `ref_gl/gl_rmain.cpp`, `gl_rsurf.cpp`, `dnrender.cpp` |
 | Textures/images | `ref_gl/gl_image.cpp`, `qcommon/dnpcx.cpp` |
 | Sound | `sound/sndopenal.cpp`, `sndmusic.cpp`, `third-party/mp3/` |
-| Input | `win32/in_win.cpp`, `client/keys.cpp` |
+| Input | `sdl/sdl_input.cpp`, `client/keys.cpp` |
 | Network | `server/sv_send.cpp`, `qcommon/net_chan.cpp`, `win32/net_wins.cpp` |
 | Dedicated server commands | `server/sv_ccmds.cpp`, `qcommon/cmd.cpp` |
 | Save/load | `game/dnsave.cpp`, `client/dnsavemenu.cpp` |
-| Platform specifics | `win32/sys_win.cpp`, `vid_dll.cpp` |
+| Platform specifics | `sdl/sdl_sys.cpp`, `sdl/sdl_vid.cpp`, `ref_gl/glimp_sdl.cpp` |
 | CI behavior | `.github/workflows/build-windows.yml` |

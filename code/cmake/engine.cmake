@@ -1,5 +1,5 @@
-# duke3d.exe: client, server, shared code, sound, mp3 decoder and the Windows
-# platform layer.
+# duke3d.exe: client, server, shared code, sound, mp3 decoder and the SDL3
+# platform layer (win32/ keeps console, sockets, shell and icon).
 
 set(engine_sources
     client/cl_cin.cpp
@@ -28,7 +28,7 @@ set(engine_sources
     qcommon/crc.cpp
     qcommon/cvar.cpp
     qcommon/files.cpp
-    win32/in_win.cpp
+    sdl/sdl_input.cpp
     client/keys.cpp
     game/m_flash.cpp
     qcommon/md4.cpp
@@ -52,10 +52,9 @@ set(engine_sources
     server/sv_send.cpp
     server/sv_user.cpp
     server/sv_world.cpp
-    win32/sys_win.cpp
-    win32/vid_dll.cpp
+    sdl/sdl_sys.cpp
+    sdl/sdl_vid.cpp
     win32/vid_menu.cpp
-    client/x86.cpp
     qcommon/dnmap.cpp
     qcommon/dntransport.cpp)
 
@@ -64,9 +63,10 @@ list(APPEND engine_sources win32/dnicon.rc)
 
 add_executable(duke3d WIN32 ${engine_sources})
 
-target_link_libraries(duke3d PRIVATE OpenAL winmm wsock32 user32 gdi32 advapi32)
+target_link_libraries(duke3d PRIVATE OpenAL SDL3 wsock32 user32)
 duke_set_output_directories(duke3d "${DUKE_ROOT}")
 duke_copy_openal_dll(duke3d)
+duke_copy_sdl3_dll(duke3d)
 
 # The pre-restructure tree also compiled tests/dnnetwork.cpp, tests/dnsave.cpp
 # and tests/dnroof.cpp into this executable. They return together with the

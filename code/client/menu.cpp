@@ -1091,7 +1091,6 @@ CONTROLS MENU
 
 =======================================================================
 */
-static cvar_t *win_noalttab;
 extern cvar_t *in_joystick;
 
 static menuframework_s s_options_menu;
@@ -1099,7 +1098,6 @@ static menuaction_s s_options_defaults_action;
 static menuaction_s s_options_customize_options_action;
 static menuslider_s s_options_sensitivity_slider;
 static menulist_s s_options_freelook_box;
-static menulist_s s_options_noalttab_box;
 static menulist_s s_options_alwaysrun_box;
 static menulist_s s_options_invertmouse_box;
 static menulist_s s_options_lookspring_box;
@@ -1142,11 +1140,6 @@ static void MouseSpeedFunc(void *unused)
     Cvar_SetValue("sensitivity", s_options_sensitivity_slider.curvalue / 2.0F);
 }
 
-static void NoAltTabFunc(void *unused)
-{
-    Cvar_SetValue("win_noalttab", s_options_noalttab_box.curvalue);
-}
-
 static float ClampCvar(float min, float max, float value)
 {
     if (value < min)
@@ -1187,8 +1180,6 @@ static void ControlsSetMenuItemValues(void)
 
     Cvar_SetValue("in_joystick", ClampCvar(0, 1, in_joystick->value));
     s_options_joystick_box.curvalue = in_joystick->value;
-
-    s_options_noalttab_box.curvalue = win_noalttab->value;
 }
 
 static void ControlsResetDefaultsFunc(void *unused)
@@ -1269,8 +1260,6 @@ void Options_MenuInit(void)
     static const char *yesno_names[] = {"no", "yes", 0};
 
     static const char *crosshair_names[] = {"none", "cross", "dot", "angle", 0};
-
-    win_noalttab = Cvar_Get("win_noalttab", "0", CVAR_ARCHIVE);
 
     /*
     ** configure controls menu and menu items
@@ -1362,14 +1351,6 @@ void Options_MenuInit(void)
     s_options_crosshair_box.generic.name = "crosshair";
     s_options_crosshair_box.generic.callback = CrosshairFunc;
     s_options_crosshair_box.itemnames = crosshair_names;
-    /*
-        s_options_noalttab_box.generic.type = MTYPE_SPINCONTROL;
-        s_options_noalttab_box.generic.x	= 0;
-        s_options_noalttab_box.generic.y	= 110;
-        s_options_noalttab_box.generic.name	= "disable alt-tab";
-        s_options_noalttab_box.generic.callback = NoAltTabFunc;
-        s_options_noalttab_box.itemnames = yesno_names;
-    */
     s_options_joystick_box.generic.type = MTYPE_SPINCONTROL;
     s_options_joystick_box.generic.x = 0;
     s_options_joystick_box.generic.y = 120;
