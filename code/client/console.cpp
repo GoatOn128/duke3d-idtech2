@@ -28,6 +28,9 @@ console_t	con;
 
 cvar_t		*con_notifytime;
 
+// BFG console debug graphs: rolling frame times (client/dndebuggraph.h)
+static cvar_t *con_frameTimes;
+
 // the BFG consoleField: edit line with cycling tab completion
 DN_EditField	consoleField;
 
@@ -939,7 +942,6 @@ static DN_DebugGraph *con_debugGraphs[CON_MAX_DEBUG_GRAPHS];
 static qboolean con_debugGraphUsed[CON_MAX_DEBUG_GRAPHS];
 
 // the built-in consumer: rolling frame times in milliseconds
-static cvar_t *con_frameTimes;
 static DN_DebugGraph *con_frameTimesGraph;
 
 // 100 pixels of graph height cover 100 milliseconds

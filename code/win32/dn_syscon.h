@@ -34,7 +34,8 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef DNSYSCON_H
 #define DNSYSCON_H
 
-#include "../qcommon/qcommon.h"
+// qboolean and the engine types come from the caller's includes; the
+// Q2 common headers are unguarded and must not be pulled in twice
 
 void Sys_CreateConsole(void);
 void Sys_DestroyConsole(void);

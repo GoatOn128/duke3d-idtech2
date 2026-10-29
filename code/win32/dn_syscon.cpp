@@ -62,6 +62,7 @@ If you have questions concerning this license or the applicable additional terms
 // the BFG console reads DIK style scan codes from the message lParam:
 // bits 16-23 hold the scan code, bit 24 the extended key flag which moves
 // into bit 7. These are the scan codes the console window reacts to.
+#define SC_TAB       15      // BFG K_TAB (DIK_TAB)
 #define SC_ENTER     28      // BFG K_ENTER
 #define SC_KP_8      72      // BFG K_KP_8
 #define SC_KP_2      80      // BFG K_KP_2
