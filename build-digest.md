@@ -1,12 +1,12 @@
 # Build digest
 
-- Commit: `2e27bc5f7081b94c39c1bdfbb546a24b9c4a172e`
+- Commit: `d97e541da3f07ee88af59ea1647a6d821cf9edaf`
 - Branch: `feat/ui-menu-parser`
-- Result: configure exit: 0, build exit: -1
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40975050774
-- Generated: 2026-10-29 23:44:21 UTC
+- Result: configure exit: 0, build exit: 0
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40975713271
+- Generated: 2026-10-29 23:50:31 UTC
 
-Errors: **16**, warnings: **0**.
+Errors: **0**, warnings: **0**.
 
 ## CMake errors
 
@@ -14,22 +14,8 @@ No CMake errors in the log.
 
 ## Tool errors
 
-- `lld-link: error: undefined symbol: class dnMenu * __cdecl Menu_GetFocused(void)`
-- `lld-link: error: undefined symbol: public: class dnItem * __thiscall dnMenu::GetFocusedItem(void)`
-- `lld-link: error: undefined symbol: void __cdecl Controls_GetConfig(void)`
-- `lld-link: error: undefined symbol: int __cdecl Menus_AnyFullScreenVisible(void)`
-- `lld-link: error: undefined symbol: void __cdecl Menu_PaintAll(void)`
-- `lld-link: error: undefined symbol: struct displayContextDef_t * __cdecl Display_GetContext(void)`
-- `lld-link: error: undefined symbol: void __cdecl Display_HandleKey(int, int, int, int)`
-- `lld-link: error: undefined symbol: int __cdecl Display_MouseMove(void *, int, int)`
-- `lld-link: error: undefined symbol: public: void __thiscall dnMenu::Activate(void)`
-- `lld-link: error: undefined symbol: class dnMenu * __cdecl Menus_ActivateByName(char const *)`
-- `lld-link: error: undefined symbol: public: void __thiscall dnMenu::HandleMouseMove(float, float)`
-- `lld-link: error: undefined symbol: public: void __thiscall dnItem::ValidateTypeData(void)`
-- `lld-link: error: undefined symbol: class dnItem * __cdecl UI_ConstructItem(int)`
-- `lld-link: error: undefined symbol: public: void __thiscall dnItem::Init(void)`
-- `lld-link: error: undefined symbol: public: void __thiscall dnItem::FinalizeType(void)`
-- `lld-link: error: undefined symbol: public: static class dnMenu * __cdecl dnMenu::Alloc(char const *)`
+No tool-level errors (lld-link, ninja, ...) in the log.
+
 ## Errors
 
 No errors in the log.
@@ -41,35 +27,35 @@ No warnings in the log.
 ## Log tail
 
 ```
->>> referenced by CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj:(private: static int __cdecl dnMenuParser::MenuParse_itemDef(class dnItem *, int))
-
-
-
-lld-link: error: undefined symbol: public: void __thiscall dnItem::Init(void)
-
->>> referenced by CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj:(private: static int __cdecl dnMenuParser::MenuParse_itemDef(class dnItem *, int))
-
-
-
-lld-link: error: undefined symbol: public: void __thiscall dnItem::FinalizeType(void)
-
->>> referenced by CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj:(private: static int __cdecl dnMenuParser::MenuParse_itemDef(class dnItem *, int))
-
-
-
-lld-link: error: undefined symbol: public: static class dnMenu * __cdecl dnMenu::Alloc(char const *)
-
->>> referenced by CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj:(private: static int __cdecl dnMenuParser::Menu_New(int))
-
->>> referenced by CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj:(private: static void __cdecl dnMenuParser::Menu_Load(char const *))
-
->>> referenced by CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj:(private: static void __cdecl dnMenuParser::Menu_Load(char const *))
-
-[95/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
-[96/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_parse.cpp.obj
-[97/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
-[98/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_newfx.cpp.obj
-[99/155] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
-ninja: build stopped: subcommand failed.
+[126/155] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
+[127/155] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+[128/155] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
+[129/155] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
+[130/155] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
+[131/155] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
+[132/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
+[133/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
+[134/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
+[135/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
+[136/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
+[137/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
+[138/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
+[139/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_gamethread.cpp.obj
+[140/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
+[141/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
+[142/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
+[143/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnerrortrap.cpp.obj
+[144/155] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
+[145/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnthreads.cpp.obj
+[146/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
+[147/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dneditfield.cpp.obj
+[148/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnconsolehistory.cpp.obj
+[149/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj
+[150/155] Building RC object CMakeFiles\duke3d.dir\win32\dnicon.rc.res
+[151/155] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_sys.cpp.obj
+[152/155] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_vid.cpp.obj
+[153/155] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll; Shipping SDL3.dll
+[154/155] Building C object CMakeFiles\convertgrp.dir\tools\convertGRP\convert_grp.c.obj
+[155/155] Linking C executable convertgrp.exe
 ```
 
