@@ -127,7 +127,13 @@ Legend:
       directly through `uii` like the cgame module with `cg`; no trap
       wrapper layer (the idTech 3 trap indirection was dropped by
       design)
-- [ ] Port the idTech 3 menu framework (`ui_shared`)
+- [x] Port the idTech 3 menu framework (`ui_shared`): the RTCW
+      `ui_shared` window/item/menu framework runs in `code/ui/` with
+      `ui_util` (print through `uii`, the q_shared helpers the Q2 header
+      lacks, the tokenizer), `tr_types.h`/`keycodes.h`/`menudef.h`, and the
+      `displayContextDef_t` filled from the engine import table (text and
+      pics draw through MenuText/RegisterPic/DrawStretchPic; model, feeder
+      and ownerdraw callbacks are stubs until the Duke menus land)
 - [ ] Duke menus on the idTech 3 framework (main, new game, options,
       load, save)
 - [ ] Cut the menus over to the module, retire `menu.cpp`/`qmenu.cpp`
