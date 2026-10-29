@@ -66,6 +66,10 @@ public:
     bool TryWait();
     bool IsSubmitted();
 
+    // reuse: drop the finished jobs so the list can be filled and
+    // submitted again; only call after Wait() returned true
+    void ClearFinishedJobs();
+
     const char *GetName() { return name; }
     int GetPriority() { return priority; }
     // bumped by every Submit; used to detect stale job thread entries
@@ -107,5 +111,10 @@ void DN_JobsShutdown(void);
 DN_JobList *DN_JobsAllocJobList(const char *name, int priority);
 void DN_JobsFreeJobList(DN_JobList *list);
 int DN_JobsNumThreads(void);
+
+// Run one job per index on the job threads, submitted to the utility
+// list like the BFG JOBLIST_UTILITY jobs. Returns 0 when the job system
+// is not running, in which case the caller should do the work serially.
+int DN_JobsParallelFor(int count, void (*run)(int index, void *userdata), void *userdata);
 
 #endif

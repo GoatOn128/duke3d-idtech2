@@ -128,10 +128,13 @@ void R_DukeTextureCheck_f(void)
                   nearest, console_fonts, failures);
 }
 
-static dn_mesh_t *tess_mesh;
-static GLenum tess_mode;
-static int tess_count;
-static float tess_first[2], tess_previous[2], tess_previous2[2];
+/* The tessellation state is thread-local so several mesh builds can run
+   at once on the parallel job threads; every build drives its own
+   GLUtesselator and touches only its own sector slot in meshes[]. */
+static thread_local dn_mesh_t *tess_mesh;
+static thread_local GLenum tess_mode;
+static thread_local int tess_count;
+static thread_local float tess_first[2], tess_previous[2], tess_previous2[2];
 
 typedef struct dn_combine_s
 {
@@ -139,18 +142,41 @@ typedef struct dn_combine_s
     struct dn_combine_s *next;
 } dn_combine_t;
 
-static dn_combine_t *combined;
+static thread_local dn_combine_t *combined;
+
+/* Mesh build errors are recorded here instead of calling Sys_Error right
+   away, because a build can run on a job thread where Com_Error cannot
+   unwind. The caller raises the first recorded error on the main thread. */
+typedef struct
+{
+    int level; // ERR_DROP or ERR_FATAL
+    char message[160];
+} dn_meshError_t;
+
+static thread_local dn_meshError_t *tess_error;
+
+static void TessRecordMessage(int level, const char *message)
+{
+    if (tess_error && !tess_error->message[0])
+    {
+        tess_error->level = level;
+        snprintf(tess_error->message, sizeof(tess_error->message), "%s", message);
+    }
+}
 
 static void MeshVertex(dn_mesh_t *m, const float *p)
 {
     if (m->count + 2 >= m->capacity)
     {
-        m->capacity = m->capacity ? m->capacity * 2 : 256;
-        m->xy = (float *)(realloc(m->xy, m->capacity * sizeof(float)));
-        if (!m->xy)
+        int newCapacity = m->capacity ? m->capacity * 2 : 256;
+        float *grown = (float *)(realloc(m->xy, newCapacity * sizeof(float)));
+        if (!grown)
         {
-            ri.Sys_Error(ERR_FATAL, "Build tessellation allocation failed");
+            TessRecordMessage(ERR_FATAL, "Build tessellation allocation failed");
+            return;
         }
+        m->xy = grown;
+        m->capacity = newCapacity;
     }
     m->xy[m->count++] = p[0];
     m->xy[m->count++] = p[1];
@@ -191,7 +217,10 @@ static void CALLBACK TessEnd(void)
 
 static void CALLBACK TessError(GLenum error)
 {
-    ri.Sys_Error(ERR_DROP, "Build polygon tessellation: %s", gluErrorString(error));
+    char message[128];
+    snprintf(message, sizeof(message), "Build polygon tessellation: %s",
+             (const char *)gluErrorString(error));
+    TessRecordMessage(ERR_DROP, message);
 }
 
 static void CALLBACK TessCombine(GLdouble p[3], void *input[4], GLfloat weight[4], void **output)
@@ -199,7 +228,13 @@ static void CALLBACK TessCombine(GLdouble p[3], void *input[4], GLfloat weight[4
     dn_combine_t *c = (dn_combine_t *)(calloc(1, sizeof(*c)));
     if (!c)
     {
-        ri.Sys_Error(ERR_FATAL, "Build tessellation allocation failed");
+        // hand the tessellator a stable vertex and record the failure;
+        // the mesh is discarded once the caller raises the error
+        static thread_local GLdouble fallback[3];
+        memcpy(fallback, p, sizeof(fallback));
+        *output = fallback;
+        TessRecordMessage(ERR_FATAL, "Build tessellation allocation failed");
+        return;
     }
     memcpy(c->p, p, sizeof(c->p));
     c->next = combined;
@@ -207,19 +242,29 @@ static void CALLBACK TessCombine(GLdouble p[3], void *input[4], GLfloat weight[4
     *output = c->p;
 }
 
-static void BuildMesh(int sector)
+static void BuildMeshChecked(int sector, dn_meshError_t *error)
 {
     const dn_sector_t *s = &r_duke_map.sectors[sector];
-    GLUtesselator *t = gluNewTess();
-    GLdouble(*vertices)[3] = static_cast<GLdouble(*)[3]>(calloc(s->wallnum, sizeof(*vertices)));
-    byte *visited = (byte *)(calloc(s->wallnum, 1));
+    GLUtesselator *t;
+    GLdouble(*vertices)[3];
+    byte *visited;
     int i, j, steps;
-    if (!t || !vertices || !visited)
-    {
-        ri.Sys_Error(ERR_FATAL, "Build polygon allocation failed");
-    }
+
+    tess_error = error;
     tess_mesh = &meshes[sector];
     tess_mesh->count = 0;
+
+    t = gluNewTess();
+    vertices = static_cast<GLdouble(*)[3]>(calloc(s->wallnum, sizeof(*vertices)));
+    visited = (byte *)(calloc(s->wallnum, 1));
+    if (!t || !vertices || !visited)
+    {
+        gluDeleteTess(t);
+        free(vertices);
+        free(visited);
+        TessRecordMessage(ERR_FATAL, "Build polygon allocation failed");
+        return;
+    }
     gluTessCallback(t, GLU_TESS_BEGIN, (dn_glu_callback)TessBegin);
     gluTessCallback(t, GLU_TESS_VERTEX, (dn_glu_callback)TessVertex);
     gluTessCallback(t, GLU_TESS_END, (dn_glu_callback)TessEnd);
@@ -244,7 +289,8 @@ static void BuildMesh(int sector)
             {
                 if (j < 0 || j >= s->wallnum || visited[j] || ++steps > s->wallnum)
                 {
-                    ri.Sys_Error(ERR_DROP, "Invalid Build polygon loop");
+                    TessRecordMessage(ERR_DROP, "Invalid Build polygon loop");
+                    goto cleanup;
                 }
                 visited[j] = 1;
                 gluTessVertex(t, vertices[j], vertices[j]);
@@ -254,6 +300,7 @@ static void BuildMesh(int sector)
         }
     }
     gluTessEndPolygon(t);
+cleanup:
     gluDeleteTess(t);
     free(vertices);
     free(visited);
@@ -262,6 +309,77 @@ static void BuildMesh(int sector)
         dn_combine_t *next = combined->next;
         free(combined);
         combined = next;
+    }
+    tess_error = NULL;
+    tess_mesh = NULL;
+}
+
+/* Build the meshes for the given sectors, on the parallel job threads when
+   there is enough work to be worth it (the JOBLIST_RENDERER_FRONTEND idea
+   from the BFG job system, applied to this renderer's pure-CPU frontend
+   work). Below the minimum the per-job locking costs more than the
+   tessellation, so the sectors build serially. */
+#define DN_PARALLEL_MESH_MIN 4
+
+typedef struct
+{
+    const int *sectors; // NULL means the sector range 0..count-1
+    dn_meshError_t *errors;
+} meshJobContext_t;
+
+static void MeshBuildJob(int index, void *userdata)
+{
+    meshJobContext_t *context = (meshJobContext_t *)userdata;
+    int sector = context->sectors ? context->sectors[index] : index;
+    BuildMeshChecked(sector, &context->errors[index]);
+}
+
+static void R_BuildMeshes(int count, const int *sectors)
+{
+    dn_meshError_t error;
+    dn_meshError_t *errors;
+    meshJobContext_t context;
+    cvar_t *parallel;
+    int i;
+
+    if (count <= 0)
+    {
+        return;
+    }
+
+    parallel = ri.Cvar_Get("r_parallelMeshes", "1", 0);
+    if (parallel->value && count >= DN_PARALLEL_MESH_MIN && ri.ParallelFor)
+    {
+        errors = (dn_meshError_t *)(malloc(count * sizeof(*errors)));
+        if (errors)
+        {
+            memset(errors, 0, count * sizeof(*errors));
+            context.sectors = sectors;
+            context.errors = errors;
+            if (ri.ParallelFor(count, MeshBuildJob, &context))
+            {
+                for (i = 0; i < count; i++)
+                {
+                    if (errors[i].message[0])
+                    {
+                        ri.Sys_Error(errors[i].level, "%s", errors[i].message);
+                    }
+                }
+                free(errors);
+                return;
+            }
+            free(errors);
+        }
+    }
+
+    for (i = 0; i < count; i++)
+    {
+        memset(&error, 0, sizeof(error));
+        BuildMeshChecked(sectors ? sectors[i] : i, &error);
+        if (error.message[0])
+        {
+            ri.Sys_Error(error.level, "%s", error.message);
+        }
     }
 }
 
@@ -441,7 +559,7 @@ void R_DukeLoad(model_t *model, void *buffer, int length)
 {
     char error[160];
     void *meta;
-    int size, i;
+    int size;
     R_DukeFree();
     LoadPalettes();
     if (!DN_LoadMap(&r_duke_map, buffer, length, error, sizeof(error)))
@@ -466,10 +584,9 @@ void R_DukeLoad(model_t *model, void *buffer, int length)
     {
         ri.Sys_Error(ERR_FATAL, "Build mesh allocation failed");
     }
-    for (i = 0; i < r_duke_map.numsectors; i++)
-    {
-        BuildMesh(i);
-    }
+    // one job per sector on the parallel job threads, like the BFG
+    // renderer frontend lists that tessellate surfaces at level load
+    R_BuildMeshes(r_duke_map.numsectors, NULL);
     model->type = mod_duke;
     model->numframes = 1;
     model->numleafs = 1;
@@ -975,13 +1092,16 @@ void R_DukeApplyWorldStates(const refdef_t *frame)
             }
         }
     }
+    int dirtySectors[DN_MAX_SECTORS];
+    int numDirty = 0;
     for (int sector = 0; sector < r_duke_map.numsectors; sector++)
     {
         if (dirty[sector])
         {
-            BuildMesh(sector);
+            dirtySectors[numDirty++] = sector;
         }
     }
+    R_BuildMeshes(numDirty, dirtySectors);
 }
 
 void R_DukeDrawWeapon(entity_t *entity)

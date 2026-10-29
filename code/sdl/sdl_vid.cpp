@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <float.h>
 
 #include "../client/client.h"
+#include "../qcommon/dnjobs.h"
 #include "sdl_sys.h"
 
 #include <windows.h>
@@ -579,6 +580,7 @@ qboolean VID_LoadRefresh(char *name)
     ri.Vid_MenuInit = VID_MenuInit;
     ri.Vid_NewWindow = VID_NewWindow;
     ri.DukeWeaponView = CL_CGameWeaponView;
+    ri.ParallelFor = DN_JobsParallelFor;
 
     if ((GetRefAPI = (GetRefAPI_t)(void *)GetProcAddress(reflib_library, "GetRefAPI")) == 0)
     {

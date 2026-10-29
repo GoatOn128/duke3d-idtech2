@@ -217,6 +217,11 @@ typedef struct
     void (*Vid_MenuInit)(void);
     void (*Vid_NewWindow)(int width, int height);
     void (*DukeWeaponView)(const dn_weapon_view_t *view, dn_weapon_sprites_t *sprites);
+
+    // Run one job per index on the parallel job threads (the phase 1 BFG
+    // job system port); returns 0 when jobs are unavailable and the
+    // caller must run the work serially
+    int (*ParallelFor)(int count, void (*run)(int index, void *userdata), void *userdata);
 } refimport_t;
 
 // this is the only function actually exported at the linker level

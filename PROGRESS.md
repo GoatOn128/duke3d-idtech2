@@ -72,6 +72,17 @@ Legend:
       their BFG namesakes in `CL_Frame` and `SV_Frame` (the server
       keeps its fixed 100 ms tics, the equivalent of the fixed BFG
       game tics)
+- [x] Port the BFG renderer frontend parallelism: the Duke sector mesh
+      tessellation (`ref_gl/dnrender.cpp`) is pure CPU work, so the dirty
+      sectors retessellate on the phase 1 job threads (and the whole map
+      at load), reached through a `ParallelFor` entry in the refresh
+      import table (`r_parallelMeshes` toggles it; under 4 sectors the
+      builds stay serial)
+- [x] Sound threading, closed as a documented divergence: OpenAL
+      (`sound/sndopenal.cpp`) mixes on its own thread inside the OpenAL
+      implementation and the per-frame sound updates already follow the
+      render rate, so a BFG-style dedicated sound thread would duplicate
+      existing threading
 
 ## Engine milestones
 
