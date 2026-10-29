@@ -50,6 +50,9 @@ set(engine_sources
     server/sv_ccmds.cpp
     server/sv_ents.cpp
     server/sv_game.cpp
+    # server/sv_gamethread.cpp is the BFG game thread: the game tic runs
+    # on its own OS thread while com_smp is on
+    server/sv_gamethread.cpp
     server/sv_init.cpp
     server/sv_main.cpp
     server/sv_send.cpp
@@ -61,6 +64,8 @@ set(engine_sources
     qcommon/dnmap.cpp
     qcommon/dnthreads.cpp
     qcommon/dnjobs.cpp
+    # qcommon/dnerrortrap.cpp catches Com_Error raised on the game thread
+    qcommon/dnerrortrap.cpp
     qcommon/dntransport.cpp
     qcommon/dneditfield.cpp
     qcommon/dnconsolehistory.cpp)

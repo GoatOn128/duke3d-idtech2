@@ -263,6 +263,10 @@ bool DN_SysThread::StartWorkerThread(const char *name)
 
 void DN_SysThread::SignalWork()
 {
+    // BFG clears the done signal before signaling new work; without
+    // this a second WaitForThread can pass while the worker is still
+    // busy with the previous Run
+    signalWorkerDone.Clear();
     signalMoreWorkToDo.Raise();
 }
 

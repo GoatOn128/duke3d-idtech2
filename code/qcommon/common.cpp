@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // common.cpp -- misc functions used in client and server
 #include "qcommon.h"
 #include <setjmp.h>
+#include "dnerrortrap.h"
 
 #define MAXPRINTMSG 4096
 
@@ -186,6 +187,21 @@ void Com_Error(int code, char *fmt, ...)
     va_list argptr;
     static char msg[MAXPRINTMSG];
     static qboolean recursive;
+
+    // BFG game thread port: an error raised on the game thread cannot
+    // longjmp to the main thread's abort frame. While the trap is
+    // installed the error is handed to the trap and unwinds to the game
+    // tic guard; the main thread re-raises it after the tic ends.
+    if (DN_ErrorTrapActive())
+    {
+        va_list traparg;
+        char trapmsg[MAXPRINTMSG];
+
+        va_start(traparg, fmt);
+        vsnprintf(trapmsg, sizeof(trapmsg), fmt, traparg);
+        va_end(traparg);
+        DN_ErrorTrapRaise(code, trapmsg);
+    }
 
     if (recursive)
     {

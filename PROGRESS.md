@@ -100,6 +100,16 @@ Legend:
       reached through `Con_CreateGraph`), and the `con_frameTimes`
       cvar that renders the rolling frame times like the BFG console
       graphs
+- [x] Port the BFG game thread: the server game tic (the game module
+      RunFrame plus the Duke world-state apply) runs on its own OS
+      thread while `com_smp` is on (`server/sv_gamethread.cpp`, the
+      `idGameThread` port from framework/common_frame.cpp;
+      `com_sleepGame` debug sleep, inline main-thread tic when
+      `com_smp 0`), `qcommon/dnerrortrap.cpp` traps `Com_Error` raised
+      during the tic because its longjmp cannot unwind across threads
+      and the main thread re-raises it after the wait, and
+      `DN_SysThread::SignalWork` clears the done signal before
+      signaling new work like the BFG `idSysThread`
 
 ## Engine milestones
 

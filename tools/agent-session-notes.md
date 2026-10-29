@@ -21,6 +21,11 @@ cost anything as long as this file and PROGRESS.md are current.
   double JSON.parse for a nested envelope). It refuses files over 1MB.
 - `push_files` requires the FULL file content. Never push content that came
   from a lossy read.
+- After every push, run `get_commit` (detail "stats") on the new sha and
+  verify the per-file additions/deletions match the intended hunks:
+  full-file transcriptions have drifted (a lost "=" in a comment
+  underline and a rewrapped comment line in sv_main.cpp), caught and
+  fixed via the per-commit diff stats.
 - Never fetch repo file content through raw.githubusercontent.com or other
   web proxies: they truncate around 32KB and corrupt files.
 - Intermittent 502s: retry each connector call up to 6-8 times; avoid
@@ -64,6 +69,9 @@ cost anything as long as this file and PROGRESS.md are current.
   the missing-asset build intentionally skips it.
 - Tests and asset pipeline are dormant until the pending restructure in
   PROGRESS.md lands (`BUILD_TESTING` defaults to OFF).
+- The compile include dirs do not expose `code/qcommon` to `server/`
+  translation units: files under `server/` must reach qcommon headers
+  through the relative path (`../qcommon/...`), like `server.h` does.
 
 ## Current state
 
@@ -310,3 +318,43 @@ cost anything as long as this file and PROGRESS.md are current.
   verify a post-merge run exists (the public Actions API endpoint
   /actions/runs?head_sha=<sha> answers without auth) and prefer a plain
   merge over a squash for such branches.
+
+- 2026-10-29: BFG game thread port on branch `port/bfg-game-thread` (CI
+  green, 0 errors, 0 warnings): server/sv_gamethread.h/.cpp ports the BFG
+  idGameThread (neo/framework/common_frame.cpp) as DN_GameThread, a
+  DN_SysThread worker. SV_RunGameFrame calls gameThread.RunGameTic():
+  with com_smp 1 (default) the thread starts lazily on the first tic and
+  every tic is one SignalWork/WaitForThread cycle (the BFG sync point; no
+  overlap window because ref_gl is immediate-mode and the
+  frontend/backend command buffer split is scoped out), with com_smp 0
+  the tic runs inline on the main thread like the BFG non-smp path.
+  Run() is the game tic: the com_sleepGame debug sleep, ge->RunFrame()
+  plus the per-edict RF_DUKE_WORLD CM_DukeApplyWorldState loop moved out
+  of SV_RunGameFrame. qcommon/dnerrortrap.h/.cpp: Com_Error longjmps to
+  abortframe, which cannot unwind across threads, so Com_Error checks
+  DN_ErrorTrapActive before the recursive guard (the static recursive
+  flag stays untouched on the trap path) and hands the formatted message
+  to DN_ErrorTrapRaise (4096-byte buffer, longjmp to the tic guard);
+  RunGameTic re-raises it with Com_Error on the main thread after the
+  wait. The single global trap state is race-free because the main
+  thread blocks in WaitForThread during the tic. Bug fix in
+  qcommon/dnthreads.cpp: DN_SysThread::SignalWork now clears
+  signalWorkerDone before raising signalMoreWorkToDo like the BFG
+  idSysThread - without it a second WaitForThread can pass while the
+  worker is still inside Run, and the game thread signals every tic
+  (the job threads never call WaitForThread, so dnjobs usage is
+  unaffected). Lifecycle: the thread starts lazily, SV_Shutdown stops
+  it before the game module goes away, map/gamedir changes do not (the
+  thread is parked in Wait and holds no ge references). Documented
+  divergences: the BFG Run() also generates draw commands
+  (immediate-mode renderer here, no command buffers); the BFG isClient
+  ClientRunFrame prediction path is not ported (Q2 client prediction
+  runs inline in CL_Frame); the BFG userCmdMgr loop became the single
+  ge->RunFrame() tic (this engine feeds usercmds during packet reads);
+  the latched gameReturn_t is unused (SV_Frame consumes the tic results
+  directly after the wait). CI caught the server TU include paths
+  (dnthreads.h and dnerrortrap.h need the ../qcommon/ relative include
+  like server.h) and an out-of-line definition of the implicitly
+  declared default constructor. License note: derives from the BFG
+  Edition GPL source (GPLv3), ported from references/doom3-bfg, which
+  is not compiled.
