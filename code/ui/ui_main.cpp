@@ -45,7 +45,7 @@ static void DC_DrawText( float x, float y, int font, float scale, vec4_t color,
     }
     buf[len] = '\0';
 
-    selected = ( color && ( color[0] >= 0.6f ) && ( color[1] <= color[0] ) );
+    selected = ( color && ( color[0] >= 0.75f ) && ( color[1] >= 0.75f ) );
     uii.MenuText( (int)( x * 0.5f + 0.5f ), (int)( y * 0.5f + 0.5f ), buf, selected );
     ( void )scale;
 }
@@ -178,9 +178,10 @@ static void DC_RegisterFont( const char *pFontname, int pointSize, fontInfo_t *f
 static void DC_OwnerDrawItem( float x, float y, float w, float h, float text_x, float text_y,
                               int ownerDraw, int ownerDrawFlags, int align, float special,
                               int font, float scale, vec4_t color, qhandle_t shader, int textStyle ) {
-    ( void )x; ( void )y; ( void )w; ( void )h; ( void )text_x; ( void )text_y;
-    ( void )ownerDraw; ( void )ownerDrawFlags; ( void )align; ( void )special;
-    ( void )font; ( void )scale; ( void )color; ( void )shader; ( void )textStyle;
+    ( void )text_x; ( void )text_y;
+    ( void )ownerDrawFlags; ( void )align; ( void )special;
+    ( void )font; ( void )scale; ( void )shader; ( void )textStyle;
+    Duke_OwnerDraw( ownerDraw, x, y, w, h, color );
 }
 
 static float DC_GetValue( int ownerDraw, int type ) {
@@ -209,8 +210,8 @@ static void DC_DrawTextWithCursor( float x, float y, int font, float scale, vec4
 }
 
 static void DC_StartLocalSound( sfxHandle_t sfx, int channelNum ) {
-    ( void )sfx;
     ( void )channelNum;
+    Duke_PlaySound( sfx );
 }
 
 static qboolean DC_OwnerDrawHandleKey( int ownerDraw, int flags, float *special, int key ) {
@@ -261,8 +262,7 @@ static int DC_OwnerDrawWidth( int ownerDraw, int font, float scale ) {
 }
 
 static sfxHandle_t DC_RegisterSound( const char *name ) {
-    ( void )name;
-    return NULL;
+    return Duke_RegisterSound( name );
 }
 
 static void DC_StartBackgroundTrack( const char *intro, const char *loop, int fadeupTime ) {
@@ -353,8 +353,8 @@ static void SetupDisplayContext( void ) {
     dc.bias = 0;
     dc.realTime = 0;
     dc.frameTime = 0;
-    dc.cursorx = 0;
-    dc.cursory = 0;
+    dc.cursorx = SCREEN_WIDTH / 2;
+    dc.cursory = SCREEN_HEIGHT / 2;
     dc.debug = qfalse;
 
     memset( &dc.glconfig, 0, sizeof( dc.glconfig ) );
@@ -363,6 +363,11 @@ static void SetupDisplayContext( void ) {
     dc.glconfig.windowAspect = ( h != 0 ) ? ( (float)w / (float)h ) : ( 4.0f / 3.0f );
 
     memset( &dc.Assets, 0, sizeof( dc.Assets ) );
+    /* the Duke menus move focus with the engine menu move sound */
+    dc.Assets.itemFocusSound = Duke_RegisterSound( "bulithit.wav" );
+    dc.Assets.fadeClamp = 1.0f;
+    dc.Assets.fadeCycle = 5;
+    dc.Assets.fadeAmount = 0.05f;
     dc.whiteShader = NULL;
     dc.gradientImage = NULL;
     dc.cursor = NULL;
@@ -376,6 +381,7 @@ static int Init( void ) {
     Init_Display( &dc );
     UI_InitMemory();
     String_Init();
+    Duke_MenusInit();
     uii.Print( "Duke UI module loaded\n" );
     return 1;
 }
@@ -383,10 +389,12 @@ static int Init( void ) {
 static void Shutdown( void ) {
 }
 
-static void KeyEvent( int, int ) {
+static void KeyEvent( int key, int down ) {
+    Duke_KeyEvent( key, down );
 }
 
-static void MouseEvent( int, int ) {
+static void MouseEvent( int dx, int dy ) {
+    Duke_MouseEvent( dx, dy );
 }
 
 static void Refresh( int realtime ) {
@@ -396,13 +404,15 @@ static void Refresh( int realtime ) {
     dc.frameTime = realtime - lastRealTime;
     lastRealTime = realtime;
     dc.realTime = realtime;
+    Duke_Refresh();
 }
 
 static int IsFullscreen( void ) {
-    return 0;
+    return Duke_IsFullscreen();
 }
 
-static void SetActiveMenu( dn_uimenu_t ) {
+static void SetActiveMenu( dn_uimenu_t menu ) {
+    Duke_SetActiveMenu( menu );
 }
 
 static int ConsoleCommand( int ) {
