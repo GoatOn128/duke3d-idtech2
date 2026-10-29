@@ -27,6 +27,11 @@ extern unsigned sys_frame_time;
 unsigned frame_msec;
 unsigned old_sys_frame_time;
 
+// Usercmds leave at a fixed rate instead of once per render frame, like the
+// Doom 3 BFG step code, so an uncapped framerate behaves like a capped one.
+#define CL_USERCMD_MSEC (1000 / 60)
+static unsigned cmd_pending_msec;
+
 /*
 ===============================================================================
 
@@ -426,8 +431,6 @@ Send the intended movement message to the server
 */
 void CL_BaseMove(usercmd_t *cmd)
 {
-    CL_AdjustAngles();
-
     memset(cmd, 0, sizeof(*cmd));
 
     VectorCopy(cl.viewangles, cmd->angles);
@@ -484,9 +487,8 @@ void CL_ClampPitch(void)
 CL_FinishMove
 ==============
 */
-void CL_FinishMove(usercmd_t *cmd)
+void CL_FinishMove(usercmd_t *cmd, unsigned msec)
 {
-    int ms;
     int i;
 
     //
@@ -510,12 +512,11 @@ void CL_FinishMove(usercmd_t *cmd)
     }
 
     // send milliseconds of time to apply the move
-    ms = cls.frametime * 1000;
-    if (ms > 250)
+    if (msec > 250)
     {
-        ms = 100; // time was unreasonable
+        msec = 100; // time was unreasonable
     }
-    cmd->msec = ms;
+    cmd->msec = msec;
 
     CL_ClampPitch();
     for (i = 0; i < 3; i++)
@@ -532,12 +533,15 @@ void CL_FinishMove(usercmd_t *cmd)
 
 /*
 =================
-CL_CreateCmd
+CL_LookFrame
+
+Runs every render frame. Keeps the view and the button timers current so
+nothing waits for the fixed usercmd rate below.
 =================
 */
-usercmd_t CL_CreateCmd(void)
+static void CL_LookFrame(void)
 {
-    usercmd_t cmd;
+    qboolean gameplay = cls.key_dest == key_game && !(cl_paused && cl_paused->value);
 
     frame_msec = sys_frame_time - old_sys_frame_time;
     if (frame_msec < 1)
@@ -548,28 +552,48 @@ usercmd_t CL_CreateCmd(void)
     {
         frame_msec = 200;
     }
+    old_sys_frame_time = sys_frame_time;
 
+    if (gameplay)
+    {
+        CL_AdjustAngles();
+        IN_LookFrame();
+    }
+    else
+    {
+        IN_ClearStates();
+    }
+}
+
+/*
+=================
+CL_CreateCmd
+
+Builds one usercmd from the input held since the last command. Runs at the
+fixed CL_USERCMD_MSEC rate, not once per render frame.
+=================
+*/
+static usercmd_t CL_CreateCmd(unsigned msec)
+{
+    usercmd_t cmd;
     qboolean gameplay = cls.key_dest == key_game && !(cl_paused && cl_paused->value);
+
     if (gameplay)
     {
         CL_BaseMove(&cmd);
-        IN_Move(&cmd);
+        IN_AddPendingMove(&cmd);
+        IN_JoyMove(&cmd);
     }
     else
     {
         memset(&cmd, 0, sizeof(cmd));
-        IN_ClearStates();
     }
 
-    CL_FinishMove(&cmd);
+    CL_FinishMove(&cmd, msec);
     if (!gameplay)
     {
         cmd.buttons = cmd.impulse = 0;
     }
-
-    old_sys_frame_time = sys_frame_time;
-
-    // cmd.impulse = cls.framecount;
 
     return cmd;
 }
@@ -637,19 +661,12 @@ void CL_SendCmd(void)
     usercmd_t nullcmd;
     int checksumIndex;
 
-    // build a command even if not connected
-
-    // save this command off for prediction
-    i = cls.netchan.outgoing_sequence & (CMD_BACKUP - 1);
-    cmd = &cl.cmds[i];
-    cl.cmd_time[i] = cls.realtime; // for netgraph ping calculation
-
-    *cmd = CL_CreateCmd();
-
-    cl.cmd = *cmd;
+    // keep the view and the input timers current every render frame
+    CL_LookFrame();
 
     if (cls.state == ca_disconnected || cls.state == ca_connecting)
     {
+        cmd_pending_msec = 0;
         return;
     }
 
@@ -661,6 +678,24 @@ void CL_SendCmd(void)
         }
         return;
     }
+
+    // hold input until the fixed usercmd clock has elapsed, so an uncapped
+    // render framerate sends the same command stream as a capped one
+    cmd_pending_msec += frame_msec;
+    if (cmd_pending_msec < CL_USERCMD_MSEC)
+    {
+        return;
+    }
+
+    // save this command off for prediction
+    i = cls.netchan.outgoing_sequence & (CMD_BACKUP - 1);
+    cmd = &cl.cmds[i];
+    cl.cmd_time[i] = cls.realtime; // for netgraph ping calculation
+
+    *cmd = CL_CreateCmd(cmd_pending_msec);
+    cmd_pending_msec = 0;
+
+    cl.cmd = *cmd;
 
     // send a userinfo update if needed
     if (userinfo_modified)
