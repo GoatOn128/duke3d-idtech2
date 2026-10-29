@@ -1,0 +1,163 @@
+cmake_minimum_required(VERSION 3.20)
+
+project(duke3dx LANGUAGES C CXX)
+
+add_compile_options(/Zc:strictStrings-)
+
+set(CMAKE_C_STANDARD 90)
+set(CMAKE_C_STANDARD_REQUIRED OFF)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Build/intermediate folder should be ../out
+# Final executable should be one level above this CMake project folder
+set(BINARY_OUT_DIR "${CMAKE_SOURCE_DIR}/..")
+set(LIB_OUT_DIR "${CMAKE_SOURCE_DIR}/../out")
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${BINARY_OUT_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${BINARY_OUT_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${BINARY_OUT_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${BINARY_OUT_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${BINARY_OUT_DIR}")
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${LIB_OUT_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${LIB_OUT_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${LIB_OUT_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${LIB_OUT_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL "${LIB_OUT_DIR}")
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${LIB_OUT_DIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${LIB_OUT_DIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${LIB_OUT_DIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${LIB_OUT_DIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL "${LIB_OUT_DIR}")
+
+set(DUKE3DX_SOURCES
+    ACTORS.CPP
+    ANIMLIB.CPP
+    BUILD.CPP
+    CONFIG.CPP
+    GAME.CPP
+    GAMEDEF.CPP
+    GLOBAL.CPP
+    MENUES.CPP
+    PLAYER.CPP
+    PREMAP.CPP
+    RTS.CPP
+    SECTOR.CPP
+    SOUNDS.CPP
+    XAUDIO2.CPP
+    KEYBOARD.CPP
+    CONTROL.CPP
+    SCRIPLIB.CPP
+)
+
+set(DUKE3DX_HEADERS
+    _ANIMLIB.H
+    _FUNCTIO.H
+    _RTS.H
+    ANIMLIB.H
+    BUILD.H
+    CONFIG.H
+    CONTROL.H
+    DEVELOP.H
+    DUKE3D.H
+    FILE_LIB.H
+    FUNCT.H
+    FUNCTION.H
+    FX_MAN.H
+    GAMEDEFS.H
+    KEYBOARD.H
+    MOUSE.H
+    MUSIC.H
+    NAMES.H
+    PRAGMAS.H
+    RTS.H
+    SCRIPLIB.H
+    SNDCARDS.H
+    SOUNDEFS.H
+    SOUNDS.H
+    TYPES.H
+    UTIL_LIB.H
+)
+
+add_executable(duke3dx
+    ${DUKE3DX_SOURCES}
+    ${DUKE3DX_HEADERS}
+)
+
+add_executable(editor WIN32
+    BUILD.CPP
+    EDITOR.CPP
+)
+
+target_include_directories(duke3dx PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+
+target_include_directories(editor PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+
+set_target_properties(duke3dx PROPERTIES
+    OUTPUT_NAME "duke3dx"
+)
+
+set_target_properties(editor PROPERTIES
+    OUTPUT_NAME "editor"
+)
+
+if(MSVC)
+    target_compile_definitions(duke3dx PRIVATE
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_NONSTDC_NO_WARNINGS
+        WIN32_LEAN_AND_MEAN
+        NOMINMAX
+    )
+
+    target_compile_definitions(editor PRIVATE
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_NONSTDC_NO_WARNINGS
+        WIN32_LEAN_AND_MEAN
+        NOMINMAX
+    )
+
+    target_compile_options(duke3dx PRIVATE
+        /W3
+        /wd4996
+        /wd4244
+        /wd4305
+        /wd4018
+        /wd4101
+        /wd4700
+        /wd4761
+    )
+
+    target_compile_options(editor PRIVATE
+        /W3
+        /wd4996
+        /wd4244
+        /wd4305
+        /wd4018
+        /wd4101
+        /wd4700
+        /wd4761
+    )
+endif()
+
+if(WIN32)
+    target_link_libraries(duke3dx PRIVATE
+        winmm
+        user32
+        gdi32
+        ws2_32
+    )
+
+    target_link_libraries(editor PRIVATE
+        winmm
+        user32
+        gdi32
+        ws2_32
+    )
+endif()
