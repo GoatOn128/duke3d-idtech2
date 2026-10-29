@@ -89,8 +89,7 @@ typedef struct {
     char name[MAX_QPATH];
 } fontInfo_t;
 
-/* idTech 3 tokenizer token; the .menu parser sits behind stubs because the
-   Duke menus are code-defined, but the framework types stay in place */
+/* idTech 3 tokenizer token; UI_PC_ReadToken fills these from the .menu sources */
 #define MAX_TOKENLENGTH 1024
 #define TT_STRING       1
 #define TT_LITERAL      2

@@ -40,7 +40,7 @@ If you have questions concerning this license or the applicable additional terms
 #define ITEM_TYPE_SLIDER            10      // mouse speed, volume, etc.
 #define ITEM_TYPE_YESNO             11      // yes no cvar setting
 #define ITEM_TYPE_MULTI             12      // multiple list setting, enumerated
-#define ITEM_TYPE_BIND              13      // multiple list setting, enumerated
+#define ITEM_TYPE_BIND              13      // key binding field
 #define ITEM_TYPE_MENUMODEL         14      // special menu model
 #define ITEM_TYPE_VALIDFILEFIELD    15      // text must be valid for use in a dos filename
 
@@ -69,8 +69,8 @@ If you have questions concerning this license or the applicable additional terms
 #define WINDOW_STYLE_TEAMCOLOR      4       // team color
 #define WINDOW_STYLE_CINEMATIC      5       // cinematic
 
-#define MENU_TRUE           1       // uh.. true
-#define MENU_FALSE          0       // and false
+#define MENU_TRUE           1
+#define MENU_FALSE          0
 
 #define HUD_VERTICAL        0x00
 #define HUD_HORIZONTAL      0x01
@@ -100,7 +100,7 @@ If you have questions concerning this license or the applicable additional terms
 #define FEEDER_FINDPLAYER           0x0e    // find player
 #define FEEDER_CINEMATICS           0x0f    // cinematics
 #define FEEDER_SAVEGAMES            0x10    // savegames
-#define FEEDER_PICKSPAWN            0x11    // NERVE - SMF - wolf mp pick spawn point
+#define FEEDER_PICKSPAWN            0x11    // pick spawn point (wolf mp)
 
 // display flags
 #define CG_SHOW_BLUE_TEAM_HAS_REDFLAG       0x00000001
@@ -123,15 +123,14 @@ If you have questions concerning this license or the applicable additional terms
 #define CG_SHOW_OTHERTEAMHASFLAG            0x00020000
 #define CG_SHOW_YOURTEAMHASENEMYFLAG        0x00040000
 #define CG_SHOW_ANYNONTEAMGAME              0x00080000
-//(SA)
 #define CG_SHOW_TEXTASINT                   0x00200000
 #define CG_SHOW_HIGHLIGHTED                 0x00100000
 
-#define CG_SHOW_NOT_V_BINOC                 0x00200000  //----(SA)	added	// hide on binoc huds
-#define CG_SHOW_NOT_V_SNIPER                0x00400000  //----(SA)	added	// hide on sniper huds
-#define CG_SHOW_NOT_V_SNOOPER               0x00800000  //----(SA)	added	// hide on snooper huds
-#define CG_SHOW_NOT_V_FGSCOPE               0x01000000  //----(SA)	added	// hide on fg42 scope huds
-#define CG_SHOW_NOT_V_CLEAR                 0x02000000  //----(SA)	added	// hide on normal, full-view huds
+#define CG_SHOW_NOT_V_BINOC                 0x00200000  // hide on binoc huds
+#define CG_SHOW_NOT_V_SNIPER                0x00400000  // hide on sniper huds
+#define CG_SHOW_NOT_V_SNOOPER               0x00800000  // hide on snooper huds
+#define CG_SHOW_NOT_V_FGSCOPE               0x01000000  // hide on fg42 scope huds
+#define CG_SHOW_NOT_V_CLEAR                 0x02000000  // hide on normal, full-view huds
 
 #define CG_SHOW_2DONLY                      0x10000000
 
@@ -238,7 +237,6 @@ If you have questions concerning this license or the applicable additional terms
 #define CG_2NDPLACE                 68
 #define CG_CAPTURES                 69
 
-// (SA) adding
 #define CG_PLAYER_AMMOCLIP_VALUE    70
 #define CG_PLAYER_WEAPON_ICON2D     71
 #define CG_CURSORHINT               72
@@ -251,7 +249,7 @@ If you have questions concerning this license or the applicable additional terms
 #define CG_AREA_HOLDABLE            79
 #define CG_CURSORHINT_STATUS        80  // like 'health' bar when pointing at a func_explosive
 #define CG_PLAYER_WEAPON_STABILITY  81  // shows aimSpreadScale value
-#define CG_NEWMESSAGE               82  // 'you got mail!'	//----(SA)	added
+#define CG_NEWMESSAGE               82  // 'you got mail!'
 
 #define UI_OWNERDRAW_BASE           200
 #define UI_HANDICAP                 200
@@ -315,9 +313,7 @@ If you have questions concerning this license or the applicable additional terms
 #define UI_MENUMODEL                257
 #define UI_SAVEGAME_SHOT            258
 
-// NERVE - SMF
 #define UI_LIMBOCHAT                259
-// -NERVE - SMF
 
 #define UI_LEVELSHOT                260
 #define UI_LOADSTATUSBAR            261
@@ -358,7 +354,7 @@ If you have questions concerning this license or the applicable additional terms
 #define VOICECHAT_KILLGAUNTLET      "kill_gauntlet"      // I just killed you with the gauntlet
 #define VOICECHAT_PRAISE            "praise"             // you did something good
 
-// NERVE - SMF - wolf multiplayer class/item selection mechanism
+// wolf multiplayer class/item selection mechanism
 #define WM_START_SELECT         0
 
 #define WM_SELECT_TEAM          1
@@ -391,4 +387,3 @@ If you have questions concerning this license or the applicable additional terms
 
 #define WM_PINEAPPLE_GRENADE    11
 #define WM_STICK_GRENADE        12
-// -NERVE - SMF
