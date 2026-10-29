@@ -537,6 +537,12 @@ const char *M_Main_Key(int key)
 void M_Menu_Main_f(void)
 {
     M_PushMenu(M_Main_Draw, M_Main_Key);
+    // A disconnect stops the level music; bring back the menu theme so the
+    // main menu is not left silent.
+    if (cls.state == ca_disconnected)
+    {
+        S_MusicPlay("grabbag.mp3", true);
+    }
 }
 
 /*
