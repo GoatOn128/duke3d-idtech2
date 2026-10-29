@@ -450,6 +450,19 @@ IN_ClearStates
 */
 void IN_ClearStates(void)
 {
+    int i;
+
+    // Menus call this while the mouse is out of use, and the client command
+    // loop calls it every frame outside gameplay. Release buttons that are
+    // still down so their up events are not lost; Key_Event would otherwise
+    // count every later click as an autorepeat and swallow it.
+    for (i = 0; i < mouse_buttons; i++)
+    {
+        if (mouse_oldbuttonstate & (1 << i))
+        {
+            Key_Event(K_MOUSE1 + i, false, 0);
+        }
+    }
     mx_accum = 0;
     my_accum = 0;
     mouse_oldbuttonstate = 0;
