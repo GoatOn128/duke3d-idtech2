@@ -135,11 +135,16 @@ from BFG are noted at the spots where they happen.
 // and pushes the default window past the screen size
 #define VID_MAX_MODES 256
 #define VID_MAX_DISPLAYS 16
+// one entry now holds every rate the display offers at its size, so this
+// must cover the whole rate spread of a TV (60 down to 24)
+#define VID_MAX_RATES 16
 
 typedef struct vidmode_s
 {
     int width, height;
     int displayHz;
+    int rates[VID_MAX_RATES];
+    int numRates;
 } vidmode_t;
 
 static vidmode_t vid_modes[VID_MAX_MODES];
@@ -239,17 +244,42 @@ static qboolean VID_FindResolution(int width, int height, int *index)
     return false;
 }
 
+// 0 = rate not discovered (the windowed-only standard sizes carry it),
+// and the rate list never stores it
+static void VID_AddRate(vidmode_t *mode, int hz)
+{
+    int i;
+
+    if (hz <= 0)
+    {
+        return;
+    }
+    for (i = 0; i < mode->numRates; i++)
+    {
+        if (mode->rates[i] == hz)
+        {
+            return;
+        }
+    }
+    if (mode->numRates < VID_MAX_RATES)
+    {
+        mode->rates[mode->numRates++] = hz;
+    }
+}
+
 static void VID_AddMode(int width, int height, int hz)
 {
     int index;
 
-    // same resolution again: keep the fastest refresh rate on the entry
+    // same resolution again: keep the fastest rate on the entry and every
+    // rate the display offers at this size so the menu can pick one
     if (VID_FindResolution(width, height, &index))
     {
         if (hz > vid_modes[index].displayHz)
         {
             vid_modes[index].displayHz = hz;
         }
+        VID_AddRate(&vid_modes[index], hz);
         return;
     }
     if (vid_num_modes >= VID_MAX_MODES)
@@ -259,6 +289,8 @@ static void VID_AddMode(int width, int height, int hz)
     vid_modes[vid_num_modes].width = width;
     vid_modes[vid_num_modes].height = height;
     vid_modes[vid_num_modes].displayHz = hz;
+    vid_modes[vid_num_modes].numRates = 0;
+    VID_AddRate(&vid_modes[vid_num_modes], hz);
     vid_num_modes++;
 }
 
@@ -295,11 +327,11 @@ static int VID_ModeCompare(const void *a, const void *b)
 VID_BuildModeList
 
 Builds the mode list for one display. This is the SDL version of
-R_GetModeListForDisplay from Doom 3 BFG. Unlike BFG we keep one entry per
-resolution with its fastest refresh rate (BFG only allowed 60 and 120
-hz for its target displays; vid_displayrefresh can force another rate)
-and allow modes down to 480 lines so the classic 640x480 default stays
-selectable.
+R_GetModeListForDisplay from Doom 3 BFG. Unlike BFG we keep one entry
+per resolution with every refresh rate the display offers at that size
+(BFG only allowed 60 and 120 hz for its target displays), so the video
+menu can set the rate independently of the resolution through
+vid_displayrefresh.
 ============
 */
 static void VID_BuildModeList(int display)
@@ -333,11 +365,18 @@ static void VID_BuildModeList(int display)
     {
         for (i = 0; i < count; i++)
         {
-            if (SDL_BITSPERPIXEL(modes[i]->format) != 32)
+            /* The RGB888 family is what OpenGL wants, but it reports 24
+               bits per pixel (SDL_BITSPERPIXEL) stored in 4 bytes, so the
+               old 32-bit check rejected every mode a TV offers and left
+               only the windowed fallback sizes in the list; ask for the
+               4-byte storage instead. Sizes go down to 320x200 because
+               the classic low resolutions are real fullscreen modes on
+               TV display chains. */
+            if (SDL_BYTESPERPIXEL(modes[i]->format) != 4)
             {
                 continue;
             }
-            if (modes[i]->h < 480)
+            if (modes[i]->w < 320 || modes[i]->h < 200)
             {
                 continue;
             }
@@ -448,6 +487,28 @@ void VID_ModeData(int mode, int *width, int *height, int *displayHz)
     *width = vid_modes[mode].width;
     *height = vid_modes[mode].height;
     *displayHz = vid_modes[mode].displayHz;
+}
+
+int VID_NumRefreshRates(int mode)
+{
+    if (mode < 0 || mode >= vid_num_modes)
+    {
+        return 0;
+    }
+    return vid_modes[mode].numRates;
+}
+
+int VID_RefreshRate(int mode, int index)
+{
+    if (mode < 0 || mode >= vid_num_modes)
+    {
+        return 0;
+    }
+    if (index < 0 || index >= vid_modes[mode].numRates)
+    {
+        return 0;
+    }
+    return vid_modes[mode].rates[index];
 }
 
 int VID_NumDisplays(void)

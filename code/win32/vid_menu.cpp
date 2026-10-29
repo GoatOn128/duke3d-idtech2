@@ -1,7 +1,9 @@
-/* Duke video settings for the supported OpenGL renderer. The mode and
-display entries come from the lists the client discovers in sdl_vid.cpp
-(the Doom 3 BFG model), so what the spinner shows is what the display can
-actually do. */
+/* Duke video settings for the supported OpenGL renderer. The mode, refresh
+rate and display entries come from the lists the client discovers in
+sdl_vid.cpp (the Doom 3 BFG model), so what the spinners show is what the
+display can actually do. Picking the refresh rate separately from the
+resolution is a deliberate deviation from BFG, where the rate is baked
+into the mode entry. */
 #include "../client/client.h"
 #include "../client/qmenu.h"
 
@@ -12,9 +14,10 @@ extern const char *Default_MenuKey(menuframework_s *menu, int key);
 with VID_MAX_MODES in sdl_vid.cpp so the spinner can show every entry. */
 #define MENU_MAX_MODES 256
 #define MENU_MAX_DISPLAYS 16
+#define MENU_MAX_RATES 16
 
 static menuframework_s video_menu;
-static menulist_s mode, fullscreen, sync, display;
+static menulist_s mode, refresh, fullscreen, sync, display;
 static menuslider_s screen_size, brightness, texture_quality;
 static menuaction_s defaults, apply, cancel;
 
@@ -23,11 +26,16 @@ static const char *yes_no[] = {"NO", "YES", NULL};
 static char mode_names[MENU_MAX_MODES][32];
 static const char *mode_choices[MENU_MAX_MODES + 1];
 static const char *display_choices[MENU_MAX_DISPLAYS + 1];
+// refresh spinner: "auto" plus one entry per rate of the selected mode
+static char refresh_names[MENU_MAX_RATES][16];
+static const char *refresh_choices[MENU_MAX_RATES + 2];
+static int refresh_values[MENU_MAX_RATES + 1];
 
 /*
 BuildModeList
 
-One label per width/height/hz triple of the discovered mode list.
+One label per resolution of the discovered mode list. The refresh rate
+has its own spinner, so the label stays width x height.
 */
 static void BuildModeList(void)
 {
@@ -42,15 +50,7 @@ static void BuildModeList(void)
     for (i = 0; i < count; i++)
     {
         VID_ModeData(i, &width, &height, &hz);
-        // standard windowed sizes have no discovered rate, so show no hz
-        if (hz > 0)
-        {
-            Com_sprintf(mode_names[i], sizeof(mode_names[i]), "%i x %i @ %iHz", width, height, hz);
-        }
-        else
-        {
-            Com_sprintf(mode_names[i], sizeof(mode_names[i]), "%i x %i", width, height);
-        }
+        Com_sprintf(mode_names[i], sizeof(mode_names[i]), "%i x %i", width, height);
         mode_choices[i] = mode_names[i];
     }
     mode_choices[count] = NULL;
@@ -70,6 +70,51 @@ static void BuildDisplayList(void)
         display_choices[i] = VID_DisplayName(i);
     }
     display_choices[count] = NULL;
+}
+
+/*
+BuildRefreshList
+
+Fills the refresh spinner for the resolution the mode spinner sits on:
+"auto" (use the fastest rate the entry carries) plus every rate the
+display offers at that size. A rate picked on another resolution that
+this one cannot do falls back to auto.
+*/
+static void BuildRefreshList(int modeIndex)
+{
+    int i;
+    int count = VID_NumRefreshRates(modeIndex);
+
+    if (count > MENU_MAX_RATES)
+    {
+        count = MENU_MAX_RATES;
+    }
+    refresh_choices[0] = "AUTO";
+    refresh_values[0] = 0;
+    for (i = 0; i < count; i++)
+    {
+        refresh_values[i + 1] = VID_RefreshRate(modeIndex, i);
+        Com_sprintf(refresh_names[i], sizeof(refresh_names[i]), "%i HZ", refresh_values[i + 1]);
+        refresh_choices[i + 1] = refresh_names[i];
+    }
+    refresh_choices[count + 1] = NULL;
+
+    refresh.curvalue = 0;
+    for (i = 1; i <= count; i++)
+    {
+        if (refresh_values[i] == (int)Cvar_VariableValue("vid_displayrefresh"))
+        {
+            refresh.curvalue = i;
+            break;
+        }
+    }
+}
+
+// the mode spinner moved: rebuild the refresh list for the new resolution
+static void ModeChanged(void *self)
+{
+    (void)self;
+    BuildRefreshList(mode.curvalue);
 }
 
 static int ClampMode(int value)
@@ -109,6 +154,7 @@ static int ClampDisplay(int value)
 static void ResetDefaults(void *unused)
 {
     mode.curvalue = ClampMode(3);
+    BuildRefreshList(mode.curvalue);
     fullscreen.curvalue = 0;
     display.curvalue = ClampDisplay(0);
     screen_size.curvalue = 10;
@@ -123,11 +169,14 @@ static void ApplyChanges(void *unused)
         Cvar_VariableValue("gl_mode") != mode.curvalue ||
         Cvar_VariableValue("vid_fullscreen") != fullscreen.curvalue ||
         Cvar_VariableValue("vid_display") != display.curvalue ||
+        (fullscreen.curvalue &&
+         Cvar_VariableValue("vid_displayrefresh") != refresh_values[refresh.curvalue]) ||
         Cvar_VariableValue("gl_picmip") != 3 - texture_quality.curvalue ||
         fabsf(Cvar_VariableValue("vid_gamma") - (1.8f - brightness.curvalue / 10)) > 0.01f;
     Cvar_SetValue("gl_mode", mode.curvalue);
     Cvar_SetValue("vid_fullscreen", fullscreen.curvalue);
     Cvar_SetValue("vid_display", display.curvalue);
+    Cvar_SetValue("vid_displayrefresh", refresh_values[refresh.curvalue]);
     Cvar_SetValue("viewsize", screen_size.curvalue * 10);
     Cvar_SetValue("vid_gamma", 1.8f - brightness.curvalue / 10);
     Cvar_SetValue("gl_picmip", 3 - texture_quality.curvalue);
@@ -139,8 +188,8 @@ static void ApplyChanges(void *unused)
     {
         Cvar_Get("vid_ref", "gl", CVAR_ARCHIVE)->modified = true;
     }
-    Com_Printf("Duke video applied: mode %d fullscreen %d display %d brightness %.1f quality %.0f sync %d\n",
-               mode.curvalue, fullscreen.curvalue, display.curvalue,
+    Com_Printf("Duke video applied: mode %d refresh %d fullscreen %d display %d brightness %.1f quality %.0f sync %d\n",
+               mode.curvalue, refresh_values[refresh.curvalue], fullscreen.curvalue, display.curvalue,
                1.8f - brightness.curvalue / 10, texture_quality.curvalue, sync.curvalue);
     M_PopMenu();
 }
@@ -150,7 +199,8 @@ static void CancelChanges(void *unused)
     M_PopMenu();
 }
 
-static void AddChoice(menulist_s *item, const char *name, const char **choices, int value)
+static void AddChoice(menulist_s *item, const char *name, const char **choices, int value,
+                      void (*callback)(void *))
 {
     memset(item, 0, sizeof(*item));
     item->generic.type = MTYPE_SPINCONTROL;
@@ -158,6 +208,7 @@ static void AddChoice(menulist_s *item, const char *name, const char **choices, 
     item->generic.y = video_menu.nitems * 14;
     item->itemnames = choices;
     item->curvalue = value;
+    item->generic.callback = callback;
     Menu_AddItem(&video_menu, item);
 }
 
@@ -191,14 +242,17 @@ void VID_MenuInit(void)
     video_menu.y = viddef.height / 2 - 65;
     BuildModeList();
     BuildDisplayList();
-    AddChoice(&mode, "VIDEO MODE", mode_choices, ClampMode(Cvar_VariableValue("gl_mode")));
-    AddChoice(&fullscreen, "FULLSCREEN", yes_no, !!Cvar_VariableValue("vid_fullscreen"));
-    AddChoice(&display, "DISPLAY", display_choices, ClampDisplay(Cvar_VariableValue("vid_display")));
+    mode.curvalue = ClampMode(Cvar_VariableValue("gl_mode"));
+    BuildRefreshList(mode.curvalue);
+    AddChoice(&mode, "VIDEO MODE", mode_choices, mode.curvalue, ModeChanged);
+    AddChoice(&refresh, "REFRESH RATE", refresh_choices, refresh.curvalue, NULL);
+    AddChoice(&fullscreen, "FULLSCREEN", yes_no, !!Cvar_VariableValue("vid_fullscreen"), NULL);
+    AddChoice(&display, "DISPLAY", display_choices, ClampDisplay(Cvar_VariableValue("vid_display")), NULL);
     AddSlider(&screen_size, "SCREEN SIZE", 3, 12, Cvar_VariableValue("viewsize") / 10);
     AddSlider(&brightness, "BRIGHTNESS", 5, 13,
               roundf((1.8f - Cvar_VariableValue("vid_gamma")) * 10));
     AddSlider(&texture_quality, "TEXTURE QUALITY", 0, 3, 3 - Cvar_VariableValue("gl_picmip"));
-    AddChoice(&sync, "SYNC EVERY FRAME", yes_no, !!Cvar_VariableValue("gl_finish"));
+    AddChoice(&sync, "SYNC EVERY FRAME", yes_no, !!Cvar_VariableValue("gl_finish"), NULL);
     AddAction(&defaults, "RESET TO DEFAULTS", ResetDefaults);
     AddAction(&apply, "APPLY CHANGES", ApplyChanges);
     AddAction(&cancel, "CANCEL", CancelChanges);

@@ -44,5 +44,7 @@ const char *VID_MenuKey( int );
 // display and mode discovery, implemented in sdl/sdl_vid.cpp
 int		VID_NumModes( void );
 void	VID_ModeData( int mode, int *width, int *height, int *displayHz );
+int		VID_NumRefreshRates( int mode );
+int		VID_RefreshRate( int mode, int index );
 int		VID_NumDisplays( void );
 const char *VID_DisplayName( int display );
