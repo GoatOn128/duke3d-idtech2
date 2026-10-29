@@ -24,7 +24,8 @@ three.
     `dnplayermove`, `dnmath`, `dnpcx`, `dnanimation`, `dnzrange`.
   - `ref_gl/` — the OpenGL renderer module: `gl_image`, `gl_model`,
     `gl_rsurf`, `gl_rmain`, `gl_light`, `gl_mesh`, `gl_warp`, `gl_draw`, the GLSL shader
-    backend (`gl_shaders`), the SDL GL context (`glimp_sdl`), and the
+    backend (`gl_shaders`), the SDL GL context and Doom 3 BFG display/fullscreen
+    handling (`glimp_sdl`), and the
     Duke-specific layer `dnrender.cpp`.
   - `sound/` — OpenAL backend (`sndopenal`), music (`sndmusic`, decoded by
     `third-party/mp3` via dr_mp3), ambience.
@@ -34,10 +35,11 @@ three.
   - `cgame/` — the `cgamex86` client game module (weapon view and weapon
     animation).
   - `sdl/` — the SDL3 platform layer: entry point, message pump and events
-    (`sdl_sys`), input and joystick (`sdl_input`), video and the refresh
-    driver (`sdl_vid`).
+    (`sdl_sys`), input and joystick (`sdl_input`), video, display and mode discovery, the
+    refresh driver (`sdl_vid`).
   - `win32/` — the remaining Windows pieces: sockets (`net_wins`), console
-    helper (`conproc`), shared timing (`q_shwin`), video menu (`vid_menu`),
+    helper (`conproc`), shared timing (`q_shwin`), the dynamic video menu
+    (`vid_menu`),
     resources (`dnicon.rc`, `q2.ico`).
   - `third-party/` — vendored dependencies, nothing is fetched online:
     `openal-soft` (prebuilt import lib + `soft_oal.dll`, LGPL, linked
@@ -158,6 +160,8 @@ assuming a build ran against it.
 | Use/interaction | `game/dnuse.cpp` |
 | Weapons | `game/dnweapons.cpp`, `cgame/dnweaponview.cpp`, `dnweaponanim.cpp` |
 | Renderer | `ref_gl/gl_rmain.cpp`, `gl_rsurf.cpp`, `dnrender.cpp` |
+| Video modes and displays | `sdl/sdl_vid.cpp`, `ref_gl/glimp_sdl.cpp`, `win32/vid_menu.cpp` |
+| View fov and aspect | `client/cl_view.cpp` |
 | Textures/images | `ref_gl/gl_image.cpp`, `qcommon/dnpcx.cpp` |
 | Sound | `sound/sndopenal.cpp`, `sndmusic.cpp`, `third-party/mp3/` |
 | Input | `sdl/sdl_input.cpp`, `client/keys.cpp` |

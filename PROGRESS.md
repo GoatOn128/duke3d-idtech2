@@ -52,6 +52,14 @@ Legend:
       vendored SDL3 links into `duke3d` and `ref_gl` and ships as
       `SDL3.dll`; the RDTSC timer, CD audio check, alt-tab hooks and other
       pre-Win7 leftovers are removed
+- [x] Port the Doom 3 BFG display handling and fov: `sdl/sdl_vid.cpp`
+      discovers the displays and their fullscreen modes at runtime,
+      `ref_gl/glimp_sdl.cpp` chooses borderless desktop or exclusive
+      fullscreen with refresh-rate matching (`gl_displays` command),
+      `win32/vid_menu.cpp` builds the video menu from the live lists,
+      and `client/cl_view.cpp` widens the fov for widescreen instead
+      of stretching the view (`vid_display`, `vid_displayrefresh`,
+      custom `gl_mode -1`, `r_aspectRatio`)
 
 ## Engine milestones
 
