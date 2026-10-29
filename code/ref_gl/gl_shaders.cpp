@@ -554,6 +554,9 @@ void RB_End(void)
     glUniform1f(r_loc_alpha_threshold, rb_alpha_test ? 0.666f : -1.0f);
 
     glActiveTexture(GL_TEXTURE0);
+    // Keep the unit cache honest; GL_SelectTexture relies on it to skip
+    // redundant active-texture calls.
+    gl_state.currenttmu = 0;
     if (!rb_textured)
     {
         // Keep the bind cache honest so a later GL_Bind still takes effect.
