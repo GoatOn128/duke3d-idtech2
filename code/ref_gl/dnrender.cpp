@@ -23,17 +23,17 @@ typedef void(CALLBACK *dn_glu_callback)(void);
 #define GLU_TESS_WINDING_RULE 100140
 #define GLU_TESS_WINDING_ODD 100130
 extern "C" {
-GLUtesselator *gluNewTess(void);
-void gluTessCallback(GLUtesselator *tess, int which, dn_glu_callback CallBackFunc);
-void gluTessProperty(GLUtesselator *tess, int which, double data);
-void gluTessNormal(GLUtesselator *tess, double x, double y, double z);
-void gluTessVertex(GLUtesselator *tess, GLdouble *location, void *data);
-void gluTessBeginPolygon(GLUtesselator *tess, void *data);
-void gluTessBeginContour(GLUtesselator *tess);
-void gluTessEndContour(GLUtesselator *tess);
-void gluTessEndPolygon(GLUtesselator *tess);
-void gluDeleteTess(GLUtesselator *tess);
-const GLubyte *gluErrorString(GLenum error);
+GLUtesselator *WINAPI gluNewTess(void);
+void WINAPI gluTessCallback(GLUtesselator *tess, int which, dn_glu_callback CallBackFunc);
+void WINAPI gluTessProperty(GLUtesselator *tess, int which, double data);
+void WINAPI gluTessNormal(GLUtesselator *tess, double x, double y, double z);
+void WINAPI gluTessVertex(GLUtesselator *tess, GLdouble *location, void *data);
+void WINAPI gluTessBeginPolygon(GLUtesselator *tess, void *data);
+void WINAPI gluTessBeginContour(GLUtesselator *tess);
+void WINAPI gluTessEndContour(GLUtesselator *tess);
+void WINAPI gluTessEndPolygon(GLUtesselator *tess);
+void WINAPI gluDeleteTess(GLUtesselator *tess);
+const GLubyte *WINAPI gluErrorString(GLenum error);
 }
 
 dn_map_t r_duke_map;
