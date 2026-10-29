@@ -936,7 +936,7 @@ void Master_Heartbeat(void)
 Master_Shutdown
 
 Informs all masters that this server is going down
-================
+=================
 */
 void Master_Shutdown(void)
 {
@@ -1078,8 +1078,8 @@ SV_FinalMessage
 
 Used by SV_Shutdown to send a final message to all
 connected clients before the server goes down.  The messages are sent immediately,
-not just stuck on the outgoing message list, because the server is going to
-totally exit after returning from this function.
+not just stuck on the outgoing message list, because the server is going
+to totally exit after returning from this function.
 ==================
 */
 void SV_FinalMessage(char *message, qboolean reconnect)
