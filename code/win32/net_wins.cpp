@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "winsock.h"
 #include "wsipx.h"
 #include "../qcommon/qcommon.h"
+#include "../qcommon/dnthreads.h"
 
 #define MAX_LOOPBACK 4
 
@@ -40,6 +41,9 @@ typedef struct
 cvar_t *net_shownet;
 static cvar_t *noudp;
 static cvar_t *noipx;
+
+// the loopback buffers are shared by the client and the server thread
+static DN_SysMutex *net_loopMutex;
 
 loopback_t loopbacks[2];
 int ip_sockets[2];
@@ -174,7 +178,7 @@ qboolean NET_CompareBaseAdr(netadr_t a, netadr_t b)
 
 char *NET_AdrToString(netadr_t a)
 {
-    static char s[64];
+    static thread_local char s[64]; // per-thread scratch, callers may nest
 
     if (a.type == NA_LOOPBACK)
     {
@@ -324,6 +328,15 @@ qboolean NET_GetLoopPacket(netsrc_t sock, netadr_t *net_from, sizebuf_t *net_mes
     int i;
     loopback_t *loop;
 
+    if (!net_loopMutex)
+    {
+        return false;
+    }
+
+    // the client and the server frame run on different threads, so guard
+    // the shared loopback buffers while they are used
+    DN_ScopedCriticalSection lock(*net_loopMutex);
+
     loop = &loopbacks[sock];
 
     if (loop->send - loop->get > MAX_LOOPBACK)
@@ -350,6 +363,13 @@ void NET_SendLoopPacket(netsrc_t sock, int length, void *data, netadr_t to)
 {
     int i;
     loopback_t *loop;
+
+    if (!net_loopMutex)
+    {
+        return;
+    }
+
+    DN_ScopedCriticalSection lock(*net_loopMutex);
 
     loop = &loopbacks[sock ^ 1];
 
@@ -865,6 +885,9 @@ void NET_Init(void)
     noipx = Cvar_Get("noipx", "0", CVAR_NOSET);
 
     net_shownet = Cvar_Get("net_shownet", "0", 0);
+
+    // create the lock that guards the shared loopback buffers
+    net_loopMutex = new DN_SysMutex();
 }
 
 /*
