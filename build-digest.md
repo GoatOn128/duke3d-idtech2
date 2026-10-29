@@ -1,12 +1,12 @@
 # Build digest
 
-- Commit: `6183dce80a64d4bc1e212009a1634a3d60836fd9`
+- Commit: `5648193ec4ae53992431913a257ff889081efa4a`
 - Branch: `port/bfg-threadsafe-print`
-- Result: configure exit: 0, build exit: 1
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40885936815
-- Generated: 2026-10-29 13:52:54 UTC
+- Result: configure exit: 0, build exit: 0
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40886154072
+- Generated: 2026-10-29 13:54:40 UTC
 
-Errors: **6**, warnings: **0**.
+Errors: **0**, warnings: **0**.
 
 ## CMake errors
 
@@ -18,50 +18,7 @@ No tool-level errors (lld-link, ninja, ...) in the log.
 
 ## Errors
 
-Showing the first 6 of 6 error(s).
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client\../qcommon/qcommon.h(21),10`: 'q_shared.h' file not found
-
-  ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_local.h:31:
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client/ref.h:21:
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client\../qcommon/qcommon.h(21),10`: 'q_shared.h' file not found
-
-  ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_local.h:31:
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client/ref.h:21:
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client\../qcommon/qcommon.h(21),10`: 'q_shared.h' file not found
-
-  ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_local.h:31:
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client/ref.h:21:
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client\../qcommon/qcommon.h(21),10`: 'q_shared.h' file not found
-
-  ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_local.h:31:
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client/ref.h:21:
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client\../qcommon/qcommon.h(21),10`: 'q_shared.h' file not found
-
-  ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_local.h:31:
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client/ref.h:21:
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client\../qcommon/qcommon.h(21),10`: 'q_shared.h' file not found
-
-  ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_local.h:31:
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client/ref.h:21:
-  ```
-
+No errors in the log.
 
 ## Warnings
 
@@ -70,35 +27,35 @@ No warnings in the log.
 ## Log tail
 
 ```
-FAILED: [code=1] CMakeFiles/ref_gl.dir/ref_gl/gl_model.cpp.obj 
-"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DBUILDING_REF_GL -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dref_gl_EXPORTS -ID:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\glad\include -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\sdl3\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj -clang:-MFCMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj.d /FoCMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj /FdCMakeFiles\ref_gl.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_model.cpp
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_model.cpp:22:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_local.h:31:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client/ref.h:21:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client\../qcommon/qcommon.h(21,10): fatal error: 'q_shared.h' file not found
-   21 | #include "q_shared.h"
-      |          ^~~~~~~~~~~~
-1 error generated.
-[5/148] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj
-FAILED: [code=1] CMakeFiles/ref_gl.dir/ref_gl/gl_draw.cpp.obj 
-"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DBUILDING_REF_GL -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dref_gl_EXPORTS -ID:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\glad\include -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\sdl3\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj -clang:-MFCMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj.d /FoCMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj /FdCMakeFiles\ref_gl.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_draw.cpp
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_draw.cpp:23:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_local.h:31:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client/ref.h:21:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client\../qcommon/qcommon.h(21,10): fatal error: 'q_shared.h' file not found
-   21 | #include "q_shared.h"
-      |          ^~~~~~~~~~~~
-1 error generated.
-[6/148] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
-FAILED: [code=1] CMakeFiles/ref_gl.dir/ref_gl/gl_image.cpp.obj 
-"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DBUILDING_REF_GL -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dref_gl_EXPORTS -ID:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\glad\include -imsvcD:\a\duke3d-idtech2\duke3d-idtech2\code\third-party\sdl3\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj -clang:-MFCMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj.d /FoCMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj /FdCMakeFiles\ref_gl.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_image.cpp
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_image.cpp:21:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\gl_local.h:31:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client/ref.h:21:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ref_gl\../client\../qcommon/qcommon.h(21,10): fatal error: 'q_shared.h' file not found
-   21 | #include "q_shared.h"
-      |          ^~~~~~~~~~~~
-1 error generated.
-ninja: build stopped: subcommand failed.
+[119/148] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
+[120/148] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
+[121/148] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+[122/148] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
+[123/148] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
+[124/148] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
+[125/148] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
+[126/148] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
+[127/148] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
+[128/148] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
+[129/148] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
+[130/148] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
+[131/148] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
+[132/148] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
+[133/148] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
+[134/148] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
+[135/148] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
+[136/148] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
+[137/148] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
+[138/148] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnthreads.cpp.obj
+[139/148] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
+[140/148] Building CXX object CMakeFiles\duke3d.dir\qcommon\dneditfield.cpp.obj
+[141/148] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnconsolehistory.cpp.obj
+[142/148] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj
+[143/148] Building RC object CMakeFiles\duke3d.dir\win32\dnicon.rc.res
+[144/148] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_vid.cpp.obj
+[145/148] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_sys.cpp.obj
+[146/148] Building C object CMakeFiles\convertgrp.dir\tools\convertGRP\convert_grp.c.obj
+[147/148] Linking C executable convertgrp.exe
+[148/148] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll; Shipping SDL3.dll
 ```
 
