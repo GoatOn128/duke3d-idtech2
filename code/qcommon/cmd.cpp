@@ -802,6 +802,26 @@ char *Cmd_CompleteCommand (char *partial)
 
 /*
 ============
+Cmd_CommandCompletion
+
+BFG style completion support: every command and alias name is passed
+to the callback, which does its own prefix matching.
+============
+*/
+void Cmd_CommandCompletion(void (*callback)(const char *command))
+{
+	cmd_function_t	*cmd;
+	cmdalias_t		*a;
+
+	for (cmd = cmd_functions ; cmd ; cmd = cmd->next)
+		callback(cmd->name);
+	for (a = cmd_alias ; a ; a = a->next)
+		callback(a->name);
+}
+
+
+/*
+============
 Cmd_ExecuteString
 
 A complete command line has been parsed, so try to execute it

@@ -230,3 +230,32 @@ cost anything as long as this file and PROGRESS.md are current.
   implementation, and the per-frame sound updates already run once per
   render frame after the phase 2 uncap. A BFG-style dedicated sound
   thread would duplicate existing threading, so no code was added.
+
+- 2026-10-29: BFG console port, phase A (edit field, persistent history,
+  cycling tab completion), on branch `port/bfg-console` (CI green, 0
+  errors, 0 warnings): qcommon/dneditfield.h/.cpp ports the BFG framework
+  EditField (insert/overstrike typing, ctrl-a/e/h/v/c control codes,
+  shortest-common-prefix completion that keeps trailing arguments, tab
+  cycling through the matches, draw through a caller-supplied character
+  callback); qcommon/dnconsolehistory.h/.cpp ports ConsoleHistory
+  (64-entry ring with command-prompt up/down pointers, consoleHistory.txt
+  persisted in the gamedir, history/clearhistory commands). New
+  Cmd_CommandCompletion and Cvar_CommandCompletion enumerate commands,
+  aliases and cvars for the completion callbacks. client/console.cpp:
+  Con_KeyDownEvent and Con_Scroll replace the Key_Console line editor
+  (200 ms first repeat, 100 ms follow-up, keydown polling), Con_DrawInput
+  draws the field, Key_ClearTyping clears it, Con_Clear_f jumps to the
+  end like the BFG Clear(). client/keys.cpp: the key_lines/key_linepos/
+  edit_line/history_line ring and CompleteCommand are gone, Key_Event
+  routes key_game/key_console to Con_KeyDownEvent, consolekeys gained
+  K_DEL/K_MWHEELUP/K_MWHEELDOWN, and the autorepeat filter only passes
+  K_BACKSPACE/K_PAUSE (scroll repeats run on the Con_Scroll timer).
+  Q2 merges key and char events, so the split is: printable -> CharEvent,
+  ctrl+letter -> control codes, the rest -> field KeyDownEvent; backspace
+  maps to CharEvent(K_BACKSPACE), which the field treats as ctrl-h.
+  Dropped on purpose: BFG ArgCompletion (no argument completion
+  infrastructure in Q2), the con_speed animation (scr_conspeed already
+  animates the Q2 console), and the autocomplete highlight bar
+  (DrawFill is a palette int, no alpha). License note: the two new
+  qcommon modules derive from the BFG framework EditField/ConsoleHistory
+  (GPLv3), ported from references/doom3-bfg, which is not compiled.

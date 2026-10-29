@@ -23,7 +23,9 @@ three.
     `dntransport` (subst/travel moves), `dncon` (CON scripting),
     `dnplayermove`, `dnmath`, `dnpcx`, `dnanimation`, `dnzrange`, plus
     the Doom 3 BFG threading port: `dnthreads` (thread, signal, mutex
-    and atomic primitives) and `dnjobs` (parallel job lists).
+    and atomic primitives) and `dnjobs` (parallel job lists), plus the BFG console
+    port: `dneditfield` (console edit field) and `dnconsolehistory`
+    (persistent console history).
   - `ref_gl/` — the OpenGL renderer module: `gl_image`, `gl_model`,
     `gl_rsurf`, `gl_rmain`, `gl_light`, `gl_mesh`, `gl_warp`, `gl_draw`, the GLSL shader
     backend (`gl_shaders`), the SDL GL context and Doom 3 BFG display/fullscreen
@@ -175,4 +177,5 @@ assuming a build ran against it.
 | Parallel jobs and threads | `qcommon/dnjobs.cpp`, `qcommon/dnthreads.cpp` |
 | Frame stepping and rate caps | `qcommon/common.cpp` (`Qcommon_Frame`), `client/cl_main.cpp` (`CL_Frame`) |
 | Parallel mesh builds | `ref_gl/dnrender.cpp`, `qcommon/dnjobs.cpp` (`DN_JobsParallelFor`) |
+| Console edit field and history | `qcommon/dneditfield.cpp`, `qcommon/dnconsolehistory.cpp`, `client/console.cpp` |
 | CI behavior | `.github/workflows/build-windows.yml` |

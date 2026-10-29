@@ -58,7 +58,9 @@ set(engine_sources
     qcommon/dnmap.cpp
     qcommon/dnthreads.cpp
     qcommon/dnjobs.cpp
-    qcommon/dntransport.cpp)
+    qcommon/dntransport.cpp
+    qcommon/dneditfield.cpp
+    qcommon/dnconsolehistory.cpp)
 
 # The executable icon is the in-repo Quake 2 icon, compiled unconditionally.
 list(APPEND engine_sources win32/dnicon.rc)

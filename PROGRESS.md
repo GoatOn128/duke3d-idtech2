@@ -83,6 +83,15 @@ Legend:
       implementation and the per-frame sound updates already follow the
       render rate, so a BFG-style dedicated sound thread would duplicate
       existing threading
+- [x] Port the BFG console edit field, persistent history and
+      cycling tab completion: `qcommon/dneditfield.cpp` (the BFG
+      EditField port: insert/overstrike typing, shortest common prefix
+      completion that keeps trailing arguments, tab cycling through
+      the matches), `qcommon/dnconsolehistory.cpp` (64-entry history
+      ring persisted as `consoleHistory.txt` in the gamedir,
+      `history`/`clearhistory` commands), and the BFG console key
+      handling (`Con_KeyDownEvent`/`Con_Scroll`) in
+      `client/console.cpp` replacing the `key_lines` edit ring
 
 ## Engine milestones
 

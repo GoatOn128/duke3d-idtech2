@@ -428,6 +428,9 @@ char *Cmd_CompleteCommand(char *partial);
 // attempts to match a partial command for automatic command line completion
 // returns NULL if nothing fits
 
+void Cmd_CommandCompletion(void (*callback)(const char *command));
+// BFG style completion: passes every command and alias name to the callback
+
 int Cmd_Argc(void);
 char *Cmd_Argv(int arg);
 char *Cmd_Args(void);
@@ -496,6 +499,9 @@ char *Cvar_VariableString(char *var_name);
 char *Cvar_CompleteVariable(char *partial);
 // attempts to match a partial variable name for command line completion
 // returns NULL if nothing fits
+
+void Cvar_CommandCompletion(void (*callback)(const char *command));
+// BFG style completion: passes every cvar name to the callback
 
 void Cvar_GetLatchedVars(void);
 // any CVAR_LATCHED variables that have been set will now take effect
