@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "server.h"
+#include "sv_gamethread.h"
 
 netadr_t master_adr[MAX_MASTERS]; // address of group servers
 
@@ -788,18 +789,10 @@ void SV_RunGameFrame(void)
     // don't run if paused
     if (!sv_paused->value || maxclients->value > 1)
     {
-        ge->RunFrame();
-        {
-            int i;
-            for (i = 1; i < ge->num_edicts; i++)
-            {
-                edict_t *e = EDICT_NUM(i);
-                if (e->inuse && (e->s.renderfx & RF_DUKE_WORLD))
-                {
-                    CM_DukeApplyWorldState(&e->s, false);
-                }
-            }
-        }
+        // BFG game thread port: the game tic (the game module RunFrame
+        // plus the Duke world-state apply) runs on the game thread, like
+        // idGameThread in the BFG common frame loop
+        gameThread.RunGameTic();
 
         // never get more than one tic behind
         if (sv.time < svs.realtime)
@@ -943,7 +936,7 @@ void Master_Heartbeat(void)
 Master_Shutdown
 
 Informs all masters that this server is going down
-=================
+================
 */
 void Master_Shutdown(void)
 {
@@ -1072,6 +1065,10 @@ void SV_Init(void)
 
     sv_reconnect_limit = Cvar_Get("sv_reconnect_limit", "3", CVAR_ARCHIVE);
 
+    // BFG game thread port: registers com_smp; the thread itself starts
+    // lazily on the first game tic (server/sv_gamethread.cpp)
+    gameThread.Init();
+
     SZ_Init(&net_message, net_message_buffer, sizeof(net_message_buffer));
 }
 
@@ -1081,8 +1078,8 @@ SV_FinalMessage
 
 Used by SV_Shutdown to send a final message to all
 connected clients before the server goes down.  The messages are sent immediately,
-not just stuck on the outgoing message list, because the server is going
-to totally exit after returning from this function.
+not just stuck on the outgoing message list, because the server is going to
+totally exit after returning from this function.
 ==================
 */
 void SV_FinalMessage(char *message, qboolean reconnect)
@@ -1134,6 +1131,9 @@ before Sys_Quit or Sys_Error
 */
 void SV_Shutdown(char *finalmsg, qboolean reconnect)
 {
+    // stop the game thread before the game module goes away
+    gameThread.Shutdown();
+
     if (svs.clients)
     {
         SV_FinalMessage(finalmsg, reconnect);
