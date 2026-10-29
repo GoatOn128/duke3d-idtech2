@@ -184,10 +184,12 @@ int dnMenuSource::ReadToken( pc_token_t *token ) {
         return 1;
     }
 
-    /* name */
+    /* name; the extra characters keep unquoted file paths like
+       ui/main.menu in one token instead of splitting on / and . */
     if ( ( *p >= 'a' && *p <= 'z' ) || ( *p >= 'A' && *p <= 'Z' ) || *p == '_' ) {
         while ( ( *p >= 'a' && *p <= 'z' ) || ( *p >= 'A' && *p <= 'Z' ) ||
-                ( *p >= '0' && *p <= '9' ) || *p == '_' ) {
+                ( *p >= '0' && *p <= '9' ) || *p == '_' ||
+                *p == '/' || *p == '\\' || *p == '.' ) {
             if ( len < MAX_TOKENLENGTH - 1 ) {
                 token->string[len++] = *p;
             }
