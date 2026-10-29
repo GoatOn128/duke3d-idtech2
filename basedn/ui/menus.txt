@@ -1,0 +1,19 @@
+// Duke menu list: each load line names one .menu file resolved from the
+// game data root. Modding the menus means editing these files.
+load ui/main.menu
+load ui/game_episodes.menu
+load ui/game_skills.menu
+load ui/quit.menu
+load ui/options.menu
+load ui/keys.menu
+load ui/savegame.menu
+load ui/loadgame.menu
+load ui/multiplayer.menu
+load ui/joinserver.menu
+load ui/addressbook.menu
+load ui/startserver.menu
+load ui/dmoptions.menu
+load ui/downloadoptions.menu
+load ui/playerconfig.menu
+load ui/video.menu
+load ui/credits.menu

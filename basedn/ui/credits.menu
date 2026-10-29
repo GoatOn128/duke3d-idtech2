@@ -1,0 +1,15 @@
+// Credits scroller. One fullscreen ownerdraw paints the scrolling text.
+{
+	name "credits"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onESC { play item15.wav ; close credits ; open main }
+
+	itemDef {
+		name "credits_scroll"
+		rect 0 0 640 480
+		ownerdraw 88
+		decoration
+		visible 1
+	}
+}

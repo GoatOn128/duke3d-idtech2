@@ -1,0 +1,143 @@
+// Deathmatch flags. The rows paint from the module dmflags table and
+// cycle through the ownerdraw key handler.
+{
+	name "dmoptions"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { setfocus dm_0 }
+	onESC { play item15.wav ; close dmoptions ; open startserver }
+
+	itemDef {
+		name "dm_title"
+		ownerdraw 126
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "dm_0"
+		rect 16 68 260 28
+		ownerdraw 96
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_1"
+		rect 16 100 260 28
+		ownerdraw 97
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_2"
+		rect 16 132 260 28
+		ownerdraw 98
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_3"
+		rect 16 164 260 28
+		ownerdraw 99
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_4"
+		rect 16 196 260 28
+		ownerdraw 100
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_5"
+		rect 16 228 260 28
+		ownerdraw 101
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_6"
+		rect 16 260 260 28
+		ownerdraw 102
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_7"
+		rect 16 292 260 28
+		ownerdraw 103
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_8"
+		rect 336 68 260 28
+		ownerdraw 104
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_9"
+		rect 336 100 260 28
+		ownerdraw 105
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_10"
+		rect 336 132 260 28
+		ownerdraw 106
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_11"
+		rect 336 164 260 28
+		ownerdraw 107
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_12"
+		rect 336 196 260 28
+		ownerdraw 108
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_13"
+		rect 336 228 260 28
+		ownerdraw 109
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_14"
+		rect 336 260 260 28
+		ownerdraw 110
+		visible 1
+		action { play bulithit.wav }
+	}
+
+	itemDef {
+		name "dm_value"
+		ownerdraw 111
+		decoration
+		visible 1
+	}
+}

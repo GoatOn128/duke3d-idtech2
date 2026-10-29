@@ -1,0 +1,70 @@
+// Download options.
+{
+	name "downloadoptions"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { setfocus dl_allow }
+	onESC { play item15.wav ; close downloadoptions ; open playerconfig }
+
+	itemDef {
+		name "dl_title"
+		ownerdraw 127
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "dl_allow"
+		type 11
+		text "allow downloading"
+		cvar "allow_download"
+		rect 80 64 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "dl_maps"
+		type 11
+		text "maps"
+		cvar "allow_download_maps"
+		rect 80 92 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "dl_players"
+		type 11
+		text "player models/skins"
+		cvar "allow_download_players"
+		rect 80 120 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "dl_models"
+		type 11
+		text "models"
+		cvar "allow_download_models"
+		rect 80 148 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "dl_sounds"
+		type 11
+		text "sounds"
+		cvar "allow_download_sounds"
+		rect 80 176 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+}

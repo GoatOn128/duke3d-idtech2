@@ -411,9 +411,11 @@ static int Init( void ) {
     UI_InitMemory();
     String_Init();
     Duke_MenusInit();
-    /* parsed .menu files ride behind the code-built menus; the list file is
-       optional content, so a plain miss is not an error */
+    /* the Duke menus are .menu script data now: ui/menus.txt lists the
+       files, the engine FS resolves the load lines from the game data,
+       and the runtime engine lists reach the parsed items right after */
     Menus_Load( "ui/menus.txt" );
+    Duke_MenusAttachDynamic();
     uii.Print( "Duke UI module loaded\n" );
     return 1;
 }
@@ -474,3 +476,4 @@ extern "C" __declspec( dllexport ) dn_ui_export_t *GetUIAPI( const dn_ui_import_
     exports.ConsoleCommand = ConsoleCommand;
     return &exports;
 }
+
