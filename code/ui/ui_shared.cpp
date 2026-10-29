@@ -2531,13 +2531,13 @@ void dnItem::StartCapture( int key ) {
 			scrollInfo.adjustValue = SCROLL_TIME_START;
 			scrollInfo.scrollKey = key;
 			scrollInfo.scrollDir = ( flags & WINDOW_LB_LEFTARROW ) ? qtrue : qfalse;
-			scrollInfo.this = this;
+			scrollInfo.item = this;
 			captureData = &scrollInfo;
 			captureFunc = &Scroll_ListBox_AutoFunc;
 			itemCapture = this;
 		} else if ( flags & WINDOW_LB_THUMB ) {
 			scrollInfo.scrollKey = key;
-			scrollInfo.this = this;
+			scrollInfo.item = this;
 			scrollInfo.xStart = DC->cursorx;
 			scrollInfo.yStart = DC->cursory;
 			captureData = &scrollInfo;
@@ -2551,7 +2551,7 @@ void dnItem::StartCapture( int key ) {
 		flags = Item_Slider_OverSlider( this, DC->cursorx, DC->cursory );
 		if ( flags & WINDOW_LB_THUMB ) {
 			scrollInfo.scrollKey = key;
-			scrollInfo.this = this;
+			scrollInfo.item = this;
 			scrollInfo.xStart = DC->cursorx;
 			scrollInfo.yStart = DC->cursory;
 			captureData = &scrollInfo;
@@ -6129,17 +6129,17 @@ allocate a menu, add items with AddItem, then run PostParse
 ===============
 */
 dnMenu *dnMenu::Alloc( const char *name ) {
-	dnMenu *this;
+	dnMenu *menu;
 
 	if ( menuCount >= MAX_MENUS ) {
 		return NULL;
 	}
 
-	this = &Menus[menuCount];
-	Init();
-	window.name = name;
+	menu = &Menus[menuCount];
+	menu->Init();
+	menu->window.name = name;
 	menuCount++;
-	return this;
+	return menu;
 }
 
 /*
