@@ -57,6 +57,7 @@ cvar_t *scr_graphheight;
 cvar_t *scr_graphscale;
 cvar_t *scr_graphshift;
 cvar_t *scr_drawall;
+cvar_t *com_showfps;
 
 typedef struct
 {
@@ -462,6 +463,9 @@ void SCR_Init(void)
     scr_graphscale = Cvar_Get("graphscale", "1", 0);
     scr_graphshift = Cvar_Get("graphshift", "0", 0);
     scr_drawall = Cvar_Get("scr_drawall", "0", 0);
+
+    // Doom 3 BFG edition backport: show a one-second average fps counter
+    com_showfps = Cvar_Get("com_showfps", "0", CVAR_ARCHIVE);
 
     //
     // register our commands
@@ -1412,6 +1416,41 @@ void SCR_DrawLayout(void)
 
 /*
 ==================
+SCR_DrawFPS
+
+Doom 3 BFG edition com_showfps: one-second average frame counter drawn
+in the top right corner.
+==================
+*/
+static void SCR_DrawFPS(void)
+{
+    static int fps_frames, fps_start, fps_value;
+    char text[16];
+    int now = cls.realtime;
+
+    if (!com_showfps->value)
+    {
+        return;
+    }
+
+    fps_frames++;
+    if (now - fps_start >= 1000)
+    {
+        fps_value = fps_frames * 1000 / (now - fps_start);
+        fps_frames = 0;
+        fps_start = now;
+    }
+    if (!fps_value)
+    {
+        return;
+    }
+
+    snprintf(text, sizeof(text), "%i fps", fps_value);
+    DrawString(viddef.width - (int)strlen(text) * 8 - 8, 8, text);
+}
+
+/*
+==================
 SCR_UpdateScreen
 
 This is called every frame, and can also be called explicitly to flush
@@ -1573,6 +1612,12 @@ void SCR_UpdateScreen(void)
             M_Draw();
 
             SCR_DrawLoading();
+
+            // count once per update, not once per stereo eye
+            if (i == 0)
+            {
+                SCR_DrawFPS();
+            }
         }
     }
     re.EndFrame();
