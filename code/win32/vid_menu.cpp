@@ -42,7 +42,15 @@ static void BuildModeList(void)
     for (i = 0; i < count; i++)
     {
         VID_ModeData(i, &width, &height, &hz);
-        Com_sprintf(mode_names[i], sizeof(mode_names[i]), "%i x %i @ %iHz", width, height, hz);
+        // standard windowed sizes have no discovered rate, so show no hz
+        if (hz > 0)
+        {
+            Com_sprintf(mode_names[i], sizeof(mode_names[i]), "%i x %i @ %iHz", width, height, hz);
+        }
+        else
+        {
+            Com_sprintf(mode_names[i], sizeof(mode_names[i]), "%i x %i", width, height);
+        }
         mode_choices[i] = mode_names[i];
     }
     mode_choices[count] = NULL;
