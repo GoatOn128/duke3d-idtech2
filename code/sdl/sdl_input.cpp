@@ -126,6 +126,9 @@ int mouse_oldbuttonstate;
 int mouse_x, mouse_y, old_mouse_x, old_mouse_y;
 int mx_accum, my_accum;
 
+// Strafe-style mouse motion held for the next fixed-rate usercmd
+static float pending_sidemove, pending_forwardmove;
+
 qboolean mouseactive; // false when not focus app
 
 qboolean mouseinitialized;
@@ -306,6 +309,82 @@ void IN_ApplyMouseDelta(usercmd_t *cmd, float x, float y)
     {
         cmd->forwardmove -= m_forward->value * y;
     }
+}
+
+/*
+===========
+IN_LookFrame
+
+Consumes relative mouse motion every render frame and applies it to the view
+angles, or to the pending strafe and forward motion when a button or cvar
+turns the axes into movement. Runs apart from usercmd generation so the view
+stays smooth at any render rate.
+===========
+*/
+void IN_LookFrame(void)
+{
+    int mx, my;
+    float fx, fy;
+
+    if (!mouseactive)
+    {
+        return;
+    }
+
+    mx = mx_accum;
+    my = my_accum;
+    mx_accum = 0;
+    my_accum = 0;
+
+    if (m_filter->value)
+    {
+        fx = (mx + old_mouse_x) * 0.5;
+        fy = (my + old_mouse_y) * 0.5;
+    }
+    else
+    {
+        fx = mx;
+        fy = my;
+    }
+
+    old_mouse_x = mx;
+    old_mouse_y = my;
+
+    fx *= sensitivity->value;
+    fy *= sensitivity->value;
+
+    if ((in_strafe.state & 1) || (lookstrafe->value && mlooking))
+    {
+        pending_sidemove += m_side->value * fx;
+    }
+    else
+    {
+        cl.viewangles[YAW] -= m_yaw->value * fx;
+    }
+
+    if ((mlooking || freelook->value) && !(in_strafe.state & 1))
+    {
+        cl.viewangles[PITCH] += m_pitch->value * fy;
+    }
+    else
+    {
+        pending_forwardmove -= m_forward->value * fy;
+    }
+}
+
+/*
+===========
+IN_AddPendingMove
+
+Adds the mouse motion held since the last usercmd was built, then clears it.
+===========
+*/
+void IN_AddPendingMove(usercmd_t *cmd)
+{
+    cmd->sidemove += pending_sidemove;
+    cmd->forwardmove += pending_forwardmove;
+    pending_sidemove = 0;
+    pending_forwardmove = 0;
 }
 
 /*
