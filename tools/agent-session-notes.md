@@ -110,7 +110,7 @@ cost anything as long as this file and PROGRESS.md are current.
   new `code/sdl/` layer (`sdl_sys` entry point, message pump and events,
   `sdl_input`, `sdl_vid`), `ref_gl/glimp_sdl.cpp` replaces `glw_imp`/WGL
   (GL 3.3 core context through SDL_GL, gladLoaderLoadGL), `menu.cpp`
-  lost the `win_noalttab` option, `Sys_Milliseconds` derives from
+  lost the `win_noaltab` option, `Sys_Milliseconds` derives from
   `SDL_GetTicks`, and `GL_UpdateSwapInterval` uses
   `SDL_GL_SetSwapInterval`. SDL3 is imported by `third-party.cmake`
   and ships as `SDL3.dll` next to `duke3d.exe`. Deleted: `sys_win`,
@@ -319,7 +319,7 @@ cost anything as long as this file and PROGRESS.md are current.
   /actions/runs?head_sha=<sha> answers without auth) and prefer a plain
   merge over a squash for such branches.
 
-- 2026-10-29: BFG game thread port on branch `port/bfg-game-thread` (CI
+- 2026-10-29: BFG game thread port, branch `port/bfg-game-thread` (CI
   green, 0 errors, 0 warnings): server/sv_gamethread.h/.cpp ports the BFG
   idGameThread (neo/framework/common_frame.cpp) as DN_GameThread, a
   DN_SysThread worker. SV_RunGameFrame calls gameThread.RunGameTic():
@@ -358,3 +358,13 @@ cost anything as long as this file and PROGRESS.md are current.
   declared default constructor. License note: derives from the BFG
   Edition GPL source (GPLv3), ported from references/doom3-bfg, which
   is not compiled.
+
+- 2026-10-29: BFG game thread port merged to main: PR #26 as squash
+  258246bf (the branch was deleted on merge). The squash commit body
+  carries the branch's "ci: publish build digest [skip ci]" subjects, so
+  GitHub skipped the post-merge workflow run on main - the same pitfall
+  as the PR #21 squash, this time because the merge happened through the
+  UI default while the plan was a plain merge. This docs-only chore PR
+  retriggered the main build. The rule from the console merge entry
+  stands: after merging a branch that carries CI digest commits, verify
+  a post-merge run exists and prefer a plain merge.
