@@ -242,6 +242,14 @@ bool DN_JobList::TryWait()
     return listDone.Check();
 }
 
+// reuse: drop the finished jobs so the list can be filled and submitted
+// again; safe once Wait() returned, the job threads are done with the list
+void DN_JobList::ClearFinishedJobs()
+{
+    DN_ScopedCriticalSection lock(fetchLock);
+    numJobs = 0;
+}
+
 // ----------------------------------------------------------------------
 // DN_JobThread
 // ----------------------------------------------------------------------
@@ -355,6 +363,7 @@ int DN_JobThread::Run()
 static DN_JobThread *jobThreads[MAX_JOB_THREADS];
 static int numJobThreads;
 static bool jobsInitialized;
+static DN_JobList *parallelForList; // utility list, like BFG JOBLIST_UTILITY
 static cvar_t *jobs_numThreadsRealtime;
 static cvar_t *jobs_numThreadsNonInteractive;
 
@@ -427,6 +436,8 @@ void DN_JobsInit(void)
 
     Cmd_AddCommand("jobs_test", DN_JobsTest_f);
 
+    parallelForList = DN_JobsAllocJobList("ParallelFor", DN_JOB_PRIORITY_NORMAL);
+
     jobsInitialized = true;
     Com_Printf("job system: %d threads\n", numJobThreads);
 }
@@ -448,6 +459,9 @@ void DN_JobsShutdown(void)
         jobThreads[i] = NULL;
     }
     numJobThreads = 0;
+
+    DN_JobsFreeJobList(parallelForList);
+    parallelForList = NULL;
 }
 
 DN_JobList *DN_JobsAllocJobList(const char *name, int priority)
@@ -463,6 +477,56 @@ void DN_JobsFreeJobList(DN_JobList *list)
 int DN_JobsNumThreads(void)
 {
     return numJobThreads;
+}
+
+// ----------------------------------------------------------------------
+// parallel for
+// ----------------------------------------------------------------------
+
+typedef struct
+{
+    int index;
+    void (*run)(int index, void *userdata);
+    void *userdata;
+} parallelForJob_t;
+
+static void DN_ParallelForJob(void *data)
+{
+    parallelForJob_t *job = (parallelForJob_t *)data;
+    job->run(job->index, job->userdata);
+}
+
+int DN_JobsParallelFor(int count, void (*run)(int index, void *userdata), void *userdata)
+{
+    parallelForJob_t *jobs;
+    int i;
+
+    if (!jobsInitialized || !parallelForList || count <= 0)
+    {
+        return 0;
+    }
+
+    jobs = (parallelForJob_t *)malloc(count * sizeof(*jobs));
+    if (!jobs)
+    {
+        return 0; // the caller falls back to running the work serially
+    }
+    for (i = 0; i < count; i++)
+    {
+        jobs[i].index = i;
+        jobs[i].run = run;
+        jobs[i].userdata = userdata;
+    }
+
+    parallelForList->ClearFinishedJobs();
+    for (i = 0; i < count; i++)
+    {
+        parallelForList->AddJob(DN_ParallelForJob, &jobs[i]);
+    }
+    parallelForList->Submit();
+    parallelForList->Wait();
+    free(jobs);
+    return 1;
 }
 
 // ----------------------------------------------------------------------
