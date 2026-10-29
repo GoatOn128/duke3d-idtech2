@@ -27,6 +27,7 @@ GLUtesselator *gluNewTess(void);
 void gluTessCallback(GLUtesselator *tess, int which, dn_glu_callback CallBackFunc);
 void gluTessProperty(GLUtesselator *tess, int which, double data);
 void gluTessNormal(GLUtesselator *tess, double x, double y, double z);
+void gluTessVertex(GLUtesselator *tess, GLdouble *location, void *data);
 void gluTessBeginPolygon(GLUtesselator *tess, void *data);
 void gluTessBeginContour(GLUtesselator *tess);
 void gluTessEndContour(GLUtesselator *tess);
