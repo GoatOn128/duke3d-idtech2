@@ -296,3 +296,17 @@ cost anything as long as this file and PROGRESS.md are current.
   note: dn_syscon and dndebuggraph derive from the BFG win_syscon.cpp
   and framework/DebugGraph (GPLv3), ported from references/doom3-bfg,
   which is not compiled.
+
+- 2026-10-29: BFG console port merged to main: PR #20 (phase A) as merge
+  commit d208542b, PR #21 (phase B) as squash 6872ed6d. CI pitfall found
+  on the #21 merge: a squash merge folds the branch's bot digest and
+  chore commits into the merge commit body, and GitHub skips the whole
+  post-merge workflow run on main when the pushed head commit message
+  contains the skip marker anywhere (the Actions API showed zero runs
+  for 6872ed6d, while #20's plain merge commit had none and did run).
+  Main's build-digest.md therefore still described d208542b after the
+  #21 merge. This follow-up PR retriggered the main build. Rule going
+  forward: after merging a branch that carries CI digest commits,
+  verify a post-merge run exists (the public Actions API endpoint
+  /actions/runs?head_sha=<sha> answers without auth) and prefer a plain
+  merge over a squash for such branches.
