@@ -172,4 +172,5 @@ assuming a build ran against it.
 | Save/load | `game/dnsave.cpp`, `client/dnsavemenu.cpp` |
 | Platform specifics | `sdl/sdl_sys.cpp`, `sdl/sdl_vid.cpp`, `ref_gl/glimp_sdl.cpp` |
 | Parallel jobs and threads | `qcommon/dnjobs.cpp`, `qcommon/dnthreads.cpp` |
+| Frame stepping and rate caps | `qcommon/common.cpp` (`Qcommon_Frame`), `client/cl_main.cpp` (`CL_Frame`) |
 | CI behavior | `.github/workflows/build-windows.yml` |

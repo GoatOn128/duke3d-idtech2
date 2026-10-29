@@ -64,8 +64,14 @@ Legend:
       (SDL3 thread/signal/mutex/atomic primitives) and
       `qcommon/dnjobs.cpp` (parallel job lists, threads backend),
       started from `Qcommon_Init` (`jobs_numThreadsRealtime`,
-      `jobs_test` command). Later phases: uncapped fps step code and
-      multithreaded renderer work
+      `jobs_test` command)
+- [x] Port the BFG frame step code and uncapped render rate:
+      `Qcommon_Frame` clamps the frame delta to `com_deltaTimeClamp`
+      like the BFG `Com_Frame` loop, `cl_maxfps 0` renders uncapped
+      (new default), and `com_noSleep` / `com_fixedTic` behave like
+      their BFG namesakes in `CL_Frame` and `SV_Frame` (the server
+      keeps its fixed 100 ms tics, the equivalent of the fixed BFG
+      game tics)
 
 ## Engine milestones
 
