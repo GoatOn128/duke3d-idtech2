@@ -23,8 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // - only the threads backend exists (no PS3 SPURS, no HDD/disk jobs)
 // - job threads are SDL worker threads woken per submit instead of
 //   permanent stall loops, and OS thread priorities are not raised
-// - the auto thread count uses SDL_GetCPUCount() instead of querying
-//   physical cores minus dedicated cores
+// - the auto thread count uses SDL_GetNumLogicalCPUCores() instead of
+//   querying physical cores minus dedicated cores
 // - the sync markers wait on an executed-job counter instead of the
 //   BFG doneGuards version machinery; the caller-visible behavior is
 //   the same
@@ -385,7 +385,7 @@ static int DN_JobsThreadCount(void)
     if (jobs_numThreadsRealtime->value < 0)
     {
         // auto: leave one core for the main thread
-        count = SDL_GetCPUCount() - 1;
+        count = SDL_GetNumLogicalCPUCores() - 1;
     }
     else
     {
