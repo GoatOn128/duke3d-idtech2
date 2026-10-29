@@ -179,7 +179,7 @@ static char s_adrCvars[9][16];
 
 static qboolean Duke2_LineFocused( int ownerDraw ) {
     dnMenu *menu = Menu_GetFocused();
-    dnItem *item = Menu_GetFocusedItem( menu );
+    dnItem *item = menu ? menu->GetFocusedItem() : NULL;
 
     return ( item != NULL && item->window.ownerDraw == ownerDraw ) ? qtrue : qfalse;
 }
@@ -193,7 +193,7 @@ static void Duke2_MenuSetup( dnMenu *menu ) {
 }
 
 static void Duke2_AddDeco( dnMenu *menu, int ownerDraw ) {
-    dnItem *item = Menu_AddItem( menu, NULL );
+    dnItem *item = menu->AddItem( NULL );
 
     if ( item == NULL ) {
         return;
@@ -205,7 +205,7 @@ static void Duke2_AddDeco( dnMenu *menu, int ownerDraw ) {
 
 static dnItem *Duke2_AddLine( dnMenu *menu, int ownerDraw, const char *name,
                                  float x, float y, float w, float h, const char *action ) {
-    dnItem *item = Menu_AddItem( menu, name );
+    dnItem *item = menu->AddItem( name );
 
     if ( item == NULL ) {
         return NULL;
@@ -224,7 +224,7 @@ static dnItem *Duke2_AddLine( dnMenu *menu, int ownerDraw, const char *name,
 static dnItem *Duke2_AddSetting( dnMenu *menu, int type, const char *text,
                                     const char *cvar, const char *name,
                                     float x, float y, float w, float h ) {
-    dnItem *item = Menu_AddItem( menu, name );
+    dnItem *item = menu->AddItem( name );
 
     if ( item == NULL ) {
         return NULL;
@@ -298,7 +298,7 @@ static dnItem *Duke2_AddEditField( dnMenu *menu, const char *text,
                                      const char *cvar, const char *name,
                                      float x, float y, float w, float h,
                                      int maxChars, int maxPaintChars ) {
-    dnItem *item = Menu_AddItem( menu, name );
+    dnItem *item = menu->AddItem( name );
     editFieldDef_t *edit;
 
     if ( item == NULL ) {
@@ -719,7 +719,7 @@ static void Duke2_StartServer( void ) {
     Menus_CloseAll();
 }
 
-/* reached through the display context runScript hook: Item_RunScript
+/* reached through the display context runScript hook: RunScript
    passes the arguments of any command it does not know itself */
 void Duke_RunScript( char **args ) {
     const char *cmd;
@@ -789,8 +789,8 @@ void Duke2_Refresh( void ) {
 /* ---- menus ---- */
 
 static void Duke2_Menu_Save( void ) {
-    dnMenu *menu = Menu_Alloc( "savegame" );
-    /* item names live for the whole run: Menu_AddItem keeps the pointer */
+    dnMenu *menu = dnMenu::Alloc( "savegame" );
+    /* item names live for the whole run: AddItem keeps the pointer */
     static char names[DUKE2_MAX_SLOTS][16];
     int i;
 
@@ -809,12 +809,12 @@ static void Duke2_Menu_Save( void ) {
         Duke2_AddLine( menu, DUKE2_OD_BASE + DUKE2_OD_SLOT0 + i, names[i],
                        190, ( 40 + i * 14 - 12 ) * 2, 320, 28, s_saveActions[i] );
     }
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke2_Menu_Load( void ) {
-    dnMenu *menu = Menu_Alloc( "loadgame" );
-    /* item names live for the whole run: Menu_AddItem keeps the pointer */
+    dnMenu *menu = dnMenu::Alloc( "loadgame" );
+    /* item names live for the whole run: AddItem keeps the pointer */
     static char names[DUKE2_MAX_SLOTS][16];
     int i;
 
@@ -833,11 +833,11 @@ static void Duke2_Menu_Load( void ) {
         Duke2_AddLine( menu, DUKE2_OD_BASE + DUKE2_OD_SLOT0 + i, names[i],
                        190, ( 40 + i * 14 - 12 ) * 2, 320, 28, s_loadActions[i] );
     }
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke2_Menu_Multiplayer( void ) {
-    dnMenu *menu = Menu_Alloc( "multiplayer" );
+    dnMenu *menu = dnMenu::Alloc( "multiplayer" );
 
     if ( menu == NULL ) {
         return;
@@ -857,12 +857,12 @@ static void Duke2_Menu_Multiplayer( void ) {
     Duke2_AddLine( menu, DUKE2_OD_BASE + DUKE2_OD_LINE0 + DL2_MP_SETUP, "mp_setup",
                    144, 170, 416, 28,
                    "play kickhit.wav ; close multiplayer ; open playerconfig" );
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke2_Menu_JoinServer( void ) {
-    dnMenu *menu = Menu_Alloc( "joinserver" );
-    /* item names live for the whole run: Menu_AddItem keeps the pointer */
+    dnMenu *menu = dnMenu::Alloc( "joinserver" );
+    /* item names live for the whole run: AddItem keeps the pointer */
     static char names[DUKE2_MAX_SERVERS][24];
     int i;
 
@@ -888,11 +888,11 @@ static void Duke2_Menu_JoinServer( void ) {
         Duke2_AddLine( menu, DUKE2_OD_BASE + DUKE2_OD_SERVER0 + i, names[i],
                        64, ( 86 + i * 13 - 10 ) * 2, 512, 26, s_connectActions[i] );
     }
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke2_Menu_AddressBook( void ) {
-    dnMenu *menu = Menu_Alloc( "addressbook" );
+    dnMenu *menu = dnMenu::Alloc( "addressbook" );
     int i;
 
     if ( menu == NULL ) {
@@ -910,13 +910,13 @@ static void Duke2_Menu_AddressBook( void ) {
         Duke2_AddEditField( menu, s_adrLabels[i], s_adrCvars[i], s_adrNames[i],
                             80, ( 40 + i * 16 ) * 2, 480, 28, 60, 30 );
     }
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke2_Menu_StartServer( void ) {
     static const char *rulesLabels[2] = {"deathmatch", "cooperative"};
     static const float rulesValues[2] = {0.0f, 1.0f};
-    dnMenu *menu = Menu_Alloc( "startserver" );
+    dnMenu *menu = dnMenu::Alloc( "startserver" );
     dnItem *item;
 
     if ( menu == NULL ) {
@@ -948,12 +948,12 @@ static void Duke2_Menu_StartServer( void ) {
     Duke2_AddLine( menu, DUKE2_OD_BASE + DUKE2_OD_LINE0 + DL2_START_BEGIN, "ss_begin",
                    64, 228, 512, 24,
                    "play kickhit.wav ; duke startserver" );
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke2_Menu_DmOptions( void ) {
-    dnMenu *menu = Menu_Alloc( "dmoptions" );
-    /* item names live for the whole run: Menu_AddItem keeps the pointer */
+    dnMenu *menu = dnMenu::Alloc( "dmoptions" );
+    /* item names live for the whole run: AddItem keeps the pointer */
     static char names[15][16];
     int i;
 
@@ -974,11 +974,11 @@ static void Duke2_Menu_DmOptions( void ) {
                        x * 2, ( y - 10 ) * 2, 260, 28, "play bulithit.wav" );
     }
     Duke2_AddDeco( menu, DUKE2_OD_BASE + DUKE2_OD_DMVALUE );
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke2_Menu_DownloadOptions( void ) {
-    dnMenu *menu = Menu_Alloc( "downloadoptions" );
+    dnMenu *menu = dnMenu::Alloc( "downloadoptions" );
 
     if ( menu == NULL ) {
         return;
@@ -999,7 +999,7 @@ static void Duke2_Menu_DownloadOptions( void ) {
                       80, 148, 480, 24 );
     Duke2_AddSetting( menu, ITEM_TYPE_YESNO, "sounds", "allow_download_sounds", "dl_sounds",
                       80, 176, 480, 24 );
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke2_Menu_PlayerConfig( void ) {
@@ -1008,7 +1008,7 @@ static void Duke2_Menu_PlayerConfig( void ) {
     static const char *rateLabels[5] = {"28.8 MODEM", "33.6 MODEM", "SINGLE ISDN",
                                         "DUAL ISDN/CABLE", "T1/LAN"};
     static const float rateValues[5] = {2500.0f, 3200.0f, 5000.0f, 10000.0f, 25000.0f};
-    dnMenu *menu = Menu_Alloc( "playerconfig" );
+    dnMenu *menu = dnMenu::Alloc( "playerconfig" );
 
     if ( menu == NULL ) {
         return;
@@ -1036,7 +1036,7 @@ static void Duke2_Menu_PlayerConfig( void ) {
     Duke2_AddLine( menu, DUKE2_OD_BASE + DUKE2_OD_LINE0 + DL2_PC_DOWNLOADS, "pc_downloads",
                    64, 180, 512, 24,
                    "play kickhit.wav ; close playerconfig ; open downloadoptions" );
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke2_Menu_Video( void ) {
@@ -1047,7 +1047,7 @@ static void Duke2_Menu_Video( void ) {
     static const char *tqLabels[4] = {"0", "1", "2", "3"};
     /* engine order: texture quality 0..3 maps to gl_picmip 3..0 */
     static const float tqValues[4] = {3.0f, 2.0f, 1.0f, 0.0f};
-    dnMenu *menu = Menu_Alloc( "video" );
+    dnMenu *menu = dnMenu::Alloc( "video" );
     dnItem *item;
     int i;
 
@@ -1100,11 +1100,11 @@ static void Duke2_Menu_Video( void ) {
                       engine menu skipped the restart when nothing needed
                       it, which a future pass can restore */
                    "play kickhit.wav ; exec vid_restart" );
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke2_Menu_Credits( void ) {
-    dnMenu *menu = Menu_Alloc( "credits" );
+    dnMenu *menu = dnMenu::Alloc( "credits" );
 
     if ( menu == NULL ) {
         return;
@@ -1114,7 +1114,7 @@ static void Duke2_Menu_Credits( void ) {
     menu->onESC = "play item15.wav ; close credits ; open main";
 
     {
-        dnItem *item = Menu_AddItem( menu, "credits_scroll" );
+        dnItem *item = menu->AddItem( "credits_scroll" );
         if ( item ) {
             item->type = ITEM_TYPE_OWNERDRAW;
             item->window.ownerDraw = DUKE2_OD_BASE + DUKE2_OD_CREDITS;
@@ -1125,7 +1125,7 @@ static void Duke2_Menu_Credits( void ) {
             item->window.flags |= WINDOW_VISIBLE | WINDOW_DECORATION;
         }
     }
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 /* ---- module entry ---- */

@@ -141,7 +141,7 @@ void Duke_PlaySound( sfxHandle_t sfx ) {
 /* the focused item of the focused menu, used to light the lines */
 static qboolean Duke_LineFocused( int ownerDraw ) {
     dnMenu *menu = Menu_GetFocused();
-    dnItem *item = Menu_GetFocusedItem( menu );
+    dnItem *item = menu ? menu->GetFocusedItem() : NULL;
 
     return ( item != NULL && item->window.ownerDraw == ownerDraw ) ? qtrue : qfalse;
 }
@@ -192,7 +192,7 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
 
 /* decoration item: paints through an ownerdraw, never focused or hit */
 static void Duke_AddDeco( dnMenu *menu, int ownerDraw ) {
-    dnItem *item = Menu_AddItem( menu, NULL );
+    dnItem *item = menu->AddItem( NULL );
 
     if ( item == NULL ) {
         return;
@@ -206,7 +206,7 @@ static void Duke_AddDeco( dnMenu *menu, int ownerDraw ) {
    coordinates, the ownerdraw paints the line itself */
 static dnItem *Duke_AddLine( dnMenu *menu, int lineId, const char *name,
                                 float x, float y, float w, float h, const char *action ) {
-    dnItem *item = Menu_AddItem( menu, name );
+    dnItem *item = menu->AddItem( name );
 
     if ( item == NULL ) {
         return NULL;
@@ -227,7 +227,7 @@ static dnItem *Duke_AddLine( dnMenu *menu, int lineId, const char *name,
 static dnItem *Duke_AddSetting( dnMenu *menu, int type, const char *text,
                                    const char *cvar, const char *name,
                                    float x, float y, float w, float h ) {
-    dnItem *item = Menu_AddItem( menu, name );
+    dnItem *item = menu->AddItem( name );
 
     if ( item == NULL ) {
         return NULL;
@@ -296,7 +296,7 @@ static void Duke_Menu_Main( void ) {
         "play kickhit.wav ; close main ; open video",
         "play kickhit.wav ; close main ; open quit"
     };
-    dnMenu *menu = Menu_Alloc( "main" );
+    dnMenu *menu = dnMenu::Alloc( "main" );
     dnItem *item;
     int i;
 
@@ -317,7 +317,7 @@ static void Duke_Menu_Main( void ) {
             item->cvarFlags = CVAR_DISABLE;
         }
     }
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke_Menu_Episodes( void ) {
@@ -328,7 +328,7 @@ static void Duke_Menu_Episodes( void ) {
         "play kickhit.wav ; setcvar dn_episode 4 ; close game_episodes ; open game_skills"
     };
     static const char *names[4] = {"episode_0", "episode_1", "episode_2", "episode_3"};
-    dnMenu *menu = Menu_Alloc( "game_episodes" );
+    dnMenu *menu = dnMenu::Alloc( "game_episodes" );
     int i;
 
     if ( menu == NULL ) {
@@ -344,7 +344,7 @@ static void Duke_Menu_Episodes( void ) {
     for ( i = 0; i < 4; i++ ) {
         Duke_AddLine( menu, DL_EPISODE_0 + i, names[i], 70, 112 + i * 40, 500, 40, actions[i] );
     }
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke_Menu_Skills( void ) {
@@ -352,7 +352,7 @@ static void Duke_Menu_Skills( void ) {
        pointers stay valid */
     static char skillActions[4][256];
     static const char *names[4] = {"skill_0", "skill_1", "skill_2", "skill_3"};
-    dnMenu *menu = Menu_Alloc( "game_skills" );
+    dnMenu *menu = dnMenu::Alloc( "game_skills" );
     int i;
 
     if ( menu == NULL ) {
@@ -374,11 +374,11 @@ static void Duke_Menu_Skills( void ) {
     for ( i = 0; i < 4; i++ ) {
         Duke_AddLine( menu, DL_SKILL_0 + i, names[i], 70, 112 + i * 40, 500, 40, skillActions[i] );
     }
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke_Menu_Quit( void ) {
-    dnMenu *menu = Menu_Alloc( "quit" );
+    dnMenu *menu = dnMenu::Alloc( "quit" );
 
     if ( menu == NULL ) {
         return;
@@ -393,7 +393,7 @@ static void Duke_Menu_Quit( void ) {
                   "play kickhit.wav ; exec quit" );
     Duke_AddLine( menu, DL_QUIT_NO, "quit_no", 250, 262, 140, 40,
                   "play item15.wav ; close quit ; open main" );
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke_Menu_Options( void ) {
@@ -406,7 +406,7 @@ static void Duke_Menu_Options( void ) {
     /* mouse sensitivity runs 1.0 to 11.0 in 0.5 steps like the engine slider */
     static char sensLabels[21][8];
     static float sensValues[21];
-    dnMenu *menu = Menu_Alloc( "options" );
+    dnMenu *menu = dnMenu::Alloc( "options" );
     dnItem *item;
     int i;
 
@@ -449,7 +449,7 @@ static void Duke_Menu_Options( void ) {
                   "play kickhit.wav ; exec default.cfg" );
     Duke_AddLine( menu, DL_OPTIONS_CONSOLE, "opt_console", 80, 456, 480, 24,
                   "play kickhit.wav ; close options ; exec toggleconsole" );
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 static void Duke_Menu_Keys( void ) {
@@ -482,8 +482,8 @@ static void Duke_Menu_Keys( void ) {
         {"next item",      "invnext"},
         {"help computer",  "cmd help"}
     };
-    dnMenu *menu = Menu_Alloc( "keys" );
-    /* item names live for the whole run: Menu_AddItem keeps the pointer */
+    dnMenu *menu = dnMenu::Alloc( "keys" );
+    /* item names live for the whole run: AddItem keeps the pointer */
     static char names[23][16];
     int i;
 
@@ -501,7 +501,7 @@ static void Duke_Menu_Keys( void ) {
         Duke_AddSetting( menu, ITEM_TYPE_BIND, binds[i].label, binds[i].command, names[i],
                          48, 40 + i * 18, 544, 16 );
     }
-    Menu_PostParse( menu );
+    menu->PostParse();
 }
 
 /* ---- module entry points ---- */
