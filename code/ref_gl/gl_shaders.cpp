@@ -418,6 +418,12 @@ void RB_Begin(GLenum mode)
 
     switch (mode)
     {
+    // GL_QUADS and GL_POLYGON do not exist as core-profile draw modes;
+    // RB_Stage already flattened both into triangles, so draw them as such.
+    case GL_QUADS:
+    case GL_POLYGON:
+        rb_draw_mode = GL_TRIANGLES;
+        break;
     case GL_QUAD_STRIP:
         rb_draw_mode = GL_TRIANGLE_STRIP;
         break;
