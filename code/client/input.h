@@ -31,4 +31,13 @@ void IN_Frame (void);
 void IN_Move (usercmd_t *cmd);
 // add additional movement on top of the keyboard move cmd
 
+void IN_LookFrame (void);
+// consume mouse motion every render frame, apart from usercmd generation
+
+void IN_AddPendingMove (usercmd_t *cmd);
+// add held mouse motion onto the next usercmd
+
+void IN_JoyMove (usercmd_t *cmd);
+// joystick axes sampled when a usercmd is built
+
 void IN_Activate (qboolean active);
