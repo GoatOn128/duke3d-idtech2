@@ -56,6 +56,8 @@ set(engine_sources
     sdl/sdl_vid.cpp
     win32/vid_menu.cpp
     qcommon/dnmap.cpp
+    qcommon/dnthreads.cpp
+    qcommon/dnjobs.cpp
     qcommon/dntransport.cpp)
 
 # The executable icon is the in-repo Quake 2 icon, compiled unconditionally.

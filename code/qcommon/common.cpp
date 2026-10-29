@@ -1623,6 +1623,10 @@ float crand(void)
 void Key_Init(void);
 void SCR_EndLoadingPlaque(void);
 
+// BFG threading port (qcommon/dnjobs.cpp)
+void DN_JobsInit(void);
+void DN_JobsShutdown(void);
+
 /*
 =============
 Com_Error_f
@@ -1725,6 +1729,9 @@ void Qcommon_Init(int argc, char **argv)
 
     NET_Init();
     Netchan_Init();
+
+    // SDL is up: start the BFG job threads (qcommon/dnjobs.cpp)
+    DN_JobsInit();
 
     SV_Init();
     CL_Init();
@@ -1867,4 +1874,6 @@ Qcommon_Shutdown
 */
 void Qcommon_Shutdown(void)
 {
+    // stop the job threads before the platform shuts down
+    DN_JobsShutdown();
 }
