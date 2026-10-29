@@ -1,10 +1,10 @@
 # Build digest
 
-- Commit: `4166af5ff9f1dfc205dd692dfc4839b9b1ba9710`
-- Branch: `ci-build-digest`
+- Commit: `0286e47f1a6bde68b96288b2cc2525eff529cfbb`
+- Branch: `main`
 - Result: configure exit: 0, build exit: 0
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40785459362
-- Generated: 2026-10-28 23:11:30 UTC
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40791936274
+- Generated: 2026-10-29 00:08:01 UTC
 
 Errors: **0**, warnings: **0**.
 
@@ -46,14 +46,14 @@ No warnings in the log.
 [127/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
 [128/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
 [129/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
-[130/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
-[131/140] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
-[132/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
-[133/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
-[134/140] Building CXX object CMakeFiles\duke3d.dir\client\x86.cpp.obj
-[135/140] Building CXX object CMakeFiles\duke3d.dir\win32\sys_win.cpp.obj
-[136/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
-[137/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_dll.cpp.obj
+[130/140] Building CXX object CMakeFiles\duke3d.dir\win32\sys_win.cpp.obj
+[131/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_dll.cpp.obj
+[132/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
+[133/140] Building CXX object CMakeFiles\duke3d.dir\client\x86.cpp.obj
+[134/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
+[135/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
+[136/140] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
+[137/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
 [138/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
 [139/140] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
 [140/140] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll
