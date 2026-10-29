@@ -21,9 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "gl_local.h"
 
-#ifdef _WIN32
-#include "../win32/glw_win.h"
-#endif
+#include <SDL3/SDL_video.h>
 
 /*
 ==================
@@ -222,11 +220,6 @@ void GL_UpdateSwapInterval(void)
     {
         gl_swapinterval->modified = false;
 
-#ifdef _WIN32
-        if (wglSwapIntervalEXT)
-        {
-            wglSwapIntervalEXT(gl_swapinterval->value);
-        }
-#endif
+        SDL_GL_SetSwapInterval((int)gl_swapinterval->value);
     }
 }

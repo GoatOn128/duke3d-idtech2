@@ -19,7 +19,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../qcommon/qcommon.h"
-#include "winquake.h"
+#include <windows.h>
+#include <SDL3/SDL_timer.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -124,15 +125,15 @@ int curtime;
 
 int Sys_Milliseconds(void)
 {
-    static int base;
+    static Uint64 base;
     static qboolean initialized = false;
 
     if (!initialized)
-    { // let base retain 16 bits of effectively random data
-        base = timeGetTime() & 0xffff0000;
+    {
+        base = SDL_GetTicks();
         initialized = true;
     }
-    curtime = timeGetTime() - base;
+    curtime = (int)(SDL_GetTicks() - base);
 
     return curtime;
 }
