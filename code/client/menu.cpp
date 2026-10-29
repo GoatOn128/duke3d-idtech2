@@ -113,6 +113,12 @@ void M_MouseMove(int x, int y)
         {
             if (hit->cursor)
             {
+                // Play the same move sound as keyboard navigation, but only
+                // when the hovered item actually changes so it does not spam.
+                if (*hit->cursor != hit->index)
+                {
+                    S_StartLocalSound(menu_move_sound);
+                }
                 *hit->cursor = hit->index;
             }
             m_mousevalid = true;
