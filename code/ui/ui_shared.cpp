@@ -379,10 +379,6 @@ qboolean String_Parse( char **p, const char **out ) {
 	return qfalse;
 }
 
-		Q_strcat( script, 1024, " " );
-	}
-}
-
 // display, window, menu, item code
 
 /*
@@ -2428,3 +2424,8 @@ void dnMenu::CloseCinematics( void ) {
 	for ( i = 0; i < itemCount; i++ ) {
 		Window_CloseCinematic( &items[i]->window );
 		if ( items[i]->type == ITEM_TYPE_OWNERDRAW ) {
+			DC->stopCinematic( 0 - items[i]->window.ownerDraw );
+		}
+	}
+}
+

@@ -424,6 +424,10 @@ qboolean dnMenuParser::PC_Script_Parse( int handle, const char **out ) {
         } else {
             Q_strcat( script, 1024, token.string );
         }
+        Q_strcat( script, 1024, " " );
+    }
+}
+
 int dnMenuParser::KeywordHash_Key( char *keyword ) {
     int hash, i;
 
