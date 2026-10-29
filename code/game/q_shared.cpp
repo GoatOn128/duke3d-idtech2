@@ -837,7 +837,7 @@ COM_FileExtension
 */
 char *COM_FileExtension (char *in)
 {
-	static char exten[8];
+	static thread_local char exten[8];
 	int		i;
 
 	while (*in && *in != '.')
@@ -1050,7 +1050,7 @@ FIXME: make this buffer size safe someday
 char	*va(char *format, ...)
 {
 	va_list		argptr;
-	static char		string[1024];
+	static thread_local char		string[1024];
 	
 	va_start (argptr, format);
 	vsprintf (string, format,argptr);
@@ -1060,7 +1060,7 @@ char	*va(char *format, ...)
 }
 
 
-char	com_token[MAX_TOKEN_CHARS];
+thread_local char	com_token[MAX_TOKEN_CHARS];
 
 /*
 ==============
@@ -1253,9 +1253,9 @@ key and returns the associated value, or an empty string.
 char *Info_ValueForKey (const char *s, const char *key)
 {
 	char	pkey[512];
-	static	char value[2][512];	// use two buffers so compares
+	static thread_local	char value[2][512];	// use two buffers so compares
 								// work without stomping on each other
-	static	int	valueindex;
+	static thread_local	int	valueindex;
 	char	*o;
 	
 	valueindex ^= 1;

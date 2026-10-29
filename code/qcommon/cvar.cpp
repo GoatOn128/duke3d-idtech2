@@ -504,7 +504,7 @@ qboolean userinfo_modified;
 
 char	*Cvar_BitInfo (int bit)
 {
-	static char	info[MAX_INFO_STRING];
+	static thread_local char	info[MAX_INFO_STRING];
 	cvar_t	*var;
 
 	info[0] = 0;
