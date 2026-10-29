@@ -60,6 +60,12 @@ Legend:
       and `client/cl_view.cpp` widens the fov for widescreen instead
       of stretching the view (`vid_display`, `vid_displayrefresh`,
       custom `gl_mode -1`, `r_aspectRatio`)
+- [x] Port the Doom 3 BFG threading foundation: `qcommon/dnthreads.cpp`
+      (SDL3 thread/signal/mutex/atomic primitives) and
+      `qcommon/dnjobs.cpp` (parallel job lists, threads backend),
+      started from `Qcommon_Init` (`jobs_numThreadsRealtime`,
+      `jobs_test` command). Later phases: uncapped fps step code and
+      multithreaded renderer work
 
 ## Engine milestones
 

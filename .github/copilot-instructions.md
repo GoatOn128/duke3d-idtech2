@@ -21,7 +21,9 @@ three.
     (collision), `pmove`, `net_chan`, `md4`, `crc`, plus the Duke-native
     heart of the port: `dnmap` (Build `.map` loader), `dnvisibility`,
     `dntransport` (subst/travel moves), `dncon` (CON scripting),
-    `dnplayermove`, `dnmath`, `dnpcx`, `dnanimation`, `dnzrange`.
+    `dnplayermove`, `dnmath`, `dnpcx`, `dnanimation`, `dnzrange`, plus
+    the Doom 3 BFG threading port: `dnthreads` (thread, signal, mutex
+    and atomic primitives) and `dnjobs` (parallel job lists).
   - `ref_gl/` — the OpenGL renderer module: `gl_image`, `gl_model`,
     `gl_rsurf`, `gl_rmain`, `gl_light`, `gl_mesh`, `gl_warp`, `gl_draw`, the GLSL shader
     backend (`gl_shaders`), the SDL GL context and Doom 3 BFG display/fullscreen
@@ -169,4 +171,5 @@ assuming a build ran against it.
 | Dedicated server commands | `server/sv_ccmds.cpp`, `qcommon/cmd.cpp` |
 | Save/load | `game/dnsave.cpp`, `client/dnsavemenu.cpp` |
 | Platform specifics | `sdl/sdl_sys.cpp`, `sdl/sdl_vid.cpp`, `ref_gl/glimp_sdl.cpp` |
+| Parallel jobs and threads | `qcommon/dnjobs.cpp`, `qcommon/dnthreads.cpp` |
 | CI behavior | `.github/workflows/build-windows.yml` |

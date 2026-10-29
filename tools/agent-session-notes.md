@@ -170,3 +170,21 @@ cost anything as long as this file and PROGRESS.md are current.
   video menu hides the hz for undiscovered entries, and a once-per-start
   check resets a windowed mode that cannot fit the desktop back to the
   default.
+
+- 2026-10-29: BFG threading port, phase 1, on branch `port/bfg-threads-jobs`
+  (CI green, 0 errors, 0 warnings): `qcommon/dnthreads.h/.cpp` ports the
+  idlib Thread.h primitives onto SDL3 (DN_SysSignal with manual reset,
+  DN_SysInterlockedInteger, DN_SysMutex, DN_SysThread worker threads with
+  SignalWork/WaitForThread/StopThread), and `qcommon/dnjobs.h/.cpp` ports
+  the idParallelJobList_Threads backend merged into one DN_JobList class:
+  AddJob, InsertSyncPoint (SYNC_SIGNAL, SYNC_SYNCHRONIZE), Submit/Wait with
+  done-marker jobs, fetch-lock work stealing across several job threads,
+  a version guard for resubmitted lists, priority-picking DN_JobThread
+  workers, and the cvars jobs_numThreadsRealtime/-NonInteractive (-1 auto
+  = logical cores - 1). Dropped on purpose: the PS3 SPURS backend, HDD/disk
+  jobs, OS thread priority raises. `jobs_test` runs 8192 atomic-counter
+  jobs with a sync point and a trailing signal. CI caught that the vendored
+  SDL 3.4 renamed SDL_GetCPUCount to SDL_GetNumLogicalCPUCores. Planned
+  phases: uncapped fps/step code from framework/common_frame.cpp,
+  multithreaded renderer command buffers, sound thread (OpenAL already
+  mixes on its own thread, so that phase is low priority).
