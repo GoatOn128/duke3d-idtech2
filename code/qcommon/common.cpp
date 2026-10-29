@@ -39,6 +39,10 @@ cvar_t *log_stats;
 cvar_t *developer;
 cvar_t *timescale;
 cvar_t *fixedtime;
+// BFG step code cvars (common_frame.cpp port)
+cvar_t *com_deltaTimeClamp;
+cvar_t *com_fixedTic;
+cvar_t *com_noSleep;
 cvar_t *logfile_active; // 1 = buffer log, 2 = flush after each print
 cvar_t *showtrace;
 cvar_t *dedicated;
@@ -1709,6 +1713,11 @@ void Qcommon_Init(int argc, char **argv)
     developer = Cvar_Get("developer", "0", 0);
     timescale = Cvar_Get("timescale", "1", 0);
     fixedtime = Cvar_Get("fixedtime", "0", 0);
+    // BFG step code cvars: clamp a long frame delta, force one game
+    // frame per render frame, never skip a frame
+    com_deltaTimeClamp = Cvar_Get("com_deltaTimeClamp", "50", 0);
+    com_fixedTic = Cvar_Get("com_fixedTic", "0", 0);
+    com_noSleep = Cvar_Get("com_noSleep", "0", 0);
     logfile_active = Cvar_Get("logfile", "0", 0);
     showtrace = Cvar_Get("showtrace", "0", 0);
 #ifdef DEDICATED_ONLY
@@ -1810,6 +1819,14 @@ void Qcommon_Frame(int msec)
         {
             msec = 1;
         }
+    }
+
+    // BFG step code port: never process more than com_deltaTimeClamp
+    // msec in one frame, so a hitch (disk load, debugger break) does
+    // not run a burst of game tics
+    if (com_deltaTimeClamp->value > 0 && msec > com_deltaTimeClamp->value)
+    {
+        msec = com_deltaTimeClamp->value;
     }
 
     if (showtrace->value)

@@ -766,6 +766,11 @@ extern cvar_t *dedicated;
 extern cvar_t *host_speeds;
 extern cvar_t *log_stats;
 
+// BFG step code cvars
+extern cvar_t *com_deltaTimeClamp;
+extern cvar_t *com_fixedTic;
+extern cvar_t *com_noSleep;
+
 extern FILE *log_stats_file;
 
 // host_speeds times

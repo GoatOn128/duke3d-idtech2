@@ -846,7 +846,8 @@ void SV_Frame(int msec)
     SV_ReadPackets();
 
     // move autonomous things around if enough time has passed
-    if (!sv_timedemo->value && svs.realtime < sv.time)
+    // BFG com_fixedTic port: force a single game frame per render frame
+    if (!sv_timedemo->value && !com_fixedTic->value && svs.realtime < sv.time)
     {
         // never let the time get too far off
         if (sv.time - svs.realtime > 100)

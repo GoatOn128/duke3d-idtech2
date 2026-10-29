@@ -188,3 +188,19 @@ cost anything as long as this file and PROGRESS.md are current.
   phases: uncapped fps/step code from framework/common_frame.cpp,
   multithreaded renderer command buffers, sound thread (OpenAL already
   mixes on its own thread, so that phase is low priority).
+
+- 2026-10-29: BFG threading port, phase 2 (uncapped fps / step code), on
+  branch `port/bfg-uncapped-fps` (CI green): Qcommon_Frame now clamps the
+  frame delta to com_deltaTimeClamp (default 50, like the BFG Com_Frame
+  loop in framework/common_frame.cpp) so a hitch cannot run a burst of
+  game tics; the new com_fixedTic and com_noSleep behave like their BFG
+  namesakes (one game frame per render frame, never skip a frame);
+  cl_maxfps 0 now means uncapped and is the new default, and the CL_Frame
+  gate also honors com_noSleep/com_fixedTic. SV_Frame skips its realtime
+  gate under com_fixedTic. Mapping note: this engine's server already runs
+  fixed 100 ms tics (sv.time = framenum * 100), which is the analog of
+  the fixed BFG game tics, so com_engineHz has no equivalent here.
+  Known caveat, to be handled with the multiplayer milestone: at very high
+  frame rates the 64-entry usercmd ring (CMD_BACKUP) can wrap before the
+  10 Hz server acks arrive, so vsync or a finite cl_maxfps avoids
+  prediction jitter.
