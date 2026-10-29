@@ -1558,7 +1558,7 @@ void CL_InitLocal(void)
     cl_autoskins = Cvar_Get("cl_autoskins", "0", 0);
     cl_predict = Cvar_Get("cl_predict", "1", 0);
     //	cl_minfps = Cvar_Get ("cl_minfps", "5", 0);
-    cl_maxfps = Cvar_Get("cl_maxfps", "90", 0);
+    cl_maxfps = Cvar_Get("cl_maxfps", "0", 0); // 0 = uncapped
 
     cl_upspeed = Cvar_Get("cl_upspeed", "200", 0);
     cl_forwardspeed = Cvar_Get("cl_forwardspeed", "200", 0);
@@ -1822,7 +1822,11 @@ void CL_Frame(int msec)
         {
             return; // don't flood packets out while connecting
         }
-        if (extratime < 1000 / cl_maxfps->value)
+        // BFG step code port: cl_maxfps 0 leaves the framerate uncapped,
+        // com_noSleep runs one frame every render frame and com_fixedTic
+        // forces a single game frame per render frame
+        if (cl_maxfps->value > 0 && !com_noSleep->value && !com_fixedTic->value &&
+            extratime < 1000 / cl_maxfps->value)
         {
             return; // framerate is too high
         }
