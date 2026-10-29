@@ -1553,6 +1553,9 @@ void SCR_UpdateScreen(void)
             SCR_DrawNet();
             SCR_CheckDrawCenterString();
 
+            // the BFG console debug graphs (con_frameTimes, Con_CreateGraph)
+            Con_DrawDebugGraphs();
+
             if (scr_timegraph->value)
             {
                 SCR_DebugGraph(cls.frametime * 300, 0);

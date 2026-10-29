@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "client.h"
 #include "../qcommon/dneditfield.h"
 #include "../qcommon/dnconsolehistory.h"
+#include "dndebuggraph.h"
 
 console_t	con;
 
@@ -336,6 +337,9 @@ void Con_Init (void)
 
 	consoleField.SetWidthInChars (con.linewidth);
 	DN_ConsoleHistoryInit ();
+
+	// the BFG console debug graphs (client/dndebuggraph.h)
+	con_frameTimes = Cvar_Get ("con_frameTimes", "0", 0);
 	con.initialized = true;
 }
 
@@ -915,6 +919,106 @@ void Con_DrawConsole (float frac)
 
 // draw the input prompt, user text, and cursor if desired
 	Con_DrawInput ();
+}
+
+/*
+==============================================================================
+
+DEBUG GRAPHS
+
+==============================================================================
+*/
+
+// Port of the BFG console debug graphs (idConsoleLocal::CreateGraph /
+// DestroyGraph and its debugGraphs list): graphs created here render on
+// top of the screen every frame, like the BFG console overlays.
+
+#define CON_MAX_DEBUG_GRAPHS 4
+
+static DN_DebugGraph *con_debugGraphs[CON_MAX_DEBUG_GRAPHS];
+static qboolean con_debugGraphUsed[CON_MAX_DEBUG_GRAPHS];
+
+// the built-in consumer: rolling frame times in milliseconds
+static cvar_t *con_frameTimes;
+static DN_DebugGraph *con_frameTimesGraph;
+
+// 100 pixels of graph height cover 100 milliseconds
+#define CON_FRAMETIME_SCALE 100.0f
+
+DN_DebugGraph *Con_CreateGraph (void)
+{
+	int i;
+
+	for (i = 0; i < CON_MAX_DEBUG_GRAPHS; i++)
+	{
+		if (!con_debugGraphUsed[i])
+		{
+			con_debugGraphUsed[i] = true;
+			con_debugGraphs[i] = new DN_DebugGraph (0);
+			return con_debugGraphs[i];
+		}
+	}
+	return NULL;
+}
+
+void Con_DestroyGraph (DN_DebugGraph *graph)
+{
+	int i;
+
+	for (i = 0; i < CON_MAX_DEBUG_GRAPHS; i++)
+	{
+		if (con_debugGraphUsed[i] && con_debugGraphs[i] == graph)
+		{
+			delete con_debugGraphs[i];
+			con_debugGraphs[i] = NULL;
+			con_debugGraphUsed[i] = false;
+			return;
+		}
+	}
+}
+
+void Con_DrawDebugGraphs (void)
+{
+	int i;
+
+	if (con_frameTimes->value)
+	{
+		if (!con_frameTimesGraph)
+		{
+			con_frameTimesGraph = Con_CreateGraph ();
+			if (con_frameTimesGraph)
+			{
+				con_frameTimesGraph->SetPosition (viddef.width - 261, 100, 250, 100);
+				con_frameTimesGraph->SetBorder (1);
+				con_frameTimesGraph->SetBackgroundColor (8);
+				con_frameTimesGraph->SetLabelColor (0);
+				// one grid line at the frame delta clamp
+				con_frameTimesGraph->AddGridLine (com_deltaTimeClamp->value / CON_FRAMETIME_SCALE, 0x40);
+				con_frameTimesGraph->SetFillMode (DN_DebugGraph::GRAPH_FILL);
+			}
+		}
+		if (con_frameTimesGraph)
+		{
+			// cls.frametime is seconds; the bar is the covered fraction of
+			// the height, over-budget frames turn bright
+			float msec = cls.frametime * 1000.0f;
+			con_frameTimesGraph->SetValue (-1, msec / CON_FRAMETIME_SCALE,
+				msec > com_deltaTimeClamp->value ? 0xdf : 0xd0);
+		}
+	}
+	else if (con_frameTimesGraph)
+	{
+		Con_DestroyGraph (con_frameTimesGraph);
+		con_frameTimesGraph = NULL;
+	}
+
+	for (i = 0; i < CON_MAX_DEBUG_GRAPHS; i++)
+	{
+		if (con_debugGraphUsed[i])
+		{
+			con_debugGraphs[i]->Render ();
+		}
+	}
 }
 
 
