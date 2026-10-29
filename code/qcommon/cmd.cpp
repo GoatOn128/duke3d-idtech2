@@ -492,10 +492,10 @@ typedef struct cmd_function_s
 } cmd_function_t;
 
 
-static	int			cmd_argc;
-static	char		*cmd_argv[MAX_STRING_TOKENS];
+static thread_local	int			cmd_argc;
+static thread_local	char		*cmd_argv[MAX_STRING_TOKENS];
 static	char		*cmd_null_string = "";
-static	char		cmd_args[MAX_STRING_CHARS];
+static thread_local	char		cmd_args[MAX_STRING_CHARS];
 
 static	cmd_function_t	*cmd_functions;		// possible commands to execute
 
@@ -544,7 +544,7 @@ char *Cmd_MacroExpandString (char *text)
 	int		i, j, count, len;
 	qboolean	inquote;
 	char	*scan;
-	static	char	expanded[MAX_STRING_CHARS];
+	static thread_local	char	expanded[MAX_STRING_CHARS];
 	char	temporary[MAX_STRING_CHARS];
 	char	*token, *start;
 
