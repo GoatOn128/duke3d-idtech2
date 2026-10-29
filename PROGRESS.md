@@ -111,6 +111,22 @@ Legend:
       `DN_SysThread::SignalWork` clears the done signal before
       signaling new work like the BFG `idSysThread`
 
+## UI port (id Tech 3)
+
+- [x] UI module skeleton: `code/ui/` builds `uix86.dll` with the
+      same versioned GetAPI boundary as `cgame`; the entry set follows
+      the idTech 3 UI (Init, Shutdown, KeyEvent, MouseEvent, Refresh,
+      IsFullscreen, SetActiveMenu, ConsoleCommand, all stubs for now),
+      loaded through `client/dnui.cpp` (`CL_InitUI` at startup,
+      `CL_UnloadUI` at shutdown)
+- [ ] Engine-side UI syscalls (cvars, filesystem, cmd, keys, sound,
+      renderer draw calls)
+- [ ] Port the idTech 3 menu framework (`ui_shared`)
+- [ ] Duke menus on the idTech 3 framework (main, new game, options,
+      load, save)
+- [ ] Cut the menus over to the module, retire `menu.cpp`/`qmenu.cpp`
+      from the build
+
 ## Engine milestones
 
 - [~] Duke-native map loading: Build `.map` files through

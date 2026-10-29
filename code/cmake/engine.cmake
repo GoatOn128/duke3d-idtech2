@@ -12,6 +12,7 @@ set(engine_sources
     client/cl_parse.cpp
     client/cl_pred.cpp
     client/dncgame.cpp
+    client/dnui.cpp
     client/cl_scrn.cpp
     client/dnhud.cpp
     client/dnmenu.cpp
@@ -87,4 +88,4 @@ duke_copy_sdl3_dll(duke3d)
 # re-add target_compile_definitions(duke3d PRIVATE DN_TEST_SUPPORT) here when
 # the test sources come back.
 
-add_dependencies(duke3d ref_gl game cgame)
+add_dependencies(duke3d ref_gl game cgame ui)
