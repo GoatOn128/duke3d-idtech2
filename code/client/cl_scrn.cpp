@@ -36,6 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 float scr_con_current; // aproaches scr_conlines at scr_conspeed
 float scr_conlines;    // 0.0 to 1.0 lines of console to display
+float scr_conheight;   // fraction of the screen the open console covers
 
 qboolean scr_initialized; // ready to draw
 
@@ -452,6 +453,7 @@ void SCR_Init(void)
 {
     scr_viewsize = Cvar_Get("viewsize", "100", CVAR_ARCHIVE);
     scr_conspeed = Cvar_Get("scr_conspeed", "3", 0);
+    scr_conheight = 0.5; // half screen open, or a quarter with the shift key
     scr_showturtle = Cvar_Get("scr_showturtle", "0", 0);
     scr_showpause = Cvar_Get("scr_showpause", "1", 0);
     scr_centertime = Cvar_Get("scr_centertime", "2.5", 0);
@@ -550,7 +552,7 @@ void SCR_RunConsole(void)
     // decide on the height of the console
     if (cls.key_dest == key_console)
     {
-        scr_conlines = 1.0; // full screen, like the idTech 3/4 consoles
+        scr_conlines = scr_conheight; // half screen, or a quarter with shift
     }
     else
     {

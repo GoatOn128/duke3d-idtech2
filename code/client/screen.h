@@ -37,6 +37,7 @@ void	SCR_RunConsole (void);
 
 extern	float		scr_con_current;
 extern	float		scr_conlines;		// lines of console to display
+extern	float		scr_conheight;		// fraction of the screen the open console covers
 
 extern	int			sb_lines;
 
