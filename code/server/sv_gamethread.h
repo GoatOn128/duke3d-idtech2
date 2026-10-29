@@ -35,6 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class DN_GameThread : public DN_SysThread
 {
 public:
+    DN_GameThread();
     // registers the com_smp / com_sleepGame cvars (called from SV_Init)
     void Init();
     // stops the game thread if it is running (called from SV_Shutdown)
