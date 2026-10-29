@@ -70,7 +70,7 @@ static const char *UI_Argv(int index)
 
 static void UI_ExecuteText(int when, const char *text)
 {
-    Cmd_ExecuteText(when, (char *)text);
+    Cbuf_ExecuteText(when, (char *)text);
 }
 
 // The buffer is a private malloc copy; the module frees it with free().
