@@ -338,7 +338,7 @@ static GLenum rb_draw_mode;
 
 static float rb_tex[2];
 static float rb_light[2];
-static float rb_color[4];
+static float rb_color[4] = {1, 1, 1, 1};
 // Sticky state, mirroring the GL flags these calls replaced. GL_SetDefaultState
 // and the individual draw paths toggle them, so RB_End must not.
 static qboolean rb_alpha_test = true;
