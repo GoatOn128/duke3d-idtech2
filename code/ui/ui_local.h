@@ -32,9 +32,6 @@ int     Q_isforfilename( int c );
 char    *COM_ParseExt( char **data_p, qboolean allowLineBreak );
 void    AnglesToAxis( const vec3_t angles, vec3_t axis[3] );
 
-/* framework helper without a ui_shared.h prototype */
-dnItem *Menu_GetFocusedItem( dnMenu *menu );
-
 /* Duke menus coded on the framework (ui_duke_menus.cpp) */
 void        Duke_MenusInit( void );
 void        Duke_Refresh( void );
