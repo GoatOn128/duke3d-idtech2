@@ -294,11 +294,24 @@ public:
 	void StartCapture( int key );
 	void StopCapture( void );
 	qboolean HandleKey( int key, qboolean down );
+
+	/* per-type dispatch hooks; the item type subclasses override the
+	   ones their type needs, the defaults cover the rest */
+	virtual void PaintType( void );
+	virtual qboolean HandleTypeKey( int key, qboolean down );
+	virtual void MouseEnterRect( float x, float y );
+	virtual void InitControls( void );
+
 	void Action( void );
 	rectDef_t *CorrectedTextRect( void );
 	void SetTextExtents( int *width, int *height, const char *text );
 	void TextColor( vec4_t *newColor );
 	void Paint( void );
+
+	/* script items learn their type while the itemDef block parses, so
+	   the subclass vtable is installed once the type is known */
+	void FinalizeType( void );
+
 	void ValidateTypeData( void );
 	void CacheContents( void );
 };
@@ -333,7 +346,7 @@ public:
 
 	/* the former Menu_* framework helpers as methods */
 	static dnMenu *Alloc( const char *name );
-	dnItem *AddItem( const char *name );
+	dnItem *AddItem( const char *name, int type );
 	void PostParse( void );
 	void UpdatePosition( void );
 	dnItem *ClearFocus( void );

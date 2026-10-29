@@ -192,12 +192,11 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
 
 /* decoration item: paints through an ownerdraw, never focused or hit */
 static void Duke_AddDeco( dnMenu *menu, int ownerDraw ) {
-    dnItem *item = menu->AddItem( NULL );
+    dnItem *item = menu->AddItem( NULL, ITEM_TYPE_OWNERDRAW );
 
     if ( item == NULL ) {
         return;
     }
-    item->type = ITEM_TYPE_OWNERDRAW;
     item->window.ownerDraw = ownerDraw;
     item->window.flags |= WINDOW_VISIBLE | WINDOW_DECORATION;
 }
@@ -206,12 +205,11 @@ static void Duke_AddDeco( dnMenu *menu, int ownerDraw ) {
    coordinates, the ownerdraw paints the line itself */
 static dnItem *Duke_AddLine( dnMenu *menu, int lineId, const char *name,
                                 float x, float y, float w, float h, const char *action ) {
-    dnItem *item = menu->AddItem( name );
+    dnItem *item = menu->AddItem( name, ITEM_TYPE_OWNERDRAW );
 
     if ( item == NULL ) {
         return NULL;
     }
-    item->type = ITEM_TYPE_OWNERDRAW;
     item->window.ownerDraw = DUKE_OD_LINE_BASE + lineId;
     item->window.rect.x = x;
     item->window.rect.y = y;
@@ -227,12 +225,11 @@ static dnItem *Duke_AddLine( dnMenu *menu, int lineId, const char *name,
 static dnItem *Duke_AddSetting( dnMenu *menu, int type, const char *text,
                                    const char *cvar, const char *name,
                                    float x, float y, float w, float h ) {
-    dnItem *item = menu->AddItem( name );
+    dnItem *item = menu->AddItem( name, type );
 
     if ( item == NULL ) {
         return NULL;
     }
-    item->type = type;
     item->text = text;
     item->cvar = cvar;
     item->textscale = 1.0f;
