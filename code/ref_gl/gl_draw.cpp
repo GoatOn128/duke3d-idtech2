@@ -37,8 +37,8 @@ void Draw_InitLocal(void)
     // The console font is the sole linearly filtered UI texture.
     draw_chars = GL_FindImage("pics/conchars.pcx", it_pic);
     GL_Bind(draw_chars->texnum);
-    qglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    qglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 /*
@@ -76,16 +76,16 @@ void Draw_Char(int x, int y, int num)
 
     GL_Bind(draw_chars->texnum);
 
-    qglBegin(GL_QUADS);
-    qglTexCoord2f(fcol, frow);
-    qglVertex2f(x, y);
-    qglTexCoord2f(fcol + size, frow);
-    qglVertex2f(x + 8, y);
-    qglTexCoord2f(fcol + size, frow + size);
-    qglVertex2f(x + 8, y + 8);
-    qglTexCoord2f(fcol, frow + size);
-    qglVertex2f(x, y + 8);
-    qglEnd();
+    RB_Begin(GL_QUADS);
+    RB_TexCoord2f(fcol, frow);
+    RB_Vertex2f(x, y);
+    RB_TexCoord2f(fcol + size, frow);
+    RB_Vertex2f(x + 8, y);
+    RB_TexCoord2f(fcol + size, frow + size);
+    RB_Vertex2f(x + 8, y + 8);
+    RB_TexCoord2f(fcol, frow + size);
+    RB_Vertex2f(x, y + 8);
+    RB_End();
 }
 
 /*
@@ -151,29 +151,17 @@ void Draw_StretchPic(int x, int y, int w, int h, char *pic)
         Scrap_Upload();
     }
 
-    if (((gl_config.renderer == GL_RENDERER_MCD) || (gl_config.renderer & GL_RENDERER_RENDITION)) &&
-        !gl->has_alpha)
-    {
-        qglDisable(GL_ALPHA_TEST);
-    }
-
     GL_Bind(gl->texnum);
-    qglBegin(GL_QUADS);
-    qglTexCoord2f(gl->sl, gl->tl);
-    qglVertex2f(x, y);
-    qglTexCoord2f(gl->sh, gl->tl);
-    qglVertex2f(x + w, y);
-    qglTexCoord2f(gl->sh, gl->th);
-    qglVertex2f(x + w, y + h);
-    qglTexCoord2f(gl->sl, gl->th);
-    qglVertex2f(x, y + h);
-    qglEnd();
-
-    if (((gl_config.renderer == GL_RENDERER_MCD) || (gl_config.renderer & GL_RENDERER_RENDITION)) &&
-        !gl->has_alpha)
-    {
-        qglEnable(GL_ALPHA_TEST);
-    }
+    RB_Begin(GL_QUADS);
+    RB_TexCoord2f(gl->sl, gl->tl);
+    RB_Vertex2f(x, y);
+    RB_TexCoord2f(gl->sh, gl->tl);
+    RB_Vertex2f(x + w, y);
+    RB_TexCoord2f(gl->sh, gl->th);
+    RB_Vertex2f(x + w, y + h);
+    RB_TexCoord2f(gl->sl, gl->th);
+    RB_Vertex2f(x, y + h);
+    RB_End();
 }
 
 /*
@@ -196,29 +184,17 @@ void Draw_Pic(int x, int y, char *pic)
         Scrap_Upload();
     }
 
-    if (((gl_config.renderer == GL_RENDERER_MCD) || (gl_config.renderer & GL_RENDERER_RENDITION)) &&
-        !gl->has_alpha)
-    {
-        qglDisable(GL_ALPHA_TEST);
-    }
-
     GL_Bind(gl->texnum);
-    qglBegin(GL_QUADS);
-    qglTexCoord2f(gl->sl, gl->tl);
-    qglVertex2f(x, y);
-    qglTexCoord2f(gl->sh, gl->tl);
-    qglVertex2f(x + gl->width, y);
-    qglTexCoord2f(gl->sh, gl->th);
-    qglVertex2f(x + gl->width, y + gl->height);
-    qglTexCoord2f(gl->sl, gl->th);
-    qglVertex2f(x, y + gl->height);
-    qglEnd();
-
-    if (((gl_config.renderer == GL_RENDERER_MCD) || (gl_config.renderer & GL_RENDERER_RENDITION)) &&
-        !gl->has_alpha)
-    {
-        qglEnable(GL_ALPHA_TEST);
-    }
+    RB_Begin(GL_QUADS);
+    RB_TexCoord2f(gl->sl, gl->tl);
+    RB_Vertex2f(x, y);
+    RB_TexCoord2f(gl->sh, gl->tl);
+    RB_Vertex2f(x + gl->width, y);
+    RB_TexCoord2f(gl->sh, gl->th);
+    RB_Vertex2f(x + gl->width, y + gl->height);
+    RB_TexCoord2f(gl->sl, gl->th);
+    RB_Vertex2f(x, y + gl->height);
+    RB_End();
 }
 
 /*
@@ -240,29 +216,17 @@ void Draw_TileClear(int x, int y, int w, int h, char *pic)
         return;
     }
 
-    if (((gl_config.renderer == GL_RENDERER_MCD) || (gl_config.renderer & GL_RENDERER_RENDITION)) &&
-        !image->has_alpha)
-    {
-        qglDisable(GL_ALPHA_TEST);
-    }
-
     GL_Bind(image->texnum);
-    qglBegin(GL_QUADS);
-    qglTexCoord2f(x / 64.0, y / 64.0);
-    qglVertex2f(x, y);
-    qglTexCoord2f((x + w) / 64.0, y / 64.0);
-    qglVertex2f(x + w, y);
-    qglTexCoord2f((x + w) / 64.0, (y + h) / 64.0);
-    qglVertex2f(x + w, y + h);
-    qglTexCoord2f(x / 64.0, (y + h) / 64.0);
-    qglVertex2f(x, y + h);
-    qglEnd();
-
-    if (((gl_config.renderer == GL_RENDERER_MCD) || (gl_config.renderer & GL_RENDERER_RENDITION)) &&
-        !image->has_alpha)
-    {
-        qglEnable(GL_ALPHA_TEST);
-    }
+    RB_Begin(GL_QUADS);
+    RB_TexCoord2f(x / 64.0, y / 64.0);
+    RB_Vertex2f(x, y);
+    RB_TexCoord2f((x + w) / 64.0, y / 64.0);
+    RB_Vertex2f(x + w, y);
+    RB_TexCoord2f((x + w) / 64.0, (y + h) / 64.0);
+    RB_Vertex2f(x + w, y + h);
+    RB_TexCoord2f(x / 64.0, (y + h) / 64.0);
+    RB_Vertex2f(x, y + h);
+    RB_End();
 }
 
 /*
@@ -285,21 +249,21 @@ void Draw_Fill(int x, int y, int w, int h, int c)
         ri.Sys_Error(ERR_FATAL, "Draw_Fill: bad color");
     }
 
-    qglDisable(GL_TEXTURE_2D);
+    RB_Textured(false);
 
     color.c = d_8to24table[c];
-    qglColor3f(color.v[0] / 255.0, color.v[1] / 255.0, color.v[2] / 255.0);
+    RB_Color3f(color.v[0] / 255.0, color.v[1] / 255.0, color.v[2] / 255.0);
 
-    qglBegin(GL_QUADS);
+    RB_Begin(GL_QUADS);
 
-    qglVertex2f(x, y);
-    qglVertex2f(x + w, y);
-    qglVertex2f(x + w, y + h);
-    qglVertex2f(x, y + h);
+    RB_Vertex2f(x, y);
+    RB_Vertex2f(x + w, y);
+    RB_Vertex2f(x + w, y + h);
+    RB_Vertex2f(x, y + h);
 
-    qglEnd();
-    qglColor3f(1, 1, 1);
-    qglEnable(GL_TEXTURE_2D);
+    RB_End();
+    RB_Color4f(1, 1, 1, 1);
+    RB_Textured(true);
 }
 
 //=============================================================================
@@ -312,20 +276,20 @@ Draw_FadeScreen
 */
 void Draw_FadeScreen(void)
 {
-    qglEnable(GL_BLEND);
-    qglDisable(GL_TEXTURE_2D);
-    qglColor4f(0, 0, 0, 0.8);
-    qglBegin(GL_QUADS);
+    glEnable(GL_BLEND);
+    RB_Textured(false);
+    RB_Color4f(0, 0, 0, 0.8);
+    RB_Begin(GL_QUADS);
 
-    qglVertex2f(0, 0);
-    qglVertex2f(vid.width, 0);
-    qglVertex2f(vid.width, vid.height);
-    qglVertex2f(0, vid.height);
+    RB_Vertex2f(0, 0);
+    RB_Vertex2f(vid.width, 0);
+    RB_Vertex2f(vid.width, vid.height);
+    RB_Vertex2f(0, vid.height);
 
-    qglEnd();
-    qglColor4f(1, 1, 1, 1);
-    qglEnable(GL_TEXTURE_2D);
-    qglDisable(GL_BLEND);
+    RB_End();
+    RB_Color4f(1, 1, 1, 1);
+    RB_Textured(true);
+    glDisable(GL_BLEND);
 }
 
 //====================================================================
@@ -340,7 +304,6 @@ extern unsigned r_rawpalette[256];
 void Draw_StretchRaw(int x, int y, int w, int h, int cols, int rows, byte *data)
 {
     unsigned image32[256 * 256];
-    unsigned char image8[256 * 256];
     int i, j, trows;
     byte *source;
     int frac, fracstep;
@@ -348,7 +311,7 @@ void Draw_StretchRaw(int x, int y, int w, int h, int cols, int rows, byte *data)
     int row;
     float t;
 
-    GL_Bind(0);
+    GL_Bind(TEXNUM_CINEMATIC);
 
     if (rows <= 256)
     {
@@ -362,7 +325,6 @@ void Draw_StretchRaw(int x, int y, int w, int h, int cols, int rows, byte *data)
     }
     t = rows * hscale / 256;
 
-    if (!qglColorTableEXT)
     {
         unsigned *dest;
 
@@ -384,55 +346,19 @@ void Draw_StretchRaw(int x, int y, int w, int h, int cols, int rows, byte *data)
             }
         }
 
-        qglTexImage2D(GL_TEXTURE_2D, 0, gl_tex_solid_format, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
-                      image32);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, image32);
     }
-    else
-    {
-        unsigned char *dest;
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        for (i = 0; i < trows; i++)
-        {
-            row = (int)(i * hscale);
-            if (row > rows)
-            {
-                break;
-            }
-            source = data + cols * row;
-            dest = &image8[i * 256];
-            fracstep = cols * 0x10000 / 256;
-            frac = fracstep >> 1;
-            for (j = 0; j < 256; j++)
-            {
-                dest[j] = source[frac >> 16];
-                frac += fracstep;
-            }
-        }
-
-        qglTexImage2D(GL_TEXTURE_2D, 0, GL_COLOR_INDEX8_EXT, 256, 256, 0, GL_COLOR_INDEX,
-                      GL_UNSIGNED_BYTE, image8);
-    }
-    qglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    qglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    if ((gl_config.renderer == GL_RENDERER_MCD) || (gl_config.renderer & GL_RENDERER_RENDITION))
-    {
-        qglDisable(GL_ALPHA_TEST);
-    }
-
-    qglBegin(GL_QUADS);
-    qglTexCoord2f(0, 0);
-    qglVertex2f(x, y);
-    qglTexCoord2f(1, 0);
-    qglVertex2f(x + w, y);
-    qglTexCoord2f(1, t);
-    qglVertex2f(x + w, y + h);
-    qglTexCoord2f(0, t);
-    qglVertex2f(x, y + h);
-    qglEnd();
-
-    if ((gl_config.renderer == GL_RENDERER_MCD) || (gl_config.renderer & GL_RENDERER_RENDITION))
-    {
-        qglEnable(GL_ALPHA_TEST);
-    }
+    RB_Begin(GL_QUADS);
+    RB_TexCoord2f(0, 0);
+    RB_Vertex2f(x, y);
+    RB_TexCoord2f(1, 0);
+    RB_Vertex2f(x + w, y);
+    RB_TexCoord2f(1, t);
+    RB_Vertex2f(x + w, y + h);
+    RB_TexCoord2f(0, t);
+    RB_Vertex2f(x, y + h);
+    RB_End();
 }

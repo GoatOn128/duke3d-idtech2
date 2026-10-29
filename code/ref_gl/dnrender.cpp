@@ -7,7 +7,34 @@
 #include "../qcommon/dnvisual.h"
 #include "../qcommon/dnmath.h"
 #include "../cgame/dnweaponview.h"
+
+/* The GLU tessellator is the only GLU piece still needed, so declare the
+   subset used instead of pulling in the whole GLU header. */
+typedef struct GLUtesselator GLUtesselator;
+#ifndef CALLBACK
+#define CALLBACK
+#endif
 typedef void(CALLBACK *dn_glu_callback)(void);
+#define GLU_TESS_BEGIN 100100
+#define GLU_TESS_VERTEX 100101
+#define GLU_TESS_END 100102
+#define GLU_TESS_ERROR 100103
+#define GLU_TESS_COMBINE 100105
+#define GLU_TESS_WINDING_RULE 100140
+#define GLU_TESS_WINDING_ODD 100130
+extern "C" {
+GLUtesselator *WINAPI gluNewTess(void);
+void WINAPI gluTessCallback(GLUtesselator *tess, int which, dn_glu_callback CallBackFunc);
+void WINAPI gluTessProperty(GLUtesselator *tess, int which, double data);
+void WINAPI gluTessNormal(GLUtesselator *tess, double x, double y, double z);
+void WINAPI gluTessVertex(GLUtesselator *tess, GLdouble *location, void *data);
+void WINAPI gluTessBeginPolygon(GLUtesselator *tess, void *data);
+void WINAPI gluTessBeginContour(GLUtesselator *tess);
+void WINAPI gluTessEndContour(GLUtesselator *tess);
+void WINAPI gluTessEndPolygon(GLUtesselator *tess);
+void WINAPI gluDeleteTess(GLUtesselator *tess);
+const GLubyte *WINAPI gluErrorString(GLenum error);
+}
 
 dn_map_t r_duke_map;
 static dn_visibility_t visibility;
@@ -46,8 +73,8 @@ static void ClipSectorWindow(int sector)
     int right = (int)ceilf((window->right + 1) * .5f * r_newrefdef.width);
     int bottom = (int)floorf((window->bottom + 1) * .5f * r_newrefdef.height);
     int top = (int)ceilf((window->top + 1) * .5f * r_newrefdef.height);
-    qglScissor(r_newrefdef.x + left, vid.height - r_newrefdef.y - r_newrefdef.height + bottom,
-               right - left, top - bottom);
+    glScissor(r_newrefdef.x + left, vid.height - r_newrefdef.y - r_newrefdef.height + bottom,
+              right - left, top - bottom);
 }
 
 static struct
@@ -71,8 +98,8 @@ void R_DukeTextureCheck_f(void)
             continue;
         }
         GL_Bind(image->texnum);
-        qglGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, &minification);
-        qglGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, &magnification);
+        glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, &minification);
+        glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, &magnification);
         int console = !strcmp(image->name, "pics/conchars.pcx");
         if (console)
         {
@@ -400,19 +427,14 @@ static int AnimatedTile(int tile)
 
 static void SectorFog(int sector, int shade)
 {
-    float color[4] = {0, 0, 0, 1};
     float start, end;
     if (!ri.Cvar_Get("r_dn_fog", "1", 0)->value ||
         !DN_SectorFogRange(r_duke_map.sectors[sector].visibility, shade, &start, &end))
     {
-        qglDisable(GL_FOG);
+        RB_Fog(false, 0, 1);
         return;
     }
-    qglEnable(GL_FOG);
-    qglFogi(GL_FOG_MODE, GL_LINEAR);
-    qglFogfv(GL_FOG_COLOR, color);
-    qglFogf(GL_FOG_START, start);
-    qglFogf(GL_FOG_END, end);
+    RB_Fog(true, start, end);
 }
 
 void R_DukeLoad(model_t *model, void *buffer, int length)
@@ -495,7 +517,7 @@ static void DrawPlane(int sector, int ceiling)
     image_t *im = TileImage(tile, pal, shade);
     GL_Bind(im->texnum);
     SectorFog(sector, shade);
-    qglBegin(GL_TRIANGLES);
+    RB_Begin(GL_TRIANGLES);
     for (i = 0; i < meshes[sector].count; i += 2)
     {
         float x = meshes[sector].xy[i], y = meshes[sector].xy[i + 1], u = x * 2, v = -y * 2,
@@ -536,15 +558,15 @@ static void DrawPlane(int sector, int ceiling)
             u = atan2f(y - r_origin[1], x - r_origin[0]) * (4.f / (float)M_PI);
             v = .5f - (z - r_origin[2]) / fmaxf(256, sqrtf((x - r_origin[0]) * (x - r_origin[0]) +
                                                            (y - r_origin[1]) * (y - r_origin[1])));
-            qglTexCoord2f(u, v);
+            RB_TexCoord2f(u, v);
         }
         else
         {
-            qglTexCoord2f(u / im->width + panx, v / im->height + pany);
+            RB_TexCoord2f(u / im->width + panx, v / im->height + pany);
         }
-        qglVertex3f(x, y, z);
+        RB_Vertex3f(x, y, z);
     }
-    qglEnd();
+    RB_End();
     c_brush_polys += meshes[sector].count / 6;
 }
 
@@ -574,16 +596,16 @@ static void WallQuad(int sector, const dn_wall_t *w, float x1, float y1, float x
         vscale = -vscale;
     }
     pan = w->ypanning / 256.f;
-    qglBegin(GL_QUADS);
-    qglTexCoord2f(u1, (anchor - bottom1) * vscale + pan);
-    qglVertex3f(x1, y1, bottom1);
-    qglTexCoord2f(u2, (anchor - bottom2) * vscale + pan);
-    qglVertex3f(x2, y2, bottom2);
-    qglTexCoord2f(u2, (anchor - top2) * vscale + pan);
-    qglVertex3f(x2, y2, top2);
-    qglTexCoord2f(u1, (anchor - top1) * vscale + pan);
-    qglVertex3f(x1, y1, top1);
-    qglEnd();
+    RB_Begin(GL_QUADS);
+    RB_TexCoord2f(u1, (anchor - bottom1) * vscale + pan);
+    RB_Vertex3f(x1, y1, bottom1);
+    RB_TexCoord2f(u2, (anchor - bottom2) * vscale + pan);
+    RB_Vertex3f(x2, y2, bottom2);
+    RB_TexCoord2f(u2, (anchor - top2) * vscale + pan);
+    RB_Vertex3f(x2, y2, top2);
+    RB_TexCoord2f(u1, (anchor - top1) * vscale + pan);
+    RB_Vertex3f(x1, y1, top1);
+    RB_End();
     c_brush_polys += 2;
 }
 
@@ -595,8 +617,8 @@ static void DrawParallaxSky(void)
     int sector = DN_FindSector(&r_duke_map, r_origin, -1);
     int tile = -1;
 
-    qglClearColor(0, 0, 0, 1);
-    qglClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
     if (sector >= 0 && (r_duke_map.sectors[sector].ceilingstat & 1))
     {
         tile = r_duke_map.sectors[sector].ceilingpicnum;
@@ -616,9 +638,9 @@ static void DrawParallaxSky(void)
     {
         return;
     }
-    qglDisable(GL_DEPTH_TEST);
-    qglDepthMask(GL_FALSE);
-    qglDisable(GL_FOG);
+    glDisable(GL_DEPTH_TEST);
+    glDepthMask(GL_FALSE);
+    RB_Fog(false, 0, 1);
     for (int segment = 0; segment < 8; segment++)
     {
         int offset = tile == 80   ? moon_offsets[segment]
@@ -627,22 +649,22 @@ static void DrawParallaxSky(void)
                                   : 0;
         image_t *image = TileImage(tile + offset, 0, 0);
         GL_Bind(image->texnum);
-        qglBegin(GL_QUAD_STRIP);
+        RB_Begin(GL_QUAD_STRIP);
         for (int sample = 0; sample <= 8; sample++)
         {
             float u = sample / 8.f;
             float angle = (segment + u) * (float)M_PI / 4;
             float x = r_origin[0] + cosf(angle) * 1024;
             float y = r_origin[1] + sinf(angle) * 1024;
-            qglTexCoord2f(u, 0);
-            qglVertex3f(x, y, r_origin[2] + 1024);
-            qglTexCoord2f(u, 1);
-            qglVertex3f(x, y, r_origin[2] - 1024);
+            RB_TexCoord2f(u, 0);
+            RB_Vertex3f(x, y, r_origin[2] + 1024);
+            RB_TexCoord2f(u, 1);
+            RB_Vertex3f(x, y, r_origin[2] - 1024);
         }
-        qglEnd();
+        RB_End();
     }
-    qglDepthMask(GL_TRUE);
-    qglEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glEnable(GL_DEPTH_TEST);
 }
 
 void R_DukeDrawWorld(void)
@@ -670,11 +692,10 @@ void R_DukeDrawWorld(void)
         }
     }
     GL_EnableMultitexture(false);
-    qglDisable(GL_CULL_FACE);
-    GL_TexEnv(GL_MODULATE);
-    qglColor4f(1, 1, 1, 1);
+    glDisable(GL_CULL_FACE);
+    RB_Color4f(1, 1, 1, 1);
     DrawParallaxSky();
-    qglEnable(GL_SCISSOR_TEST);
+    glEnable(GL_SCISSOR_TEST);
     for (pass = 0; pass < 2; pass++)
     {
         for (sector = 0; sector < r_duke_map.numsectors; sector++)
@@ -744,29 +765,28 @@ void R_DukeDrawWorld(void)
                     }
                     else if ((w->cstat & (16 | 32)) == 16)
                     {
-                        qglEnable(GL_ALPHA_TEST);
+                        RB_AlphaTest(true);
                         if (w->cstat & 128)
                         {
-                            qglEnable(GL_BLEND);
-                            qglColor4f(1, 1, 1, w->cstat & 512 ? .33f : .66f);
-                            qglDepthMask(GL_FALSE);
+                            glEnable(GL_BLEND);
+                            RB_Color4f(1, 1, 1, w->cstat & 512 ? .33f : .66f);
+                            glDepthMask(GL_FALSE);
                         }
                         WallQuad(sector, w, x1, y1, x2, y2, fmaxf(f1, nf1), fmaxf(f2, nf2),
                                  fminf(c1, nc1), fminf(c2, nc2), w->overpicnum,
                                  w->cstat & 4 ? f1 : c1);
-                        qglDepthMask(GL_TRUE);
-                        qglDisable(GL_BLEND);
-                        qglDisable(GL_ALPHA_TEST);
-                        qglColor4f(1, 1, 1, 1);
+                        glDepthMask(GL_TRUE);
+                        glDisable(GL_BLEND);
+                        RB_AlphaTest(false);
+                        RB_Color4f(1, 1, 1, 1);
                     }
                 }
             }
         }
     }
-    qglDisable(GL_SCISSOR_TEST);
-    qglDisable(GL_FOG);
-    qglColor4f(1, 1, 1, 1);
-    GL_TexEnv(GL_REPLACE);
+    glDisable(GL_SCISSOR_TEST);
+    RB_Fog(false, 0, 1);
+    RB_Color4f(1, 1, 1, 1);
 }
 
 void R_DukeLight(const float *p, float *color)
@@ -865,22 +885,22 @@ void R_DukeDrawSprite(entity_t *e)
         VectorSet(right, vright[0], vright[1], 0);
         VectorNormalize(right);
     }
+    GL_EnableMultitexture(false);
     GL_Bind(im->texnum);
-    GL_TexEnv(GL_MODULATE);
-    qglDisable(GL_CULL_FACE);
-    qglEnable(GL_ALPHA_TEST);
-    qglColor4f(1, 1, 1, alpha);
+    glDisable(GL_CULL_FACE);
+    RB_AlphaTest(true);
+    RB_Color4f(1, 1, 1, alpha);
     if (cstat & 48)
     {
-        qglEnable(GL_POLYGON_OFFSET_FILL);
-        qglPolygonOffset(-1, -1);
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(-1, -1);
     }
     if (alpha < 1)
     {
-        qglEnable(GL_BLEND);
-        qglDepthMask(GL_FALSE);
+        glEnable(GL_BLEND);
+        glDepthMask(GL_FALSE);
     }
-    qglBegin(GL_QUADS);
+    RB_Begin(GL_QUADS);
     for (int i = 0; i < 4; i++)
     {
         int r = i >= 2, t = i == 1 || i == 2;
@@ -895,20 +915,19 @@ void R_DukeDrawSprite(entity_t *e)
         }
         VectorMA(base, left + (r ? width : 0), right, p);
         VectorMA(p, bottom + (t ? height : 0), up, p);
-        qglTexCoord2f(u, v);
-        qglVertex3fv(p);
+        RB_TexCoord2f(u, v);
+        RB_Vertex3fv(p);
     }
-    qglEnd();
+    RB_End();
     if (cstat & 48)
     {
-        qglDisable(GL_POLYGON_OFFSET_FILL);
+        glDisable(GL_POLYGON_OFFSET_FILL);
     }
-    qglDepthMask(GL_TRUE);
-    qglDisable(GL_BLEND);
-    qglDisable(GL_ALPHA_TEST);
-    qglDisable(GL_FOG);
-    qglColor4f(1, 1, 1, 1);
-    GL_TexEnv(GL_REPLACE);
+    glDepthMask(GL_TRUE);
+    glDisable(GL_BLEND);
+    RB_AlphaTest(false);
+    RB_Fog(false, 0, 1);
+    RB_Color4f(1, 1, 1, 1);
 }
 
 void R_DukeApplyWorldStates(const refdef_t *frame)
@@ -984,18 +1003,15 @@ void R_DukeDrawWeapon(entity_t *entity)
     last_weapon_view = view;
     ri.DukeWeaponView(&view, &sprites);
 
-    qglMatrixMode(GL_PROJECTION);
-    qglPushMatrix();
-    qglLoadIdentity();
-    qglOrtho(0, r_newrefdef.width, r_newrefdef.height, 0, -1, 1);
-    qglMatrixMode(GL_MODELVIEW);
-    qglPushMatrix();
-    qglLoadIdentity();
-    qglDisable(GL_DEPTH_TEST);
-    qglDisable(GL_FOG);
-    qglDisable(GL_CULL_FACE);
-    qglEnable(GL_ALPHA_TEST);
-    GL_TexEnv(GL_REPLACE);
+    R_PushProjection();
+    Mat_Ortho(r_mat_projection, 0, r_newrefdef.width, r_newrefdef.height, 0, -1, 1);
+    R_PushModelview();
+    Mat_Identity(r_mat_modelview);
+    glDisable(GL_DEPTH_TEST);
+    RB_Fog(false, 0, 1);
+    glDisable(GL_CULL_FACE);
+    RB_AlphaTest(true);
+    GL_EnableMultitexture(false);
     for (int i = 0; i < sprites.count; i++)
     {
         const dn_weapon_sprite_t *sprite = &sprites.sprites[i];
@@ -1015,21 +1031,19 @@ void R_DukeDrawWeapon(entity_t *entity)
         float y = r_newrefdef.height * .5f + (sprite->y - 100 - oy) * sy;
         float width = tiles[tile].width * sx, height = tiles[tile].height * sy;
         GL_Bind(image->texnum);
-        qglBegin(GL_QUADS);
-        qglTexCoord2f(sprite->mirror ? 1 : 0, 0);
-        qglVertex2f(x, y);
-        qglTexCoord2f(sprite->mirror ? 0 : 1, 0);
-        qglVertex2f(x + width, y);
-        qglTexCoord2f(sprite->mirror ? 0 : 1, 1);
-        qglVertex2f(x + width, y + height);
-        qglTexCoord2f(sprite->mirror ? 1 : 0, 1);
-        qglVertex2f(x, y + height);
-        qglEnd();
+        RB_Begin(GL_QUADS);
+        RB_TexCoord2f(sprite->mirror ? 1 : 0, 0);
+        RB_Vertex2f(x, y);
+        RB_TexCoord2f(sprite->mirror ? 0 : 1, 0);
+        RB_Vertex2f(x + width, y);
+        RB_TexCoord2f(sprite->mirror ? 0 : 1, 1);
+        RB_Vertex2f(x + width, y + height);
+        RB_TexCoord2f(sprite->mirror ? 1 : 0, 1);
+        RB_Vertex2f(x, y + height);
+        RB_End();
     }
-    qglDisable(GL_ALPHA_TEST);
-    qglEnable(GL_DEPTH_TEST);
-    qglPopMatrix();
-    qglMatrixMode(GL_PROJECTION);
-    qglPopMatrix();
-    qglMatrixMode(GL_MODELVIEW);
+    RB_AlphaTest(false);
+    glEnable(GL_DEPTH_TEST);
+    R_PopModelview();
+    R_PopProjection();
 }

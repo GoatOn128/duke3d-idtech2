@@ -53,14 +53,14 @@ void R_RenderDlight(dlight_t *light)
 	}
 #endif
 
-    qglBegin(GL_TRIANGLE_FAN);
-    qglColor3f(light->color[0] * 0.2, light->color[1] * 0.2, light->color[2] * 0.2);
+    RB_Begin(GL_TRIANGLE_FAN);
+    RB_Color3f(light->color[0] * 0.2, light->color[1] * 0.2, light->color[2] * 0.2);
     for (i = 0; i < 3; i++)
     {
         v[i] = light->origin[i] - vpn[i] * rad;
     }
-    qglVertex3fv(v);
-    qglColor3f(0, 0, 0);
+    RB_Vertex3fv(v);
+    RB_Color3f(0, 0, 0);
     for (i = 16; i >= 0; i--)
     {
         a = i / 16.0 * M_PI * 2;
@@ -68,9 +68,9 @@ void R_RenderDlight(dlight_t *light)
         {
             v[j] = light->origin[j] + vright[j] * cos(a) * rad + vup[j] * sin(a) * rad;
         }
-        qglVertex3fv(v);
+        RB_Vertex3fv(v);
     }
-    qglEnd();
+    RB_End();
 }
 
 /*
@@ -90,11 +90,10 @@ void R_RenderDlights(void)
 
     r_dlightframecount = r_framecount + 1; // because the count hasn't
                                            //  advanced yet for this frame
-    qglDepthMask(0);
-    qglDisable(GL_TEXTURE_2D);
-    qglShadeModel(GL_SMOOTH);
-    qglEnable(GL_BLEND);
-    qglBlendFunc(GL_ONE, GL_ONE);
+    glDepthMask(0);
+    RB_Textured(false);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE);
 
     l = r_newrefdef.dlights;
     for (i = 0; i < r_newrefdef.num_dlights; i++, l++)
@@ -102,11 +101,11 @@ void R_RenderDlights(void)
         R_RenderDlight(l);
     }
 
-    qglColor3f(1, 1, 1);
-    qglDisable(GL_BLEND);
-    qglEnable(GL_TEXTURE_2D);
-    qglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    qglDepthMask(1);
+    RB_Color4f(1, 1, 1, 1);
+    glDisable(GL_BLEND);
+    RB_Textured(true);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glDepthMask(1);
 }
 
 /*
@@ -501,7 +500,6 @@ void R_BuildLightMap(msurface_t *surf, byte *dest, int stride)
     int nummaps;
     float *bl;
     lightstyle_t *style;
-    int monolightmap;
 
     if (surf->texinfo->flags & (SURF_SKY | SURF_TRANS33 | SURF_TRANS66 | SURF_WARP))
     {
@@ -621,175 +619,74 @@ store:
     stride -= (smax << 2);
     bl = s_blocklights;
 
-    monolightmap = gl_monolightmap->string[0];
-
-    if (monolightmap == '0')
+    for (i = 0; i < tmax; i++, dest += stride)
     {
-        for (i = 0; i < tmax; i++, dest += stride)
+        for (j = 0; j < smax; j++)
         {
-            for (j = 0; j < smax; j++)
+
+            r = Q_ftol(bl[0]);
+            g = Q_ftol(bl[1]);
+            b = Q_ftol(bl[2]);
+
+            // catch negative lights
+            if (r < 0)
             {
-
-                r = Q_ftol(bl[0]);
-                g = Q_ftol(bl[1]);
-                b = Q_ftol(bl[2]);
-
-                // catch negative lights
-                if (r < 0)
-                {
-                    r = 0;
-                }
-                if (g < 0)
-                {
-                    g = 0;
-                }
-                if (b < 0)
-                {
-                    b = 0;
-                }
-
-                /*
-                ** determine the brightest of the three color components
-                */
-                if (r > g)
-                {
-                    max = r;
-                }
-                else
-                {
-                    max = g;
-                }
-                if (b > max)
-                {
-                    max = b;
-                }
-
-                /*
-                ** alpha is ONLY used for the mono lightmap case.  For this reason
-                ** we set it to the brightest of the color components so that
-                ** things don't get too dim.
-                */
-                a = max;
-
-                /*
-                ** rescale all the color components if the intensity of the greatest
-                ** channel exceeds 1.0
-                */
-                if (max > 255)
-                {
-                    float t = 255.0F / max;
-
-                    r = r * t;
-                    g = g * t;
-                    b = b * t;
-                    a = a * t;
-                }
-
-                dest[0] = r;
-                dest[1] = g;
-                dest[2] = b;
-                dest[3] = a;
-
-                bl += 3;
-                dest += 4;
+                r = 0;
             }
-        }
-    }
-    else
-    {
-        for (i = 0; i < tmax; i++, dest += stride)
-        {
-            for (j = 0; j < smax; j++)
+            if (g < 0)
             {
-
-                r = Q_ftol(bl[0]);
-                g = Q_ftol(bl[1]);
-                b = Q_ftol(bl[2]);
-
-                // catch negative lights
-                if (r < 0)
-                {
-                    r = 0;
-                }
-                if (g < 0)
-                {
-                    g = 0;
-                }
-                if (b < 0)
-                {
-                    b = 0;
-                }
-
-                /*
-                ** determine the brightest of the three color components
-                */
-                if (r > g)
-                {
-                    max = r;
-                }
-                else
-                {
-                    max = g;
-                }
-                if (b > max)
-                {
-                    max = b;
-                }
-
-                /*
-                ** alpha is ONLY used for the mono lightmap case.  For this reason
-                ** we set it to the brightest of the color components so that
-                ** things don't get too dim.
-                */
-                a = max;
-
-                /*
-                ** rescale all the color components if the intensity of the greatest
-                ** channel exceeds 1.0
-                */
-                if (max > 255)
-                {
-                    float t = 255.0F / max;
-
-                    r = r * t;
-                    g = g * t;
-                    b = b * t;
-                    a = a * t;
-                }
-
-                /*
-                ** So if we are doing alpha lightmaps we need to set the R, G, and B
-                ** components to 0 and we need to set alpha to 1-alpha.
-                */
-                switch (monolightmap)
-                {
-                case 'L':
-                case 'I':
-                    r = a;
-                    g = b = 0;
-                    break;
-                case 'C':
-                    // try faking colored lighting
-                    a = 255 - ((r + g + b) / 3);
-                    r *= a / 255.0;
-                    g *= a / 255.0;
-                    b *= a / 255.0;
-                    break;
-                case 'A':
-                default:
-                    r = g = b = 0;
-                    a = 255 - a;
-                    break;
-                }
-
-                dest[0] = r;
-                dest[1] = g;
-                dest[2] = b;
-                dest[3] = a;
-
-                bl += 3;
-                dest += 4;
+                g = 0;
             }
+            if (b < 0)
+            {
+                b = 0;
+            }
+
+            /*
+            ** determine the brightest of the three color components
+            */
+            if (r > g)
+            {
+                max = r;
+            }
+            else
+            {
+                max = g;
+            }
+            if (b > max)
+            {
+                max = b;
+            }
+
+            /*
+            ** alpha is ONLY used for the mono lightmap case.  For this reason
+            ** we set it to the brightest of the color components so that
+            ** things don't get too dim.
+            */
+            a = max;
+
+            /*
+            ** rescale all the color components if the intensity of the greatest
+            ** channel exceeds 1.0
+            */
+            if (max > 255)
+            {
+                float t = 255.0F / max;
+
+                r = r * t;
+                g = g * t;
+                b = b * t;
+                a = a * t;
+            }
+
+            dest[0] = r;
+            dest[1] = g;
+            dest[2] = b;
+            dest[3] = a;
+
+            bl += 3;
+            dest += 4;
         }
     }
 }
+
