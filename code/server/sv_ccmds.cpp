@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <direct.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include <SDL3/SDL_timer.h>
 
 /*
 ===============================================================================
@@ -278,6 +279,29 @@ static void SV_CloseSave(FILE *file)
 
 /*
 ================
+RenameSaveDir
+
+Windows refuses to rename a directory while any process holds a handle
+inside it, and antivirus or search indexing only hold those handles for a
+moment. Retry briefly before giving up, so a passing scan does not abort a
+map load or a save.
+================
+*/
+static qboolean RenameSaveDir(const char *src, const char *dst)
+{
+    for (int attempt = 0; attempt < 10; attempt++)
+    {
+        if (!rename(src, dst))
+        {
+            return true;
+        }
+        SDL_Delay(50);
+    }
+    return false;
+}
+
+/*
+================
 SV_CopySaveGame
 ================
 */
@@ -359,13 +383,13 @@ void SV_CopySaveGame(char *src, char *dst)
     Com_sprintf(targetpath, sizeof(targetpath), "%s/save/%s", FS_Gamedir(), dst);
     Com_sprintf(backup, sizeof(backup), "%s.old", stagepath);
     existing = _stat(targetpath, &info) == 0;
-    if (existing && rename(targetpath, backup))
+    if (existing && !RenameSaveDir(targetpath, backup))
     {
         Com_Error(ERR_DROP, "Cannot back up save slot %s", dst);
     }
-    if (rename(stagepath, targetpath))
+    if (!RenameSaveDir(stagepath, targetpath))
     {
-        if (existing && rename(backup, targetpath))
+        if (existing && !RenameSaveDir(backup, targetpath))
         {
             Com_Error(ERR_DROP, "Cannot replace save; previous save is in %s", backup);
         }
