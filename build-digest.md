@@ -1,12 +1,12 @@
 # Build digest
 
-- Commit: `26812c9077fc2f854cac19db8c0e3e7beacfade4`
-- Branch: `main`
-- Result: configure exit: 0, build exit: 0
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40945442511
-- Generated: 2026-10-29 20:03:52 UTC
+- Commit: `30dd2b1240fe4521cb76e7256157dcf6eac4e235`
+- Branch: `fix/ui-null-item-names`
+- Result: configure exit: 0, build exit: 1
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40954439232
+- Generated: 2026-10-29 21:04:17 UTC
 
-Errors: **0**, warnings: **0**.
+Errors: **1**, warnings: **0**.
 
 ## CMake errors
 
@@ -18,7 +18,15 @@ No tool-level errors (lld-link, ninja, ...) in the log.
 
 ## Errors
 
-No errors in the log.
+Showing the first 1 of 1 error(s).
+
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2448),1`: expected '}'
+
+  ```
+  FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_shared.cpp.obj
+  "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_shared.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_shared.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_shared.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp
+  ```
+
 
 ## Warnings
 
@@ -27,35 +35,35 @@ No warnings in the log.
 ## Log tail
 
 ```
-[125/154] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
-[126/154] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_input.cpp.obj
-[127/154] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
-[128/154] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
-[129/154] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
-[130/154] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
-[131/154] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
-[132/154] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
-[133/154] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
-[134/154] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
-[135/154] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
-[136/154] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
-[137/154] Building CXX object CMakeFiles\duke3d.dir\server\sv_gamethread.cpp.obj
-[138/154] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
-[139/154] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
-[140/154] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
-[141/154] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
-[142/154] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
-[143/154] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnerrortrap.cpp.obj
-[144/154] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
-[145/154] Building CXX object CMakeFiles\duke3d.dir\qcommon\dneditfield.cpp.obj
-[146/154] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnthreads.cpp.obj
-[147/154] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnconsolehistory.cpp.obj
-[148/154] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj
-[149/154] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_sys.cpp.obj
-[150/154] Building RC object CMakeFiles\duke3d.dir\win32\dnicon.rc.res
-[151/154] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_vid.cpp.obj
-[152/154] Building C object CMakeFiles\convertgrp.dir\tools\convertGRP\convert_grp.c.obj
-[153/154] Linking C executable convertgrp.exe
-[154/154] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll; Shipping SDL3.dll
+[70/154] Building CXX object CMakeFiles\game.dir\game\q_shared.cpp.obj
+[71/154] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
+[72/154] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
+[73/154] Building CXX object CMakeFiles\cgame.dir\qcommon\dnanimation.cpp.obj
+[74/154] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
+[75/154] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
+[76/154] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
+[77/154] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
+[78/154] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
+[79/154] Building CXX object CMakeFiles\ui.dir\ui\ui_main.cpp.obj
+[80/154] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
+[81/154] Building CXX object CMakeFiles\ui.dir\ui\ui_duke_menus.cpp.obj
+[82/154] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
+[83/154] Building CXX object CMakeFiles\ui.dir\ui\ui_util.cpp.obj
+[84/154] Building CXX object CMakeFiles\ui.dir\ui\ui_shared.cpp.obj
+FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_shared.cpp.obj 
+"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_shared.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_shared.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_shared.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2448,1): error: expected '}'
+ 2448 | 
+      | ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2439,48): note: to match this '{'
+ 2439 | static void Scroll_ListBox_AutoFunc( void *p ) {
+      |                                                ^
+1 error generated.
+[85/154] Building CXX object CMakeFiles\ui.dir\game\q_shared.cpp.obj
+[86/154] Building CXX object CMakeFiles\ui.dir\ui\ui_duke_menus2.cpp.obj
+[87/154] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
+[88/154] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
+[89/154] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+ninja: build stopped: subcommand failed.
 ```
 
