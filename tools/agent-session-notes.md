@@ -259,3 +259,40 @@ cost anything as long as this file and PROGRESS.md are current.
   (DrawFill is a palette int, no alpha). License note: the two new
   qcommon modules derive from the BFG framework EditField/ConsoleHistory
   (GPLv3), ported from references/doom3-bfg, which is not compiled.
+
+- 2026-10-29: BFG console port, phase B (win32 system console + console
+  debug graphs), on branch `port/bfg-syscon-debuggraph` (CI green, 0
+  errors, 0 warnings): win32/dn_syscon.h/.cpp ports the BFG
+  sys/win32/win_syscon.cpp at full scope - the dedicated console window
+  (blue background, yellow Courier text, copy/clear/quit buttons, the
+  error box with the 1 s color polarity timer, WM_SYSCOMMAND SC_CLOSE),
+  the subclassed input line with the BFG DIK scan-code key handling
+  (history up/down over 64 DN_EditField history lines, tab completion,
+  enter echoes "]\n" through Sys_ConsoleOutput and hands the line to
+  Qcommon_Frame's Sys_ConsoleInput drain), Conbuf_AppendText in 16 KB
+  chunks with the 0x7000 selection-replacement rollover, and
+  Win_SetErrorText destroying the input line. sdl_sys.cpp routes
+  Sys_ConsoleOutput/Sys_ConsoleInput/Sys_Error through it, the message
+  pump runs in Sys_SendKeyEvents, and win_viewlog (the BFG viewlog)
+  replaces the QHOST show logic; win32/conproc.cpp (QHOST) is dormant and
+  no longer built. client/dndebuggraph.h/.cpp ports the BFG framework
+  DebugGraph (grid lines, fill modes, sideways mode, 8x8 labels through
+  re.DrawChar, palette colors through re.DrawFill), and console.cpp
+  gained the BFG console debug graphs: Con_CreateGraph/Con_DestroyGraph
+  (4-slot list) with the con_frameTimes consumer that draws rolling
+  frame times (100 px = 100 ms, one grid line at com_deltaTimeClamp,
+  bright bars over the clamp), drawn from SCR_UpdateScreen.
+  Adaptations: DN_EditField replaces idEditField; the returned syscon
+  line carries no newline (Qcommon_Frame adds it; the BFG SE_CONSOLE
+  events carried one); the BFG Sys_QueEvent quit path became a
+  consoleText append because Q2 has no system event queue; the BFG
+  idStr color-code strip in Conbuf_AppendText became a 0x7f high-bit
+  mask because Q2 console color lives in the character high bit;
+  dn_syscon.h includes nothing because the Q2 common headers are
+  unguarded and must land only once per TU (CI caught that with 40
+  redefinitions, plus the missing SC_TAB define and a con_frameTimes
+  use before its declaration). win_viewlog only shows the console for
+  non-dedicated starts; dedicated always shows it, like BFG. License
+  note: dn_syscon and dndebuggraph derive from the BFG win_syscon.cpp
+  and framework/DebugGraph (GPLv3), ported from references/doom3-bfg,
+  which is not compiled.

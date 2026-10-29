@@ -45,19 +45,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <SDL3/SDL_filesystem.h>
 #include <SDL3/SDL_timer.h>
 
-#include "../win32/conproc.h"
+#include "../win32/dn_syscon.h"
 
 int ActiveApp;
 qboolean Minimized;
 
-static HANDLE hinput, houtput;
+// win_viewlog shows the BFG system console window on non-dedicated runs
+static cvar_t *win_viewlog;
 
 // current mouse button state, rebuilt from SDL button events
 static int mouse_buttonmask;
 
 unsigned sys_frame_time;
 
-// command line, kept for the dedicated console proc
+// command line, parsed in WinMain and handed to Qcommon_Init
 #define MAX_NUM_ARGVS 128
 static int argc;
 static char *argv[MAX_NUM_ARGVS];
@@ -86,15 +87,17 @@ void Sys_Error(char *error, ...)
     {
         OutputDebugString(text);
         fprintf(stderr, "%s\n", text);
+        Win_SetErrorText(text);
+        Sys_ShowConsole(1, true);
         Sys_ConsoleOutput(text);
     }
     else
     {
+        // the BFG syscon error box, next to the message box
+        Win_SetErrorText(text);
+        Sys_ShowConsole(1, true);
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", text, NULL);
     }
-
-    // shut down QHOST hooks if necessary
-    DeinitConProc();
 
     SDL_Quit();
 
@@ -105,14 +108,6 @@ void Sys_Quit(void)
 {
     CL_Shutdown();
     Qcommon_Shutdown();
-
-    if (dedicated && dedicated->value)
-    {
-        FreeConsole();
-    }
-
-    // shut down QHOST hooks if necessary
-    DeinitConProc();
 
     SDL_Quit();
 
@@ -133,147 +128,51 @@ void Sys_Init(void)
         Sys_Error("SDL_Init failed: %s", SDL_GetError());
     }
 
-    if (dedicated->value)
+    // the BFG win32 system console replaces the old Q2 console windows;
+    // QHOST (win32/conproc.cpp) stays dormant with it in use
+    win_viewlog = Cvar_Get("win_viewlog", "0", 0);
+    Sys_CreateConsole();
+    if (dedicated->value || win_viewlog->value)
     {
-        /* An inherited console or redirected standard handles are valid for
-           dedicated servers. Console input is optional for headless runs. */
-        AllocConsole();
-        hinput = GetStdHandle(STD_INPUT_HANDLE);
-        houtput = GetStdHandle(STD_OUTPUT_HANDLE);
-
-        // let QHOST hook in
-        InitConProc(argc, argv);
+        Sys_ShowConsole(1, false);
     }
 }
-
-static char console_text[256];
-static int console_textlen;
 
 /*
 ================
 Sys_ConsoleInput
+
+Typed lines come from the BFG system console input line
 ================
 */
 char *Sys_ConsoleInput(void)
 {
-    INPUT_RECORD recs[1024];
-    DWORD dummy;
-    int ch;
-    DWORD numread, numevents;
-    DWORD mode;
-
-    if (!dedicated || !dedicated->value)
+    if (!Sys_ConsoleCreated())
     {
         return NULL;
     }
 
-    if (!hinput || hinput == INVALID_HANDLE_VALUE || !GetConsoleMode(hinput, &mode))
-    {
-        return NULL;
-    }
-
-    for (;;)
-    {
-        if (!GetNumberOfConsoleInputEvents(hinput, &numevents))
-        {
-            hinput = NULL;
-            return NULL;
-        }
-
-        if (numevents <= 0)
-        {
-            break;
-        }
-
-        if (!ReadConsoleInput(hinput, recs, 1, &numread))
-        {
-            hinput = NULL;
-            return NULL;
-        }
-
-        if (numread != 1)
-        {
-            return NULL;
-        }
-
-        if (recs[0].EventType == KEY_EVENT)
-        {
-            if (!recs[0].Event.KeyEvent.bKeyDown)
-            {
-                ch = recs[0].Event.KeyEvent.uChar.AsciiChar;
-
-                switch (ch)
-                {
-                case '\r':
-                    WriteFile(houtput, "\r\n", 2, &dummy, NULL);
-
-                    if (console_textlen)
-                    {
-                        console_text[console_textlen] = 0;
-                        console_textlen = 0;
-                        return console_text;
-                    }
-                    break;
-
-                case '\b':
-                    if (console_textlen)
-                    {
-                        console_textlen--;
-                        WriteFile(houtput, "\b \b", 3, &dummy, NULL);
-                    }
-                    break;
-
-                default:
-                    if (ch >= ' ')
-                    {
-                        if (console_textlen < sizeof(console_text) - 2)
-                        {
-                            WriteFile(houtput, &ch, 1, &dummy, NULL);
-                            console_text[console_textlen] = ch;
-                            console_textlen++;
-                        }
-                    }
-
-                    break;
-                }
-            }
-        }
-    }
-
-    return NULL;
+    return Sys_SysconInput();
 }
 
 /*
 ================
 Sys_ConsoleOutput
 
-Print text to the dedicated console
+Print text to the BFG system console window; standard error keeps
+the dedicated server output usable when redirected
 ================
 */
 void Sys_ConsoleOutput(char *string)
 {
-    DWORD dummy;
-    char text[256];
-
-    if (!dedicated || !dedicated->value)
+    if (Sys_ConsoleCreated())
     {
-        return;
+        Conbuf_AppendText(string);
     }
 
-    if (console_textlen)
+    if (dedicated && dedicated->value)
     {
-        text[0] = '\r';
-        memset(&text[1], ' ', console_textlen);
-        text[console_textlen + 1] = '\r';
-        text[console_textlen + 2] = 0;
-        WriteFile(houtput, text, console_textlen + 2, &dummy, NULL);
-    }
-
-    WriteFile(houtput, string, strlen(string), &dummy, NULL);
-
-    if (console_textlen)
-    {
-        WriteFile(houtput, console_text, console_textlen, &dummy, NULL);
+        fprintf(stderr, "%s", string);
     }
 }
 
@@ -417,6 +316,20 @@ Send Key_Event calls
 void Sys_SendKeyEvents(void)
 {
     SDL_Event event;
+    MSG msg;
+
+    // dispatch the BFG system console window messages; its close and
+    // quit paths post WM_QUIT, which asks the engine to quit cleanly
+    while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+    {
+        if (msg.message == WM_QUIT)
+        {
+            Cbuf_AddText("quit\n");
+            break;
+        }
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
 
     while (SDL_PollEvent(&event))
     {

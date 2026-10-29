@@ -61,3 +61,9 @@ void Con_DrawNotify (void);
 void Con_ClearNotify (void);
 void Con_ToggleConsole_f (void);
 void Con_KeyDownEvent (int key);
+
+// BFG console debug graphs (client/dndebuggraph.h)
+class DN_DebugGraph;
+DN_DebugGraph *Con_CreateGraph (void);
+void Con_DestroyGraph (DN_DebugGraph *graph);
+void Con_DrawDebugGraphs (void);

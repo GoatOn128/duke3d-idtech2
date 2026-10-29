@@ -23,8 +23,11 @@ set(engine_sources
     qcommon/cmd.cpp
     qcommon/cmodel.cpp
     qcommon/common.cpp
-    win32/conproc.cpp
+    # win32/dn_syscon.cpp is the BFG win32 system console; it replaces
+    # conproc.cpp (QHOST), which stays dormant
+    win32/dn_syscon.cpp
     client/console.cpp
+    client/dndebuggraph.cpp
     qcommon/crc.cpp
     qcommon/cvar.cpp
     qcommon/files.cpp
