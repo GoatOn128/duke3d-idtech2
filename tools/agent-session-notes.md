@@ -396,3 +396,11 @@ cost anything as long as this file and PROGRESS.md are current.
   every fopen is closed on every path, there are no handle leaks, and
   the save commands run on the main thread in Cbuf_Execute while the
   game thread is idle, so this was not a tic race.
+- 2026-10-29: session bug fixes merged to main: PR #29 as squash
+  4afd4c24 (the branch was deleted on merge). The squash commit body
+  again carries the branch's "ci: publish build digest [skip ci]"
+  subject - the third time, after the #21 and #26 squashes - so the
+  post-merge workflow run on main was skipped and this docs-only chore
+  PR retriggered the main build. Standing rule confirmed again: the
+  owner merges through the UI default (squash); expect a retrigger
+  chore after every PR that carries CI digest commits.
