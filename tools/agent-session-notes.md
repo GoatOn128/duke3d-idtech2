@@ -368,3 +368,31 @@ cost anything as long as this file and PROGRESS.md are current.
   retriggered the main build. The rule from the console merge entry
   stands: after merging a branch that carries CI digest commits, verify
   a post-merge run exists and prefer a plain merge.
+
+- 2026-10-29: post-game-thread session bugs on branch
+  `fix/disconnect-menu-console-save` (CI green, 0 errors, 0 warnings),
+  three user reports from testing after the game thread port. 1) The
+  console key while disconnected ran the Q2 demo loop command d1, which
+  does not exist in this engine, so closing the console printed
+  "Unknown command d1" and the console could not close;
+  Con_ToggleConsole_f now swaps between the console and the main menu
+  when disconnected, like the idTech3 and idTech4 front ends (this
+  engine has no demo loop, so d1 was a dead Q2 path). 2) The disconnect
+  command raised ERR_DROP "Disconnected from server", which dropped the
+  console with an error banner; CL_Disconnect_f now shuts the local
+  server down quietly, disconnects and pushes the main menu, like the
+  idTech3 and idTech4 front ends. 3) A map track started from the
+  CS_CDTRACK configstring kept playing over the menu after disconnect,
+  because nothing stopped it; CL_Disconnect now calls S_MusicStop after
+  CL_ClearState, which covers the disconnect command, ERR_DROP drops
+  and timeouts. 4) The intermittent autosave failure ("cannot save on
+  save slot0"): SV_Map copies save/current to save0 on every map load
+  through SV_CopySaveGame, which renames the whole slot directory, and
+  Windows refuses directory renames while any process holds a handle
+  inside it (antivirus or search indexing), which aborted the whole map
+  load with Cannot back up/replace save slot save0. The renames now
+  retry through RenameSaveDir (10 attempts x 50 ms) before the error
+  drops. The game-side and engine-side save file I/O was audited first:
+  every fopen is closed on every path, there are no handle leaks, and
+  the save commands run on the main thread in Cbuf_Execute while the
+  game thread is idle, so this was not a tic race.
