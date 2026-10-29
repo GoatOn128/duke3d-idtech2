@@ -411,6 +411,9 @@ static int Init( void ) {
     UI_InitMemory();
     String_Init();
     Duke_MenusInit();
+    /* parsed .menu files ride behind the code-built menus; the list file is
+       optional content, so a plain miss is not an error */
+    Menus_Load( "ui/menus.txt" );
     uii.Print( "Duke UI module loaded\n" );
     return 1;
 }
