@@ -1,12 +1,12 @@
 # Build digest
 
-- Commit: `9ff05fa2f1afbcf3ff974d9ae2ed620319cdaf6f`
+- Commit: `73d2460daa52a776f77dd9478b198ffb98eb8f2e`
 - Branch: `feat/ui-shared-port`
 - Result: configure exit: 0, build exit: 1
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40929774412
-- Generated: 2026-10-29 18:20:50 UTC
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40931518096
+- Generated: 2026-10-29 18:31:52 UTC
 
-Errors: **612**, warnings: **3**.
+Errors: **52**, warnings: **0**.
 
 ## CMake errors
 
@@ -18,146 +18,109 @@ No tool-level errors (lld-link, ninja, ...) in the log.
 
 ## Errors
 
-Showing the first 60 of 612 error(s).
+Showing the first 52 of 52 error(s).
 
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(150),2`: unknown type name 'vec4_t'
-
-  ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp:6:
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h:7:
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(151),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(152),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(153),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(161),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(298),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(299),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(333),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(351),28`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(354),63`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(359),64`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(360),76`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(367),175`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(371),26`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(375),73`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(453),33`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(459),38`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483),24`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483),34`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483),44`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h(9),8`: redefinition of 'dn_ui_import_t' as different kind of symbol
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(102),19`: C-style cast from 'const vec_t *' (aka 'const float *') to 'vec3_t' (aka 'float[3]') is not allowed
 
   ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp:6:
+  FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_util.cpp.obj
+  "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_util.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_util.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_util.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp
   ```
 
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h(9),22`: expected ';' after top level declarator
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(930),10`: assigning to 'char *' from 'const char *' discards qualifiers
 
   ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp:6:
+  FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_shared.cpp.obj
+  "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_shared.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_shared.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_shared.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp
   ```
 
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(24),67`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(77),32`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(81),68`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(85),80`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(108),38`: use of undeclared identifier 'qtrue'; did you mean 'true'?
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(108),46`: use of undeclared identifier 'qfalse'; did you mean 'false'?
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(180),54`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(194),12`: use of undeclared identifier 'qfalse'; did you mean 'false'?
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(201),30`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(205),77`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(218),12`: use of undeclared identifier 'qfalse'; did you mean 'false'?
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(358),16`: use of undeclared identifier 'qfalse'; did you mean 'false'?
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(150),2`: unknown type name 'vec4_t'
-
-  ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp:7:
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h:7:
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(151),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(152),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(153),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(161),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(298),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(299),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(333),2`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(351),28`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(354),63`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(359),64`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(360),76`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(367),175`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(371),26`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(375),73`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(453),33`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(459),38`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483),24`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483),34`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483),44`: unknown type name 'vec4_t'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h(9),8`: redefinition of 'dn_ui_import_t' as different kind of symbol
-
-  ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp:7:
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h(9),22`: expected ';' after top level declarator
-
-  ```
-  In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp:7:
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(18),5`: use of undeclared identifier 'uii'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(42),5`: use of undeclared identifier 'Q_strncpyz'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(46),28`: function definition is not allowed here
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(57),56`: function definition is not allowed here
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(941),9`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(941),98`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(956),10`: assigning to 'char *' from 'const char *' discards qualifiers
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(970),9`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(970),98`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(991),8`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(994),15`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(997),15`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1041),8`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1080),10`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1082),17`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1085),17`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1142),8`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1365),34`: call to 'abs' is ambiguous
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1366),34`: call to 'abs' is ambiguous
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1367),34`: call to 'abs' is ambiguous
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1368),34`: call to 'abs' is ambiguous
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1435),53`: use of undeclared identifier 'CHAN_LOCAL_SOUND'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1473),50`: use of undeclared identifier 'CHAN_LOCAL_SOUND'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1551),10`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1588),10`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1593),10`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1660),30`: use of undeclared identifier 'CHAN_LOCAL_SOUND'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1743),18`: cannot initialize a variable of type 'editFieldDef_t *' (aka 'editFieldDef_s *') with an lvalue of type 'void *'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2215),10`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2241),10`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2517),18`: cannot initialize a variable of type 'editFieldDef_t *' (aka 'editFieldDef_s *') with an lvalue of type 'void *'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2597),20`: cannot initialize a variable of type 'editFieldDef_t *' (aka 'editFieldDef_s *') with an lvalue of type 'void *'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3108),84`: use of undeclared identifier 'PULSE_DIVISOR'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3109),77`: use of undeclared identifier 'BLINK_DIVISOR'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3114),88`: use of undeclared identifier 'PULSE_DIVISOR'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3248),18`: use of undeclared identifier 'SAVE_INFOSTRING_LENGTH'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3353),83`: use of undeclared identifier 'PULSE_DIVISOR'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3381),83`: use of undeclared identifier 'PULSE_DIVISOR'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3407),83`: use of undeclared identifier 'PULSE_DIVISOR'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3673),8`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3689),8`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3722),83`: use of undeclared identifier 'PULSE_DIVISOR'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3765),83`: use of undeclared identifier 'PULSE_DIVISOR'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4139),26`: ordered comparison between pointer and zero ('qhandle_t' (aka 'void *') and 'int')
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4147),25`: ordered comparison between pointer and zero ('qhandle_t' (aka 'void *') and 'int')
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4209),81`: use of undeclared identifier 'PULSE_DIVISOR'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4210),78`: use of undeclared identifier 'BLINK_DIVISOR'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4215),85`: use of undeclared identifier 'PULSE_DIVISOR'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4519),8`: no matching function for call to 'Q_stricmp'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4636),28`: use of undeclared identifier 'SCREEN_WIDTH'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4636),42`: use of undeclared identifier 'SCREEN_HEIGHT'
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4703),6`: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4703),6`: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5730),7`: no matching function for call to 'Q_stricmp'
 
 ## Warnings
 
-3 warning(s) in 1 kind(s):
-
-| Kind | Count | Locations |
-| --- | --- | --- |
-| 'rdf_noworldmodel' macro | 3 | D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\tr_types.h(23) |
-
-### Warning messages by kind
-
-- **'rdf_noworldmodel' macro**
-  - `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\tr_types.h(23)`: 'RDF_NOWORLDMODEL' macro redefined [-Wmacro-redefined]
+No warnings in the log.
 
 ## Log tail
 
 ```
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6165,26): error: use of undeclared identifier 'qfalse'
- 6165 |                 Menu_Paint( &Menus[i], qfalse );
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6169,3): error: unknown type name 'vec4_t'
- 6169 |                 vec4_t v = {1, 1, 1, 1};
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6205,13): error: cannot initialize a variable of type 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') with an lvalue of type 'void *'
- 6205 |         menuDef_t *menu = p;
-      |                    ^      ~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6212,12): error: use of undeclared identifier 'qtrue'
- 6212 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6223,9): error: use of undeclared identifier 'qtrue'
- 6223 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6243,13): error: cannot initialize a variable of type 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') with an rvalue of type 'void *'
- 6243 |         menuDef_t *menu = Display_CaptureItem( x, y );
-      |                    ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6315,15): error: use of undeclared identifier 'qtrue'
- 6315 |                                                         return qtrue;
-      |                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6320,14): error: use of undeclared identifier 'qtrue'
- 6320 |                                                 return qtrue;
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4519,8): error: no matching function for call to 'Q_stricmp'
+ 4519 |                 if ( Q_stricmp( Menus[i].window.name, p ) == 0 ) {
+      |                      ^~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
+  227 | int Q_stricmp(char *s1, char *s2);
+      |     ^         ~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4636,28): error: use of undeclared identifier 'SCREEN_WIDTH'
+ 4636 |                 DC->drawHandlePic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, menu->window.background );
+      |                                          ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4636,42): error: use of undeclared identifier 'SCREEN_HEIGHT'
+ 4636 |                 DC->drawHandlePic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, menu->window.background );
       |                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6327,9): error: use of undeclared identifier 'qfalse'
- 6327 |         return qfalse;
-      |                ^
-1 warning and 546 errors generated.
-[85/156] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4703,6): error: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+ 4703 |         int register hash, i;
+      |             ^~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4703,6): error: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+ 4703 |         int register hash, i;
+      |             ^~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5730,7): error: no matching function for call to 'Q_stricmp'
+ 5730 |         if ( Q_stricmp( menu->window.name, "main" ) == 0 ) {
+      |              ^~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
+  227 | int Q_stricmp(char *s1, char *s2);
+      |     ^         ~~~~~~~~
+51 errors generated.
+[85/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
+[86/156] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
+[87/156] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
+[88/156] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
 ninja: build stopped: subcommand failed.
 ```
 

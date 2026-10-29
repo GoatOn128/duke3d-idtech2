@@ -17,7 +17,7 @@ InstalledDir: C:\Program Files\LLVM\bin
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Asset preparation skipped: needs 3drealms/duke3d.grp.
--- Configuring done (8.6s)
+-- Configuring done (10.3s)
 -- Generating done (0.1s)
 -- Build files have been written to: D:/a/duke3d-idtech2/duke3d-idtech2/code/out/build/x86
 === build: windows-clang-x86 preset ===
@@ -25,9 +25,9 @@ InstalledDir: C:\Program Files\LLVM\bin
 [1/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj
 [2/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj
 [3/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj
-[4/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
+[4/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
 [5/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
-[6/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
+[6/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
 [7/156] Building CXX object CMakeFiles\ref_gl.dir\game\q_shared.cpp.obj
 [8/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_shaders.cpp.obj
 [9/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_warp.cpp.obj
@@ -36,598 +36,114 @@ InstalledDir: C:\Program Files\LLVM\bin
 [12/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnpcx.cpp.obj
 [13/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj
 [14/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
-[15/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
-[16/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
-[17/156] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
-[18/156] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
-[19/156] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
-[20/156] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
-[21/156] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
-[22/156] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
-[23/156] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
-[24/156] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
-[25/156] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
-[26/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\glimp_sdl.cpp.obj
-[27/156] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
+[15/156] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
+[16/156] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
+[17/156] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
+[18/156] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
+[19/156] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
+[20/156] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
+[21/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
+[22/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
+[23/156] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
+[24/156] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
+[25/156] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
+[26/156] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
+[27/156] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
 [28/156] Building CXX object CMakeFiles\game.dir\game\dnintermission.cpp.obj
-[29/156] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
-[30/156] Building CXX object CMakeFiles\game.dir\game\dnplayer.cpp.obj
+[29/156] Building CXX object CMakeFiles\game.dir\game\dnplayer.cpp.obj
+[30/156] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
 [31/156] Building CXX object CMakeFiles\game.dir\game\dnweapons.cpp.obj
 [32/156] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
 [33/156] Building CXX object CMakeFiles\game.dir\game\dndamage.cpp.obj
-[34/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
-[35/156] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
+[34/156] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
+[35/156] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\glimp_sdl.cpp.obj
 [36/156] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
 [37/156] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
-[38/156] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
-[39/156] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
-[40/156] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
-[41/156] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
-[42/156] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
-[43/156] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
-[44/156] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
+[38/156] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
+[39/156] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
+[40/156] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
+[41/156] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
+[42/156] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
+[43/156] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
+[44/156] Building CXX object CMakeFiles\game.dir\game\dnstyles.cpp.obj
 [45/156] Building CXX object CMakeFiles\game.dir\game\dntransport.cpp.obj
-[46/156] Building CXX object CMakeFiles\game.dir\game\dnstyles.cpp.obj
+[46/156] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
 [47/156] Building CXX object CMakeFiles\game.dir\game\dndestruct.cpp.obj
-[48/156] Building CXX object CMakeFiles\game.dir\game\dnsectors.cpp.obj
-[49/156] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
+[48/156] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
+[49/156] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
 [50/156] Building CXX object CMakeFiles\game.dir\game\dnfallers.cpp.obj
-[51/156] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
+[51/156] Building CXX object CMakeFiles\game.dir\game\dnsectors.cpp.obj
 [52/156] Building CXX object CMakeFiles\game.dir\game\dneffects.cpp.obj
 [53/156] Building CXX object CMakeFiles\game.dir\game\dngibs.cpp.obj
 [54/156] Building CXX object CMakeFiles\game.dir\game\dndecals.cpp.obj
 [55/156] Building CXX object CMakeFiles\game.dir\game\dnmapspawn.cpp.obj
 [56/156] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
-[57/156] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
-[58/156] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
-[59/156] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
+[57/156] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
+[58/156] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
+[59/156] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
 [60/156] Building CXX object CMakeFiles\game.dir\qcommon\dnanimation.cpp.obj
 [61/156] Building CXX object CMakeFiles\game.dir\qcommon\dnmath.cpp.obj
-[62/156] Building CXX object CMakeFiles\game.dir\game\dnconrun.cpp.obj
-[63/156] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
-[64/156] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
-[65/156] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
+[62/156] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
+[63/156] Building CXX object CMakeFiles\game.dir\game\dnconrun.cpp.obj
+[64/156] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
+[65/156] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
 [66/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnenemies.cpp.obj
 [67/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnmain.cpp.obj
 [68/156] Building CXX object CMakeFiles\game.dir\game\q_shared.cpp.obj
-[69/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponview.cpp.obj
-[70/156] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
-[71/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
+[69/156] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
+[70/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponview.cpp.obj
+[71/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
 [72/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnzrange.cpp.obj
-[73/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
+[73/156] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
 [74/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
 [75/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnanimation.cpp.obj
 [76/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
-[77/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
-[78/156] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
-[79/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
-[80/156] Building CXX object CMakeFiles\ui.dir\ui\ui_main.cpp.obj
-FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_main.cpp.obj 
-"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_main.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_main.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_main.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp:6:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h:7:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:34:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\tr_types.h(23,9): warning: 'RDF_NOWORLDMODEL' macro redefined [-Wmacro-redefined]
-   23 | #define RDF_NOWORLDMODEL    1
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(613,9): note: previous definition is here
-  613 | #define RDF_NOWORLDMODEL 2 // used for player configuration screen
-      |         ^
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp:6:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h:7:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(150,2): error: unknown type name 'vec4_t'
-  150 |         vec4_t foreColor;               // text color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(151,2): error: unknown type name 'vec4_t'
-  151 |         vec4_t backColor;               // border color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(152,2): error: unknown type name 'vec4_t'
-  152 |         vec4_t borderColor;             // border color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(153,2): error: unknown type name 'vec4_t'
-  153 |         vec4_t outlineColor;            // border color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(161,2): error: unknown type name 'vec4_t'
-  161 |         vec4_t color;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(298,2): error: unknown type name 'vec4_t'
-  298 |         vec4_t focusColor;              // focus color for items
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(299,2): error: unknown type name 'vec4_t'
-  299 |         vec4_t disableColor;            // focus color for items
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(333,2): error: unknown type name 'vec4_t'
-  333 |         vec4_t shadowColor;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(351,28): error: unknown type name 'vec4_t'
-  351 |         void ( *setColor )( const vec4_t v );
-      |                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(354,63): error: unknown type name 'vec4_t'
-  354 |         void ( *drawText )( float x, float y, int font, float scale, vec4_t color, const char *text, float adjust, int limit, int style );
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(359,64): error: unknown type name 'vec4_t'
-  359 |         void ( *fillRect )( float x, float y, float w, float h, const vec4_t color );
-      |                                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(360,76): error: unknown type name 'vec4_t'
-  360 |         void ( *drawRect )( float x, float y, float w, float h, float size, const vec4_t color );
-      |                                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(367,175): error: unknown type name 'vec4_t'
-  367 |         void ( *ownerDrawItem )( float x, float y, float w, float h, float text_x, float text_y, int ownerDraw, int ownerDrawFlags, int align, float special, int font, float scale, vec4_t color, qhandle_t shader, int textStyle );
-      |                                                                                                                                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(371,26): error: unknown type name 'vec4_t'
-  371 |         void ( *getTeamColor )( vec4_t *color );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(375,73): error: unknown type name 'vec4_t'
-  375 |         void ( *drawTextWithCursor )( float x, float y, int font, float scale, vec4_t color, const char *text, int cursorPos, char cursor, int limit, int style );
-      |                                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(453,33): error: unknown type name 'vec4_t'
-  453 | qboolean Color_Parse( char **p, vec4_t *c );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(459,38): error: unknown type name 'vec4_t'
-  459 | qboolean PC_Color_Parse( int handle, vec4_t *c );
-      |                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483,24): error: unknown type name 'vec4_t'
-  483 | void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483,34): error: unknown type name 'vec4_t'
-  483 | void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483,44): error: unknown type name 'vec4_t'
-  483 | void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
-      |                                            ^
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp:6:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h(9,8): error: redefinition of 'dn_ui_import_t' as different kind of symbol
-    9 | extern dn_ui_import_t uii;
-      |        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui.h(69,3): note: previous definition is here
-   69 | } dn_ui_import_t;
-      |   ^
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp:6:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h(9,22): error: expected ';' after top level declarator
-    9 | extern dn_ui_import_t uii;
-      |                      ^
-      |                      ;
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(24,67): error: unknown type name 'vec4_t'
-   24 | static void DC_DrawText( float x, float y, int font, float scale, vec4_t color,
-      |                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(77,32): error: unknown type name 'vec4_t'
-   77 | static void DC_SetColor( const vec4_t v ) {
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(81,68): error: unknown type name 'vec4_t'
-   81 | static void DC_FillRect( float x, float y, float w, float h, const vec4_t color ) {
-      |                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(85,80): error: unknown type name 'vec4_t'
-   85 | static void DC_DrawRect( float x, float y, float w, float h, float size, const vec4_t color ) {
-      |                                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(108,38): error: use of undeclared identifier 'qtrue'; did you mean 'true'?
-  108 |     return uii.GetOverstrikeMode() ? qtrue : qfalse;
-      |                                      ^~~~~
-      |                                      true
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(108,46): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  108 |     return uii.GetOverstrikeMode() ? qtrue : qfalse;
-      |                                              ^~~~~~
-      |                                              false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(180,54): error: unknown type name 'vec4_t'
-  180 |                               int font, float scale, vec4_t color, qhandle_t shader, int textStyle ) {
-      |                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(194,12): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  194 |     return qfalse;
-      |            ^~~~~~
-      |            false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(201,30): error: unknown type name 'vec4_t'
-  201 | static void DC_GetTeamColor( vec4_t *color ) {
-      |                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(205,77): error: unknown type name 'vec4_t'
-  205 | static void DC_DrawTextWithCursor( float x, float y, int font, float scale, vec4_t color,
-      |                                                                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(218,12): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  218 |     return qfalse;
-      |            ^~~~~~
-      |            false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_main.cpp(358,16): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  358 |     dc.debug = qfalse;
-      |                ^~~~~~
-      |                false
-1 warning and 34 errors generated.
-[81/156] Building CXX object CMakeFiles\ui.dir\ui\ui_util.cpp.obj
+[77/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
+[78/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
+[79/156] Building CXX object CMakeFiles\ui.dir\ui\ui_main.cpp.obj
+[80/156] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
+[81/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
+[82/156] Building CXX object CMakeFiles\ui.dir\game\q_shared.cpp.obj
+[83/156] Building CXX object CMakeFiles\ui.dir\ui\ui_util.cpp.obj
 FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_util.cpp.obj 
 "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_util.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_util.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_util.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp:7:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h:7:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:34:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\tr_types.h(23,9): warning: 'RDF_NOWORLDMODEL' macro redefined [-Wmacro-redefined]
-   23 | #define RDF_NOWORLDMODEL    1
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(613,9): note: previous definition is here
-  613 | #define RDF_NOWORLDMODEL 2 // used for player configuration screen
-      |         ^
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp:7:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h:7:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(150,2): error: unknown type name 'vec4_t'
-  150 |         vec4_t foreColor;               // text color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(151,2): error: unknown type name 'vec4_t'
-  151 |         vec4_t backColor;               // border color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(152,2): error: unknown type name 'vec4_t'
-  152 |         vec4_t borderColor;             // border color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(153,2): error: unknown type name 'vec4_t'
-  153 |         vec4_t outlineColor;            // border color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(161,2): error: unknown type name 'vec4_t'
-  161 |         vec4_t color;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(298,2): error: unknown type name 'vec4_t'
-  298 |         vec4_t focusColor;              // focus color for items
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(299,2): error: unknown type name 'vec4_t'
-  299 |         vec4_t disableColor;            // focus color for items
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(333,2): error: unknown type name 'vec4_t'
-  333 |         vec4_t shadowColor;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(351,28): error: unknown type name 'vec4_t'
-  351 |         void ( *setColor )( const vec4_t v );
-      |                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(354,63): error: unknown type name 'vec4_t'
-  354 |         void ( *drawText )( float x, float y, int font, float scale, vec4_t color, const char *text, float adjust, int limit, int style );
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(359,64): error: unknown type name 'vec4_t'
-  359 |         void ( *fillRect )( float x, float y, float w, float h, const vec4_t color );
-      |                                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(360,76): error: unknown type name 'vec4_t'
-  360 |         void ( *drawRect )( float x, float y, float w, float h, float size, const vec4_t color );
-      |                                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(367,175): error: unknown type name 'vec4_t'
-  367 |         void ( *ownerDrawItem )( float x, float y, float w, float h, float text_x, float text_y, int ownerDraw, int ownerDrawFlags, int align, float special, int font, float scale, vec4_t color, qhandle_t shader, int textStyle );
-      |                                                                                                                                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(371,26): error: unknown type name 'vec4_t'
-  371 |         void ( *getTeamColor )( vec4_t *color );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(375,73): error: unknown type name 'vec4_t'
-  375 |         void ( *drawTextWithCursor )( float x, float y, int font, float scale, vec4_t color, const char *text, int cursorPos, char cursor, int limit, int style );
-      |                                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(453,33): error: unknown type name 'vec4_t'
-  453 | qboolean Color_Parse( char **p, vec4_t *c );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(459,38): error: unknown type name 'vec4_t'
-  459 | qboolean PC_Color_Parse( int handle, vec4_t *c );
-      |                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483,24): error: unknown type name 'vec4_t'
-  483 | void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483,34): error: unknown type name 'vec4_t'
-  483 | void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483,44): error: unknown type name 'vec4_t'
-  483 | void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
-      |                                            ^
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp:7:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h(9,8): error: redefinition of 'dn_ui_import_t' as different kind of symbol
-    9 | extern dn_ui_import_t uii;
-      |        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui.h(69,3): note: previous definition is here
-   69 | } dn_ui_import_t;
-      |   ^
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp:7:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h(9,22): error: expected ';' after top level declarator
-    9 | extern dn_ui_import_t uii;
-      |                      ^
-      |                      ;
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(18,5): error: use of undeclared identifier 'uii'
-   18 |     uii.Print( "%s", string );
-      |     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(42,5): error: use of undeclared identifier 'Q_strncpyz'
-   42 |     Q_strncpyz( dest + l1, src, size - l1 );
-      |     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(46,28): error: function definition is not allowed here
-   46 | char *Q_strupr( char *s1 ) {
-      |                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(57,56): error: function definition is not allowed here
-   57 | int Q_strncmp( const char *s1, const char *s2, int n ) {
-      |                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(69,24): error: function definition is not allowed here
-   69 | int Q_isupper( int c ) {
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(73,26): error: function definition is not allowed here
-   73 | int Q_isnumeric( int c ) {
-      |                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(78,30): error: function definition is not allowed here
-   78 | int Q_isforfilename( int c ) {
-      |                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(86,58): error: function definition is not allowed here
-   86 | void AnglesToAxis( const vec3_t angles, vec3_t axis[3] ) {
-      |                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(107,62): error: function definition is not allowed here
-  107 | char *COM_ParseExt( char **data_p, qboolean allowLineBreak ) {
-      |                                                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(280,2): error: expected '}'
-  280 | }
-      |  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(37,56): note: to match this '{'
-   37 | void Q_strcat( char *dest, int size, const char *src ) {
-      |                                                        ^
-1 warning and 32 errors generated.
-[82/156] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
-[83/156] Building CXX object CMakeFiles\ui.dir\game\q_shared.cpp.obj
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_util.cpp(102,19): error: C-style cast from 'const vec_t *' (aka 'const float *') to 'vec3_t' (aka 'float[3]') is not allowed
+  102 |     AngleVectors( (vec3_t)angles, forward, right, up );
+      |                   ^~~~~~~~~~~~~~
+1 error generated.
 [84/156] Building CXX object CMakeFiles\ui.dir\ui\ui_shared.cpp.obj
 FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_shared.cpp.obj 
 "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_shared.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_shared.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_shared.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp:32:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h:7:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:34:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\tr_types.h(23,9): warning: 'RDF_NOWORLDMODEL' macro redefined [-Wmacro-redefined]
-   23 | #define RDF_NOWORLDMODEL    1
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(613,9): note: previous definition is here
-  613 | #define RDF_NOWORLDMODEL 2 // used for player configuration screen
-      |         ^
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp:32:
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h:7:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(150,2): error: unknown type name 'vec4_t'
-  150 |         vec4_t foreColor;               // text color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(151,2): error: unknown type name 'vec4_t'
-  151 |         vec4_t backColor;               // border color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(152,2): error: unknown type name 'vec4_t'
-  152 |         vec4_t borderColor;             // border color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(153,2): error: unknown type name 'vec4_t'
-  153 |         vec4_t outlineColor;            // border color
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(161,2): error: unknown type name 'vec4_t'
-  161 |         vec4_t color;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(298,2): error: unknown type name 'vec4_t'
-  298 |         vec4_t focusColor;              // focus color for items
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(299,2): error: unknown type name 'vec4_t'
-  299 |         vec4_t disableColor;            // focus color for items
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(333,2): error: unknown type name 'vec4_t'
-  333 |         vec4_t shadowColor;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(351,28): error: unknown type name 'vec4_t'
-  351 |         void ( *setColor )( const vec4_t v );
-      |                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(354,63): error: unknown type name 'vec4_t'
-  354 |         void ( *drawText )( float x, float y, int font, float scale, vec4_t color, const char *text, float adjust, int limit, int style );
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(359,64): error: unknown type name 'vec4_t'
-  359 |         void ( *fillRect )( float x, float y, float w, float h, const vec4_t color );
-      |                                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(360,76): error: unknown type name 'vec4_t'
-  360 |         void ( *drawRect )( float x, float y, float w, float h, float size, const vec4_t color );
-      |                                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(367,175): error: unknown type name 'vec4_t'
-  367 |         void ( *ownerDrawItem )( float x, float y, float w, float h, float text_x, float text_y, int ownerDraw, int ownerDrawFlags, int align, float special, int font, float scale, vec4_t color, qhandle_t shader, int textStyle );
-      |                                                                                                                                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(371,26): error: unknown type name 'vec4_t'
-  371 |         void ( *getTeamColor )( vec4_t *color );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(375,73): error: unknown type name 'vec4_t'
-  375 |         void ( *drawTextWithCursor )( float x, float y, int font, float scale, vec4_t color, const char *text, int cursorPos, char cursor, int limit, int style );
-      |                                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(453,33): error: unknown type name 'vec4_t'
-  453 | qboolean Color_Parse( char **p, vec4_t *c );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(459,38): error: unknown type name 'vec4_t'
-  459 | qboolean PC_Color_Parse( int handle, vec4_t *c );
-      |                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483,24): error: unknown type name 'vec4_t'
-  483 | void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483,34): error: unknown type name 'vec4_t'
-  483 | void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h(483,44): error: unknown type name 'vec4_t'
-  483 | void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
-      |                                            ^
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp:32:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h(9,8): error: redefinition of 'dn_ui_import_t' as different kind of symbol
-    9 | extern dn_ui_import_t uii;
-      |        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui.h(69,3): note: previous definition is here
-   69 | } dn_ui_import_t;
-      |   ^
-In file included from D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp:32:
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_local.h(9,22): error: expected ';' after top level declarator
-    9 | extern dn_ui_import_t uii;
-      |                      ^
-      |                      ;
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(58,28): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-   58 | qboolean g_waitingForKey = qfalse;
-      |                            ^~~~~~
-      |                            false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(59,27): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-   59 | qboolean g_editingField = qfalse;
-      |                           ^~~~~~
-      |                           false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(70,29): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-   70 | static qboolean debugMode = qfalse;
-      |                             ^~~~~~
-      |                             false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(177,17): error: use of undeclared identifier 'qtrue'; did you mean 'true'?
-  177 |                 outOfMemory = qtrue;
-      |                               ^~~~~
-      |                               true
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(199,16): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  199 |         outOfMemory = qfalse;
-      |                       ^~~~~~
-      |                       false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(381,17): error: unknown type name 'vec4_t'
-  381 | void LerpColor( vec4_t a, vec4_t b, vec4_t c, float t ) {
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(381,27): error: unknown type name 'vec4_t'
-  381 | void LerpColor( vec4_t a, vec4_t b, vec4_t c, float t ) {
-      |                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(381,37): error: unknown type name 'vec4_t'
-  381 | void LerpColor( vec4_t a, vec4_t b, vec4_t c, float t ) {
-      |                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(401,27): error: use of undeclared identifier 'qfalse'
-  401 |         token = COM_ParseExt( p, qfalse );
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(404,10): error: use of undeclared identifier 'qtrue'; did you mean 'true'?
-  404 |                 return qtrue;
-      |                        ^~~~~
-      |                        true
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(406,10): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  406 |                 return qfalse;
-      |                        ^~~~~~
-      |                        false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(417,17): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  417 |         int negative = qfalse;
-      |                        ^~~~~~
-      |                        false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(420,10): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  420 |                 return qfalse;
-      |                        ^~~~~~
-      |                        false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(424,11): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  424 |                         return qfalse;
-      |                                ^~~~~~
-      |                                false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(426,14): error: use of undeclared identifier 'qtrue'; did you mean 'true'?
-  426 |                 negative = qtrue;
-      |                            ^~~~~
-      |                            true
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(430,10): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  430 |                 return qfalse;
-      |                        ^~~~~~
-      |                        false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(437,9): error: use of undeclared identifier 'qtrue'; did you mean 'true'?
-  437 |         return qtrue;
-      |                ^~~~~
-      |                true
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(445,33): error: unknown type name 'vec4_t'
-  445 | qboolean Color_Parse( char **p, vec4_t *c ) {
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(451,11): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  451 |                         return qfalse;
-      |                                ^~~~~~
-      |                                false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(455,9): error: use of undeclared identifier 'qtrue'; did you mean 'true'?
-  455 |         return qtrue;
-      |                ^~~~~
-      |                true
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(463,38): error: unknown type name 'vec4_t'
-  463 | qboolean PC_Color_Parse( int handle, vec4_t *c ) {
-      |                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(469,11): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  469 |                         return qfalse;
-      |                                ^~~~~~
-      |                                false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(473,9): error: use of undeclared identifier 'qtrue'; did you mean 'true'?
-  473 |         return qtrue;
-      |                ^~~~~
-      |                true
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(483,27): error: use of undeclared identifier 'qfalse'
-  483 |         token = COM_ParseExt( p, qfalse );
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(487,10): error: use of undeclared identifier 'qtrue'; did you mean 'true'?
-  487 |                 return qtrue;
-      |                        ^~~~~
-      |                        true
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(489,10): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  489 |                 return qfalse;
-      |                        ^~~~~~
-      |                        false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(500,17): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  500 |         int negative = qfalse;
-      |                        ^~~~~~
-      |                        false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(503,10): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  503 |                 return qfalse;
-      |                        ^~~~~~
-      |                        false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(507,11): error: use of undeclared identifier 'qfalse'; did you mean 'false'?
-  507 |                         return qfalse;
-      |                                ^~~~~~
-      |                                false
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(509,14): error: use of undeclared identifier 'qtrue'; did you mean 'true'?
-  509 |                 negative = qtrue;
-      |                            ^~~~~
-      |                            true
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(513,10): error: use of undeclared identifier 'qfalse'
-  513 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(519,9): error: use of undeclared identifier 'qtrue'
-  519 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(532,13): error: use of undeclared identifier 'qtrue'
-  532 |                                         return qtrue;
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(537,9): error: use of undeclared identifier 'qfalse'
-  537 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(550,13): error: use of undeclared identifier 'qtrue'
-  550 |                                         return qtrue;
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(555,9): error: use of undeclared identifier 'qfalse'
-  555 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(566,27): error: use of undeclared identifier 'qfalse'
-  566 |         token = COM_ParseExt( p, qfalse );
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(569,10): error: use of undeclared identifier 'qtrue'
-  569 |                 return qtrue;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(571,9): error: use of undeclared identifier 'qfalse'
-  571 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(583,10): error: use of undeclared identifier 'qfalse'
-  583 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(587,9): error: use of undeclared identifier 'qtrue'
-  587 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(600,10): error: use of undeclared identifier 'qfalse'
-  600 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(604,9): error: use of undeclared identifier 'qtrue'
-  604 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(622,10): error: use of undeclared identifier 'qfalse'
-  622 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(625,10): error: use of undeclared identifier 'qfalse'
-  625 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(630,11): error: use of undeclared identifier 'qfalse'
-  630 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(635,11): error: use of undeclared identifier 'qtrue'
-  635 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(666,42): error: unknown type name 'vec4_t'
-  666 | void GradientBar_Paint( rectDef_t *rect, vec4_t color ) {
-      |                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(715,2): error: unknown type name 'vec4_t'
-  715 |         vec4_t color;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(737,75): error: use of undeclared identifier 'qtrue'
-  737 |                         Fade( &w->flags, &w->backColor[3], fadeClamp, &w->nextTime, fadeCycle, qtrue, fadeAmount );
-      |                                                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(841,15): error: assigning to 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') from incompatible type 'void *'
-  841 |         menu = item->parent;
-      |                ~~~~~~^~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(917,11): error: use of undeclared identifier 'qtrue'
-  917 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(920,9): error: use of undeclared identifier 'qfalse'
-  920 |         return qfalse;
-      |                ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(930,10): error: assigning to 'char *' from 'const char *' discards qualifiers
   930 |         pdest = strstr( name, "*" ); // allow wildcard strings (ex.  "hide nb_*" would translate to "hide nb_pg1; hide nb_extra" etc)
       |                 ^~~~~~~~~~~~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(941,9): error: no matching function for call to 'Q_stricmp'
+  941 |                         if ( Q_stricmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_stricmp( menu->items[i]->window.group, name ) == 0 ) ) {
+      |                              ^~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
+  227 | int Q_stricmp(char *s1, char *s2);
+      |     ^         ~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(941,98): error: no matching function for call to 'Q_stricmp'
+  941 |                         if ( Q_stricmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_stricmp( menu->items[i]->window.group, name ) == 0 ) ) {
+      |                                                                                                                       ^~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
+  227 | int Q_stricmp(char *s1, char *s2);
+      |     ^         ~~~~~~~~
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(956,10): error: assigning to 'char *' from 'const char *' discards qualifiers
   956 |         pdest = strstr( name, "*" ); // allow wildcard strings (ex.  "hide nb_*" would translate to "hide nb_pg1; hide nb_extra" etc)
       |                 ^~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(987,2): error: unknown type name 'vec4_t'
-  987 |         vec4_t *out;
-      |         ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(970,9): error: no matching function for call to 'Q_stricmp'
+  970 |                         if ( Q_stricmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_stricmp( menu->items[i]->window.group, name ) == 0 ) ) {
+      |                              ^~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
+  227 | int Q_stricmp(char *s1, char *s2);
+      |     ^         ~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(970,98): error: no matching function for call to 'Q_stricmp'
+  970 |                         if ( Q_stricmp( menu->items[i]->window.name, name ) == 0 || ( menu->items[i]->window.group && Q_stricmp( menu->items[i]->window.group, name ) == 0 ) ) {
+      |                                                                                                                       ^~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
+  227 | int Q_stricmp(char *s1, char *s2);
+      |     ^         ~~~~~~~~
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(991,8): error: no matching function for call to 'Q_stricmp'
   991 |                 if ( Q_stricmp( name, "backcolor" ) == 0 ) {
       |                      ^~~~~~~~~
@@ -646,27 +162,12 @@ D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(997,15): error: no matc
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
   227 | int Q_stricmp(char *s1, char *s2);
       |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1052,3): error: unknown type name 'vec4_t'
- 1052 |                 vec4_t color;
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1063,2): error: unknown type name 'vec4_t'
- 1063 |         vec4_t color;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1065,2): error: unknown type name 'vec4_t'
- 1065 |         vec4_t *out;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1070,15): error: no matching function for call to 'Menu_ItemsMatchingGroup'
- 1070 |                 int count = Menu_ItemsMatchingGroup( item->parent, itemname );
-      |                             ^~~~~~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(923,5): note: candidate function not viable: cannot convert argument of incomplete type 'void *' to 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') for 1st argument
-  923 | int Menu_ItemsMatchingGroup( menuDef_t *menu, const char *name ) {
-      |     ^                        ~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1077,12): error: no matching function for call to 'Menu_GetMatchingItemByNumber'
- 1077 |                         item2 = Menu_GetMatchingItemByNumber( item->parent, j, itemname );
-      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(950,12): note: candidate function not viable: cannot convert argument of incomplete type 'void *' to 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') for 1st argument
-  950 | itemDef_t *Menu_GetMatchingItemByNumber( menuDef_t *menu, int index, const char *name ) {
-      |            ^                             ~~~~~~~~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1041,8): error: no matching function for call to 'Q_stricmp'
+ 1041 |                 if ( Q_stricmp( p, menu->items[i]->window.name ) == 0 ) {
+      |                      ^~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
+  227 | int Q_stricmp(char *s1, char *s2);
+      |     ^         ~~~~~~~~
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1080,10): error: no matching function for call to 'Q_stricmp'
  1080 |                                 if ( Q_stricmp( name, "backcolor" ) == 0 ) {
       |                                      ^~~~~~~~~
@@ -685,33 +186,12 @@ D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1085,17): error: no mat
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
   227 | int Q_stricmp(char *s1, char *s2);
       |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1188,44): error: use of undeclared identifier 'qtrue'
- 1188 |                 Menu_ShowItemByName( item->parent, name, qtrue );
-      |                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1195,44): error: use of undeclared identifier 'qfalse'
- 1195 |                 Menu_ShowItemByName( item->parent, name, qfalse );
-      |                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1202,44): error: use of undeclared identifier 'qfalse'
- 1202 |                 Menu_FadeItemByName( item->parent, name, qfalse );
-      |                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1209,44): error: use of undeclared identifier 'qtrue'
- 1209 |                 Menu_FadeItemByName( item->parent, name, qtrue );
-      |                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1240,48): error: use of undeclared identifier 'qtrue'
- 1240 |         Menu_ShowItemByName( item->parent, curscript, qtrue );
-      |                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1334,47): error: use of undeclared identifier 'qfalse'
- 1334 |                 Menu_ShowItemByName( item->parent, "cover", qfalse );
-      |                                                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1336,58): error: use of undeclared identifier 'qfalse'
- 1336 |                         Menu_ShowItemByName( item->parent, va( "page%d", i ), qfalse );
-      |                                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1342,64): error: use of undeclared identifier 'qtrue'
- 1342 |                         Menu_ShowItemByName( item->parent, va( "page%d", curpage ), qtrue );
-      |                                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1344,48): error: use of undeclared identifier 'qtrue'
- 1344 |                         Menu_ShowItemByName( item->parent, "cover", qtrue );
-      |                                                                     ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1142,8): error: no matching function for call to 'Q_stricmp'
+ 1142 |                 if ( Q_stricmp( Menus[i].window.name, p ) == 0 ) {
+      |                      ^~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
+  227 | int Q_stricmp(char *s1, char *s2);
+      |     ^         ~~~~~~~~
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1365,34): error: call to 'abs' is ambiguous
  1365 |                         item->window.rectEffects2.x = abs( rectTo.x - rectFrom.x ) / amt;
       |                                                       ^~~
@@ -760,162 +240,36 @@ C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(363,17
 C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h(368,22): note: candidate function
   368 |     inline long long abs(long long const _X) throw()
       |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1383,4): error: no matching function for call to 'Menu_TransitionItemByName'
- 1383 |                         Menu_TransitionItemByName( item->parent, name, rectFrom, rectTo, time, amt );
-      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1354,6): note: candidate function not viable: cannot convert argument of incomplete type 'void *' to 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') for 1st argument
- 1354 | void Menu_TransitionItemByName( menuDef_t *menu, const char *p, rectDef_t rectFrom, rectDef_t rectTo, int time, float amt ) {
-      |      ^                          ~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1415,4): error: no matching function for call to 'Menu_OrbitItemByName'
- 1415 |                         Menu_OrbitItemByName( item->parent, name, x, y, cx, cy, time );
-      |                         ^~~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1389,6): note: candidate function not viable: cannot convert argument of incomplete type 'void *' to 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') for 1st argument
- 1389 | void Menu_OrbitItemByName( menuDef_t *menu, const char *p, float x, float y, float cx, float cy, int time ) {
-      |      ^                     ~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1427,15): error: no matching function for call to 'Menu_FindItemByName'
- 1427 |                 focusItem = Menu_FindItemByName( item->parent, name );
-      |                             ^~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1033,12): note: candidate function not viable: cannot convert argument of incomplete type 'void *' to 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') for 1st argument
- 1033 | itemDef_t *Menu_FindItemByName( menuDef_t *menu, const char *p ) {
-      |            ^                    ~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1429,4): error: no matching function for call to 'Menu_ClearFocus'
- 1429 |                         Menu_ClearFocus( item->parent );
-      |                         ^~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(889,12): note: candidate function not viable: cannot convert argument of incomplete type 'void *' to 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') for 1st argument
-  889 | itemDef_t *Menu_ClearFocus( menuDef_t *menu ) {
-      |            ^                ~~~~~~~~~~~~~~~
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1435,53): error: use of undeclared identifier 'CHAN_LOCAL_SOUND'
  1435 |                                 DC->startLocalSound( DC->Assets.itemFocusSound, CHAN_LOCAL_SOUND );
       |                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1466,20): error: use of undeclared identifier 'EXEC_APPEND'
- 1466 |                 DC->executeText( EXEC_APPEND, va( "%s ; ", val ) );
-      |                                  ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1473,50): error: use of undeclared identifier 'CHAN_LOCAL_SOUND'
  1473 |                 DC->startLocalSound( DC->registerSound( val ), CHAN_LOCAL_SOUND );      // all sounds are not 3d
       |                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1492,7): error: no matching function for call to 'Menu_FindItemByName'
- 1492 |                 t = Menu_FindItemByName( item->parent, itemname );
-      |                     ^~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1033,12): note: candidate function not viable: cannot convert argument of incomplete type 'void *' to 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') for 1st argument
- 1033 | itemDef_t *Menu_FindItemByName( menuDef_t *menu, const char *p ) {
-      |            ^                    ~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1549,11): error: use of undeclared identifier 'qfalse'
- 1549 |                         bRan = qfalse;
-      |                                ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1551,10): error: no matching function for call to 'Q_stricmp'
  1551 |                                 if ( Q_stricmp( command, commandList[i].name ) == 0 ) {
       |                                      ^~~~~~~~~
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
   227 | int Q_stricmp(char *s1, char *s2);
       |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1553,13): error: use of undeclared identifier 'qtrue'
- 1553 |                                         bRan = qtrue;
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1579,41): error: use of undeclared identifier 'qfalse'
- 1579 |                                 return ( item->cvarFlags & flag ) ? qfalse : qtrue;
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1579,50): error: use of undeclared identifier 'qtrue'
- 1579 |                                 return ( item->cvarFlags & flag ) ? qfalse : qtrue;
-      |                                                                              ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1588,10): error: no matching function for call to 'Q_stricmp'
  1588 |                                 if ( Q_stricmp( buff, val ) == 0 ) {
       |                                      ^~~~~~~~~
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 2nd argument ('const char *') would lose const qualifier
   227 | int Q_stricmp(char *s1, char *s2);
       |     ^                   ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1589,13): error: use of undeclared identifier 'qtrue'
- 1589 |                                         return qtrue;
-      |                                                ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1593,10): error: no matching function for call to 'Q_stricmp'
  1593 |                                 if ( Q_stricmp( buff, val ) == 0 ) {
       |                                      ^~~~~~~~~
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 2nd argument ('const char *') would lose const qualifier
   227 | int Q_stricmp(char *s1, char *s2);
       |     ^                   ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1594,13): error: use of undeclared identifier 'qfalse'
- 1594 |                                         return qfalse;
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1599,39): error: use of undeclared identifier 'qfalse'
- 1599 |                 return ( item->cvarFlags & flag ) ? qfalse : qtrue;
-      |                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1599,48): error: use of undeclared identifier 'qtrue'
- 1599 |                 return ( item->cvarFlags & flag ) ? qfalse : qtrue;
-      |                                                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1601,9): error: use of undeclared identifier 'qtrue'
- 1601 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1610,23): error: use of undeclared identifier 'qfalse'
- 1610 |         qboolean playSound = qfalse;
-      |                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1614,10): error: use of undeclared identifier 'qfalse'
- 1614 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1621,10): error: use of undeclared identifier 'qfalse'
- 1621 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1625,10): error: use of undeclared identifier 'qfalse'
- 1625 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1628,13): error: no matching function for call to 'Menu_ClearFocus'
- 1628 |         oldFocus = Menu_ClearFocus( item->parent );
-      |                    ^~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(889,12): note: candidate function not viable: cannot convert argument of incomplete type 'void *' to 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') for 1st argument
-  889 | itemDef_t *Menu_ClearFocus( menuDef_t *menu ) {
-      |            ^                ~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1639,16): error: use of undeclared identifier 'qtrue'
- 1639 |                         playSound = qtrue;
-      |                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1656,15): error: use of undeclared identifier 'qtrue'
- 1656 |                 playSound = qtrue;
-      |                             ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1660,30): error: use of undeclared identifier 'CHAN_LOCAL_SOUND'
  1660 |                 DC->startLocalSound( *sfx, CHAN_LOCAL_SOUND );
       |                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1670,9): error: use of undeclared identifier 'qtrue'
- 1670 |         return qtrue;
-      |                ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1743,18): error: cannot initialize a variable of type 'editFieldDef_t *' (aka 'editFieldDef_s *') with an lvalue of type 'void *'
  1743 |         editFieldDef_t *editDef = item->typeData;
       |                         ^         ~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1976,9): error: use of undeclared identifier 'qfalse'
- 1976 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2008,12): error: use of undeclared identifier 'qtrue'
- 2008 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2030,12): error: use of undeclared identifier 'qtrue'
- 2030 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2054,12): error: use of undeclared identifier 'qtrue'
- 2054 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2076,12): error: use of undeclared identifier 'qtrue'
- 2076 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2119,11): error: use of undeclared identifier 'qtrue'
- 2119 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2124,11): error: use of undeclared identifier 'qtrue'
- 2124 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2129,11): error: use of undeclared identifier 'qtrue'
- 2129 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2152,11): error: use of undeclared identifier 'qtrue'
- 2152 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2175,11): error: use of undeclared identifier 'qtrue'
- 2175 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2178,9): error: use of undeclared identifier 'qfalse'
- 2178 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2186,11): error: use of undeclared identifier 'qtrue'
- 2186 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2190,9): error: use of undeclared identifier 'qfalse'
- 2190 |         return qfalse;
-      |                ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2215,10): error: no matching function for call to 'Q_stricmp'
  2215 |                                 if ( Q_stricmp( buff, multiPtr->cvarStr[i] ) == 0 ) {
       |                                      ^~~~~~~~~
@@ -928,213 +282,12 @@ D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2241,10): error: no mat
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 2nd argument ('const char *') would lose const qualifier
   227 | int Q_stricmp(char *s1, char *s2);
       |     ^                   ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2274,12): error: use of undeclared identifier 'qtrue'
- 2274 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2278,9): error: use of undeclared identifier 'qfalse'
- 2278 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2308,12): error: use of undeclared identifier 'qtrue'
- 2308 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2315,13): error: use of undeclared identifier 'qtrue'
- 2315 |                                         return qtrue;
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2323,12): error: use of undeclared identifier 'qtrue'
- 2323 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2328,13): error: use of undeclared identifier 'qfalse'
- 2328 |                                         return qfalse;
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2334,13): error: use of undeclared identifier 'qtrue'
- 2334 |                                         return qtrue;
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2339,13): error: use of undeclared identifier 'qtrue'
- 2339 |                                         return qtrue;
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2361,12): error: use of undeclared identifier 'qtrue'
- 2361 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2368,13): error: use of undeclared identifier 'qtrue'
- 2368 |                                         return qtrue;
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2373,12): error: use of undeclared identifier 'qtrue'
- 2373 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2383,12): error: use of undeclared identifier 'qtrue'
- 2383 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2389,12): error: use of undeclared identifier 'qtrue'
- 2389 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2397,12): error: use of undeclared identifier 'qtrue'
- 2397 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2402,12): error: use of undeclared identifier 'qtrue'
- 2402 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2407,14): error: no matching function for call to 'Menu_SetNextCursorItem'
- 2407 |                         newItem = Menu_SetNextCursorItem( item->parent );
-      |                                   ^~~~~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(81,12): note: candidate function not viable: cannot convert argument of incomplete type 'void *' to 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') for 1st argument
-   81 | itemDef_t *Menu_SetNextCursorItem( menuDef_t *menu );
-      |            ^                       ~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2414,14): error: no matching function for call to 'Menu_SetPrevCursorItem'
- 2414 |                         newItem = Menu_SetPrevCursorItem( item->parent );
-      |                                   ^~~~~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(80,12): note: candidate function not viable: cannot convert argument of incomplete type 'void *' to 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') for 1st argument
-   80 | itemDef_t *Menu_SetPrevCursorItem( menuDef_t *menu );
-      |            ^                       ~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2429,11): error: use of undeclared identifier 'qfalse'
- 2429 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2432,10): error: use of undeclared identifier 'qtrue'
- 2432 |                 return qtrue;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2434,9): error: use of undeclared identifier 'qfalse'
- 2434 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2444,52): error: use of undeclared identifier 'qtrue'
- 2444 |                 Item_ListBox_HandleKey( si->item, si->scrollKey, qtrue, qfalse );
-      |                                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2444,59): error: use of undeclared identifier 'qfalse'
- 2444 |                 Item_ListBox_HandleKey( si->item, si->scrollKey, qtrue, qfalse );
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2502,52): error: use of undeclared identifier 'qtrue'
- 2502 |                 Item_ListBox_HandleKey( si->item, si->scrollKey, qtrue, qfalse );
-      |                                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2502,59): error: use of undeclared identifier 'qfalse'
- 2502 |                 Item_ListBox_HandleKey( si->item, si->scrollKey, qtrue, qfalse );
-      |                                                                         ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2517,18): error: cannot initialize a variable of type 'editFieldDef_t *' (aka 'editFieldDef_s *') with an lvalue of type 'void *'
  2517 |         editFieldDef_t *editDef = si->item->typeData;
       |                         ^         ~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2554,61): error: use of undeclared identifier 'qtrue'
- 2554 |                         scrollInfo.scrollDir = ( flags & WINDOW_LB_LEFTARROW ) ? qtrue : qfalse;
-      |                                                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2554,69): error: use of undeclared identifier 'qfalse'
- 2554 |                         scrollInfo.scrollDir = ( flags & WINDOW_LB_LEFTARROW ) ? qtrue : qfalse;
-      |                                                                                          ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2597,20): error: cannot initialize a variable of type 'editFieldDef_t *' (aka 'editFieldDef_s *') with an lvalue of type 'void *'
  2597 |                         editFieldDef_t *editDef = item->typeData;
       |                                         ^         ~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2622,13): error: use of undeclared identifier 'qtrue'
- 2622 |                                         return qtrue;
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2628,9): error: use of undeclared identifier 'qfalse'
- 2628 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2650,10): error: use of undeclared identifier 'qfalse'
- 2650 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2655,10): error: use of undeclared identifier 'qfalse'
- 2655 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2658,10): error: use of undeclared identifier 'qfalse'
- 2658 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2661,10): error: use of undeclared identifier 'qfalse'
- 2661 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2667,10): error: use of undeclared identifier 'qfalse'
- 2667 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2670,10): error: use of undeclared identifier 'qfalse'
- 2670 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2673,51): error: use of undeclared identifier 'qfalse'
- 2673 |                 return Item_ListBox_HandleKey( item, key, down, qfalse );
-      |                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2694,10): error: use of undeclared identifier 'qfalse'
- 2694 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2708,21): error: use of undeclared identifier 'qfalse'
- 2708 |         qboolean wrapped = qfalse;
-      |                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2713,13): error: use of undeclared identifier 'qtrue'
- 2713 |                 wrapped = qtrue;
-      |                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2720,14): error: use of undeclared identifier 'qtrue'
- 2720 |                         wrapped = qtrue;
-      |                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2736,21): error: use of undeclared identifier 'qfalse'
- 2736 |         qboolean wrapped = qfalse;
-      |                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2742,13): error: use of undeclared identifier 'qtrue'
- 2742 |                 wrapped = qtrue;
-      |                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2750,15): error: use of undeclared identifier 'qtrue'
- 2750 |                                 wrapped = qtrue;
-      |                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2847,16): error: use of undeclared identifier 'qfalse'
- 2847 |                                 DC->Pause( qfalse );
-      |                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2869,23): error: use of undeclared identifier 'qfalse'
- 2869 |         qboolean inHandler = qfalse;
-      |                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2875,14): error: use of undeclared identifier 'qtrue'
- 2875 |         inHandler = qtrue;
-      |                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2878,15): error: use of undeclared identifier 'qfalse'
- 2878 |                 inHandler = qfalse;
-      |                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2884,21): error: use of undeclared identifier 'qfalse'
- 2884 |                         g_editingField = qfalse;
-      |                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2886,16): error: use of undeclared identifier 'qfalse'
- 2886 |                         inHandler = qfalse;
-      |                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2889,21): error: use of undeclared identifier 'qfalse'
- 2889 |                         g_editingField = qfalse;
-      |                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2899,15): error: use of undeclared identifier 'qfalse'
- 2899 |                 inHandler = qfalse;
-      |                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2905,33): error: use of undeclared identifier 'qfalse'
- 2905 |                 static qboolean inHandleKey = qfalse;
-      |                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2911,18): error: use of undeclared identifier 'qtrue'
- 2911 |                         inHandleKey = qtrue;
-      |                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2913,18): error: use of undeclared identifier 'qfalse'
- 2913 |                         inHandleKey = qfalse;
-      |                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2914,16): error: use of undeclared identifier 'qfalse'
- 2914 |                         inHandler = qfalse;
-      |                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2929,16): error: use of undeclared identifier 'qfalse'
- 2929 |                         inHandler = qfalse;
-      |                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2935,15): error: use of undeclared identifier 'qfalse'
- 2935 |                 inHandler = qfalse;
-      |                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2959,21): error: use of undeclared identifier 'EXEC_APPEND'
- 2959 |                         DC->executeText( EXEC_APPEND, "screenshot\n" );
-      |                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2995,23): error: use of undeclared identifier 'qtrue'
- 2995 |                                         g_editingField = qtrue;
-      |                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2997,29): error: use of undeclared identifier 'qtrue'
- 2997 |                                         DC->setOverstrikeMode( qtrue );
-      |                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3034,22): error: use of undeclared identifier 'qtrue'
- 3034 |                                 g_editingField = qtrue;
-      |                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3036,28): error: use of undeclared identifier 'qtrue'
- 3036 |                                 DC->setOverstrikeMode( qtrue );
-      |                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3043,14): error: use of undeclared identifier 'qfalse'
- 3043 |         inHandler = qfalse;
-      |                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3097,39): error: unknown type name 'vec4_t'
- 3097 | void Item_TextColor( itemDef_t *item, vec4_t *newColor ) {
-      |                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3098,2): error: unknown type name 'vec4_t'
- 3098 |         vec4_t lowLight;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3101,119): error: use of undeclared identifier 'qtrue'
- 3101 |         Fade( &item->window.flags, &item->window.foreColor[3], parent->fadeClamp, &item->window.nextTime, parent->fadeCycle, qtrue, parent->fadeAmount );
-      |                                                                                                                              ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3108,84): error: use of undeclared identifier 'PULSE_DIVISOR'
  3108 |                 LerpColor( parent->focusColor,lowLight,*newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
       |                                                                                                  ^
@@ -1144,99 +297,18 @@ D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3109,77): error: use of
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3114,88): error: use of undeclared identifier 'PULSE_DIVISOR'
  3114 |                 LerpColor( item->window.foreColor,lowLight,*newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
       |                                                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3116,54): error: use of undeclared identifier 'vec4_t'
- 3116 |                 memcpy( newColor, &item->window.foreColor, sizeof( vec4_t ) );
-      |                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3122,53): error: use of undeclared identifier 'vec4_t'
- 3122 |                         memcpy( newColor, &parent->disableColor, sizeof( vec4_t ) );
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3133,2): error: unknown type name 'vec4_t'
- 3133 |         vec4_t color;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3209,2): error: unknown type name 'vec4_t'
- 3209 |         vec4_t color;
-      |         ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3248,18): error: use of undeclared identifier 'SAVE_INFOSTRING_LENGTH'
  3248 |         char infostring[SAVE_INFOSTRING_LENGTH];
       |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3251,2): error: unknown type name 'vec4_t'
- 3251 |         vec4_t color;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3333,2): error: unknown type name 'vec4_t'
- 3333 |         vec4_t newColor, lowLight;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3349,3): error: use of undeclared identifier 'lowLight'
- 3349 |                 lowLight[0] = 0.8 * parent->focusColor[0];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3350,3): error: use of undeclared identifier 'lowLight'
- 3350 |                 lowLight[1] = 0.8 * parent->focusColor[1];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3351,3): error: use of undeclared identifier 'lowLight'
- 3351 |                 lowLight[2] = 0.8 * parent->focusColor[2];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3352,3): error: use of undeclared identifier 'lowLight'
- 3352 |                 lowLight[3] = 0.8 * parent->focusColor[3];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3353,33): error: use of undeclared identifier 'lowLight'
- 3353 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                               ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3353,83): error: use of undeclared identifier 'PULSE_DIVISOR'
  3353 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
       |                                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3355,55): error: use of undeclared identifier 'vec4_t'
- 3355 |                 memcpy( &newColor, &item->window.foreColor, sizeof( vec4_t ) );
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3369,2): error: unknown type name 'vec4_t'
- 3369 |         vec4_t newColor, lowLight;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3377,3): error: use of undeclared identifier 'lowLight'
- 3377 |                 lowLight[0] = 0.8 * parent->focusColor[0];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3378,3): error: use of undeclared identifier 'lowLight'
- 3378 |                 lowLight[1] = 0.8 * parent->focusColor[1];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3379,3): error: use of undeclared identifier 'lowLight'
- 3379 |                 lowLight[2] = 0.8 * parent->focusColor[2];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3380,3): error: use of undeclared identifier 'lowLight'
- 3380 |                 lowLight[3] = 0.8 * parent->focusColor[3];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3381,33): error: use of undeclared identifier 'lowLight'
- 3381 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                               ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3381,83): error: use of undeclared identifier 'PULSE_DIVISOR'
  3381 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
       |                                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3383,55): error: use of undeclared identifier 'vec4_t'
- 3383 |                 memcpy( &newColor, &item->window.foreColor, sizeof( vec4_t ) );
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3398,2): error: unknown type name 'vec4_t'
- 3398 |         vec4_t newColor, lowLight;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3403,3): error: use of undeclared identifier 'lowLight'
- 3403 |                 lowLight[0] = 0.8 * parent->focusColor[0];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3404,3): error: use of undeclared identifier 'lowLight'
- 3404 |                 lowLight[1] = 0.8 * parent->focusColor[1];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3405,3): error: use of undeclared identifier 'lowLight'
- 3405 |                 lowLight[2] = 0.8 * parent->focusColor[2];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3406,3): error: use of undeclared identifier 'lowLight'
- 3406 |                 lowLight[3] = 0.8 * parent->focusColor[3];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3407,33): error: use of undeclared identifier 'lowLight'
- 3407 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                               ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3407,83): error: use of undeclared identifier 'PULSE_DIVISOR'
  3407 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
       |                                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3409,55): error: use of undeclared identifier 'vec4_t'
- 3409 |                 memcpy( &newColor, &item->window.foreColor, sizeof( vec4_t ) );
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3640,19): error: use of undeclared identifier 'EXEC_APPEND'
- 3640 |         DC->executeText( EXEC_APPEND, "in_restart\n" );
-      |                          ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3673,8): error: no matching function for call to 'Q_stricmp'
  3673 |                 if ( Q_stricmp( name, g_bindings[i].command ) == 0 ) {
       |                      ^~~~~~~~~
@@ -1249,894 +321,54 @@ D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3689,8): error: no matc
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
   227 | int Q_stricmp(char *s1, char *s2);
       |     ^         ~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3711,2): error: unknown type name 'vec4_t'
- 3711 |         vec4_t newColor, lowLight;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3718,3): error: use of undeclared identifier 'lowLight'
- 3718 |                 lowLight[0] = 0.8 * parent->focusColor[0];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3719,3): error: use of undeclared identifier 'lowLight'
- 3719 |                 lowLight[1] = 0.8 * parent->focusColor[1];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3720,3): error: use of undeclared identifier 'lowLight'
- 3720 |                 lowLight[2] = 0.8 * parent->focusColor[2];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3721,3): error: use of undeclared identifier 'lowLight'
- 3721 |                 lowLight[3] = 0.8 * parent->focusColor[3];
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3722,33): error: use of undeclared identifier 'lowLight'
- 3722 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                               ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3722,83): error: use of undeclared identifier 'PULSE_DIVISOR'
  3722 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
       |                                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3724,55): error: use of undeclared identifier 'vec4_t'
- 3724 |                 memcpy( &newColor, &item->window.foreColor, sizeof( vec4_t ) );
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3742,2): error: unknown type name 'vec4_t'
- 3742 |         vec4_t newColor, lowLight;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3755,4): error: use of undeclared identifier 'lowLight'
- 3755 |                         lowLight[0] = 0.8f * 1.0f;
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3756,4): error: use of undeclared identifier 'lowLight'
- 3756 |                         lowLight[1] = 0.8f * 0.0f;
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3757,4): error: use of undeclared identifier 'lowLight'
- 3757 |                         lowLight[2] = 0.8f * 0.0f;
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3758,4): error: use of undeclared identifier 'lowLight'
- 3758 |                         lowLight[3] = 0.8f * 1.0f;
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3760,4): error: use of undeclared identifier 'lowLight'
- 3760 |                         lowLight[0] = 0.8f * parent->focusColor[0];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3761,4): error: use of undeclared identifier 'lowLight'
- 3761 |                         lowLight[1] = 0.8f * parent->focusColor[1];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3762,4): error: use of undeclared identifier 'lowLight'
- 3762 |                         lowLight[2] = 0.8f * parent->focusColor[2];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3763,4): error: use of undeclared identifier 'lowLight'
- 3763 |                         lowLight[3] = 0.8f * parent->focusColor[3];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3765,33): error: use of undeclared identifier 'lowLight'
- 3765 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                               ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3765,83): error: use of undeclared identifier 'PULSE_DIVISOR'
  3765 |                 LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
       |                                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3767,55): error: use of undeclared identifier 'vec4_t'
- 3767 |                 memcpy( &newColor, &item->window.foreColor, sizeof( vec4_t ) );
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3789,22): error: use of undeclared identifier 'qtrue'
- 3789 |                         g_waitingForKey = qtrue;
-      |                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3792,10): error: use of undeclared identifier 'qtrue'
- 3792 |                 return qtrue;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3796,11): error: use of undeclared identifier 'qtrue'
- 3796 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3800,11): error: use of undeclared identifier 'qtrue'
- 3800 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3806,22): error: use of undeclared identifier 'qfalse'
- 3806 |                         g_waitingForKey = qfalse;
-      |                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3807,11): error: use of undeclared identifier 'qtrue'
- 3807 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3829,11): error: use of undeclared identifier 'qtrue'
- 3829 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3874,22): error: use of undeclared identifier 'qtrue'
- 3874 |         Controls_SetConfig( qtrue );
-      |                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3875,20): error: use of undeclared identifier 'qfalse'
- 3875 |         g_waitingForKey = qfalse;
-      |                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3877,9): error: use of undeclared identifier 'qtrue'
- 3877 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3932,7): error: use of undeclared identifier 'qtrue'
- 3932 |         if ( qtrue ) {
-      |              ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4139,26): error: ordered comparison between pointer and zero ('qhandle_t' (aka 'void *') and 'int')
  4139 |                                                 if ( optionalImage >= 0 ) {
       |                                                      ~~~~~~~~~~~~~ ^  ~
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4147,25): error: ordered comparison between pointer and zero ('qhandle_t' (aka 'void *') and 'int')
  4147 |                                         if ( optionalImage >= 0 ) {
       |                                              ~~~~~~~~~~~~~ ^  ~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4182,3): error: unknown type name 'vec4_t'
- 4182 |                 vec4_t color, lowLight;
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4184,120): error: use of undeclared identifier 'qtrue'
- 4184 |                 Fade( &item->window.flags, &item->window.foreColor[3], parent->fadeClamp, &item->window.nextTime, parent->fadeCycle, qtrue, parent->fadeAmount );
-      |                                                                                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4205,4): error: use of undeclared identifier 'lowLight'
- 4205 |                         lowLight[0] = 0.8 * parent->focusColor[0];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4206,4): error: use of undeclared identifier 'lowLight'
- 4206 |                         lowLight[1] = 0.8 * parent->focusColor[1];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4207,4): error: use of undeclared identifier 'lowLight'
- 4207 |                         lowLight[2] = 0.8 * parent->focusColor[2];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4208,4): error: use of undeclared identifier 'lowLight'
- 4208 |                         lowLight[3] = 0.8 * parent->focusColor[3];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4209,34): error: use of undeclared identifier 'lowLight'
- 4209 |                         LerpColor( parent->focusColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                       ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4209,81): error: use of undeclared identifier 'PULSE_DIVISOR'
  4209 |                         LerpColor( parent->focusColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
       |                                                                                                      ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4210,78): error: use of undeclared identifier 'BLINK_DIVISOR'
  4210 |                 } else if ( item->textStyle == ITEM_TEXTSTYLE_BLINK && !( ( DC->realTime / BLINK_DIVISOR ) & 1 ) ) {
       |                                                                                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4211,4): error: use of undeclared identifier 'lowLight'
- 4211 |                         lowLight[0] = 0.8 * item->window.foreColor[0];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4212,4): error: use of undeclared identifier 'lowLight'
- 4212 |                         lowLight[1] = 0.8 * item->window.foreColor[1];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4213,4): error: use of undeclared identifier 'lowLight'
- 4213 |                         lowLight[2] = 0.8 * item->window.foreColor[2];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4214,4): error: use of undeclared identifier 'lowLight'
- 4214 |                         lowLight[3] = 0.8 * item->window.foreColor[3];
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4215,38): error: use of undeclared identifier 'lowLight'
- 4215 |                         LerpColor( item->window.foreColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                           ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4215,85): error: use of undeclared identifier 'PULSE_DIVISOR'
  4215 |                         LerpColor( item->window.foreColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
       |                                                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4219,49): error: use of undeclared identifier 'vec4_t'
- 4219 |                         memcpy( color, parent->disableColor, sizeof( vec4_t ) );
-      |                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4238,2): error: unknown type name 'vec4_t'
- 4238 |         vec4_t red;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4376,3): error: unknown type name 'vec4_t'
- 4376 |                 vec4_t color;
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4469,81): error: use of undeclared identifier 'qtrue'
- 4469 |                                 Item_ListBox_HandleKey( menu->items[i], ( down ) ? K_DOWNARROW : K_UPARROW, qtrue, qtrue );
-      |                                                                                                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4469,88): error: use of undeclared identifier 'qtrue'
- 4469 |                                 Item_ListBox_HandleKey( menu->items[i], ( down ) ? K_DOWNARROW : K_UPARROW, qtrue, qtrue );
-      |                                                                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4508,11): error: use of undeclared identifier 'qtrue'
- 4508 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4511,9): error: use of undeclared identifier 'qfalse'
- 4511 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4542,22): error: use of undeclared identifier 'qfalse'
- 4542 |         qboolean focusSet = qfalse;
-      |                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4606,40): error: use of undeclared identifier 'qfalse'
- 4606 |                                 Item_SetMouseOver( menu->items[i], qfalse );
-      |                                                                    ^
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4519,8): error: no matching function for call to 'Q_stricmp'
+ 4519 |                 if ( Q_stricmp( Menus[i].window.name, p ) == 0 ) {
+      |                      ^~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
+  227 | int Q_stricmp(char *s1, char *s2);
+      |     ^         ~~~~~~~~
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4636,28): error: use of undeclared identifier 'SCREEN_WIDTH'
  4636 |                 DC->drawHandlePic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, menu->window.background );
       |                                          ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4636,42): error: use of undeclared identifier 'SCREEN_HEIGHT'
  4636 |                 DC->drawHandlePic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, menu->window.background );
       |                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4650,3): error: unknown type name 'vec4_t'
- 4650 |                 vec4_t color;
-      |                 ^
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4703,6): error: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
  4703 |         int register hash, i;
       |             ^~~~~~~~
 D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4703,6): error: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
  4703 |         int register hash, i;
       |             ^~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4752,10): error: use of undeclared identifier 'qfalse'
- 4752 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4754,9): error: use of undeclared identifier 'qtrue'
- 4754 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4761,10): error: use of undeclared identifier 'qfalse'
- 4761 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4764,9): error: use of undeclared identifier 'qtrue'
- 4764 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4771,10): error: use of undeclared identifier 'qfalse'
- 4771 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4773,9): error: use of undeclared identifier 'qtrue'
- 4773 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4785,10): error: use of undeclared identifier 'qfalse'
- 4785 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4791,9): error: use of undeclared identifier 'qtrue'
- 4791 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4801,27): error: use of undeclared identifier 'qtrue'
- 4801 |         item->textSavegameInfo = qtrue;
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4802,9): error: use of undeclared identifier 'qtrue'
- 4802 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4811,10): error: use of undeclared identifier 'qfalse'
- 4811 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4813,9): error: use of undeclared identifier 'qtrue'
- 4813 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4825,10): error: use of undeclared identifier 'qfalse'
- 4825 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4831,9): error: use of undeclared identifier 'qtrue'
- 4831 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4839,10): error: use of undeclared identifier 'qfalse'
- 4839 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4842,9): error: use of undeclared identifier 'qtrue'
- 4842 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4854,12): error: use of undeclared identifier 'qtrue'
- 4854 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4858,9): error: use of undeclared identifier 'qfalse'
- 4858 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4868,10): error: use of undeclared identifier 'qfalse'
- 4868 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4870,9): error: use of undeclared identifier 'qtrue'
- 4870 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4880,10): error: use of undeclared identifier 'qfalse'
- 4880 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4882,9): error: use of undeclared identifier 'qtrue'
- 4882 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4892,10): error: use of undeclared identifier 'qfalse'
- 4892 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4894,9): error: use of undeclared identifier 'qtrue'
- 4894 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4904,10): error: use of undeclared identifier 'qfalse'
- 4904 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4906,9): error: use of undeclared identifier 'qtrue'
- 4906 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4918,10): error: use of undeclared identifier 'qfalse'
- 4918 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4921,10): error: use of undeclared identifier 'qfalse'
- 4921 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4924,10): error: use of undeclared identifier 'qfalse'
- 4924 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4927,10): error: use of undeclared identifier 'qfalse'
- 4927 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4934,9): error: use of undeclared identifier 'qtrue'
- 4934 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4941,10): error: use of undeclared identifier 'qfalse'
- 4941 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4943,9): error: use of undeclared identifier 'qtrue'
- 4943 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4949,10): error: use of undeclared identifier 'qfalse'
- 4949 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4951,9): error: use of undeclared identifier 'qtrue'
- 4951 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4957,9): error: use of undeclared identifier 'qtrue'
- 4957 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4966,28): error: use of undeclared identifier 'qtrue'
- 4966 |                 listPtr->notselectable = qtrue;
-      |                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4968,9): error: use of undeclared identifier 'qtrue'
- 4968 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4974,9): error: use of undeclared identifier 'qtrue'
- 4974 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4980,9): error: use of undeclared identifier 'qtrue'
- 4980 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4987,9): error: use of undeclared identifier 'qtrue'
- 4987 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4993,10): error: use of undeclared identifier 'qfalse'
- 4993 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4996,9): error: use of undeclared identifier 'qtrue'
- 4996 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5007,10): error: use of undeclared identifier 'qfalse'
- 5007 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5009,9): error: use of undeclared identifier 'qtrue'
- 5009 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5020,10): error: use of undeclared identifier 'qfalse'
- 5020 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5022,9): error: use of undeclared identifier 'qtrue'
- 5022 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5028,10): error: use of undeclared identifier 'qfalse'
- 5028 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5030,9): error: use of undeclared identifier 'qtrue'
- 5030 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5040,10): error: use of undeclared identifier 'qfalse'
- 5040 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5044,10): error: use of undeclared identifier 'qfalse'
- 5044 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5046,9): error: use of undeclared identifier 'qtrue'
- 5046 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5056,10): error: use of undeclared identifier 'qfalse'
- 5056 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5072,12): error: use of undeclared identifier 'qfalse'
- 5072 |                                 return qfalse;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5076,10): error: use of undeclared identifier 'qfalse'
- 5076 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5078,9): error: use of undeclared identifier 'qtrue'
- 5078 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5083,10): error: use of undeclared identifier 'qfalse'
- 5083 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5085,9): error: use of undeclared identifier 'qtrue'
- 5085 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5090,10): error: use of undeclared identifier 'qfalse'
- 5090 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5092,9): error: use of undeclared identifier 'qtrue'
- 5092 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5099,10): error: use of undeclared identifier 'qfalse'
- 5099 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5104,9): error: use of undeclared identifier 'qtrue'
- 5104 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5109,10): error: use of undeclared identifier 'qfalse'
- 5109 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5112,9): error: use of undeclared identifier 'qtrue'
- 5112 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5117,10): error: use of undeclared identifier 'qfalse'
- 5117 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5119,9): error: use of undeclared identifier 'qtrue'
- 5119 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5124,10): error: use of undeclared identifier 'qfalse'
- 5124 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5126,9): error: use of undeclared identifier 'qtrue'
- 5126 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5131,10): error: use of undeclared identifier 'qfalse'
- 5131 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5133,9): error: use of undeclared identifier 'qtrue'
- 5133 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5138,10): error: use of undeclared identifier 'qfalse'
- 5138 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5140,9): error: use of undeclared identifier 'qtrue'
- 5140 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5145,10): error: use of undeclared identifier 'qfalse'
- 5145 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5147,9): error: use of undeclared identifier 'qtrue'
- 5147 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5152,10): error: use of undeclared identifier 'qfalse'
- 5152 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5154,9): error: use of undeclared identifier 'qtrue'
- 5154 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5160,10): error: use of undeclared identifier 'qfalse'
- 5160 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5162,9): error: use of undeclared identifier 'qtrue'
- 5162 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5172,11): error: use of undeclared identifier 'qfalse'
- 5172 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5176,9): error: use of undeclared identifier 'qtrue'
- 5176 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5185,11): error: use of undeclared identifier 'qfalse'
- 5185 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5190,9): error: use of undeclared identifier 'qtrue'
- 5190 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5199,11): error: use of undeclared identifier 'qfalse'
- 5199 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5203,9): error: use of undeclared identifier 'qtrue'
- 5203 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5208,10): error: use of undeclared identifier 'qfalse'
- 5208 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5210,9): error: use of undeclared identifier 'qtrue'
- 5210 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5217,10): error: use of undeclared identifier 'qfalse'
- 5217 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5220,9): error: use of undeclared identifier 'qtrue'
- 5220 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5225,10): error: use of undeclared identifier 'qfalse'
- 5225 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5227,9): error: use of undeclared identifier 'qtrue'
- 5227 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5235,10): error: use of undeclared identifier 'qfalse'
- 5235 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5241,10): error: use of undeclared identifier 'qfalse'
- 5241 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5243,9): error: use of undeclared identifier 'qtrue'
- 5243 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5248,10): error: use of undeclared identifier 'qfalse'
- 5248 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5250,9): error: use of undeclared identifier 'qtrue'
- 5250 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5255,10): error: use of undeclared identifier 'qfalse'
- 5255 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5257,9): error: use of undeclared identifier 'qtrue'
- 5257 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5262,10): error: use of undeclared identifier 'qfalse'
- 5262 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5264,9): error: use of undeclared identifier 'qtrue'
- 5264 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5269,10): error: use of undeclared identifier 'qfalse'
- 5269 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5271,9): error: use of undeclared identifier 'qtrue'
- 5271 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5276,10): error: use of undeclared identifier 'qfalse'
- 5276 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5278,9): error: use of undeclared identifier 'qtrue'
- 5278 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5283,10): error: use of undeclared identifier 'qfalse'
- 5283 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5285,9): error: use of undeclared identifier 'qtrue'
- 5285 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5290,10): error: use of undeclared identifier 'qfalse'
- 5290 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5292,9): error: use of undeclared identifier 'qtrue'
- 5292 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5298,10): error: use of undeclared identifier 'qfalse'
- 5298 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5300,9): error: use of undeclared identifier 'qtrue'
- 5300 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5306,10): error: use of undeclared identifier 'qfalse'
- 5306 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5308,9): error: use of undeclared identifier 'qtrue'
- 5308 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5313,10): error: use of undeclared identifier 'qfalse'
- 5313 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5315,9): error: use of undeclared identifier 'qtrue'
- 5315 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5323,10): error: use of undeclared identifier 'qfalse'
- 5323 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5331,9): error: use of undeclared identifier 'qtrue'
- 5331 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5340,10): error: use of undeclared identifier 'qfalse'
- 5340 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5344,10): error: use of undeclared identifier 'qfalse'
- 5344 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5348,9): error: use of undeclared identifier 'qtrue'
- 5348 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5357,10): error: use of undeclared identifier 'qfalse'
- 5357 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5361,10): error: use of undeclared identifier 'qfalse'
- 5361 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5365,9): error: use of undeclared identifier 'qtrue'
- 5365 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5375,10): error: use of undeclared identifier 'qfalse'
- 5375 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5382,10): error: use of undeclared identifier 'qtrue'
- 5382 |                 return qtrue;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5384,9): error: use of undeclared identifier 'qfalse'
- 5384 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5394,10): error: use of undeclared identifier 'qfalse'
- 5394 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5398,21): error: use of undeclared identifier 'qtrue'
- 5398 |         multiPtr->strDef = qtrue;
-      |                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5401,10): error: use of undeclared identifier 'qfalse'
- 5401 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5404,10): error: use of undeclared identifier 'qfalse'
- 5404 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5411,11): error: use of undeclared identifier 'qfalse'
- 5411 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5415,11): error: use of undeclared identifier 'qtrue'
- 5415 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5430,12): error: use of undeclared identifier 'qfalse'
- 5430 |                                 return qfalse;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5445,10): error: use of undeclared identifier 'qfalse'
- 5445 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5449,21): error: use of undeclared identifier 'qfalse'
- 5449 |         multiPtr->strDef = qfalse;
-      |                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5452,10): error: use of undeclared identifier 'qfalse'
- 5452 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5455,10): error: use of undeclared identifier 'qfalse'
- 5455 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5461,11): error: use of undeclared identifier 'qfalse'
- 5461 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5465,11): error: use of undeclared identifier 'qtrue'
- 5465 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5474,11): error: use of undeclared identifier 'qfalse'
- 5474 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5479,11): error: use of undeclared identifier 'qfalse'
- 5479 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5493,10): error: use of undeclared identifier 'qfalse'
- 5493 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5505,10): error: use of undeclared identifier 'qtrue'
- 5505 |                 return qtrue;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5507,9): error: use of undeclared identifier 'qfalse'
- 5507 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5523,10): error: use of undeclared identifier 'qfalse'
- 5523 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5526,9): error: use of undeclared identifier 'qtrue'
- 5526 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5532,10): error: use of undeclared identifier 'qtrue'
- 5532 |                 return qtrue;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5534,9): error: use of undeclared identifier 'qfalse'
- 5534 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5540,10): error: use of undeclared identifier 'qtrue'
- 5540 |                 return qtrue;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5542,9): error: use of undeclared identifier 'qfalse'
- 5542 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5548,10): error: use of undeclared identifier 'qtrue'
- 5548 |                 return qtrue;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5550,9): error: use of undeclared identifier 'qfalse'
- 5550 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5556,10): error: use of undeclared identifier 'qtrue'
- 5556 |                 return qtrue;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5558,9): error: use of undeclared identifier 'qfalse'
- 5558 |         return qfalse;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5661,10): error: use of undeclared identifier 'qfalse'
- 5661 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5664,10): error: use of undeclared identifier 'qfalse'
- 5664 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5669,11): error: use of undeclared identifier 'qfalse'
- 5669 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5673,11): error: use of undeclared identifier 'qtrue'
- 5673 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5683,11): error: use of undeclared identifier 'qfalse'
- 5683 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5716,10): error: use of undeclared identifier 'qfalse'
- 5716 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5720,31): error: use of undeclared identifier 'qtrue'
- 5720 |                 DC->Assets.fontRegistered = qtrue;
-      |                                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5722,9): error: use of undeclared identifier 'qtrue'
- 5722 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5728,10): error: use of undeclared identifier 'qfalse'
- 5728 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5734,9): error: use of undeclared identifier 'qtrue'
- 5734 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5740,10): error: use of undeclared identifier 'qfalse'
- 5740 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5742,9): error: use of undeclared identifier 'qtrue'
- 5742 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5748,10): error: use of undeclared identifier 'qfalse'
- 5748 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5750,9): error: use of undeclared identifier 'qtrue'
- 5750 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5756,10): error: use of undeclared identifier 'qfalse'
- 5756 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5758,9): error: use of undeclared identifier 'qtrue'
- 5758 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5766,10): error: use of undeclared identifier 'qfalse'
- 5766 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5771,9): error: use of undeclared identifier 'qtrue'
- 5771 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5777,10): error: use of undeclared identifier 'qfalse'
- 5777 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5779,9): error: use of undeclared identifier 'qtrue'
- 5779 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5785,10): error: use of undeclared identifier 'qfalse'
- 5785 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5787,9): error: use of undeclared identifier 'qtrue'
- 5787 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5793,10): error: use of undeclared identifier 'qfalse'
- 5793 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5795,9): error: use of undeclared identifier 'qtrue'
- 5795 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5802,10): error: use of undeclared identifier 'qfalse'
- 5802 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5804,9): error: use of undeclared identifier 'qtrue'
- 5804 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5814,10): error: use of undeclared identifier 'qfalse'
- 5814 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5816,9): error: use of undeclared identifier 'qtrue'
- 5816 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5822,10): error: use of undeclared identifier 'qfalse'
- 5822 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5824,9): error: use of undeclared identifier 'qtrue'
- 5824 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5834,11): error: use of undeclared identifier 'qfalse'
- 5834 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5838,9): error: use of undeclared identifier 'qtrue'
- 5838 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5848,11): error: use of undeclared identifier 'qfalse'
- 5848 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5853,9): error: use of undeclared identifier 'qtrue'
- 5853 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5863,11): error: use of undeclared identifier 'qfalse'
- 5863 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5867,9): error: use of undeclared identifier 'qtrue'
- 5867 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5877,11): error: use of undeclared identifier 'qfalse'
- 5877 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5881,9): error: use of undeclared identifier 'qtrue'
- 5881 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5890,11): error: use of undeclared identifier 'qfalse'
- 5890 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5894,9): error: use of undeclared identifier 'qtrue'
- 5894 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5901,10): error: use of undeclared identifier 'qfalse'
- 5901 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5903,9): error: use of undeclared identifier 'qtrue'
- 5903 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5911,10): error: use of undeclared identifier 'qfalse'
- 5911 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5914,9): error: use of undeclared identifier 'qtrue'
- 5914 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5921,10): error: use of undeclared identifier 'qfalse'
- 5921 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5923,9): error: use of undeclared identifier 'qtrue'
- 5923 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5931,10): error: use of undeclared identifier 'qfalse'
- 5931 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5934,9): error: use of undeclared identifier 'qtrue'
- 5934 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5941,10): error: use of undeclared identifier 'qfalse'
- 5941 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5943,9): error: use of undeclared identifier 'qtrue'
- 5943 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5951,9): error: use of undeclared identifier 'qtrue'
- 5951 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5959,9): error: use of undeclared identifier 'qtrue'
- 5959 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5966,10): error: use of undeclared identifier 'qfalse'
- 5966 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5968,9): error: use of undeclared identifier 'qtrue'
- 5968 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5975,10): error: use of undeclared identifier 'qfalse'
- 5975 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5977,9): error: use of undeclared identifier 'qtrue'
- 5977 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5984,10): error: use of undeclared identifier 'qfalse'
- 5984 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5986,9): error: use of undeclared identifier 'qtrue'
- 5986 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5994,10): error: use of undeclared identifier 'qfalse'
- 5994 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5996,9): error: use of undeclared identifier 'qtrue'
- 5996 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6006,11): error: use of undeclared identifier 'qfalse'
- 6006 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6011,9): error: use of undeclared identifier 'qtrue'
- 6011 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6021,10): error: use of undeclared identifier 'qfalse'
- 6021 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6026,10): error: use of undeclared identifier 'qfalse'
- 6026 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6028,9): error: use of undeclared identifier 'qtrue'
- 6028 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6036,10): error: use of undeclared identifier 'qfalse'
- 6036 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6040,10): error: use of undeclared identifier 'qfalse'
- 6040 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6042,9): error: use of undeclared identifier 'qtrue'
- 6042 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6107,10): error: use of undeclared identifier 'qfalse'
- 6107 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6110,10): error: use of undeclared identifier 'qfalse'
- 6110 |                 return qfalse;
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6118,11): error: use of undeclared identifier 'qfalse'
- 6118 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6122,11): error: use of undeclared identifier 'qtrue'
- 6122 |                         return qtrue;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6132,11): error: use of undeclared identifier 'qfalse'
- 6132 |                         return qfalse;
-      |                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6165,26): error: use of undeclared identifier 'qfalse'
- 6165 |                 Menu_Paint( &Menus[i], qfalse );
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6169,3): error: unknown type name 'vec4_t'
- 6169 |                 vec4_t v = {1, 1, 1, 1};
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6205,13): error: cannot initialize a variable of type 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') with an lvalue of type 'void *'
- 6205 |         menuDef_t *menu = p;
-      |                    ^      ~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6212,12): error: use of undeclared identifier 'qtrue'
- 6212 |                                 return qtrue;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6223,9): error: use of undeclared identifier 'qtrue'
- 6223 |         return qtrue;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6243,13): error: cannot initialize a variable of type 'menuDef_t *' (aka '(unnamed struct at D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.h:281:9) *') with an rvalue of type 'void *'
- 6243 |         menuDef_t *menu = Display_CaptureItem( x, y );
-      |                    ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6315,15): error: use of undeclared identifier 'qtrue'
- 6315 |                                                         return qtrue;
-      |                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6320,14): error: use of undeclared identifier 'qtrue'
- 6320 |                                                 return qtrue;
-      |                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(6327,9): error: use of undeclared identifier 'qfalse'
- 6327 |         return qfalse;
-      |                ^
-1 warning and 546 errors generated.
-[85/156] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(5730,7): error: no matching function for call to 'Q_stricmp'
+ 5730 |         if ( Q_stricmp( menu->window.name, "main" ) == 0 ) {
+      |              ^~~~~~~~~
+D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\../game/q_shared.h(227,5): note: candidate function not viable: 1st argument ('const char *') would lose const qualifier
+  227 | int Q_stricmp(char *s1, char *s2);
+      |     ^         ~~~~~~~~
+51 errors generated.
+[85/156] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
+[86/156] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
+[87/156] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
+[88/156] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
 ninja: build stopped: subcommand failed.
