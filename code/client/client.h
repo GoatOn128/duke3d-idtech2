@@ -599,6 +599,9 @@ void M_Menu_Main_f(void);
 void M_ForceMenuOff(void);
 void M_AddToServerList(netadr_t adr, char *info);
 
+// dnui.cpp: server list collector for the UI module
+void UI_AddToServerList(netadr_t adr, char *info);
+
 //
 // cl_inv.cpp
 //

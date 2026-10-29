@@ -833,7 +833,7 @@ void CL_ParseStatusMessage(void)
     s = MSG_ReadString(&net_message);
 
     Com_Printf("%s\n", s);
-    M_AddToServerList(net_from, s);
+    UI_AddToServerList(net_from, s);
 }
 
 /*
