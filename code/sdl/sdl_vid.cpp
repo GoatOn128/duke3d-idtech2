@@ -588,6 +588,22 @@ void VID_NewWindow(int width, int height)
     cl.force_refdef = true; // can't use a paused refdef
 }
 
+/*
+** VID_MenuInit
+**
+** The refresh calls this at init so the video menu cvars exist before
+** it reads them; the video menu itself lives in the UI module now.
+** Registering them here mirrors what Q2 did in vid_menu.c and keeps the
+** archived values alive across vid_restart.
+*/
+void VID_MenuInit(void)
+{
+    Cvar_Get("gl_mode", "3", CVAR_ARCHIVE);
+    Cvar_Get("gl_driver", "opengl32", CVAR_ARCHIVE);
+    Cvar_Get("gl_picmip", "0", CVAR_ARCHIVE);
+    Cvar_Get("gl_finish", "0", CVAR_ARCHIVE);
+}
+
 void VID_FreeReflib(void)
 {
     if (!FreeLibrary(reflib_library))
