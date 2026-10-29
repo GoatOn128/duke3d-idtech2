@@ -1,10 +1,10 @@
 # Build digest
 
-- Commit: `5aad6834126f5bb51223f01ead77f77e930117aa`
-- Branch: `asset-pipeline`
+- Commit: `0286e47f1a6bde68b96288b2cc2525eff529cfbb`
+- Branch: `main`
 - Result: configure exit: 0, build exit: 0
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40790642235
-- Generated: 2026-10-28 23:56:33 UTC
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40791936274
+- Generated: 2026-10-29 00:08:01 UTC
 
 Errors: **0**, warnings: **0**.
 
@@ -27,35 +27,35 @@ No warnings in the log.
 ## Log tail
 
 ```
-[112/141] Building CXX object CMakeFiles\duke3d.dir\qcommon\net_chan.cpp.obj
-[113/141] Building CXX object CMakeFiles\duke3d.dir\win32\conproc.cpp.obj
-[114/141] Building CXX object CMakeFiles\duke3d.dir\qcommon\pmove.cpp.obj
-[115/141] Building CXX object CMakeFiles\duke3d.dir\game\q_shared.cpp.obj
-[116/141] Building CXX object CMakeFiles\duke3d.dir\client\menu.cpp.obj
-[117/141] Building CXX object CMakeFiles\duke3d.dir\win32\in_win.cpp.obj
-[118/141] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
-[119/141] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
-[120/141] Building CXX object CMakeFiles\duke3d.dir\client\qmenu.cpp.obj
-[121/141] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
-[122/141] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
-[123/141] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
-[124/141] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
-[125/141] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
-[126/141] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
-[127/141] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
-[128/141] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
-[129/141] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
-[130/141] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
-[131/141] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
-[132/141] Building CXX object CMakeFiles\duke3d.dir\win32\sys_win.cpp.obj
-[133/141] Building CXX object CMakeFiles\duke3d.dir\win32\vid_dll.cpp.obj
-[134/141] Building CXX object CMakeFiles\duke3d.dir\client\x86.cpp.obj
-[135/141] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
-[136/141] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
-[137/141] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
-[138/141] Building RC object CMakeFiles\duke3d.dir\win32\dnicon.rc.res
-[139/141] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
-[140/141] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
-[141/141] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll
+[111/140] Building CXX object CMakeFiles\duke3d.dir\client\keys.cpp.obj
+[112/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\net_chan.cpp.obj
+[113/140] Building CXX object CMakeFiles\duke3d.dir\win32\conproc.cpp.obj
+[114/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\pmove.cpp.obj
+[115/140] Building CXX object CMakeFiles\duke3d.dir\game\q_shared.cpp.obj
+[116/140] Building CXX object CMakeFiles\duke3d.dir\client\menu.cpp.obj
+[117/140] Building CXX object CMakeFiles\duke3d.dir\win32\in_win.cpp.obj
+[118/140] Building CXX object CMakeFiles\duke3d.dir\client\qmenu.cpp.obj
+[119/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
+[120/140] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
+[121/140] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
+[122/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
+[123/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
+[124/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
+[125/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
+[126/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
+[127/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
+[128/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
+[129/140] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
+[130/140] Building CXX object CMakeFiles\duke3d.dir\win32\sys_win.cpp.obj
+[131/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_dll.cpp.obj
+[132/140] Building CXX object CMakeFiles\duke3d.dir\win32\vid_menu.cpp.obj
+[133/140] Building CXX object CMakeFiles\duke3d.dir\client\x86.cpp.obj
+[134/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
+[135/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
+[136/140] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
+[137/140] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
+[138/140] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
+[139/140] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
+[140/140] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll
 ```
 
