@@ -1,0 +1,55 @@
+// Skill select. Each line plays its Duke voice line; the module starts the
+// episode once the voice finishes, like the engine menu.cpp flow.
+{
+	name "game_skills"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { setfocus skill_0 }
+	onESC { play item15.wav ; close game_skills ; open game_episodes }
+
+	itemDef {
+		name "sk_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "sk_title"
+		ownerdraw 28
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "skill_0"
+		rect 70 112 500 40
+		ownerdraw 29
+		visible 1
+		action { play kickhit.wav ; setcvar skill 0 ; setcvar respawn_monsters 0 ; setcvar dn_skill_choice 1 ; play piece02.wav }
+	}
+
+	itemDef {
+		name "skill_1"
+		rect 70 152 500 40
+		ownerdraw 30
+		visible 1
+		action { play kickhit.wav ; setcvar skill 1 ; setcvar respawn_monsters 0 ; setcvar dn_skill_choice 2 ; play letsrk03.wav }
+	}
+
+	itemDef {
+		name "skill_2"
+		rect 70 192 500 40
+		ownerdraw 31
+		visible 1
+		action { play kickhit.wav ; setcvar skill 2 ; setcvar respawn_monsters 0 ; setcvar dn_skill_choice 3 ; play getsom1a.wav }
+	}
+
+	itemDef {
+		name "skill_3"
+		rect 70 232 500 40
+		ownerdraw 32
+		visible 1
+		action { play kickhit.wav ; setcvar skill 3 ; setcvar respawn_monsters 1 ; setcvar dn_skill_choice 4 ; play imgood12.wav }
+	}
+}

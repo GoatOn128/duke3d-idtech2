@@ -1,0 +1,177 @@
+// Options. Settings are framework MULTI/YESNO items drawn in Duke glyphs;
+// the last three lines are ownerdraws like the main menu lines.
+{
+	name "options"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { setfocus opt_sfx }
+	onESC { play item15.wav ; close options ; open main }
+
+	itemDef {
+		name "opt_title"
+		ownerdraw 36
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "opt_sfx"
+		type 12
+		text "effects volume"
+		cvar "s_volume"
+		rect 80 64 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+		cvarFloatList { "0" 0 "1" 0.1 "2" 0.2 "3" 0.3 "4" 0.4 "5" 0.5 "6" 0.6 "7" 0.7 "8" 0.8 "9" 0.9 "10" 1.0 }
+	}
+
+	itemDef {
+		name "opt_menumusic"
+		type 11
+		text "menu music"
+		cvar "s_menu_music"
+		rect 80 92 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "opt_musicvol"
+		type 12
+		text "music volume"
+		cvar "s_musicvolume"
+		rect 80 120 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+		cvarFloatList { "0" 0 "1" 0.1 "2" 0.2 "3" 0.3 "4" 0.4 "5" 0.5 "6" 0.6 "7" 0.7 "8" 0.8 "9" 0.9 "10" 1.0 }
+	}
+
+	itemDef {
+		name "opt_music"
+		type 11
+		text "music"
+		cvar "s_music"
+		rect 80 148 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "opt_sens"
+		type 12
+		text "mouse speed"
+		cvar "sensitivity"
+		rect 80 176 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+		cvarFloatList { "1.0" 1.0 "1.5" 1.5 "2.0" 2.0 "2.5" 2.5 "3.0" 3.0 "3.5" 3.5 "4.0" 4.0 "4.5" 4.5 "5.0" 5.0 "5.5" 5.5 "6.0" 6.0 "6.5" 6.5 "7.0" 7.0 "7.5" 7.5 "8.0" 8.0 "8.5" 8.5 "9.0" 9.0 "9.5" 9.5 "10.0" 10.0 "10.5" 10.5 "11.0" 11.0 }
+	}
+
+	itemDef {
+		name "opt_run"
+		type 11
+		text "always run"
+		cvar "cl_run"
+		rect 80 204 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "opt_invert"
+		type 12
+		text "invert mouse"
+		cvar "m_pitch"
+		rect 80 232 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+		cvarFloatList { "no" 0.022 "yes" -0.022 }
+	}
+
+	itemDef {
+		name "opt_lookspring"
+		type 11
+		text "lookspring"
+		cvar "lookspring"
+		rect 80 260 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "opt_lookstrafe"
+		type 11
+		text "lookstrafe"
+		cvar "lookstrafe"
+		rect 80 288 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "opt_freelook"
+		type 11
+		text "freelook"
+		cvar "freelook"
+		rect 80 316 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "opt_crosshair"
+		type 12
+		text "crosshair"
+		cvar "crosshair"
+		rect 80 344 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+		cvarFloatList { "none" 0 "cross" 1 "dot" 2 "angle" 3 }
+	}
+
+	itemDef {
+		name "opt_joystick"
+		type 11
+		text "use joystick"
+		cvar "in_joystick"
+		rect 80 372 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "opt_controls"
+		rect 80 400 480 24
+		ownerdraw 37
+		visible 1
+		action { play kickhit.wav ; close options ; open keys }
+	}
+
+	itemDef {
+		name "opt_defaults"
+		rect 80 428 480 24
+		ownerdraw 38
+		visible 1
+		action { play kickhit.wav ; exec default.cfg }
+	}
+
+	itemDef {
+		name "opt_console"
+		rect 80 456 480 24
+		ownerdraw 39
+		visible 1
+		action { play kickhit.wav ; close options ; exec toggleconsole }
+	}
+}

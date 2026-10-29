@@ -1,0 +1,54 @@
+// Episode select. The header tile and the title line are decorations.
+{
+	name "game_episodes"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { setfocus episode_0 }
+	onESC { play item15.wav ; close game_episodes ; open main }
+
+	itemDef {
+		name "ep_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "ep_title"
+		ownerdraw 23
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "episode_0"
+		rect 70 112 500 40
+		ownerdraw 24
+		visible 1
+		action { play kickhit.wav ; setcvar dn_episode 1 ; close game_episodes ; open game_skills }
+	}
+
+	itemDef {
+		name "episode_1"
+		rect 70 152 500 40
+		ownerdraw 25
+		visible 1
+		action { play kickhit.wav ; setcvar dn_episode 2 ; close game_episodes ; open game_skills }
+	}
+
+	itemDef {
+		name "episode_2"
+		rect 70 192 500 40
+		ownerdraw 26
+		visible 1
+		action { play kickhit.wav ; setcvar dn_episode 3 ; close game_episodes ; open game_skills }
+	}
+
+	itemDef {
+		name "episode_3"
+		rect 70 232 500 40
+		ownerdraw 27
+		visible 1
+		action { play kickhit.wav ; setcvar dn_episode 4 ; close game_episodes ; open game_skills }
+	}
+}

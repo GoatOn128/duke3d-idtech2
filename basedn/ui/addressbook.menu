@@ -1,0 +1,133 @@
+// Address book. Edit fields write the adrN cvars on every keystroke,
+// so the engine address book persists without a close hook.
+{
+	name "addressbook"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { setfocus adr_0 }
+	onESC { play item15.wav ; close addressbook ; open joinserver }
+
+	itemDef {
+		name "adr_title"
+		ownerdraw 122
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "adr_0"
+		type 4
+		text "ADR 0"
+		cvar "adr0"
+		rect 80 80 480 28
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 60
+		maxPaintChars 30
+		visible 1
+	}
+
+	itemDef {
+		name "adr_1"
+		type 4
+		text "ADR 1"
+		cvar "adr1"
+		rect 80 112 480 28
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 60
+		maxPaintChars 30
+		visible 1
+	}
+
+	itemDef {
+		name "adr_2"
+		type 4
+		text "ADR 2"
+		cvar "adr2"
+		rect 80 144 480 28
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 60
+		maxPaintChars 30
+		visible 1
+	}
+
+	itemDef {
+		name "adr_3"
+		type 4
+		text "ADR 3"
+		cvar "adr3"
+		rect 80 176 480 28
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 60
+		maxPaintChars 30
+		visible 1
+	}
+
+	itemDef {
+		name "adr_4"
+		type 4
+		text "ADR 4"
+		cvar "adr4"
+		rect 80 208 480 28
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 60
+		maxPaintChars 30
+		visible 1
+	}
+
+	itemDef {
+		name "adr_5"
+		type 4
+		text "ADR 5"
+		cvar "adr5"
+		rect 80 240 480 28
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 60
+		maxPaintChars 30
+		visible 1
+	}
+
+	itemDef {
+		name "adr_6"
+		type 4
+		text "ADR 6"
+		cvar "adr6"
+		rect 80 272 480 28
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 60
+		maxPaintChars 30
+		visible 1
+	}
+
+	itemDef {
+		name "adr_7"
+		type 4
+		text "ADR 7"
+		cvar "adr7"
+		rect 80 304 480 28
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 60
+		maxPaintChars 30
+		visible 1
+	}
+
+	itemDef {
+		name "adr_8"
+		type 4
+		text "ADR 8"
+		cvar "adr8"
+		rect 80 336 480 28
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 60
+		maxPaintChars 30
+		visible 1
+	}
+}

@@ -1,0 +1,31 @@
+// Quit confirmation.
+{
+	name "quit"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { setfocus quit_no }
+	onESC { play item15.wav ; close quit ; open main }
+
+	itemDef {
+		name "quit_title"
+		ownerdraw 33
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "quit_yes"
+		rect 250 212 140 40
+		ownerdraw 34
+		visible 1
+		action { play kickhit.wav ; exec quit }
+	}
+
+	itemDef {
+		name "quit_no"
+		rect 250 262 140 40
+		ownerdraw 35
+		visible 1
+		action { play item15.wav ; close quit ; open main }
+	}
+}

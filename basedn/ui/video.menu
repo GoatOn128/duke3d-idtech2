@@ -1,0 +1,116 @@
+// Video setup. The mode, refresh rate and display lists are runtime engine
+// data and are attached to the named items after the menu files parse.
+// Engine order: texture quality 0..3 maps to gl_picmip 3..0.
+{
+	name "video"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { duke readvideo ; setfocus vid_mode }
+	onESC { play item15.wav ; close video ; open main }
+
+	itemDef {
+		name "vid_title"
+		ownerdraw 130
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "vid_mode"
+		type 12
+		text "video mode"
+		cvar "gl_mode"
+		rect 80 56 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "vid_refresh"
+		type 12
+		text "refresh rate"
+		cvar "vid_displayrefresh"
+		rect 80 84 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "vid_fullscreen"
+		type 11
+		text "fullscreen"
+		cvar "vid_fullscreen"
+		rect 80 112 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "vid_display"
+		type 12
+		text "display"
+		cvar "vid_display"
+		rect 80 140 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "vid_size"
+		type 12
+		text "screen size"
+		cvar "viewsize"
+		rect 80 168 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+		cvarFloatList { "30" 30 "40" 40 "50" 50 "60" 60 "70" 70 "80" 80 "90" 90 "100" 100 }
+	}
+
+	itemDef {
+		name "vid_gamma"
+		type 12
+		text "brightness"
+		cvar "vid_gamma"
+		rect 80 196 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+		cvarFloatList { "0.5" 0.5 "0.6" 0.6 "0.7" 0.7 "0.8" 0.8 "0.9" 0.9 "1.0" 1.0 "1.1" 1.1 "1.2" 1.2 "1.3" 1.3 }
+	}
+
+	itemDef {
+		name "vid_picmip"
+		type 12
+		text "texture quality"
+		cvar "gl_picmip"
+		rect 80 224 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+		cvarFloatList { "0" 3 "1" 2 "2" 1 "3" 0 }
+	}
+
+	itemDef {
+		name "vid_finish"
+		type 11
+		text "sync every frame"
+		cvar "gl_finish"
+		rect 80 252 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "vid_apply"
+		rect 64 260 512 24
+		ownerdraw 131
+		visible 1
+		action { play kickhit.wav ; exec vid_restart }
+	}
+}

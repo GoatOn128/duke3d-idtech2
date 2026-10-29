@@ -1,0 +1,101 @@
+// Start server. The map list comes from the engine map cache and is
+// attached to ss_map after the menu files parse.
+{
+	name "startserver"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { setfocus ss_map }
+	onESC { play item15.wav ; close startserver ; open multiplayer }
+
+	itemDef {
+		name "ss_title"
+		ownerdraw 123
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "ss_map"
+		type 12
+		text "initial map"
+		cvar "dn_startmap"
+		rect 80 56 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "ss_rules"
+		type 12
+		text "rules"
+		cvar "dn_rules"
+		rect 80 84 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+		cvarFloatList { "deathmatch" 0 "cooperative" 1 }
+	}
+
+	itemDef {
+		name "ss_timelimit"
+		type 9
+		text "time limit"
+		cvar "timelimit"
+		rect 80 112 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "ss_fraglimit"
+		type 9
+		text "frag limit"
+		cvar "fraglimit"
+		rect 80 140 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "ss_maxclients"
+		type 9
+		text "max players"
+		cvar "maxclients"
+		rect 80 168 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+	}
+
+	itemDef {
+		name "ss_hostname"
+		type 4
+		text "hostname"
+		cvar "hostname"
+		rect 80 196 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 16
+		maxPaintChars 16
+		visible 1
+	}
+
+	itemDef {
+		name "ss_dmflags"
+		rect 64 200 512 24
+		ownerdraw 124
+		visible 1
+		action { play kickhit.wav ; close startserver ; open dmoptions }
+	}
+
+	itemDef {
+		name "ss_begin"
+		rect 64 228 512 24
+		ownerdraw 125
+		visible 1
+		action { play kickhit.wav ; duke startserver }
+	}
+}

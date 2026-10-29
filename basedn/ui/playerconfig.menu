@@ -1,0 +1,74 @@
+// Player setup. The engine menu rendered a rotating player model here;
+// the settings wait for a Quake 3 renderer that can draw models.
+{
+	name "playerconfig"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { setfocus pc_name }
+	onESC { play item15.wav ; close playerconfig ; open multiplayer }
+
+	itemDef {
+		name "pc_title"
+		ownerdraw 128
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "pc_name"
+		type 4
+		text "name"
+		cvar "name"
+		rect 80 64 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 16
+		maxPaintChars 16
+		visible 1
+	}
+
+	itemDef {
+		name "pc_hand"
+		type 12
+		text "handedness"
+		cvar "hand"
+		rect 80 100 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+		cvarFloatList { "right" 0 "left" 1 "center" 2 }
+	}
+
+	itemDef {
+		name "pc_skin"
+		type 4
+		text "skin"
+		cvar "skin"
+		rect 80 136 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		maxChars 32
+		maxPaintChars 24
+		visible 1
+	}
+
+	itemDef {
+		name "pc_rate"
+		type 12
+		text "connection"
+		cvar "rate"
+		rect 80 172 480 24
+		textscale 1
+		forecolor 0.45 0.45 0.45 1
+		visible 1
+		cvarFloatList { "28.8 MODEM" 2500 "33.6 MODEM" 3200 "SINGLE ISDN" 5000 "DUAL ISDN/CABLE" 10000 "T1/LAN" 25000 }
+	}
+
+	itemDef {
+		name "pc_downloads"
+		rect 64 180 512 24
+		ownerdraw 129
+		visible 1
+		action { play kickhit.wav ; close playerconfig ; open downloadoptions }
+	}
+}

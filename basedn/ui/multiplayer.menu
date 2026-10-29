@@ -1,0 +1,39 @@
+// Multiplayer root.
+{
+	name "multiplayer"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { setfocus mp_join }
+	onESC { play item15.wav ; close multiplayer ; open main }
+
+	itemDef {
+		name "mp_title"
+		ownerdraw 114
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "mp_join"
+		rect 144 106 416 28
+		ownerdraw 115
+		visible 1
+		action { play kickhit.wav ; close multiplayer ; open joinserver }
+	}
+
+	itemDef {
+		name "mp_start"
+		rect 144 138 416 28
+		ownerdraw 116
+		visible 1
+		action { play kickhit.wav ; close multiplayer ; open startserver }
+	}
+
+	itemDef {
+		name "mp_setup"
+		rect 144 170 416 28
+		ownerdraw 117
+		visible 1
+		action { play kickhit.wav ; close multiplayer ; open playerconfig }
+	}
+}

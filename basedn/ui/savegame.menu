@@ -1,0 +1,103 @@
+// Save game. Slot 0 is the auto slot and only loads, so the save menu
+// lists slots 1 to 10; slot text comes from the save headers at runtime.
+{
+	name "savegame"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { duke readsave ; setfocus save_1 }
+	onESC { play item15.wav ; close savegame ; open main }
+
+	itemDef {
+		name "save_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "save_title"
+		ownerdraw 112
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "save_1"
+		rect 190 84 320 28
+		ownerdraw 65
+		visible 1
+		action { play kickhit.wav ; duke save 1 }
+	}
+
+	itemDef {
+		name "save_2"
+		rect 190 112 320 28
+		ownerdraw 66
+		visible 1
+		action { play kickhit.wav ; duke save 2 }
+	}
+
+	itemDef {
+		name "save_3"
+		rect 190 140 320 28
+		ownerdraw 67
+		visible 1
+		action { play kickhit.wav ; duke save 3 }
+	}
+
+	itemDef {
+		name "save_4"
+		rect 190 168 320 28
+		ownerdraw 68
+		visible 1
+		action { play kickhit.wav ; duke save 4 }
+	}
+
+	itemDef {
+		name "save_5"
+		rect 190 196 320 28
+		ownerdraw 69
+		visible 1
+		action { play kickhit.wav ; duke save 5 }
+	}
+
+	itemDef {
+		name "save_6"
+		rect 190 224 320 28
+		ownerdraw 70
+		visible 1
+		action { play kickhit.wav ; duke save 6 }
+	}
+
+	itemDef {
+		name "save_7"
+		rect 190 252 320 28
+		ownerdraw 71
+		visible 1
+		action { play kickhit.wav ; duke save 7 }
+	}
+
+	itemDef {
+		name "save_8"
+		rect 190 280 320 28
+		ownerdraw 72
+		visible 1
+		action { play kickhit.wav ; duke save 8 }
+	}
+
+	itemDef {
+		name "save_9"
+		rect 190 308 320 28
+		ownerdraw 73
+		visible 1
+		action { play kickhit.wav ; duke save 9 }
+	}
+
+	itemDef {
+		name "save_10"
+		rect 190 336 320 28
+		ownerdraw 74
+		visible 1
+		action { play kickhit.wav ; duke save 10 }
+	}
+}

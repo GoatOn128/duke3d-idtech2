@@ -1,0 +1,102 @@
+// Join server. The server rows fill from the LAN browser at runtime.
+{
+	name "joinserver"
+	fullscreen 1
+	focuscolor 1 1 1 1
+	onOpen { duke refreshservers ; setfocus join_addressbook }
+	onESC { play item15.wav ; close joinserver ; open multiplayer }
+
+	itemDef {
+		name "join_title"
+		ownerdraw 118
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "join_addressbook"
+		rect 64 68 512 24
+		ownerdraw 119
+		visible 1
+		action { play kickhit.wav ; close joinserver ; open addressbook }
+	}
+
+	itemDef {
+		name "join_refresh"
+		rect 64 96 512 24
+		ownerdraw 120
+		visible 1
+		action { play kickhit.wav ; duke refreshservers }
+	}
+
+	itemDef {
+		name "join_connectto"
+		ownerdraw 121
+		decoration
+		visible 1
+	}
+
+	itemDef {
+		name "join_server_0"
+		rect 64 152 512 26
+		ownerdraw 80
+		visible 1
+		action { duke connect 0 }
+	}
+
+	itemDef {
+		name "join_server_1"
+		rect 64 178 512 26
+		ownerdraw 81
+		visible 1
+		action { duke connect 1 }
+	}
+
+	itemDef {
+		name "join_server_2"
+		rect 64 204 512 26
+		ownerdraw 82
+		visible 1
+		action { duke connect 2 }
+	}
+
+	itemDef {
+		name "join_server_3"
+		rect 64 230 512 26
+		ownerdraw 83
+		visible 1
+		action { duke connect 3 }
+	}
+
+	itemDef {
+		name "join_server_4"
+		rect 64 256 512 26
+		ownerdraw 84
+		visible 1
+		action { duke connect 4 }
+	}
+
+	itemDef {
+		name "join_server_5"
+		rect 64 282 512 26
+		ownerdraw 85
+		visible 1
+		action { duke connect 5 }
+	}
+
+	itemDef {
+		name "join_server_6"
+		rect 64 308 512 26
+		ownerdraw 86
+		visible 1
+		action { duke connect 6 }
+	}
+
+	itemDef {
+		name "join_server_7"
+		rect 64 334 512 26
+		ownerdraw 87
+		visible 1
+		action { duke connect 7 }
+	}
+}
