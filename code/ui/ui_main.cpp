@@ -4,6 +4,7 @@
    the engine already has the service, and onto module stubs for the
    services that wait for the Duke menus (ownerdraws, feeders, models). */
 #include "ui_local.h"
+#include "../qcommon/dnmenuparser.h"
 
 dn_ui_import_t uii;
 
@@ -412,9 +413,9 @@ static int Init( void ) {
     String_Init();
     Duke_MenusInit();
     /* the Duke menus are .menu script data now: ui/menus.txt lists the
-       files, the engine FS resolves the load lines from the game data,
+       files, the qcommon menu parser loads them through the engine FS,
        and the runtime engine lists reach the parsed items right after */
-    Menus_Load( "ui/menus.txt" );
+    dnMenuParser::LoadMenus( "ui/menus.txt" );
     Duke_MenusAttachDynamic();
     uii.Print( "Duke UI module loaded\n" );
     return 1;
