@@ -147,6 +147,9 @@ static int vid_num_modes;
 static SDL_DisplayID vid_display_ids[VID_MAX_DISPLAYS];
 static char vid_display_names[VID_MAX_DISPLAYS][64];
 static int vid_num_displays;
+static int vid_desktop_width;    // desktop size of the display the mode
+static int vid_desktop_height;   // list was built for, for the fit check
+static qboolean vid_windowed_checked;
 
 /*
 ============
@@ -212,20 +215,23 @@ static void VID_BuildDisplayList(void)
 
 /*
 ============
-VID_ModeExists
+VID_FindResolution
 
-BFG AddUnique: only keep one entry per width/height/hz triple.
+Keep one entry per resolution (BFG AddUnique kept its list short the
+same way by only allowing a couple of rates): a list holding the same
+size at several refresh rates makes the menu spinner step through
+entries that look identical and change nothing while windowed.
 ============
 */
-static qboolean VID_ModeExists(int width, int height, int hz)
+static qboolean VID_FindResolution(int width, int height, int *index)
 {
     int i;
 
     for (i = 0; i < vid_num_modes; i++)
     {
-        if (vid_modes[i].width == width && vid_modes[i].height == height &&
-            vid_modes[i].displayHz == hz)
+        if (vid_modes[i].width == width && vid_modes[i].height == height)
         {
+            *index = i;
             return true;
         }
     }
@@ -234,7 +240,18 @@ static qboolean VID_ModeExists(int width, int height, int hz)
 
 static void VID_AddMode(int width, int height, int hz)
 {
-    if (vid_num_modes >= VID_MAX_MODES || VID_ModeExists(width, height, hz))
+    int index;
+
+    // same resolution again: keep the fastest refresh rate on the entry
+    if (VID_FindResolution(width, height, &index))
+    {
+        if (hz > vid_modes[index].displayHz)
+        {
+            vid_modes[index].displayHz = hz;
+        }
+        return;
+    }
+    if (vid_num_modes >= VID_MAX_MODES)
     {
         return;
     }
@@ -277,9 +294,11 @@ static int VID_ModeCompare(const void *a, const void *b)
 VID_BuildModeList
 
 Builds the mode list for one display. This is the SDL version of
-R_GetModeListForDisplay from Doom 3 BFG. Unlike BFG we keep every refresh
-rate (BFG only allowed 60 and 120 hz for its target displays) and allow
-modes down to 480 lines so the classic 640x480 default stays selectable.
+R_GetModeListForDisplay from Doom 3 BFG. Unlike BFG we keep one entry per
+resolution with its fastest refresh rate (BFG only allowed 60 and 120
+hz for its target displays; vid_displayrefresh can force another rate)
+and allow modes down to 480 lines so the classic 640x480 default stays
+selectable.
 ============
 */
 static void VID_BuildModeList(int display)
@@ -298,6 +317,14 @@ static void VID_BuildModeList(int display)
     if (display < 0 || display >= vid_num_displays)
     {
         display = 0;
+    }
+
+    // remember the desktop size for the windowed fit check
+    desktop = SDL_GetDesktopDisplayMode(vid_display_ids[display]);
+    if (desktop)
+    {
+        vid_desktop_width = desktop->w;
+        vid_desktop_height = desktop->h;
     }
 
     modes = SDL_GetFullscreenDisplayModes(vid_display_ids[display], &count);
@@ -325,6 +352,31 @@ static void VID_BuildModeList(int display)
         if (desktop)
         {
             VID_AddMode(desktop->w, desktop->h, (int)(desktop->refresh_rate + 0.5f));
+        }
+    }
+
+    /* A windowed window can be any size, so also offer the common
+       resolutions that fit the desktop: HDTVs often report no fullscreen
+       mode under 1080p, which would leave no sensible windowed size in
+       the list. The rate stays 0 (undiscovered); exclusive fullscreen
+       resolves the size again and falls back to windowed if the display
+       cannot do it. */
+    if (vid_desktop_width > 0 && vid_desktop_height > 0)
+    {
+        static const int std_modes[][2] = {
+            {640, 480}, {800, 600}, {1024, 768}, {1152, 864},
+            {1280, 720}, {1280, 800}, {1280, 960}, {1280, 1024},
+            {1366, 768}, {1400, 1050}, {1440, 900}, {1600, 900},
+            {1680, 1050}, {1920, 1080}, {2560, 1440}, {3840, 2160}
+        };
+        for (i = 0; i < (int)(sizeof(std_modes) / sizeof(std_modes[0])); i++)
+        {
+            if (std_modes[i][0] > vid_desktop_width - 32 ||
+                std_modes[i][1] > vid_desktop_height - 48)
+            {
+                continue;
+            }
+            VID_AddMode(std_modes[i][0], std_modes[i][1], 0);
         }
     }
 
@@ -413,6 +465,38 @@ const char *VID_DisplayName(int display)
         return "Display 0";
     }
     return vid_display_names[display];
+}
+
+/*
+** VID_ValidateWindowedMode
+**
+** A windowed window as big as the desktop does not fit on screen (the
+** borders and title bar fall outside it), so when the archived mode is
+** that big at startup, go back to the default mode. Runs once per start
+** so a deliberate choice made during a session is left alone.
+*/
+static void VID_ValidateWindowedMode(void)
+{
+    int width, height, hz;
+
+    if (vid_fullscreen->value)
+    {
+        return;
+    }
+    if (vid_desktop_width <= 0 || vid_desktop_height <= 0)
+    {
+        return;
+    }
+    if (!VID_GetModeInfo(&width, &height, &hz, (int)Cvar_VariableValue("gl_mode")))
+    {
+        return;
+    }
+    if (width > vid_desktop_width - 32 || height > vid_desktop_height - 48)
+    {
+        Com_Printf("windowed mode %ix%i does not fit the %ix%i desktop, resetting to the default mode\n",
+                   width, height, vid_desktop_width, vid_desktop_height);
+        Cvar_SetValue("gl_mode", 3);
+    }
 }
 
 /*
@@ -573,6 +657,14 @@ void VID_CheckChanges(void)
         if (vid_display->modified)
         {
             VID_BuildModeList(VID_ClampDisplay());
+        }
+
+        // once per start: make sure the archived windowed mode still fits
+        // on screen now that the lists are known
+        if (!vid_windowed_checked)
+        {
+            vid_windowed_checked = true;
+            VID_ValidateWindowedMode();
         }
 
         Com_sprintf(name, sizeof(name), "ref_%s.dll", vid_ref->string);

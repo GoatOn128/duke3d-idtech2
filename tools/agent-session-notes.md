@@ -158,3 +158,15 @@ cost anything as long as this file and PROGRESS.md are current.
   `viddef` follow in `R_BeginFrame`), and `VID_CreateWindow` sets a
   320x240 minimum window size. Runtime only: a vid_restart still returns
   to the selected `gl_mode`.
+
+- 2026-10-29: windowed mode list rework on `fix/vid-windowed-mode-list`,
+  after user testing on a Panasonic TV: the display reported no fullscreen
+  mode under 1080p, so the mode list was only 1920x1080/4K entries at
+  several rates; the default `gl_mode 3` landed on 1920x1080@50 and every
+  spinner step changed just the invisible rate. The list now keeps one
+  entry per resolution (fastest rate), merges in the common standard
+  resolutions that fit the desktop (windowed windows can be any size;
+  hz 0 = undiscovered, exclusive fullscreen re-resolves the size), the
+  video menu hides the hz for undiscovered entries, and a once-per-start
+  check resets a windowed mode that cannot fit the desktop back to the
+  default.
