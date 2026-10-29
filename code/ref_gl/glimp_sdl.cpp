@@ -238,6 +238,9 @@ static qboolean VID_CreateWindow(int width, int height, qboolean fullscreen,
         return false;
     }
 
+    // keep the window usable when the user drags the border
+    SDL_SetWindowMinimumSize(window, 320, 240);
+
     if (!fullscreen)
     {
         vid_xpos = ri.Cvar_Get("vid_xpos", "0", 0);
@@ -386,7 +389,26 @@ qboolean GLimp_Init(void *hinstance, void *hWnd)
 */
 void GLimp_BeginFrame(void)
 {
+    int width = 0;
+    int height = 0;
+
     glDrawBuffer(GL_BACK);
+
+    // The window is resizable, so a drag on the border changes the real
+    // window size without the cvars knowing. Poll the size and sync the
+    // render size and the client view, otherwise the old view just gets
+    // stretched or letterboxed in the corner of the window.
+    if (window)
+    {
+        SDL_GetWindowSize(window, &width, &height);
+        if (width > 0 && height > 0 &&
+            (width != (int)vid.width || height != (int)vid.height))
+        {
+            vid.width = width;
+            vid.height = height;
+            ri.Vid_NewWindow(width, height);
+        }
+    }
 }
 
 /*

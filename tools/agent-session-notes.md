@@ -149,3 +149,12 @@ cost anything as long as this file and PROGRESS.md are current.
   and `VID_GetModeInfo` resets an off-list `gl_mode` to the default mode
   like BFG resets `r_vidMode`, instead of clamping to the largest entry.
   `ClampMode` in `vid_menu.cpp` mirrors the same policy.
+
+- 2026-10-29: window resize follow-up on `fix/vid-mode-list-defaults`:
+  the window is resizable but nothing told the refresh about border
+  drags, so the view kept rendering at the old size. `GLimp_BeginFrame`
+  now polls `SDL_GetWindowSize` and syncs `vid` plus the client view via
+  `ri.Vid_NewWindow` when the size changed (the viewport and the client
+  `viddef` follow in `R_BeginFrame`), and `VID_CreateWindow` sets a
+  320x240 minimum window size. Runtime only: a vid_restart still returns
+  to the selected `gl_mode`.
