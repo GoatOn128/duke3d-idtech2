@@ -193,24 +193,22 @@ static void Duke2_MenuSetup( dnMenu *menu ) {
 }
 
 static void Duke2_AddDeco( dnMenu *menu, int ownerDraw ) {
-    dnItem *item = menu->AddItem( NULL );
+    dnItem *item = menu->AddItem( NULL, ITEM_TYPE_OWNERDRAW );
 
     if ( item == NULL ) {
         return;
     }
-    item->type = ITEM_TYPE_OWNERDRAW;
     item->window.ownerDraw = ownerDraw;
     item->window.flags |= WINDOW_VISIBLE | WINDOW_DECORATION;
 }
 
 static dnItem *Duke2_AddLine( dnMenu *menu, int ownerDraw, const char *name,
                                  float x, float y, float w, float h, const char *action ) {
-    dnItem *item = menu->AddItem( name );
+    dnItem *item = menu->AddItem( name, ITEM_TYPE_OWNERDRAW );
 
     if ( item == NULL ) {
         return NULL;
     }
-    item->type = ITEM_TYPE_OWNERDRAW;
     item->window.ownerDraw = ownerDraw;
     item->window.rect.x = x;
     item->window.rect.y = y;
@@ -224,12 +222,11 @@ static dnItem *Duke2_AddLine( dnMenu *menu, int ownerDraw, const char *name,
 static dnItem *Duke2_AddSetting( dnMenu *menu, int type, const char *text,
                                     const char *cvar, const char *name,
                                     float x, float y, float w, float h ) {
-    dnItem *item = menu->AddItem( name );
+    dnItem *item = menu->AddItem( name, type );
 
     if ( item == NULL ) {
         return NULL;
     }
-    item->type = type;
     item->text = text;
     item->cvar = cvar;
     item->textscale = 1.0f;
@@ -298,13 +295,12 @@ static dnItem *Duke2_AddEditField( dnMenu *menu, const char *text,
                                      const char *cvar, const char *name,
                                      float x, float y, float w, float h,
                                      int maxChars, int maxPaintChars ) {
-    dnItem *item = menu->AddItem( name );
+    dnItem *item = menu->AddItem( name, ITEM_TYPE_EDITFIELD );
     editFieldDef_t *edit;
 
     if ( item == NULL ) {
         return NULL;
     }
-    item->type = ITEM_TYPE_EDITFIELD;
     item->text = text;
     item->cvar = cvar;
     item->textscale = 1.0f;
@@ -1114,9 +1110,8 @@ static void Duke2_Menu_Credits( void ) {
     menu->onESC = "play item15.wav ; close credits ; open main";
 
     {
-        dnItem *item = menu->AddItem( "credits_scroll" );
+        dnItem *item = menu->AddItem( "credits_scroll", ITEM_TYPE_OWNERDRAW );
         if ( item ) {
-            item->type = ITEM_TYPE_OWNERDRAW;
             item->window.ownerDraw = DUKE2_OD_BASE + DUKE2_OD_CREDITS;
             item->window.rect.x = 0;
             item->window.rect.y = 0;

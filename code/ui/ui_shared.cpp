@@ -31,6 +31,9 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "ui_local.h"
 
+// placement new installs the item subclass vtables
+#include <new>
+
 #define SCROLL_TIME_START                   500
 #define SCROLL_TIME_ADJUST              150
 #define SCROLL_TIME_ADJUSTOFFSET    40
@@ -1912,9 +1915,7 @@ void dnItem::MouseEnter( float x, float y ) {
 			window.flags |= WINDOW_MOUSEOVER;
 		}
 
-		if ( type == ITEM_TYPE_LISTBOX ) {
-			Item_ListBox_MouseEnter( this, x, y );
-		}
+		MouseEnterRect( x, y );
 	}
 }
 
@@ -2629,52 +2630,22 @@ qboolean dnItem::HandleKey( int key, qboolean down ) {
 		return qfalse;
 	}
 
-	switch ( type ) {
-	case ITEM_TYPE_BUTTON:
-		return qfalse;
-		break;
-	case ITEM_TYPE_RADIOBUTTON:
-		return qfalse;
-		break;
-	case ITEM_TYPE_CHECKBOX:
-		return qfalse;
-		break;
-	case ITEM_TYPE_EDITFIELD:
-	case ITEM_TYPE_NUMERICFIELD:
-	case ITEM_TYPE_VALIDFILEFIELD:  //----(SA)	added
-		//return Item_TextField_HandleKey(this, key);
-		return qfalse;
-		break;
-	case ITEM_TYPE_COMBO:
-		return qfalse;
-		break;
-	case ITEM_TYPE_LISTBOX:
-		return Item_ListBox_HandleKey( this, key, down, qfalse );
-		break;
-	case ITEM_TYPE_YESNO:
-		return Item_YesNo_HandleKey( this, key );
-		break;
-	case ITEM_TYPE_MULTI:
-		return Item_Multi_HandleKey( this, key );
-		break;
-	case ITEM_TYPE_OWNERDRAW:
-		return Item_OwnerDraw_HandleKey( this, key );
-		break;
-	case ITEM_TYPE_BIND:
-		return Item_Bind_HandleKey( this, key, down );
-		break;
-	case ITEM_TYPE_SLIDER:
-		return Item_Slider_HandleKey( this, key, down );
-		break;
-		//case ITEM_TYPE_IMAGE:
-		//  Item_Image_Paint(this);
-		//  break;
-	default:
-		return qfalse;
-		break;
-	}
+	/* the per-type keys live in the type subclass; most types take none */
+	return HandleTypeKey( key, down );
+}
 
-	//return qfalse;
+/* default per-type hooks: a type with nothing special falls through here */
+void dnItem::PaintType( void ) {
+}
+
+qboolean dnItem::HandleTypeKey( int key, qboolean down ) {
+	return qfalse;
+}
+
+void dnItem::MouseEnterRect( float x, float y ) {
+}
+
+void dnItem::InitControls( void ) {
 }
 
 void dnItem::Action( void ) {
@@ -4357,52 +4328,183 @@ void dnItem::Paint( void ) {
 
 	//DC->drawRect(window.rect.x, window.rect.y, window.rect.w, window.rect.h, 1, red);
 
+	PaintType();
+}
+
+/* ---- the item type subclasses ---- */
+
+/* each class hooks its type behavior through the virtuals above; none
+   of them adds fields, so every one keeps the plain dnItem layout and
+   fits the one block size the allocator hands out */
+class dnTextItem : public dnItem {
+public:
+	void PaintType( void ) {
+		Item_Text_Paint( this );
+	}
+};
+
+class dnOwnerDrawItem : public dnItem {
+public:
+	void PaintType( void ) {
+		Item_OwnerDraw_Paint( this );
+	}
+	qboolean HandleTypeKey( int key, qboolean down ) {
+		return Item_OwnerDraw_HandleKey( this, key );
+	}
+};
+
+/* edit, numeric and filename fields paint through the shared text field
+   painter; their key entry runs through the menu edit state */
+class dnEditFieldItem : public dnItem {
+public:
+	void PaintType( void ) {
+		Item_TextField_Paint( this );
+	}
+};
+
+class dnListBoxItem : public dnItem {
+public:
+	void PaintType( void ) {
+		Item_ListBox_Paint( this );
+	}
+	qboolean HandleTypeKey( int key, qboolean down ) {
+		return Item_ListBox_HandleKey( this, key, down, qfalse );
+	}
+	/* track the row and the scrollbars the cursor sits on */
+	void MouseEnterRect( float x, float y ) {
+		Item_ListBox_MouseEnter( this, x, y );
+	}
+	/* start a fresh list on the top row */
+	void InitControls( void ) {
+		listBoxDef_t *listPtr = ( listBoxDef_t * )typeData;
+
+		cursorPos = 0;
+		if ( listPtr ) {
+			listPtr->cursorPos = 0;
+			listPtr->startPos = 0;
+			listPtr->endPos = 0;
+		}
+	}
+};
+
+class dnModelItem : public dnItem {
+public:
+	void PaintType( void ) {
+		Item_Model_Paint( this );
+	}
+};
+
+class dnYesNoItem : public dnItem {
+public:
+	void PaintType( void ) {
+		Item_YesNo_Paint( this );
+	}
+	qboolean HandleTypeKey( int key, qboolean down ) {
+		return Item_YesNo_HandleKey( this, key );
+	}
+};
+
+class dnMultiItem : public dnItem {
+public:
+	void PaintType( void ) {
+		Item_Multi_Paint( this );
+	}
+	qboolean HandleTypeKey( int key, qboolean down ) {
+		return Item_Multi_HandleKey( this, key );
+	}
+};
+
+class dnBindItem : public dnItem {
+public:
+	void PaintType( void ) {
+		Item_Bind_Paint( this );
+	}
+	qboolean HandleTypeKey( int key, qboolean down ) {
+		return Item_Bind_HandleKey( this, key, down );
+	}
+};
+
+class dnSliderItem : public dnItem {
+public:
+	void PaintType( void ) {
+		Item_Slider_Paint( this );
+	}
+	qboolean HandleTypeKey( int key, qboolean down ) {
+		return Item_Slider_HandleKey( this, key, down );
+	}
+};
+
+/* installs the subclass vtable for the type; the subclasses carry no
+   fields of their own, so nothing else in the block changes */
+static void UI_PlaceItem( dnItem *item, int type ) {
 	switch ( type ) {
 	case ITEM_TYPE_OWNERDRAW:
-		Item_OwnerDraw_Paint( this );
+		new ( item ) dnOwnerDrawItem;
 		break;
 	case ITEM_TYPE_TEXT:
 	case ITEM_TYPE_BUTTON:
-		Item_Text_Paint( this );
-		break;
-	case ITEM_TYPE_RADIOBUTTON:
-		break;
-	case ITEM_TYPE_CHECKBOX:
+		new ( item ) dnTextItem;
 		break;
 	case ITEM_TYPE_EDITFIELD:
 	case ITEM_TYPE_NUMERICFIELD:
-	case ITEM_TYPE_VALIDFILEFIELD:      //----(SA)	added
-		Item_TextField_Paint( this );
-		break;
-	case ITEM_TYPE_COMBO:
+	case ITEM_TYPE_VALIDFILEFIELD:
+		new ( item ) dnEditFieldItem;
 		break;
 	case ITEM_TYPE_LISTBOX:
-		Item_ListBox_Paint( this );
-		break;
-//		case ITEM_TYPE_IMAGE:
-//			Item_Image_Paint(this);
-//			break;
-	case ITEM_TYPE_MENUMODEL:
-		Item_Model_Paint( this );
+		new ( item ) dnListBoxItem;
 		break;
 	case ITEM_TYPE_MODEL:
-		Item_Model_Paint( this );
+	case ITEM_TYPE_MENUMODEL:
+		new ( item ) dnModelItem;
 		break;
 	case ITEM_TYPE_YESNO:
-		Item_YesNo_Paint( this );
+		new ( item ) dnYesNoItem;
 		break;
 	case ITEM_TYPE_MULTI:
-		Item_Multi_Paint( this );
+		new ( item ) dnMultiItem;
 		break;
 	case ITEM_TYPE_BIND:
-		Item_Bind_Paint( this );
+		new ( item ) dnBindItem;
 		break;
 	case ITEM_TYPE_SLIDER:
-		Item_Slider_Paint( this );
+		new ( item ) dnSliderItem;
 		break;
 	default:
+		new ( item ) dnItem;
 		break;
 	}
+}
+
+/*
+===============
+dnItem::FinalizeType
+
+a script item learns its type from the menu file while the itemDef block
+parses; this installs the matching subclass vtable once the block is
+done, without touching the parsed fields
+===============
+*/
+void dnItem::FinalizeType( void ) {
+	UI_PlaceItem( this, type );
+}
+
+/*
+===============
+UI_ConstructItem
+
+allocates an item block from the UI memory pool and builds the subclass
+matching the type; zeroing the fields is left to Init
+===============
+*/
+static dnItem *UI_ConstructItem( int type ) {
+	dnItem *item = ( dnItem * )UI_Alloc( sizeof( dnItem ) );
+
+	if ( item == NULL ) {
+		return NULL;
+	}
+
+	UI_PlaceItem( item, type );
+	return item;
 }
 
 void dnMenu::Init( void ) {
@@ -4505,7 +4607,12 @@ dnMenu *Menus_ActivateByName( const char *p ) {
 
 
 void dnItem::Init( void ) {
-	memset( this, 0, sizeof( dnItem ) );
+	/* keep the vtable: the memset covers the whole item, subclass
+	   included, so the pointer is saved and restored */
+	void *vtable = *( void ** )this;
+
+	memset( ( void * )this, 0, sizeof( dnItem ) );
+	*( void ** )this = vtable;
 	textscale = 0.55f;
 	Window_Init( &window );
 }
@@ -5651,23 +5758,6 @@ qboolean Item_Parse( int handle, dnItem *item ) {
 }
 
 
-// Item_InitControls
-// init's special control types
-void Item_InitControls( dnItem *item ) {
-	if ( item == NULL ) {
-		return;
-	}
-	if ( item->type == ITEM_TYPE_LISTBOX ) {
-		listBoxDef_t *listPtr = (listBoxDef_t*)item->typeData;
-		item->cursorPos = 0;
-		if ( listPtr ) {
-			listPtr->cursorPos = 0;
-			listPtr->startPos = 0;
-			listPtr->endPos = 0;
-			listPtr->cursorPos = 0;
-		}
-	}
-}
 
 /*
 ===============
@@ -5965,12 +6055,17 @@ qboolean MenuParse_fadeCycle( dnItem *item, int handle ) {
 qboolean MenuParse_itemDef( dnItem *item, int handle ) {
 	dnMenu *menu = (dnMenu*)item;
 	if ( menu->itemCount < MAX_MENUITEMS ) {
-		menu->items[menu->itemCount] = ( dnItem * )UI_Alloc( sizeof( dnItem ) );
+		menu->items[menu->itemCount] = UI_ConstructItem( ITEM_TYPE_TEXT );
+		if ( menu->items[menu->itemCount] == NULL ) {
+			return qfalse;
+		}
 		menu->items[menu->itemCount]->Init();
 		if ( !Item_Parse( handle, menu->items[menu->itemCount] ) ) {
 			return qfalse;
 		}
-		Item_InitControls( menu->items[menu->itemCount] );
+		/* the parsed type picks the subclass, then the control state resets */
+		menu->items[menu->itemCount]->FinalizeType();
+		menu->items[menu->itemCount]->InitControls();
 		menu->items[menu->itemCount++]->parent = menu;
 	}
 	return qtrue;
@@ -6203,23 +6298,24 @@ dnMenu *dnMenu::Alloc( const char *name ) {
 ===============
 dnMenu::AddItem
 
-allocate an item from the UI memory pool and attach it to a menu; the
-caller fills in the type specific fields afterwards
+allocate an item of the given type from the UI memory pool and attach
+it to a menu; the caller fills in the type specific fields afterwards
 ===============
 */
-dnItem *dnMenu::AddItem( const char *name ) {
+dnItem *dnMenu::AddItem( const char *name, int type ) {
 	dnItem *item;
 
 	if ( itemCount >= MAX_MENUITEMS ) {
 		return NULL;
 	}
 
-	item = ( dnItem * )UI_Alloc( sizeof( dnItem ) );
+	item = UI_ConstructItem( type );
 	if ( item == NULL ) {
 		return NULL;
 	}
 
 	item->Init();
+	item->type = type;
 	item->parent = this;
 	if ( name ) {
 		item->window.name = name;
