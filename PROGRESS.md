@@ -27,12 +27,12 @@ Legend:
 
 ## Pending restructure
 
-- [~] Restore the asset pipeline: `code/tools/prepare_assets.py` and
-      `code/tools/dnintro_assets.py` convert `3drealms/duke3d.grp` into the
-      `basedn/` assets (maps, WAL and UI tiles, palette tables, sounds,
-      intro sequence); `code/cmake/assets.cmake` runs them automatically
-      once the game data is present. Still missing: `prepare_references.py`
-      and the reference data
+- [~] Restore the asset pipeline: the `convertgrp` tool
+      (`code/tools/convertGRP/convert_grp.c`) converts `3drealms/duke3d.grp`
+      into the `basedn/` assets (maps, WAL and UI tiles, palette tables,
+      sounds, intro sequence); `code/cmake/assets.cmake` builds it always
+      and runs it automatically once the game data is present.
+      Still missing: `prepare_references.py` and the reference data
 - [ ] Restore the reference-based test suite: `code/tests/` sources and
       the reference sources moving to `references/`; `code/cmake/tests.cmake`
       keeps the full test definitions and turns on once both exist
