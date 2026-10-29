@@ -3,7 +3,7 @@
 #ifndef DN_UI_H
 #define DN_UI_H
 #include "../game/q_shared.h"
-#define DN_UI_API_VERSION 3
+#define DN_UI_API_VERSION 4
 
 /* Command execution timings, mirroring the engine EXEC_* values. */
 #define DN_EXEC_NOW 0
@@ -67,6 +67,17 @@ typedef struct
     void (*MenuCursor)(int x, int y);
     void (*MenuBackground)(void);
     void (*MenuSound)(int sound);
+    int (*SaveSlotInfo)(int slot, char *buffer, uint32_t size);
+    int (*CanSave)(void);
+    void (*GetLevelName)(char *buffer, uint32_t size);
+    int (*ListMaps)(char *buffer, uint32_t size);
+    int (*GetVideoModes)(int *widths, int *heights, int maxModes);
+    int (*GetRefreshRates)(int mode, int *rates, int maxRates);
+    int (*GetDisplays)(char *names, int stride, int maxDisplays);
+    void (*PingServers)(void);
+    int (*GetServers)(char *names, int stride, int maxServers);
+    int (*GetServerAddress)(int index, char *buffer, uint32_t size);
+    int (*GetCredits)(char *buffer, uint32_t size);
 } dn_ui_import_t;
 
 typedef struct

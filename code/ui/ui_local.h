@@ -46,4 +46,18 @@ void        Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, v
 sfxHandle_t Duke_RegisterSound( const char *name );
 void        Duke_PlaySound( sfxHandle_t sfx );
 
+/* Second Duke menu set: save/load, multiplayer, video, credits and
+   player setup coded on the framework (ui_duke_menus2.cpp) */
+void    Duke_Menus2Init( void );
+void    Duke2_Refresh( void );
+void    Duke2_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t color );
+qboolean Duke_OwnerDrawHandleKey( int ownerDraw, int flags, float *special, int key );
+void    Duke_RunScript( char **args );
+
+/* ownerdraw ids at or above this belong to ui_duke_menus2.cpp */
+#define DUKE2_OD_BASE 64
+
+/* engine CVAR_ARCHIVE without pulling the engine qcommon header in */
+#define DN_CVAR_ARCHIVE 1
+
 #endif

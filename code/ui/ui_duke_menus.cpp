@@ -158,6 +158,12 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
     ( void )h;
     ( void )color;
 
+    /* the second menu set owns its own ownerdraw ids */
+    if ( ownerDraw >= DUKE2_OD_BASE ) {
+        Duke2_OwnerDraw( ownerDraw, x, y, w, h, color );
+        return;
+    }
+
     if ( ownerDraw == DUKE_OD_MAIN_LOGO ) {
         uii.UiTile( 160, 28, 2499, 0, 0, 0 );
         return;
@@ -283,11 +289,11 @@ static void Duke_Menu_Main( void ) {
                                    "main_multi", "main_video", "main_quit"};
     static const char *actions[7] = {
         "play kickhit.wav ; close main ; open game_episodes",
-        "play kickhit.wav ; close main ; exec menu_savegame",
-        "play kickhit.wav ; close main ; exec menu_loadgame",
+        "play kickhit.wav ; close main ; open savegame",
+        "play kickhit.wav ; close main ; open loadgame",
         "play kickhit.wav ; close main ; open options",
-        "play kickhit.wav ; close main ; exec menu_multiplayer",
-        "play kickhit.wav ; close main ; exec menu_video",
+        "play kickhit.wav ; close main ; open multiplayer",
+        "play kickhit.wav ; close main ; open video",
         "play kickhit.wav ; close main ; open quit"
     };
     menuDef_t *menu = Menu_Alloc( "main" );
@@ -477,7 +483,8 @@ static void Duke_Menu_Keys( void ) {
         {"help computer",  "cmd help"}
     };
     menuDef_t *menu = Menu_Alloc( "keys" );
-    char name[16];
+    /* item names live for the whole run: Menu_AddItem keeps the pointer */
+    static char names[23][16];
     int i;
 
     if ( menu == NULL ) {
@@ -490,8 +497,8 @@ static void Duke_Menu_Keys( void ) {
 
     Duke_AddDeco( menu, DUKE_OD_LINE_BASE + DL_KEYS_TITLE );
     for ( i = 0; i < 23; i++ ) {
-        snprintf( name, sizeof( name ), "key_%d", i );
-        Duke_AddSetting( menu, ITEM_TYPE_BIND, binds[i].label, binds[i].command, name,
+        snprintf( names[i], sizeof( names[0] ), "key_%d", i );
+        Duke_AddSetting( menu, ITEM_TYPE_BIND, binds[i].label, binds[i].command, names[i],
                          48, 40 + i * 18, 544, 16 );
     }
     Menu_PostParse( menu );
@@ -511,6 +518,7 @@ void Duke_MenusInit( void ) {
     Duke_Menu_Quit();
     Duke_Menu_Options();
     Duke_Menu_Keys();
+    Duke_Menus2Init();
 }
 
 /* start the chosen episode like the engine StartGame in menu.cpp */
@@ -555,6 +563,8 @@ void Duke_Refresh( void ) {
     if ( keys && ( keys->window.flags & WINDOW_VISIBLE ) ) {
         Controls_GetConfig();
     }
+
+    Duke2_Refresh();
 
     if ( Menus_AnyFullScreenVisible() ) {
         if ( uii.GetConnState() != DN_CONN_ACTIVE ) {

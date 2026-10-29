@@ -283,6 +283,318 @@ static void UI_MenuSound(int sound)
     }
 }
 
+// Save slot description: the first 32 bytes of server.ssv hold the text the
+// engine save command wrote. Returns 1 when the slot holds a save.
+static int UI_SaveSlotInfo(int slot, char *buffer, uint32_t size)
+{
+    char path[MAX_OSPATH];
+    FILE *file;
+    char desc[32];
+    qboolean valid = false;
+
+    if (!buffer || size == 0)
+    {
+        return 0;
+    }
+    buffer[0] = 0;
+    if (slot < 0 || slot > 10)
+    {
+        return 0;
+    }
+    Com_sprintf(path, sizeof(path), "%s/save/save%d/server.ssv", FS_Gamedir(), slot);
+    file = fopen(path, "rb");
+    if (file)
+    {
+        valid = fread(desc, 1, sizeof(desc), file) == sizeof(desc) &&
+                memchr(desc, 0, sizeof(desc)) != NULL;
+        fclose(file);
+    }
+    if (valid)
+    {
+        for (uint32_t i = 0; i < sizeof(desc) && i < size; i++)
+        {
+            unsigned char c = (unsigned char)desc[i];
+            buffer[i] = (c >= 32 && c <= 126) ? (char)c : ' ';
+        }
+        buffer[size - 1] = 0;
+        return 1;
+    }
+    return 0;
+}
+
+static int UI_CanSave(void)
+{
+    // Same gate as the engine save menu: local server, in game, alive
+    return Com_ServerState() && cls.state == ca_active &&
+           !Cvar_VariableValue("deathmatch") &&
+           cl.frame.playerstate.stats[STAT_HEALTH] > 0;
+}
+
+static void UI_GetLevelName(char *buffer, uint32_t size)
+{
+    if (!buffer || size == 0)
+    {
+        return;
+    }
+    buffer[0] = 0;
+    if (cls.state == ca_active && cl.configstrings[CS_NAME])
+    {
+        strncpy(buffer, cl.configstrings[CS_NAME], size - 1);
+        buffer[size - 1] = 0;
+    }
+}
+
+// Map list from maps.lst: the buffer receives short\0long\0 pairs and the
+// return value is the map count.
+static int UI_ListMaps(char *buffer, uint32_t size)
+{
+    char *data = NULL, *p;
+    int length;
+    int count = 0;
+    uint32_t used = 0;
+
+    if (buffer && size)
+    {
+        buffer[0] = 0;
+    }
+    length = FS_LoadFile("maps.lst", (void **)&data);
+    if (length <= 0 || !data)
+    {
+        return 0;
+    }
+    p = data;
+    while (p - data < length && count < 255)
+    {
+        char shortname[MAX_TOKEN_CHARS];
+        char longname[MAX_TOKEN_CHARS];
+        uint32_t slen, llen;
+
+        strncpy(shortname, COM_Parse(&p), sizeof(shortname) - 1);
+        shortname[sizeof(shortname) - 1] = 0;
+        if (!shortname[0])
+        {
+            break;
+        }
+        strncpy(longname, COM_Parse(&p), sizeof(longname) - 1);
+        longname[sizeof(longname) - 1] = 0;
+        slen = strlen(shortname) + 1;
+        llen = strlen(longname) + 1;
+        if (buffer && used + slen + llen <= size)
+        {
+            memcpy(buffer + used, shortname, slen);
+            used += slen;
+            memcpy(buffer + used, longname, llen);
+            used += llen;
+            count++;
+        }
+        else
+        {
+            break;
+        }
+    }
+    FS_FreeFile(data);
+    return count;
+}
+
+static int UI_GetVideoModes(int *widths, int *heights, int maxModes)
+{
+    int count = VID_NumModes();
+    int i;
+
+    if (count > maxModes)
+    {
+        count = maxModes;
+    }
+    for (i = 0; i < count; i++)
+    {
+        int w, h, hz;
+        VID_ModeData(i, &w, &h, &hz);
+        if (widths)
+        {
+            widths[i] = w;
+        }
+        if (heights)
+        {
+            heights[i] = h;
+        }
+    }
+    return count;
+}
+
+static int UI_GetRefreshRates(int mode, int *rates, int maxRates)
+{
+    int count = VID_NumRefreshRates(mode);
+    int i;
+
+    if (count > maxRates)
+    {
+        count = maxRates;
+    }
+    for (i = 0; i < count; i++)
+    {
+        if (rates)
+        {
+            rates[i] = VID_RefreshRate(mode, i);
+        }
+    }
+    return count;
+}
+
+static int UI_GetDisplays(char *names, int stride, int maxDisplays)
+{
+    int count = VID_NumDisplays();
+    int i;
+
+    if (count > maxDisplays)
+    {
+        count = maxDisplays;
+    }
+    for (i = 0; i < count; i++)
+    {
+        if (names && stride > 0)
+        {
+            strncpy(names + (size_t)i * stride, VID_DisplayName(i), stride - 1);
+            names[(size_t)i * stride + stride - 1] = 0;
+        }
+    }
+    return count;
+}
+
+/* LAN server list collected from the ping replies, replacing the
+   M_AddToServerList store in menu.cpp. */
+#define UI_MAX_SERVERS 8
+
+static char ui_server_names[UI_MAX_SERVERS][80];
+static netadr_t ui_server_adrs[UI_MAX_SERVERS];
+static int ui_num_servers;
+
+void UI_AddToServerList(netadr_t adr, char *info)
+{
+    int i;
+
+    if (ui_num_servers == UI_MAX_SERVERS)
+    {
+        return;
+    }
+    while (*info == ' ')
+    {
+        info++;
+    }
+    for (i = 0; i < ui_num_servers; i++)
+    {
+        if (!strcmp(info, ui_server_names[i]))
+        {
+            return;
+        }
+    }
+    ui_server_adrs[ui_num_servers] = adr;
+    strncpy(ui_server_names[ui_num_servers], info, sizeof(ui_server_names[0]) - 1);
+    ui_server_names[ui_num_servers][sizeof(ui_server_names[0]) - 1] = 0;
+    ui_num_servers++;
+}
+
+static void UI_PingServers(void)
+{
+    ui_num_servers = 0;
+    CL_PingServers_f();
+}
+
+static int UI_GetServers(char *names, int stride, int maxServers)
+{
+    int i;
+    int count = ui_num_servers;
+
+    if (count > maxServers)
+    {
+        count = maxServers;
+    }
+    for (i = 0; i < count; i++)
+    {
+        if (names && stride > 0)
+        {
+            strncpy(names + (size_t)i * stride, ui_server_names[i], stride - 1);
+            names[(size_t)i * stride + stride - 1] = 0;
+        }
+    }
+    return ui_num_servers;
+}
+
+static int UI_GetServerAddress(int index, char *buffer, uint32_t size)
+{
+    if (!buffer || size == 0)
+    {
+        return 0;
+    }
+    buffer[0] = 0;
+    if (index < 0 || index >= ui_num_servers)
+    {
+        return 0;
+    }
+    strncpy(buffer, NET_AdrToString(ui_server_adrs[index]), size - 1);
+    buffer[size - 1] = 0;
+    return 1;
+}
+
+// Credits text: newline separated lines from the credits file, 0 when absent.
+static int UI_GetCredits(char *buffer, uint32_t size)
+{
+    char *data = NULL;
+    int length;
+    int count = 0;
+    uint32_t used = 0;
+    const char *p, *line;
+
+    if (buffer && size)
+    {
+        buffer[0] = 0;
+    }
+    length = FS_LoadFile("credits", (void **)&data);
+    if (length <= 0 || !data)
+    {
+        return 0;
+    }
+    p = data;
+    line = p;
+    while (p - data < length && count < 255)
+    {
+        if (*p == '\r' || *p == '\n' || p - data == length - 1)
+        {
+            size_t llen = p - line;
+            if (p - data == length - 1 && *p != '\r' && *p != '\n')
+            {
+                llen++;
+            }
+            if (*line == '+' && llen > 0)
+            {
+                line++;
+                llen--;
+            }
+            if (buffer && used + llen + 1 <= size)
+            {
+                if (llen > 0)
+                {
+                    memcpy(buffer + used, line, llen);
+                    used += llen;
+                }
+                buffer[used++] = '\n';
+                count++;
+            }
+            if (*p == '\r' && p - data < length - 1 && p[1] == '\n')
+            {
+                p++;
+            }
+            line = p + 1;
+        }
+        p++;
+    }
+    if (buffer && used < size)
+    {
+        buffer[used] = 0;
+    }
+    FS_FreeFile(data);
+    return count;
+}
+
 void CL_UnloadUI(void)
 {
     if (ui)
@@ -354,6 +666,17 @@ dn_ui_export_t *CL_LoadUI(void)
     imports.MenuCursor = UI_MenuCursor;
     imports.MenuBackground = UI_MenuBackground;
     imports.MenuSound = UI_MenuSound;
+    imports.SaveSlotInfo = UI_SaveSlotInfo;
+    imports.CanSave = UI_CanSave;
+    imports.GetLevelName = UI_GetLevelName;
+    imports.ListMaps = UI_ListMaps;
+    imports.GetVideoModes = UI_GetVideoModes;
+    imports.GetRefreshRates = UI_GetRefreshRates;
+    imports.GetDisplays = UI_GetDisplays;
+    imports.PingServers = UI_PingServers;
+    imports.GetServers = UI_GetServers;
+    imports.GetServerAddress = UI_GetServerAddress;
+    imports.GetCredits = UI_GetCredits;
     ui = get_api ? get_api(&imports) : NULL;
     if (!ui || ui->version != DN_UI_API_VERSION || ui->size != sizeof(*ui))
     {

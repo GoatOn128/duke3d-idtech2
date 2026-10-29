@@ -196,17 +196,47 @@ static qboolean DC_OwnerDrawVisible( int flags ) {
 }
 
 static void DC_RunScript( char **p ) {
-    ( void )p;
+    Duke_RunScript( p );
 }
 
 static void DC_GetTeamColor( vec4_t *color ) {
     ( void )color;
 }
 
+/* edit field text plus a blinking insertion bar, drawn in Duke glyphs like
+   DC_DrawText; the cursor sits one glyph cell after the insertion point */
 static void DC_DrawTextWithCursor( float x, float y, int font, float scale, vec4_t color,
                                    const char *text, int cursorPos, char cursor, int limit, int style ) {
-    ( void )x; ( void )y; ( void )font; ( void )scale; ( void )color; ( void )text;
-    ( void )cursorPos; ( void )cursor; ( void )limit; ( void )style;
+    char buf[MAX_TOKENLENGTH];
+    int len, selected, i;
+
+    ( void )font;
+    ( void )scale;
+    ( void )style;
+    if ( !text ) {
+        return;
+    }
+
+    len = strlen( text );
+    if ( limit > 0 && limit < len ) {
+        len = limit;
+    }
+    if ( len > (int)sizeof( buf ) - 1 ) {
+        len = (int)sizeof( buf ) - 1;
+    }
+    for ( i = 0; i < len; i++ ) {
+        buf[i] = text[i];
+    }
+    buf[len] = '\0';
+
+    selected = ( color && ( color[0] >= 0.75f ) && ( color[1] >= 0.75f ) );
+    uii.MenuText( (int)( x * 0.5f + 0.5f ), (int)( y * 0.5f + 0.5f ), buf, selected );
+    if ( cursor && ( dc.realTime / BLINK_DIVISOR ) % 2 == 0 ) {
+        char bar[2];
+        bar[0] = cursor;
+        bar[1] = '\0';
+        uii.MenuText( (int)( x * 0.5f + 0.5f ) + cursorPos * 8, (int)( y * 0.5f + 0.5f ), bar, selected );
+    }
 }
 
 static void DC_StartLocalSound( sfxHandle_t sfx, int channelNum ) {
@@ -215,8 +245,7 @@ static void DC_StartLocalSound( sfxHandle_t sfx, int channelNum ) {
 }
 
 static qboolean DC_OwnerDrawHandleKey( int ownerDraw, int flags, float *special, int key ) {
-    ( void )ownerDraw; ( void )flags; ( void )special; ( void )key;
-    return qfalse;
+    return Duke_OwnerDrawHandleKey( ownerDraw, flags, special, key );
 }
 
 static int DC_FeederCount( float feederID ) {
