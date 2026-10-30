@@ -1,12 +1,12 @@
 # Build digest
 
-- Commit: `20237482b1c477d02a839436edb5019f9f3ac289`
+- Commit: `76192c84b1f828b8e8f912e6e1a40e9c20a3c425`
 - Branch: `feat/duke-ui-dehardcode`
-- Result: configure exit: 0, build exit: 1
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/41085407571
-- Generated: 2026-10-30 15:58:06 UTC
+- Result: configure exit: 0, build exit: 0
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/41085617554
+- Generated: 2026-10-30 15:59:36 UTC
 
-Errors: **9**, warnings: **0**.
+Errors: **0**, warnings: **0**.
 
 ## CMake errors
 
@@ -18,29 +18,7 @@ No tool-level errors (lld-link, ninja, ...) in the log.
 
 ## Errors
 
-Showing the first 9 of 9 error(s).
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp(2303),35`: out-of-line definition of 'Config' does not match any declaration in 'dnMenuParser'
-
-  ```
-  FAILED: [code=1] CMakeFiles/ui.dir/qcommon/dnmenuparser.cpp.obj
-  "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj -clang:-MFCMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj.d /FoCMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\qcommon\dnmenuparser.cpp
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(154),27`: no member named 'Config' in 'dnMenuParser'
-
-  ```
-  FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_shared.cpp.obj
-  "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_shared.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_shared.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_shared.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(159),27`: no member named 'Config' in 'dnMenuParser'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1370),67`: no member named 'Config' in 'dnMenuParser'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1408),64`: no member named 'Config' in 'dnMenuParser'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1592),44`: no member named 'Config' in 'dnMenuParser'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1802),66`: no member named 'Config' in 'dnMenuParser'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2041),68`: no member named 'Config' in 'dnMenuParser'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3316),30`: no member named 'Config' in 'dnMenuParser'
+No errors in the log.
 
 ## Warnings
 
@@ -49,35 +27,35 @@ No warnings in the log.
 ## Log tail
 
 ```
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(154,27): error: no member named 'Config' in 'dnMenuParser'
-  154 |     int v = dnMenuParser::Config()->focusPulse;
-      |             ~~~~~~~~~~~~~~^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(159,27): error: no member named 'Config' in 'dnMenuParser'
-  159 |     int v = dnMenuParser::Config()->focusBlink;
-      |             ~~~~~~~~~~~~~~^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1370,67): error: no member named 'Config' in 'dnMenuParser'
- 1370 |                                 DC->startLocalSound( DC->Assets.itemFocusSound, dnMenuParser::Config()->soundChannel );
-      |                                                                                 ~~~~~~~~~~~~~~^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1408,64): error: no member named 'Config' in 'dnMenuParser'
- 1408 |                 DC->startLocalSound( DC->registerSound( val ), dnMenuParser::Config()->soundChannel );      // all sounds are not 3d
-      |                                                                ~~~~~~~~~~~~~~^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1592,44): error: no member named 'Config' in 'dnMenuParser'
- 1592 |                 DC->startLocalSound( *sfx, dnMenuParser::Config()->soundChannel );
-      |                                            ~~~~~~~~~~~~~~^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1802,66): error: no member named 'Config' in 'dnMenuParser'
- 1802 |                         DC->startLocalSound( DC->Assets.itemFocusSound, dnMenuParser::Config()->soundChannel );
-      |                                                                         ~~~~~~~~~~~~~~^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2041,68): error: no member named 'Config' in 'dnMenuParser'
- 2041 |                                         DC->startLocalSound( DC->Assets.itemFocusSound, dnMenuParser::Config()->soundChannel );
-      |                                                                                         ~~~~~~~~~~~~~~^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3316,30): error: no member named 'Config' in 'dnMenuParser'
- 3316 |                 int maxLen = dnMenuParser::Config()->saveInfoLength;
-      |                              ~~~~~~~~~~~~~~^
-8 errors generated.
-[88/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
-[89/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
-[90/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
-[91/155] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
-ninja: build stopped: subcommand failed.
+[126/155] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+[127/155] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
+[128/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
+[129/155] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
+[130/155] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
+[131/155] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
+[132/155] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
+[133/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
+[134/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
+[135/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
+[136/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
+[137/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
+[138/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
+[139/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
+[140/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_gamethread.cpp.obj
+[141/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
+[142/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
+[143/155] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
+[144/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnerrortrap.cpp.obj
+[145/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
+[146/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dneditfield.cpp.obj
+[147/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnthreads.cpp.obj
+[148/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnconsolehistory.cpp.obj
+[149/155] Building RC object CMakeFiles\duke3d.dir\win32\dnicon.rc.res
+[150/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj
+[151/155] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_sys.cpp.obj
+[152/155] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_vid.cpp.obj
+[153/155] Building C object CMakeFiles\convertgrp.dir\tools\convertGRP\convert_grp.c.obj
+[154/155] Linking C executable convertgrp.exe
+[155/155] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll; Shipping SDL3.dll
 ```
 
