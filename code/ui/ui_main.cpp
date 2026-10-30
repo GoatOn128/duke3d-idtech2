@@ -614,12 +614,14 @@ static int ConsoleCommand( int ) {
 /* the level load screen, the idTech 3 UI_DRAW_CONNECT_SCREEN slot: the
    client calls it while a level loads, instead of the console. The look
    follows dofrontscreens() from the original Duke3D PREMAP.CPP: the
-   backdrop with ENTERING and the level name under it */
+   LOADSCREEN tile behind LOADING or ENTERING and the level name under
+   it. LOADING covers the menu-to-server gap, the name arrives with the
+   server data */
 static void DrawLoadScreen( void ) {
     char level[MAX_QPATH];
 
-    uii.MenuBackground();
-    uii.MenuText( 160, 90, "ENTERING", 0 );
+    uii.UiTile( 160, 100, 3281, 0, 0, 0 );
+    uii.MenuText( 160, 90, uii.GetConnState() == DN_CONN_DISCONNECTED ? "LOADING" : "ENTERING", 0 );
     uii.GetLevelName( level, sizeof( level ) );
     if ( level[0] ) {
         uii.MenuText( 160, 90 + 16 + 8, level, 0 );
