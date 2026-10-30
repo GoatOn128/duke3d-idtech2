@@ -12,6 +12,56 @@ static dn_ui_export_t exports;
 
 static displayContextDef_t dc;
 
+/* ---- menu screen slide ---- */
+
+/* the incoming screen slides up from below on every menu change, the
+   classic screen to screen transition: it rises a fifth of the menu
+   grid and settles over a short ease out */
+#define DUKE_SLIDE_TIME  180
+#define DUKE_SLIDE_DIST   40
+
+static int s_slideStart = -DUKE_SLIDE_TIME;
+
+void Duke_SlideBegin( void ) {
+    s_slideStart = uii.Milliseconds();
+}
+
+/* the y offset in Duke pixels while the current screen slides in */
+static int Duke_SlideOffset( void ) {
+    int t;
+    float k;
+
+    t = uii.Milliseconds() - s_slideStart;
+    if ( t >= DUKE_SLIDE_TIME ) {
+        return 0;
+    }
+    k = 1.0f - ( float )t / DUKE_SLIDE_TIME;
+    return ( int )( DUKE_SLIDE_DIST * k * k + 0.5f );
+}
+
+/* the engine draw helpers are wrapped after the import so every Duke
+   glyph the module draws rides the slide without touching call sites */
+static int  ( *s_MenuText )( int x, int y, const char *text, int selected );
+static void ( *s_MenuCursor )( int x, int y );
+static void ( *s_UiTile )( float x, float y, int tile, int shade, int palette, int topLeft );
+static int  ( *s_MenuTextScaled )( int x, int y, const char *text, int selected, float scale );
+
+static int UI_MenuText( int x, int y, const char *text, int selected ) {
+    return s_MenuText( x, y + Duke_SlideOffset(), text, selected );
+}
+
+static void UI_MenuCursor( int x, int y ) {
+    s_MenuCursor( x, y + Duke_SlideOffset() );
+}
+
+static void UI_UiTile( float x, float y, int tile, int shade, int palette, int topLeft ) {
+    s_UiTile( x, y + Duke_SlideOffset(), tile, shade, palette, topLeft );
+}
+
+static int UI_MenuTextScaled( int x, int y, const char *text, int selected, float scale ) {
+    return s_MenuTextScaled( x, y + Duke_SlideOffset(), text, selected, scale );
+}
+
 /* ---- drawing adapters ---- */
 
 static void DC_DrawHandlePic( float x, float y, float w, float h, qhandle_t asset ) {
@@ -473,6 +523,16 @@ static void SetupDisplayContext( void ) {
 
 static int Init( void ) {
     SetupDisplayContext();
+    /* wrap the engine Duke glyph helpers so the screen slide carries
+       every glyph drawn through them */
+    s_MenuText = uii.MenuText;
+    s_MenuCursor = uii.MenuCursor;
+    s_UiTile = uii.UiTile;
+    s_MenuTextScaled = uii.MenuTextScaled;
+    uii.MenuText = UI_MenuText;
+    uii.MenuCursor = UI_MenuCursor;
+    uii.UiTile = UI_UiTile;
+    uii.MenuTextScaled = UI_MenuTextScaled;
     Init_Display( &dc );
     UI_InitMemory();
     String_Init();

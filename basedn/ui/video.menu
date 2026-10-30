@@ -1,13 +1,14 @@
 // Video setup. The mode, refresh rate and display lists are runtime engine
 // data and are attached to the named items after the menu files parse.
 // Engine order: texture quality 0..3 maps to gl_picmip 3..0. The rows sit
-// at full glyph scale in 24 virtual pixel steps.
+// at full glyph scale in 36 virtual pixel steps, the 15 Duke pixel row
+// pitch of the original options screen.
 {
 	name "video"
 	fullscreen 1
 	focuscolor 1 1 1 1
 	onOpen { duke readvideo ; setfocus vid_mode }
-	onESC { play item15.wav ; close video ; open main }
+	onESC { play item15.wav ; close video ; open options }
 
 	itemDef {
 		name "vid_header"
@@ -39,7 +40,7 @@
 		type 12
 		text "refresh rate"
 		cvar "vid_displayrefresh"
-		rect 80 80 480 24
+		rect 80 92 480 24
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -50,7 +51,7 @@
 		type 11
 		text "fullscreen"
 		cvar "vid_fullscreen"
-		rect 80 104 480 24
+		rect 80 128 480 24
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -61,7 +62,7 @@
 		type 12
 		text "display"
 		cvar "vid_display"
-		rect 80 128 480 24
+		rect 80 164 480 24
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -72,7 +73,7 @@
 		type 12
 		text "screen size"
 		cvar "viewsize"
-		rect 80 152 480 24
+		rect 80 200 480 24
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -84,7 +85,7 @@
 		type 12
 		text "brightness"
 		cvar "vid_gamma"
-		rect 80 176 480 24
+		rect 80 236 480 24
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -96,7 +97,7 @@
 		type 12
 		text "texture quality"
 		cvar "gl_picmip"
-		rect 80 200 480 24
+		rect 80 272 480 24
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -108,7 +109,7 @@
 		type 11
 		text "sync every frame"
 		cvar "gl_finish"
-		rect 80 224 480 24
+		rect 80 308 480 24
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
