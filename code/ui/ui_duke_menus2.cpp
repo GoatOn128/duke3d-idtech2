@@ -56,29 +56,30 @@ typedef struct {
     int bright;             /* always drawn in the selected shade */
     int cursorFromStart;    /* cursor sits 18 pixels left of the text start */
     int cursorX;            /* fixed cursor x when cursorFromStart is 0 */
+    int cursorBothSides;    /* centered lines carry the nuke pair at fixed columns */
 } duke2Line_t;
 
 static duke2Line_t duke2Lines[DL2_COUNT] = {
-    {"SAVE GAME",           160, 24,  1, 0, 0},
-    {"LOAD GAME",           160, 24,  1, 0, 0},
-    {"MULTIPLAYER",         160, 24,  1, 0, 0},
-    {"JOIN NETWORK SERVER", 80,  64,  0, 0, 56},
-    {"START NETWORK SERVER", 80,  80, 0, 0, 56},
-    {"PLAYER SETUP",        80,  96,  0, 0, 56},
-    {"JOIN SERVER",         160, 24,  1, 0, 0},
-    {"ADDRESS BOOK",        40,  44,  0, 1, 0},
-    {"REFRESH SERVER LIST", 40,  58,  0, 1, 0},
-    {"CONNECT TO...",       160, 74,  0, 0, 0},
-    {"ADDRESS BOOK",        160, 24,  1, 0, 0},
-    {"START SERVER",        160, 24,  1, 0, 0},
-    {"DEATHMATCH FLAGS",    40,  110, 0, 1, 0},
-    {"BEGIN",               40,  124, 0, 1, 0},
-    {"DEATHMATCH FLAGS",    160, 24,  1, 0, 0},
-    {"DOWNLOAD OPTIONS",    160, 24,  1, 0, 0},
-    {"PLAYER SETUP",        160, 24,  1, 0, 0},
-    {"DOWNLOAD OPTIONS",    40,  100, 0, 1, 0},
-    {"VIDEO SETUP",         160, 24,  1, 0, 0},
-    {"APPLY CHANGES",       40,  170, 0, 1, 0}
+    {"SAVE GAME",           160, 24,  1, 0, 0, 0},
+    {"LOAD GAME",           160, 24,  1, 0, 0, 0},
+    {"MULTIPLAYER",         160, 24,  1, 0, 0, 0},
+    {"JOIN NETWORK SERVER", 160, 64,  0, 1, 0, 1},
+    {"START NETWORK SERVER", 160, 80,  0, 1, 0, 1},
+    {"PLAYER SETUP",        160, 96,  0, 1, 0, 1},
+    {"JOIN SERVER",         160, 24,  1, 0, 0, 0},
+    {"ADDRESS BOOK",        40,  44,  0, 1, 0, 0},
+    {"REFRESH SERVER LIST", 40,  58,  0, 1, 0, 0},
+    {"CONNECT TO...",       160, 74,  0, 0, 0, 0},
+    {"ADDRESS BOOK",        160, 24,  1, 0, 0, 0},
+    {"START SERVER",        160, 24,  1, 0, 0, 0},
+    {"DEATHMATCH FLAGS",    40,  110, 0, 1, 0, 0},
+    {"BEGIN",               40,  124, 0, 1, 0, 0},
+    {"DEATHMATCH FLAGS",    160, 24,  1, 0, 0, 0},
+    {"DOWNLOAD OPTIONS",    160, 24,  1, 0, 0, 0},
+    {"PLAYER SETUP",        160, 24,  1, 0, 0, 0},
+    {"DOWNLOAD OPTIONS",    160, 100, 0, 1, 0, 1},
+    {"VIDEO SETUP",         160, 24,  1, 0, 0, 0},
+    {"APPLY CHANGES",       160, 170, 0, 1, 0, 1}
 };
 
 /* ---- dmflags rows, mirroring the engine DMOptions callback table ---- */
@@ -511,7 +512,14 @@ void Duke2_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t 
             int selected = line->bright || Duke2_LineFocused( ownerDraw );
             int start = uii.MenuText( line->x, line->y, line->label, selected );
             if ( !line->bright && selected ) {
-                if ( line->cursorFromStart ) {
+                if ( line->cursorBothSides && line->x == 160 ) {
+                    /* centered menus park the nuke pair at the fixed columns
+                       like the original probe(): the left one spins forward
+                       and the right one mirrors it */
+                    int frame = ( uii.Milliseconds() / 66 ) % 7;
+                    uii.UiTile( DUKE_NUKE_LEFT_X, line->y - 7, DUKE_SPINNING_NUKE + frame, 0, 0, 0 );
+                    uii.UiTile( DUKE_NUKE_RIGHT_X, line->y - 7, DUKE_SPINNING_NUKE + ( 7 - frame ) % 7, 0, 0, 0 );
+                } else if ( line->cursorFromStart ) {
                     uii.MenuCursor( start - 18, line->y - 7 );
                 } else if ( line->cursorX ) {
                     uii.MenuCursor( line->cursorX, line->y - 7 );

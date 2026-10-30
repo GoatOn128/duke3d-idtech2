@@ -232,6 +232,7 @@ private:
     static qboolean MenuParse_ownerdrawFlag( dnItem *item, int handle );
     static qboolean MenuParse_popup( dnItem *item, int handle );
     static qboolean MenuParse_rect( dnItem *item, int handle );
+    static qboolean MenuParse_slide( dnItem *item, int handle );
     static qboolean MenuParse_soundLoop( dnItem *item, int handle );
     static qboolean MenuParse_style( dnItem *item, int handle );
     static qboolean MenuParse_visible( dnItem *item, int handle );

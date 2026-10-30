@@ -101,14 +101,13 @@
 
 		itemDef {
 			name "opt_crosshair"
-			type 12
+			type 11
 			text "crosshair"
 			cvar "crosshair"
 			rect 0 216 480 24
 			textscale 1
 			forecolor 0.45 0.45 0.45 1
 			visible 1
-			cvarFloatList { "none" 0 "cross" 1 "dot" 2 "angle" 3 }
 		}
 
 		itemDef {

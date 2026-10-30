@@ -1931,10 +1931,33 @@ qboolean dnMenuParser::MenuParse_execKeyInt( dnItem *item, int handle ) {
     return qtrue;
 }
 
+/* the menu scripts pick the screen slide direction through the slide
+   keyword; the root main menu carries it */
+qboolean dnMenuParser::MenuParse_slide( dnItem *item, int handle ) {
+    pc_token_t token;
+
+    ( void )item;
+    if ( !ReadToken( handle, &token ) ) {
+        return qfalse;
+    }
+    if ( Q_strcasecmp( token.string, "left" ) == 0 ) {
+        Duke_SetSlideMode( DUKE_SLIDE_LEFT );
+    } else if ( Q_strcasecmp( token.string, "up" ) == 0 ) {
+        Duke_SetSlideMode( DUKE_SLIDE_UP );
+    } else if ( Q_strcasecmp( token.string, "none" ) == 0 ) {
+        Duke_SetSlideMode( DUKE_SLIDE_NONE );
+    } else {
+        PC_SourceError( handle, "unknown slide direction %s\n", token.string );
+        return qfalse;
+    }
+    return qtrue;
+}
+
 keywordHash_t dnMenuParser::menuParseKeywords[] = {
     {"font", &dnMenuParser::MenuParse_font, NULL},
     {"name", &dnMenuParser::MenuParse_name, NULL},
     {"fullscreen", &dnMenuParser::MenuParse_fullscreen, NULL},
+    {"slide", &dnMenuParser::MenuParse_slide, NULL},
     {"rect", &dnMenuParser::MenuParse_rect, NULL},
     {"style", &dnMenuParser::MenuParse_style, NULL},
     {"visible", &dnMenuParser::MenuParse_visible, NULL},

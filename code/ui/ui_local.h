@@ -43,6 +43,20 @@ void        Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, v
 sfxHandle_t Duke_RegisterSound( const char *name );
 void        Duke_PlaySound( sfxHandle_t sfx );
 void        Duke_SlideBegin( void );
+void        Duke_SetSlideMode( int mode );
+
+/* menu screen slide directions: the root menu script picks the screen
+   change direction through the slide keyword, left to right is the
+   classic Duke3D screen change */
+#define DUKE_SLIDE_NONE  0
+#define DUKE_SLIDE_LEFT  1
+#define DUKE_SLIDE_UP    2
+
+/* the spinning nuke menu cursor and the fixed columns the centered
+   menus park it at, like the original probe() in the Duke MENUES.CPP */
+#define DUKE_SPINNING_NUKE 2813
+#define DUKE_NUKE_LEFT_X   50
+#define DUKE_NUKE_RIGHT_X  270
 
 /* Second Duke menu set (ui_duke_menus2.cpp): the menus live in .menu
    script files under ui/, the module owns the ownerdraws, the engine data

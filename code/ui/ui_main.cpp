@@ -14,29 +14,45 @@ static displayContextDef_t dc;
 
 /* ---- menu screen slide ---- */
 
-/* the incoming screen slides up from below on every menu change, the
-   classic screen to screen transition: it rises a fifth of the menu
-   grid and settles over a short ease out */
+/* the incoming screen slides in on every menu change, the classic screen
+   to screen transition: it sweeps a fifth of the menu grid and settles
+   over a short ease out. The direction comes from the root menu script,
+   left to right is the classic Duke3D screen change */
 #define DUKE_SLIDE_TIME  180
 #define DUKE_SLIDE_DIST   40
 
 static int s_slideStart = -DUKE_SLIDE_TIME;
+static int s_slideMode = DUKE_SLIDE_LEFT;
 
 void Duke_SlideBegin( void ) {
     s_slideStart = uii.Milliseconds();
 }
 
-/* the y offset in Duke pixels while the current screen slides in */
-static int Duke_SlideOffset( void ) {
+void Duke_SetSlideMode( int mode ) {
+    s_slideMode = mode;
+}
+
+/* the x and y offsets in Duke pixels while the current screen slides in */
+static void Duke_SlideOffsets( int *dx, int *dy ) {
     int t;
+    int o;
     float k;
 
+    *dx = *dy = 0;
+    if ( s_slideMode == DUKE_SLIDE_NONE ) {
+        return;
+    }
     t = uii.Milliseconds() - s_slideStart;
     if ( t >= DUKE_SLIDE_TIME ) {
-        return 0;
+        return;
     }
     k = 1.0f - ( float )t / DUKE_SLIDE_TIME;
-    return ( int )( DUKE_SLIDE_DIST * k * k + 0.5f );
+    o = ( int )( DUKE_SLIDE_DIST * k * k + 0.5f );
+    if ( s_slideMode == DUKE_SLIDE_LEFT ) {
+        *dx = -o;
+    } else {
+        *dy = o;
+    }
 }
 
 /* the engine draw helpers are wrapped after the import so every Duke
@@ -47,19 +63,31 @@ static void ( *s_UiTile )( float x, float y, int tile, int shade, int palette, i
 static int  ( *s_MenuTextScaled )( int x, int y, const char *text, int selected, float scale );
 
 static int UI_MenuText( int x, int y, const char *text, int selected ) {
-    return s_MenuText( x, y + Duke_SlideOffset(), text, selected );
+    int dx, dy;
+
+    Duke_SlideOffsets( &dx, &dy );
+    return s_MenuText( x + dx, y + dy, text, selected );
 }
 
 static void UI_MenuCursor( int x, int y ) {
-    s_MenuCursor( x, y + Duke_SlideOffset() );
+    int dx, dy;
+
+    Duke_SlideOffsets( &dx, &dy );
+    s_MenuCursor( x + dx, y + dy );
 }
 
 static void UI_UiTile( float x, float y, int tile, int shade, int palette, int topLeft ) {
-    s_UiTile( x, y + Duke_SlideOffset(), tile, shade, palette, topLeft );
+    int dx, dy;
+
+    Duke_SlideOffsets( &dx, &dy );
+    s_UiTile( x + dx, y + dy, tile, shade, palette, topLeft );
 }
 
 static int UI_MenuTextScaled( int x, int y, const char *text, int selected, float scale ) {
-    return s_MenuTextScaled( x, y + Duke_SlideOffset(), text, selected, scale );
+    int dx, dy;
+
+    Duke_SlideOffsets( &dx, &dy );
+    return s_MenuTextScaled( x + dx, y + dy, text, selected, scale );
 }
 
 /* ---- drawing adapters ---- */
