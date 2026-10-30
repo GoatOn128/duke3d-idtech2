@@ -557,5 +557,10 @@ void        Controls_GetConfig( void );
 void        Controls_SetConfig( qboolean restart );
 void        Controls_SetDefaults( void );
 
+/* binding list feeder accessors; the command string doubles as row label */
+int         UI_BindListCount( void );
+const char  *UI_BindListLabel( int index );
+const char  *UI_BindListKeys( int index );
+
 
 #endif
