@@ -366,6 +366,9 @@ The game starts with a Cbuf_AddText ("exec quake.rc\n"); Cbuf_Execute ();
 #define EXEC_INSERT 1 // insert at current position, but don't run yet
 #define EXEC_APPEND 2 // add to end of the command buffer
 
+// idTech4 style command flags
+#define CMD_FL_CHEAT 1 // refuses to run while cheats are not allowed
+
 void Cbuf_Init(void);
 // allocates an initial text buffer that will grow as needed
 
@@ -419,6 +422,12 @@ void Cmd_AddCommand(char *cmd_name, xcommand_t function);
 // The cmd_name is referenced later, so it should not be in temp memory
 // if function is NULL, the command will be forwarded to the server
 // as a clc_stringcmd instead of executed locally
+
+void Cmd_AddCommandFlags(char *cmd_name, xcommand_t function, int flags, char *description);
+// idTech4 style command registration: the command carries flags and
+// a description shown by cmdlist; a CMD_FL_CHEAT command refuses to
+// run while CVar_CheatsAllowed returns false
+
 void Cmd_RemoveCommand(char *cmd_name);
 
 qboolean Cmd_Exists(char *cmd_name);
@@ -525,7 +534,7 @@ char *Cvar_Serverinfo(void);
 
 qboolean CVar_CheatsAllowed(void);
 // the idTech4 style cheat gate: CVAR_CHEAT cvars refuse to change
-// while allow_cheats is off (qcommon/CVar.cpp)
+// while allow_cheats is off (qcommon/dncvar.cpp)
 
 extern qboolean userinfo_modified;
 // this is set each time a CVAR_USERINFO variable is changed
