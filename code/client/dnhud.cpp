@@ -78,7 +78,50 @@ static void Tile(float x, float y, int tile, int shade, int palette, int top_lef
     re.DrawStretchPic(left, top, right - left, bottom - top, path);
 }
 
+/* the menu projection: the Duke 320x200 grid draws centered and aspect
+   correct instead of stretched, so widescreen modes letterbox the menus
+   rather than distort them; the HUD keeps the plain stretch */
+static void MenuProjection(float *scale, float *offX, float *offY)
+{
+    float s = viddef.width / 320.0f;
+
+    if (viddef.height / 200.0f < s)
+    {
+        s = viddef.height / 200.0f;
+    }
+    *scale = s;
+    *offX = (viddef.width - 320.0f * s) * 0.5f;
+    *offY = (viddef.height - 200.0f * s) * 0.5f;
+}
+
+/* UI tiles for the menu framework draw through the centered projection,
+   in Duke screen units like the engine menus */
 void DN_DrawUiTile(float x, float y, int tile, int shade, int palette, int top_left)
+{
+    char path[MAX_QPATH];
+    float scale, offX, offY;
+
+    LoadTiles();
+    if (tile < 0 || tile >= 6144 || !tileinfo[tile].width)
+    {
+        return;
+    }
+    if (!top_left)
+    {
+        x -= tileinfo[tile].width / 2 + (int8_t)(tileinfo[tile].animation >> 8);
+        y -= tileinfo[tile].height / 2 + (int8_t)(tileinfo[tile].animation >> 16);
+    }
+    snprintf(path, sizeof(path), "dn/tile%04d_p%d_s%d", tile, palette, shade < 0 ? 0 : shade);
+    MenuProjection(&scale, &offX, &offY);
+    int left = (int)lroundf(offX + x * scale), top = (int)lroundf(offY + y * scale);
+    int right = (int)lroundf(offX + (x + tileinfo[tile].width) * scale);
+    int bottom = (int)lroundf(offY + (y + tileinfo[tile].height) * scale);
+    re.DrawStretchPic(left, top, right - left, bottom - top, path);
+}
+
+/* the full screen variant: menu backdrops that must cover the whole
+   video mode keep the plain stretch */
+void DN_DrawUiTileStretch(float x, float y, int tile, int shade, int palette, int top_left)
 {
     Tile(x, y, tile, shade, palette, top_left);
 }
@@ -89,6 +132,8 @@ void DN_DrawUiTileScaled(float x, float y, int tile, int shade, int palette, int
 {
     char path[MAX_QPATH];
     int width, height;
+    float pscale, offX, offY;
+
     LoadTiles();
     if (tile < 0 || tile >= 6144 || !tileinfo[tile].width)
     {
@@ -102,9 +147,10 @@ void DN_DrawUiTileScaled(float x, float y, int tile, int shade, int palette, int
         y -= height / 2 + (int8_t)(tileinfo[tile].animation >> 16) * scale;
     }
     snprintf(path, sizeof(path), "dn/tile%04d_p%d_s%d", tile, palette, shade < 0 ? 0 : shade);
-    int left = (int)lroundf(x * viddef.width / 320), top = (int)lroundf(y * viddef.height / 200);
-    int right = (int)lroundf((x + width) * viddef.width / 320);
-    int bottom = (int)lroundf((y + height) * viddef.height / 200);
+    MenuProjection(&pscale, &offX, &offY);
+    int left = (int)lroundf(offX + x * pscale), top = (int)lroundf(offY + y * pscale);
+    int right = (int)lroundf(offX + (x + width) * pscale);
+    int bottom = (int)lroundf(offY + (y + height) * pscale);
     re.DrawStretchPic(left, top, right - left, bottom - top, path);
 }
 

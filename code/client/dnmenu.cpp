@@ -98,7 +98,9 @@ void DN_MenuCursor(int x, int y)
     DN_DrawUiTile(x, y, 2813 + (cls.realtime / 100) % 7, 0, 0, 0);
 }
 
+/* the backdrop keeps covering the whole screen: the stretch variant
+   ignores the centered menu projection */
 void DN_MenuBackground(void)
 {
-    DN_DrawUiTile(0, 0, 2456, 16, 0, 1);
+    DN_DrawUiTileStretch(0, 0, 2456, 16, 0, 1);
 }

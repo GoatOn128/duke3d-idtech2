@@ -359,6 +359,7 @@ void Duke_KeyEvent( int key, int down ) {
 void Duke_MouseEvent( int x, int y ) {
     displayContextDef_t *dc = Display_GetContext();
     int width = 640, height = 480;
+    float scale, offX, offY;
 
     uii.GetVideoMode( &width, &height );
     if ( width <= 0 ) {
@@ -369,9 +370,20 @@ void Duke_MouseEvent( int x, int y ) {
     }
 
     /* absolute window coordinates arrive, the framework works in the
-       640x480 virtual menu space */
-    dc->cursorx = x * SCREEN_WIDTH / width;
-    dc->cursory = y * SCREEN_HEIGHT / height;
+       640x480 virtual menu space. The engine draws the menus centered
+       and aspect correct in the Duke 320x200 grid (the projection in
+       dnhud.cpp), so the cursor inverts it and maps the grid back into
+       the virtual space: the net draw map halves x and divides y by
+       2.4 (the 12 unit glyph baseline offset cancels between the rect
+       map and the glyph renderer), so the inverse multiplies back */
+    scale = width / 320.0f;
+    if ( height / 200.0f < scale ) {
+        scale = height / 200.0f;
+    }
+    offX = ( width - 320.0f * scale ) * 0.5f;
+    offY = ( height - 200.0f * scale ) * 0.5f;
+    dc->cursorx = ( int )( ( x - offX ) * 2.0f / scale + 0.5f );
+    dc->cursory = ( int )( ( y - offY ) * 2.4f / scale + 0.5f );
     if ( dc->cursorx < 0 ) {
         dc->cursorx = 0;
     }

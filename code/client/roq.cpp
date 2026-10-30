@@ -508,16 +508,27 @@ int DN_ROQ_RunCinematicFrame(int handle)
 void DN_ROQ_DrawCinematic(int handle, float x, float y, float w, float h)
 {
     roq_t *roq = RoQ_ForHandle(handle);
+    float scale, offX, offY;
 
     if (!roq || !roq->frames || viddef.width <= 0 || viddef.height <= 0)
     {
         return;
     }
-    /* the rect arrives in the 640x480 virtual menu space; the video
-       stretches into it at the current video mode */
-    re.DrawStretchRaw32((int)(x * viddef.width / 640.0f),
-                        (int)(y * viddef.height / 480.0f),
-                        (int)(w * viddef.width / 640.0f + 0.5f),
-                        (int)(h * viddef.height / 480.0f + 0.5f),
+    /* the rect arrives in the 640x480 virtual menu space; the menus draw
+       centered and aspect correct in the Duke 320x200 grid (the menu
+       projection in dnhud.cpp) and the video follows the same map: the
+       pure rect conversion, x halves and y divides by 2.4 with no
+       glyph baseline offset */
+    scale = viddef.width / 320.0f;
+    if (viddef.height / 200.0f < scale)
+    {
+        scale = viddef.height / 200.0f;
+    }
+    offX = (viddef.width - 320.0f * scale) * 0.5f;
+    offY = (viddef.height - 200.0f * scale) * 0.5f;
+    re.DrawStretchRaw32((int)(offX + x * 0.5f * scale + 0.5f),
+                        (int)(offY + y / 2.4f * scale + 0.5f),
+                        (int)(w * 0.5f * scale + 0.5f),
+                        (int)(h / 2.4f * scale + 0.5f),
                         roq->width, roq->height, roq->last);
 }

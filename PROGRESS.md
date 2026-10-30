@@ -195,6 +195,12 @@ Legend:
       hooks and the focused menu runs onROQDone when the stream ends;
       convertgrp decodes the group file ANMs and writes them as
       basedn/anm/*.roq
+- [x] Aspect-correct menu projection: the Duke 320x200 menu grid draws
+      centered and aspect correct at any video mode instead of stretched
+      (`dnhud.cpp` owns the projection and the UI tile helpers draw
+      through it), the menu background keeps covering the whole screen
+      through a dedicated stretch variant, and the mouse cursor and the
+      menu cinematics invert and follow the same map
 - [x] UI scripting documentation: `docs/ui-scripting.md` walks through
       the whole menu system the way a person reads it, how
       `ui/menus.txt` loads screens, the .menu syntax with every
