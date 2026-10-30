@@ -175,6 +175,13 @@ Legend:
       do not), and `ui/gui.txt` owns named script macros the scripts run
       through `gui::<name>` (or `gui <name>`), nesting up to four deep,
       so transitions and repeated script patterns become data
+- [x] Dead RTCW constants purged from `code/ui/menudef.h`: the file now
+      keeps only what the ported framework and the .menu format use
+      (item types, alignments, text styles, borders, window styles,
+      range and list box element types); the cgame hud flags, RTCW
+      feeder ids, ownerdraw id blocks, voice chats and wolf multiplayer
+      classes are gone, and the dead `CG_SHOW_TEXTASINT` cvar text
+      check (a popup-flag alias) went with them
 - [x] UI scripting documentation: `docs/ui-scripting.md` walks through
       the whole menu system the way a person reads it, how
       `ui/menus.txt` loads screens, the .menu syntax with every
