@@ -156,6 +156,7 @@ private:
     static qboolean ItemParse_mouseExitText( dnItem *item, int handle );
     static qboolean ItemParse_name( dnItem *item, int handle );
     static qboolean ItemParse_notselectable( dnItem *item, int handle );
+    static qboolean ItemParse_onNamedEvent( dnItem *item, int handle );
     static qboolean ItemParse_onFocus( dnItem *item, int handle );
     static qboolean ItemParse_outlinecolor( dnItem *item, int handle );
     static qboolean ItemParse_ownerdraw( dnItem *item, int handle );
@@ -200,6 +201,15 @@ private:
     static qboolean MenuParse_forecolor( dnItem *item, int handle );
     static qboolean MenuParse_fullscreen( dnItem *item, int handle );
     static qboolean MenuParse_itemDef( dnItem *item, int handle );
+    static qboolean MenuParse_DefItem( dnItem *item, int handle, int defType );
+    static qboolean MenuParse_windowDef( dnItem *item, int handle );
+    static qboolean MenuParse_buttonDef( dnItem *item, int handle );
+    static qboolean MenuParse_editDef( dnItem *item, int handle );
+    static qboolean MenuParse_choiceDef( dnItem *item, int handle );
+    static qboolean MenuParse_sliderDef( dnItem *item, int handle );
+    static qboolean MenuParse_bindDef( dnItem *item, int handle );
+    static qboolean MenuParse_listDef( dnItem *item, int handle );
+    static qboolean MenuParse_onNamedEvent( dnItem *item, int handle );
     static qboolean MenuParse_name( dnItem *item, int handle );
     static qboolean MenuParse_onClose( dnItem *item, int handle );
     static qboolean MenuParse_onESC( dnItem *item, int handle );
