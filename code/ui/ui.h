@@ -79,6 +79,8 @@ typedef struct
     int (*GetServers)(char *names, int stride, int maxServers);
     int (*GetServerAddress)(int index, char *buffer, uint32_t size);
     int (*GetCredits)(char *buffer, uint32_t size);
+    int (*MenuTextScaled)(int x, int y, const char *text, int selected, float scale);
+    int (*MenuTextWidth)(const char *text);
 } dn_ui_import_t;
 
 typedef struct

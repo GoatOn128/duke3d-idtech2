@@ -1,8 +1,7 @@
-// Options. The setting rows are framework items drawn in Duke glyphs at
-// 16 Duke pixel row steps, matching the engine menu line spacing; the
-// header tile, sliders, toggles and lists share the value column so the
-// values line up. VIDEO SETUP opens the video screen, the bottom two
-// lines are ownerdraws like the main menu lines.
+// Options. The setting rows live inside a scrollable windowDef container:
+// adding an option means adding one more child itemDef, the mouse wheel
+// scrolls the container when the rows outgrow the view. Rows render at
+// textscale 0.7; the value column still lines up with the menu scope rows.
 {
 	name "options"
 	fullscreen 1
@@ -24,105 +23,113 @@
 		visible 1
 	}
 
-	itemDef {
-		name "opt_sfx"
-		type 10
-		text "effects volume"
-		cvarFloat s_volume 0.5 0 1
-		rect 80 64 480 38.4
-		textscale 1
-		forecolor 0.45 0.45 0.45 1
+	windowDef {
+		name "opt_scroll"
+		rect 80 64 480 300
+		scrollable 1
+		decoration
 		visible 1
-	}
 
-	itemDef {
-		name "opt_musicvol"
-		type 10
-		text "music volume"
-		cvarFloat s_musicvolume 0.5 0 1
-		rect 80 102.4 480 38.4
-		textscale 1
-		forecolor 0.45 0.45 0.45 1
-		visible 1
-	}
+		itemDef {
+			name "opt_sfx"
+			type 10
+			text "effects volume"
+			cvarFloat s_volume 0.5 0 1
+			rect 0 0 480 24
+			textscale 0.7
+			forecolor 0.45 0.45 0.45 1
+			visible 1
+		}
 
-	itemDef {
-		name "opt_music"
-		type 11
-		text "music"
-		cvar "s_music"
-		rect 80 140.8 480 38.4
-		textscale 1
-		forecolor 0.45 0.45 0.45 1
-		visible 1
-	}
+		itemDef {
+			name "opt_musicvol"
+			type 10
+			text "music volume"
+			cvarFloat s_musicvolume 0.5 0 1
+			rect 0 24 480 24
+			textscale 0.7
+			forecolor 0.45 0.45 0.45 1
+			visible 1
+		}
 
-	itemDef {
-		name "opt_sens"
-		type 10
-		text "mouse speed"
-		cvarFloat sensitivity 3 1 11
-		rect 80 179.2 480 38.4
-		textscale 1
-		forecolor 0.45 0.45 0.45 1
-		visible 1
-	}
+		itemDef {
+			name "opt_music"
+			type 11
+			text "music"
+			cvar "s_music"
+			rect 0 48 480 24
+			textscale 0.7
+			forecolor 0.45 0.45 0.45 1
+			visible 1
+		}
 
-	itemDef {
-		name "opt_run"
-		type 11
-		text "always run"
-		cvar "cl_run"
-		rect 80 217.6 480 38.4
-		textscale 1
-		forecolor 0.45 0.45 0.45 1
-		visible 1
-	}
+		itemDef {
+			name "opt_sens"
+			type 10
+			text "mouse speed"
+			cvarFloat sensitivity 3 1 11
+			rect 0 72 480 24
+			textscale 0.7
+			forecolor 0.45 0.45 0.45 1
+			visible 1
+		}
 
-	itemDef {
-		name "opt_invert"
-		type 12
-		text "invert mouse"
-		cvar "m_pitch"
-		rect 80 256 480 38.4
-		textscale 1
-		forecolor 0.45 0.45 0.45 1
-		visible 1
-		cvarFloatList { "no" 0.022 "yes" -0.022 }
-	}
+		itemDef {
+			name "opt_run"
+			type 11
+			text "always run"
+			cvar "cl_run"
+			rect 0 96 480 24
+			textscale 0.7
+			forecolor 0.45 0.45 0.45 1
+			visible 1
+		}
 
-	itemDef {
-		name "opt_crosshair"
-		type 12
-		text "crosshair"
-		cvar "crosshair"
-		rect 80 294.4 480 38.4
-		textscale 1
-		forecolor 0.45 0.45 0.45 1
-		visible 1
-		cvarFloatList { "none" 0 "cross" 1 "dot" 2 "angle" 3 }
-	}
+		itemDef {
+			name "opt_invert"
+			type 12
+			text "invert mouse"
+			cvar "m_pitch"
+			rect 0 120 480 24
+			textscale 0.7
+			forecolor 0.45 0.45 0.45 1
+			visible 1
+			cvarFloatList { "no" 0.022 "yes" -0.022 }
+		}
 
-	itemDef {
-		name "opt_joystick"
-		type 11
-		text "use joystick"
-		cvar "in_joystick"
-		rect 80 332.8 480 38.4
-		textscale 1
-		forecolor 0.45 0.45 0.45 1
-		visible 1
-	}
+		itemDef {
+			name "opt_crosshair"
+			type 12
+			text "crosshair"
+			cvar "crosshair"
+			rect 0 144 480 24
+			textscale 0.7
+			forecolor 0.45 0.45 0.45 1
+			visible 1
+			cvarFloatList { "none" 0 "cross" 1 "dot" 2 "angle" 3 }
+		}
 
-	itemDef {
-		name "opt_video"
-		type 1
-		text "video setup"
-		rect 80 371.2 480 38.4
-		textscale 1
-		forecolor 0.45 0.45 0.45 1
-		visible 1
-		action { play kickhit.wav ; close options ; open video }
+		itemDef {
+			name "opt_joystick"
+			type 11
+			text "use joystick"
+			cvar "in_joystick"
+			rect 0 168 480 24
+			textscale 0.7
+			forecolor 0.45 0.45 0.45 1
+			visible 1
+		}
+
+		itemDef {
+			name "opt_video"
+			type 1
+			text "video setup"
+			rect 0 192 480 24
+			textscale 0.7
+			forecolor 0.45 0.45 0.45 1
+			visible 1
+			action { play kickhit.wav ; close options ; open video }
+		}
 	}
 
 	itemDef {

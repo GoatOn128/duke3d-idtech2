@@ -649,6 +649,11 @@ void Duke_RunScript( char **args ) {
         if ( list && list->type == ITEM_TYPE_LISTBOX ) {
             Duke2_Connect( list->cursorPos );
         }
+    } else if ( Q_strcasecmp( cmd, "resetcontrols" ) == 0 ) {
+        /* the keys screen footer: every binding back to its default, then
+           write the config out like the engine defaults button */
+        Controls_SetDefaults();
+        Controls_SetConfig( qfalse );
     } else {
         /* unknown subcommand: consume its argument so the remaining
            script tokens are not misread as more commands */

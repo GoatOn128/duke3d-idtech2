@@ -56,39 +56,40 @@ typedef struct {
     int bright;             /* always drawn in the selected shade */
     int cursorFromStart;    /* cursor sits 18 pixels left of the text start */
     int cursorX;            /* fixed cursor x when cursorFromStart is 0 */
+    int cursorBothSides;    /* the symbol also rides the right end of the line */
 } dukeLine_t;
 
 static dukeLine_t dukeLines[DL_COUNT] = {
-    {"NEW GAME",           80,  67,  0, 0, 56},
-    {"SAVE GAME",          80,  83,  0, 0, 56},
-    {"LOAD GAME",          80,  99,  0, 0, 56},
-    {"OPTIONS",            80,  115, 0, 0, 56},
-    {"MULTIPLAYER",        80,  131, 0, 0, 56},
-    {NULL,                 0,    0, 0, 0, 0},
-    {"QUIT GAME",          80,  163, 0, 0, 56},
+    {"NEW GAME",           160, 67,  0, 1, 0,  1},
+    {"SAVE GAME",          160, 83,  0, 1, 0,  1},
+    {"LOAD GAME",          160, 99,  0, 1, 0,  1},
+    {"OPTIONS",            160, 115, 0, 1, 0,  1},
+    {"MULTIPLAYER",        160, 131, 0, 1, 0,  1},
+    {NULL,                 0,   0,   0, 0, 0,  0},
+    {"QUIT GAME",          160, 163, 0, 1, 0,  1},
 
-    {"SELECT AN EPISODE",  160, 24,  1, 0, 0},
-    {"L.A. MELTDOWN",      160, 70,  0, 1, 0},
-    {"LUNAR APOCALYPSE",   160, 90,  0, 1, 0},
-    {"SHRAPNEL CITY",      160, 110, 0, 1, 0},
-    {"THE BIRTH",          160, 130, 0, 1, 0},
+    {"SELECT AN EPISODE",  160, 24,  1, 0, 0,  0},
+    {"L.A. MELTDOWN",      160, 70,  0, 1, 0,  0},
+    {"LUNAR APOCALYPSE",   160, 90,  0, 1, 0,  0},
+    {"SHRAPNEL CITY",      160, 110, 0, 1, 0,  0},
+    {"THE BIRTH",          160, 130, 0, 1, 0,  0},
 
-    {"SELECT SKILL",       160, 24,  1, 0, 0},
-    {"PIECE OF CAKE",      160, 70,  0, 1, 0},
-    {"LET'S ROCK",         160, 90,  0, 1, 0},
-    {"COME GET SOME",      160, 110, 0, 1, 0},
-    {"DAMN I'M GOOD",      160, 130, 0, 1, 0},
+    {"SELECT SKILL",       160, 24,  1, 0, 0,  0},
+    {"PIECE OF CAKE",      160, 70,  0, 1, 0,  0},
+    {"LET'S ROCK",         160, 90,  0, 1, 0,  0},
+    {"COME GET SOME",      160, 110, 0, 1, 0,  0},
+    {"DAMN I'M GOOD",      160, 130, 0, 1, 0,  0},
 
-    {"QUIT GAME?",         160, 90,  1, 0, 0},
-    {"YES",                160, 120, 0, 0, 115},
-    {"NO",                 160, 145, 0, 0, 115},
+    {"QUIT GAME?",         160, 90,  1, 0, 0,  0},
+    {"YES",                160, 120, 0, 0, 115, 0},
+    {"NO",                 160, 145, 0, 0, 115, 0},
 
-    {"OPTIONS",            160, 16,  1, 0, 0},
-    {"CUSTOMIZE CONTROLS", 40,  181, 0, 1, 0},
-    {"RESET DEFAULTS",     40,  195, 0, 1, 0},
-    {NULL,                 0,    0, 0, 0, 0},
+    {"OPTIONS",            160, 16,  1, 0, 0,  0},
+    {"CUSTOMIZE CONTROLS", 40,  181, 0, 1, 0,  0},
+    {"RESET DEFAULTS",     40,  195, 0, 1, 0,  0},
+    {NULL,                 0,   0,   0, 0, 0,  0},
 
-    {"CUSTOMIZE CONTROLS", 160, 12,  1, 0, 0},
+    {"CUSTOMIZE CONTROLS", 160, 12,  1, 0, 0,  0},
 };
 
 /* the skill voice that plays before the level loads, per skill choice */
@@ -187,6 +188,10 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
         } else {
             uii.MenuCursor( line->cursorX, line->y - 7 );
         }
+        if ( line->cursorBothSides ) {
+            /* the symbol also rides the right end of the centered line */
+            uii.MenuCursor( start + uii.MenuTextWidth( line->label ) + 10, line->y - 7 );
+        }
     }
 }
 
@@ -263,8 +268,9 @@ void Duke_KeyEvent( int key, int down ) {
     displayContextDef_t *dc = Display_GetContext();
     dnMenu *menu;
 
-    /* the engine menus treat right click as escape */
-    if ( key == K_MOUSE2 ) {
+    /* the engine menus treat right click as escape, but the bind capture
+       must hear the real key so mouse2 can be bound */
+    if ( key == K_MOUSE2 && !Display_KeyBindPending() ) {
         key = K_ESCAPE;
     }
 

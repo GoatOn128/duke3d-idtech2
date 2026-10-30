@@ -263,6 +263,16 @@ static int UI_MenuText(int x, int y, const char *text, int selected)
     return DN_MenuText(x, y, text, selected);
 }
 
+static int UI_MenuTextScaled(int x, int y, const char *text, int selected, float scale)
+{
+    return DN_MenuTextScaled(x, y, text, selected, scale);
+}
+
+static int UI_MenuTextWidth(const char *text)
+{
+    return DN_MenuTextWidth(text);
+}
+
 static void UI_MenuCursor(int x, int y)
 {
     DN_MenuCursor(x, y);
@@ -852,6 +862,8 @@ dn_ui_export_t *CL_LoadUI(void)
     imports.UpdateScreen = UI_UpdateScreen;
     imports.UiTile = UI_UiTile;
     imports.MenuText = UI_MenuText;
+    imports.MenuTextScaled = UI_MenuTextScaled;
+    imports.MenuTextWidth = UI_MenuTextWidth;
     imports.MenuCursor = UI_MenuCursor;
     imports.MenuBackground = UI_MenuBackground;
     imports.FadeScreen = UI_FadeScreen;
