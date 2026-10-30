@@ -28,7 +28,10 @@ three.
     `dnerrortrap` (Com_Error trap for errors raised on the game
     thread), plus the BFG console
     port: `dneditfield` (console edit field) and `dnconsolehistory`
-    (persistent console history).
+    (persistent console history). The idTech4 style cvar system
+    (`dncvar.h`/`dncvar.cpp`: statically declared `idCVar` objects with typed
+    values, declared ranges and cheat protection) sits behind the
+    classic `Cvar_*()` entry points.
   - `ref_gl/` — the OpenGL renderer module: `gl_image`, `gl_model`,
     `gl_rsurf`, `gl_rmain`, `gl_light`, `gl_mesh`, `gl_warp`, `gl_draw`, the GLSL shader
     backend (`gl_shaders`), the SDL GL context and Doom 3 BFG display/fullscreen
@@ -187,5 +190,6 @@ assuming a build ran against it.
 | Frame stepping and rate caps | `qcommon/common.cpp` (`Qcommon_Frame`), `client/cl_main.cpp` (`CL_Frame`) |
 | Parallel mesh builds | `ref_gl/dnrender.cpp`, `qcommon/dnjobs.cpp` (`DN_JobsParallelFor`) |
 | Console edit field and history | `qcommon/dneditfield.cpp`, `qcommon/dnconsolehistory.cpp`, `client/console.cpp` |
+| Cvars (idTech 4 style system) | `qcommon/cvar.cpp`, `qcommon/dncvar.h`, `qcommon/dncvar.cpp` |
 | Win32 system console and debug graphs | `win32/dn_syscon.cpp`, `client/dndebuggraph.cpp`, `client/console.cpp` |
 | CI behavior | `.github/workflows/build-windows.yml` |

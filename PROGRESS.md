@@ -214,6 +214,17 @@ Legend:
 - [ ] Cut the menus over to the module, retire `menu.cpp`/`qmenu.cpp`
       from the build
 
+## Console and cvars (idTech 4)
+
+- [x] idTech4 style cvar system: statically declared `idCVar` objects
+      (`qcommon/dncvar.h`/`dncvar.cpp`, written from scratch against the
+      idTech4 architecture) with typed values, declared ranges and cheat
+      protection now sit behind the classic `Cvar_*()` entry points;
+      the console gains `seta`, `setu`, `sets`, `reset`, `toggle` and
+      `cvar_restart` plus a filtered `cvarlist`, archived cvars write
+      as `seta`, and `cvar_t` grows `reset_string` and the declared
+      range (all modules rebuild in tree)
+
 ## Engine milestones
 
 - [~] Duke-native map loading: Build `.map` files through

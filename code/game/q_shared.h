@@ -309,6 +309,10 @@ CVARS (console variables)
     8                 // don't allow change from console at all,
                       // but can be set from the command line
 #define CVAR_LATCH 16 // save changes until server restart
+#define CVAR_CHEAT 32 // refuse changes from the console unless allow_cheats is on
+#define CVAR_BOOL 64 // boolean cvar: sets reformat to whole numbers
+#define CVAR_INTEGER 128 // integer cvar: sets reformat to whole numbers
+#define CVAR_FLOAT 256 // floating point cvar: sets reformat like Cvar_SetValue
 
 // nothing outside the Cvar_*() functions should modify these fields!
 typedef struct cvar_s
@@ -320,6 +324,10 @@ typedef struct cvar_s
     qboolean modified; // set each time the cvar is changed
     float value;
     struct cvar_s *next;
+    // idTech4 style tracking, appended to the end: every module that
+    // shares this struct is rebuilt in tree
+    char *reset_string; // default value, for reset and cvar_restart
+    float value_min, value_max; // declared clamp range, -1 for none
 } cvar_t;
 
 #endif // CVAR

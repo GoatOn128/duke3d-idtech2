@@ -523,6 +523,10 @@ char *Cvar_Userinfo(void);
 char *Cvar_Serverinfo(void);
 // returns an info string containing all the CVAR_SERVERINFO cvars
 
+qboolean CVar_CheatsAllowed(void);
+// the idTech4 style cheat gate: CVAR_CHEAT cvars refuse to change
+// while allow_cheats is off (qcommon/CVar.cpp)
+
 extern qboolean userinfo_modified;
 // this is set each time a CVAR_USERINFO variable is changed
 // so that the client knows to send it to the server
