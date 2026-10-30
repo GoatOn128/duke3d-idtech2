@@ -50,37 +50,29 @@ enum {
     DL2_COUNT
 };
 
-typedef struct {
-    const char *label;
-    int x;                  /* Duke menu x, 160 means centered */
-    int y;                  /* Duke menu y, the glyph top is y - 12 */
-    int bright;             /* always drawn in the selected shade */
-    int cursorFromStart;    /* cursor sits 18 pixels left of the text start */
-    int cursorX;            /* fixed cursor x when cursorFromStart is 0 */
-    int cursorBothSides;    /* centered lines carry the nuke pair at fixed columns */
-} duke2Line_t;
-
-static duke2Line_t duke2Lines[DL2_COUNT] = {
-    {"SAVE GAME",           160, 24,  1, 0, 0, 0},
-    {"LOAD GAME",           160, 24,  1, 0, 0, 0},
-    {"MULTIPLAYER",         160, 24,  1, 0, 0, 0},
-    {"JOIN NETWORK SERVER", 160, 64,  0, 1, 0, 1},
-    {"START NETWORK SERVER", 160, 80,  0, 1, 0, 1},
-    {"PLAYER SETUP",        160, 96,  0, 1, 0, 1},
-    {"JOIN SERVER",         160, 24,  1, 0, 0, 0},
-    {"ADDRESS BOOK",        40,  44,  0, 1, 0, 0},
-    {"REFRESH SERVER LIST", 40,  58,  0, 1, 0, 0},
-    {"CONNECT TO...",       160, 74,  0, 0, 0, 0},
-    {"ADDRESS BOOK",        160, 24,  1, 0, 0, 0},
-    {"START SERVER",        160, 24,  1, 0, 0, 0},
-    {"DEATHMATCH FLAGS",    40,  110, 0, 1, 0, 0},
-    {"BEGIN",               40,  124, 0, 1, 0, 0},
-    {"DEATHMATCH FLAGS",    160, 24,  1, 0, 0, 0},
-    {"DOWNLOAD OPTIONS",    160, 24,  1, 0, 0, 0},
-    {"PLAYER SETUP",        160, 24,  1, 0, 0, 0},
-    {"DOWNLOAD OPTIONS",    160, 100, 0, 1, 0, 1},
-    {"VIDEO SETUP",         160, 24,  1, 0, 0, 0},
-    {"APPLY CHANGES",       160, 170, 0, 1, 0, 1}
+/* the line rows share the dukeLine_t shape from ui_local.h: the item
+   rect places the row, the table carries the look */
+static dukeLine_t duke2Lines[DL2_COUNT] = {
+    {"SAVE GAME",           1, 0, 0, 0, 0},
+    {"LOAD GAME",           1, 0, 0, 0, 0},
+    {"MULTIPLAYER",         1, 0, 0, 0, 0},
+    {"JOIN NETWORK SERVER", 0, 0, 1, 0, 1},
+    {"START NETWORK SERVER", 0, 0, 1, 0, 1},
+    {"PLAYER SETUP",        0, 0, 1, 0, 1},
+    {"JOIN SERVER",         1, 0, 0, 0, 0},
+    {"ADDRESS BOOK",        0, 1, 1, 0, 0},
+    {"REFRESH SERVER LIST", 0, 1, 1, 0, 0},
+    {"CONNECT TO...",       0, 0, 0, 0, 0},
+    {"ADDRESS BOOK",        1, 0, 0, 0, 0},
+    {"START SERVER",        1, 0, 0, 0, 0},
+    {"DEATHMATCH FLAGS",    0, 1, 1, 0, 0},
+    {"BEGIN",               0, 1, 1, 0, 0},
+    {"DEATHMATCH FLAGS",    1, 0, 0, 0, 0},
+    {"DOWNLOAD OPTIONS",    1, 0, 0, 0, 0},
+    {"PLAYER SETUP",        1, 0, 0, 0, 0},
+    {"DOWNLOAD OPTIONS",    0, 0, 1, 0, 1},
+    {"VIDEO SETUP",         1, 0, 0, 0, 0},
+    {"APPLY CHANGES",       0, 0, 1, 0, 1}
 };
 
 /* ---- dmflags rows, mirroring the engine DMOptions callback table ---- */
@@ -366,10 +358,10 @@ static void Duke2_ReadCredits( void ) {
 
 /* ---- ownerdraws ---- */
 
-/* draws a slot row: number plus the description from the save header */
-static void Duke2_DrawSlot( int slot ) {
+/* draws a slot row: number plus the description from the save header;
+   the row sits on the rect's left edge and trims against its right edge */
+static void Duke2_DrawSlot( int slot, const dukeRect_t *rect ) {
     char label[48];
-    int y = 40 + slot * 14;
     int selected = Duke2_LineFocused( DUKE2_OD_BASE + DUKE2_OD_SLOT0 + slot );
     int start;
 
@@ -379,22 +371,21 @@ static void Duke2_DrawSlot( int slot ) {
         snprintf( label, sizeof( label ), "%2d  %s", slot, s_saveDesc[slot] );
     }
     /* long level names would run off the 320 wide screen, so trim the
-       row until it ends inside the menu area */
+       row until it ends inside the rect */
     {
         int len = ( int )strlen( label );
-        while ( len > 1 && 100 + uii.MenuTextWidth( label ) > 296 ) {
+        while ( len > 1 && rect->leftX + uii.MenuTextWidth( label ) > rect->rightX ) {
             label[--len] = '\0';
         }
     }
-    start = uii.MenuText( 100, y, label, selected );
+    start = uii.MenuText( rect->leftX, rect->topY, label, selected );
     if ( selected ) {
-        uii.MenuCursor( start - 18, y - 7 );
+        uii.MenuCursor( start - 18, rect->topY - 7 );
     }
 }
 
-static void Duke2_DrawServer( int index ) {
+static void Duke2_DrawServer( int index, const dukeRect_t *rect ) {
     char label[80];
-    int y = 86 + index * 13;
     int selected = Duke2_LineFocused( DUKE2_OD_BASE + DUKE2_OD_SERVER0 + index );
     int len, start;
 
@@ -402,13 +393,13 @@ static void Duke2_DrawServer( int index ) {
               ( index < s_serverCount ) ? s_serverNames[index] : "<no server>" );
     /* long server names would run off the 320 wide screen */
     len = ( int )strlen( label );
-    while ( len > 1 && 100 + uii.MenuTextWidth( label ) > 296 ) {
+    while ( len > 1 && rect->leftX + uii.MenuTextWidth( label ) > rect->rightX ) {
         label[--len] = '\0';
     }
-    start = uii.MenuText( 100, y, label, selected );
+    start = uii.MenuText( rect->leftX, rect->topY, label, selected );
 
     if ( selected ) {
-        uii.MenuCursor( start - 18, y - 7 );
+        uii.MenuCursor( start - 18, rect->topY - 7 );
     }
 }
 
@@ -456,38 +447,36 @@ static const char *Duke2_DmFlagValue( const duke2DmFlag_t *f, int flags ) {
     return ( flags & f->bit ) ? "YES" : "NO";
 }
 
-static void Duke2_DrawDmFlag( int index ) {
+static void Duke2_DrawDmFlag( int index, const dukeRect_t *rect ) {
     const duke2DmFlag_t *f = &dukeDmFlags[index];
     int flags = ( int )uii.Cvar_Value( "dmflags" );
-    /* two columns of rows, eight on the left, seven on the right */
-    int x = ( index < 8 ) ? 8 : 168;
-    int y = 44 + ( index % 8 ) * 16;
-    /* the setting right-aligns inside its column so the longest label
-       never collides with it */
-    int columnEnd = ( index < 8 ) ? 152 : 312;
+    /* the setting right-aligns on the rect's right edge so the longest
+       label never collides with it */
     const char *value = Duke2_DmFlagValue( f, flags );
     int selected = Duke2_LineFocused( DUKE2_OD_BASE + DUKE2_OD_DMFLAG0 + index );
 
-    uii.MenuText( x, y, f->label, selected );
-    uii.MenuText( columnEnd - uii.MenuTextWidth( value ), y, value, selected );
+    uii.MenuText( rect->leftX, rect->topY, f->label, selected );
+    uii.MenuText( rect->rightX - uii.MenuTextWidth( value ), rect->topY, value, selected );
 }
 
 void Duke2_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t color ) {
     int id = ownerDraw - DUKE2_OD_BASE;
-    duke2Line_t *line;
+    dukeLine_t *line;
+    dukeRect_t rect;
 
-    ( void )x;
-    ( void )y;
-    ( void )w;
-    ( void )h;
     ( void )color;
 
+    /* the rows draw through the engine Duke helpers anchored on the
+       item rect mapped into Duke menu coordinates; the credits scroller
+       is the one exception, it ignores the rect */
+    rect = Duke_MapRect( x, y, w, h );
+
     if ( id >= DUKE2_OD_SLOT0 && id <= DUKE2_OD_SLOT0 + 10 ) {
-        Duke2_DrawSlot( id - DUKE2_OD_SLOT0 );
+        Duke2_DrawSlot( id - DUKE2_OD_SLOT0, &rect );
         return;
     }
     if ( id >= DUKE2_OD_SERVER0 && id < DUKE2_OD_SERVER0 + DUKE2_MAX_SERVERS ) {
-        Duke2_DrawServer( id - DUKE2_OD_SERVER0 );
+        Duke2_DrawServer( id - DUKE2_OD_SERVER0, &rect );
         return;
     }
     if ( id == DUKE2_OD_CREDITS ) {
@@ -495,45 +484,24 @@ void Duke2_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t 
         return;
     }
     if ( id >= DUKE2_OD_DMFLAG0 && id < DUKE2_OD_DMFLAG0 + 15 ) {
-        Duke2_DrawDmFlag( id - DUKE2_OD_DMFLAG0 );
+        Duke2_DrawDmFlag( id - DUKE2_OD_DMFLAG0, &rect );
         return;
     }
     if ( id == DUKE2_OD_DMVALUE ) {
+        /* the value readout centers on its rect like any other line */
         char label[32];
+        dukeLine_t value;
         snprintf( label, sizeof( label ), "DMFLAGS = %d", ( int )uii.Cvar_Value( "dmflags" ) );
-        uii.MenuText( 160, 176, label, 1 );
+        memset( &value, 0, sizeof( value ) );
+        value.label = label;
+        value.bright = 1;
+        Duke_PaintLine( &value, &rect, 1 );
         return;
     }
     if ( id >= DUKE2_OD_LINE0 && id - DUKE2_OD_LINE0 < DL2_COUNT ) {
         line = &duke2Lines[id - DUKE2_OD_LINE0];
-        if ( line->label == NULL ) {
-            return;
-        }
-        {
-            int selected = line->bright || Duke2_LineFocused( ownerDraw );
-            int start = uii.MenuText( line->x, line->y, line->label, selected );
-            if ( !line->bright && selected ) {
-                if ( line->cursorBothSides && line->x == 160 ) {
-                    /* centered menus park the nuke pair at the fixed columns
-                       like the original probe(): the left one spins forward
-                       and the right one mirrors it; the spin and columns
-                       come from ui/animations.txt; a missing or empty file
-                       leaves nothing to spin, so the plain cursor takes over */
-                    const dnuiAnims_t *anims = dnMenuParser::Anims();
-                    int tile = dnMenuParser::Tile( "SPINNINGNUKEICON" );
-                    if ( anims->nukeFrames < 1 || anims->nukeFrameMs < 1 || tile < 1 ) {
-                        uii.MenuCursor( start - 18, line->y - 7 );
-                    } else {
-                        int frame = ( uii.Milliseconds() / anims->nukeFrameMs ) % anims->nukeFrames;
-                        uii.UiTile( anims->nukeLeftX, line->y - 7, tile + frame, 0, 0, 0 );
-                        uii.UiTile( anims->nukeRightX, line->y - 7, tile + ( anims->nukeFrames - frame ) % anims->nukeFrames, 0, 0, 0 );
-                    }
-                } else if ( line->cursorFromStart ) {
-                    uii.MenuCursor( start - 18, line->y - 7 );
-                } else if ( line->cursorX ) {
-                    uii.MenuCursor( line->cursorX, line->y - 7 );
-                }
-            }
+        if ( line->label != NULL ) {
+            Duke_PaintLine( line, &rect, line->bright || Duke2_LineFocused( ownerDraw ) );
         }
         return;
     }

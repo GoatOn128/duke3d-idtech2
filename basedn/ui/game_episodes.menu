@@ -9,6 +9,7 @@
 	itemDef {
 		name "ep_header"
 		ownerdraw 1
+		rect 112 16.8 416 33.6
 		decoration
 		visible 1
 	}
@@ -16,13 +17,14 @@
 	itemDef {
 		name "ep_title"
 		ownerdraw 23
+		rect 112 28.8 416 38.4
 		decoration
 		visible 1
 	}
 
 	itemDef {
 		name "episode_0"
-		rect 70 134.4 500 48
+		rect 112 139.2 416 48
 		ownerdraw 24
 		visible 1
 		action { play kickhit.wav ; setcvar dn_episode 1 ; close game_episodes ; open game_skills }
@@ -30,7 +32,7 @@
 
 	itemDef {
 		name "episode_1"
-		rect 70 182.4 500 48
+		rect 112 187.2 416 48
 		ownerdraw 25
 		visible 1
 		action { play kickhit.wav ; setcvar dn_episode 2 ; close game_episodes ; open game_skills }
@@ -38,7 +40,7 @@
 
 	itemDef {
 		name "episode_2"
-		rect 70 230.4 500 48
+		rect 112 235.2 416 48
 		ownerdraw 26
 		visible 1
 		action { play kickhit.wav ; setcvar dn_episode 3 ; close game_episodes ; open game_skills }
@@ -46,7 +48,7 @@
 
 	itemDef {
 		name "episode_3"
-		rect 70 278.4 500 48
+		rect 112 283.2 416 48
 		ownerdraw 27
 		visible 1
 		action { play kickhit.wav ; setcvar dn_episode 4 ; close game_episodes ; open game_skills }

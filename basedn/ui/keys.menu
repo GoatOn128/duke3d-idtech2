@@ -15,6 +15,7 @@
 		// the controls screen rides the bar higher, its own header
 		// placement in the original menues.c (MENUBAR at y 10)
 		ownerdraw 2
+		rect 112 -4.8 416 33.6
 		decoration
 		visible 1
 	}
@@ -22,6 +23,7 @@
 	itemDef {
 		name "keys_title"
 		ownerdraw 40
+		rect 112 7.2 416 38.4
 		decoration
 		visible 1
 	}
@@ -38,7 +40,7 @@
 
 	itemDef {
 		name "keys_reset"
-		rect 80 432 240 32
+		rect 112 439.2 416 38.4
 		ownerdraw 38
 		visible 1
 		action { play kickhit.wav ; duke resetcontrols }

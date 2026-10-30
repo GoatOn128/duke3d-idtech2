@@ -10,6 +10,7 @@
 	itemDef {
 		name "join_header"
 		ownerdraw 1
+		rect 112 16.8 416 33.6
 		decoration
 		visible 1
 	}
@@ -17,13 +18,14 @@
 	itemDef {
 		name "join_title"
 		ownerdraw 118
+		rect 112 28.8 416 38.4
 		decoration
 		visible 1
 	}
 
 	itemDef {
 		name "join_addressbook"
-		rect 64 72 512 33.6
+		rect 80 76.8 240 33.6
 		ownerdraw 119
 		visible 1
 		action { play kickhit.wav ; close joinserver ; open addressbook }
@@ -31,7 +33,7 @@
 
 	itemDef {
 		name "join_refresh"
-		rect 64 105.6 512 38.4
+		rect 80 110.4 240 33.6
 		ownerdraw 120
 		visible 1
 		action { play kickhit.wav ; duke refreshservers }
@@ -40,6 +42,7 @@
 	itemDef {
 		name "join_connectto"
 		ownerdraw 121
+		rect 112 148.8 416 38.4
 		decoration
 		visible 1
 	}

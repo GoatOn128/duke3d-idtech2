@@ -160,13 +160,23 @@ Legend:
       (sound channel, focus pulse and blink, save line length); the
       seeded tile/animation defaults are gone so the ui text files are
       the only source; `ui/menus.txt` gained `#include` support
+- [x] Ownerdraw rows honor their script rects: the line, tile and row
+      ownerdraws paint against the item rect mapped into the Duke menu
+      grid (a screen-centered rect keeps the engine centering, left
+      anchored rows sit on the rect's left edge, save and server rows
+      trim against the right edge, dmflag values right-align on it),
+      every .menu ownerdraw item now carries the rect that reproduces
+      the original placement, and the code line tables carry only the
+      look (text, brightness, cursor behavior); the credits scroller
+      keeps ignoring its rect
 - [x] UI scripting documentation: `docs/ui-scripting.md` walks through
       the whole menu system the way a person reads it, how
       `ui/menus.txt` loads screens, the .menu syntax with every
       keyword, the script commands including the `duke` subcommands,
       the ownerdraw ids, the feeders, the data files and the
       coordinate mapping, with a worked example screen and the
-      gotchas (ownerdraw rows ignore their script rect for drawing)
+      gotchas (ownerdraw rows honor their script rects; a missing
+      rect paints at the top left corner)
 - [ ] Duke menus on the idTech 3 framework (main, new game, options,
       load, save)
 - [ ] Cut the menus over to the module, retire `menu.cpp`/`qmenu.cpp`

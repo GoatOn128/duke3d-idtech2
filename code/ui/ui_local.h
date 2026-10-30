@@ -45,6 +45,28 @@ int         Duke_IsFullscreen( void );
 void        Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t color );
 sfxHandle_t Duke_RegisterSound( const char *name );
 void        Duke_PlaySound( sfxHandle_t sfx );
+
+/* the ownerdraw line rows and tiles paint against the item rect, mapped
+   from the 640x480 virtual menu space into the 320x200 Duke menu grid;
+   the line tables below then only carry the look, not the placement */
+typedef struct {
+    const char *label;
+    int bright;             /* always drawn in the selected shade */
+    int leftAnchor;         /* text sits on the rect left edge, not its center */
+    int cursorFromStart;    /* cursor sits 18 pixels left of the text start */
+    int cursorX;            /* fixed cursor x when cursorFromStart is 0 */
+    int cursorBothSides;    /* centered rows carry the nuke pair at fixed columns */
+} dukeLine_t;
+
+typedef struct {
+    int leftX;              /* rect left edge in Duke menu space */
+    int centerX;            /* rect center in Duke menu space, 160 means screen center */
+    int rightX;             /* rect right edge in Duke menu space */
+    int topY;               /* glyph anchor, already carries the +12 baseline shift */
+} dukeRect_t;
+
+dukeRect_t Duke_MapRect( float x, float y, float w, float h );
+void       Duke_PaintLine( const dukeLine_t *line, const dukeRect_t *rect, int selected );
 void        Duke_SlideBegin( void );
 void        Duke_SetSlideMode( int mode );
 

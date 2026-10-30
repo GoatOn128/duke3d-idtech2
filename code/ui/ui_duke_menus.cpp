@@ -17,7 +17,8 @@
 #define DUKE_OD_GAME_HEADER_HIGH 2
 #define DUKE_OD_LINE_BASE   16
 
-/* every ownerdraw line in the menus, in dukeLines order */
+/* every ownerdraw line in the menus, in dukeLines order; the item rect
+   in the .menu file places the line, this table carries the look */
 enum {
     DL_MAIN_NEW,
     DL_MAIN_SAVE,
@@ -53,47 +54,37 @@ enum {
     DL_COUNT
 };
 
-typedef struct {
-    const char *label;
-    int x;                  /* Duke menu x, 160 means centered */
-    int y;                  /* Duke menu y, the glyph top is y - 12 */
-    int bright;             /* always drawn in the selected shade */
-    int cursorFromStart;    /* cursor sits 18 pixels left of the text start */
-    int cursorX;            /* fixed cursor x when cursorFromStart is 0 */
-    int cursorBothSides;    /* centered lines carry the nuke pair at fixed columns */
-} dukeLine_t;
-
 static dukeLine_t dukeLines[DL_COUNT] = {
-    {"NEW GAME",           160, 67,  0, 1, 0,  1},
-    {"SAVE GAME",          160, 83,  0, 1, 0,  1},
-    {"LOAD GAME",          160, 99,  0, 1, 0,  1},
-    {"OPTIONS",            160, 115, 0, 1, 0,  1},
-    {"MULTIPLAYER",        160, 131, 0, 1, 0,  1},
-    {NULL,                 0,   0,   0, 0, 0,  0},
-    {"QUIT GAME",          160, 163, 0, 1, 0,  1},
+    {"NEW GAME",           0, 0, 1, 0,   1},
+    {"SAVE GAME",          0, 0, 1, 0,   1},
+    {"LOAD GAME",          0, 0, 1, 0,   1},
+    {"OPTIONS",            0, 0, 1, 0,   1},
+    {"MULTIPLAYER",        0, 0, 1, 0,   1},
+    {NULL,                 0, 0, 0, 0,   0},
+    {"QUIT GAME",          0, 0, 1, 0,   1},
 
-    {"SELECT AN EPISODE",  160, 24,  1, 0, 0,  0},
-    {"L.A. MELTDOWN",      160, 70,  0, 1, 0,  1},
-    {"LUNAR APOCALYPSE",   160, 90,  0, 1, 0,  1},
-    {"SHRAPNEL CITY",      160, 110, 0, 1, 0,  1},
-    {"THE BIRTH",          160, 130, 0, 1, 0,  1},
+    {"SELECT AN EPISODE",  1, 0, 0, 0,   0},
+    {"L.A. MELTDOWN",      0, 0, 1, 0,   1},
+    {"LUNAR APOCALYPSE",   0, 0, 1, 0,   1},
+    {"SHRAPNEL CITY",      0, 0, 1, 0,   1},
+    {"THE BIRTH",          0, 0, 1, 0,   1},
 
-    {"SELECT SKILL",       160, 24,  1, 0, 0,  0},
-    {"PIECE OF CAKE",      160, 70,  0, 1, 0,  1},
-    {"LET'S ROCK",         160, 90,  0, 1, 0,  1},
-    {"COME GET SOME",      160, 110, 0, 1, 0,  1},
-    {"DAMN I'M GOOD",      160, 130, 0, 1, 0,  1},
+    {"SELECT SKILL",       1, 0, 0, 0,   0},
+    {"PIECE OF CAKE",      0, 0, 1, 0,   1},
+    {"LET'S ROCK",         0, 0, 1, 0,   1},
+    {"COME GET SOME",      0, 0, 1, 0,   1},
+    {"DAMN I'M GOOD",      0, 0, 1, 0,   1},
 
-    {"QUIT GAME?",         160, 90,  1, 0, 0,  0},
-    {"YES",                160, 120, 0, 0, 115, 0},
-    {"NO",                 160, 145, 0, 0, 115, 0},
+    {"QUIT GAME?",         1, 0, 0, 0,   0},
+    {"YES",                0, 0, 0, 115, 0},
+    {"NO",                 0, 0, 0, 115, 0},
 
-    {"OPTIONS",            160, 15,  1, 0, 0,  0},
-    {"CUSTOMIZE CONTROLS", 160, 181, 0, 1, 0,  1},
-    {"RESET DEFAULTS",     160, 195, 0, 1, 0,  1},
-    {NULL,                 0,   0,   0, 0, 0,  0},
+    {"OPTIONS",            1, 0, 0, 0,   0},
+    {"CUSTOMIZE CONTROLS", 0, 0, 1, 0,   1},
+    {"RESET DEFAULTS",     0, 0, 1, 0,   1},
+    {NULL,                 0, 0, 0, 0,   0},
 
-    {"CUSTOMIZE CONTROLS", 160, 15,  1, 0, 0,  0},
+    {"CUSTOMIZE CONTROLS", 1, 0, 0, 0,   0},
 };
 
 /* the skill voice that plays before the level loads, per skill choice */
@@ -150,16 +141,66 @@ static qboolean Duke_LineFocused( int ownerDraw ) {
     return ( item != NULL && item->window.ownerDraw == ownerDraw ) ? qtrue : qfalse;
 }
 
+/* maps an item rect from the 640x480 virtual menu space into the 320x200
+   Duke menu grid, the same mapping the framework text drawing uses */
+dukeRect_t Duke_MapRect( float x, float y, float w, float h ) {
+    dukeRect_t rect;
+
+    rect.leftX = ( int )( x * 0.5f + 0.5f );
+    rect.centerX = ( int )( ( x + w * 0.5f ) * 0.5f + 0.5f );
+    rect.rightX = ( int )( ( x + w ) * 0.5f + 0.5f );
+    rect.topY = ( int )( y / 2.4f + 12 + 0.5f );
+    return rect;
+}
+
+/* paints one line table row against the mapped rect and draws the cursor
+   when the row carries focus */
+void Duke_PaintLine( const dukeLine_t *line, const dukeRect_t *rect, int selected ) {
+    int textX;
+    int start;
+
+    if ( line->leftAnchor ) {
+        textX = rect->leftX;
+    } else if ( rect->centerX == 160 ) {
+        /* 160 keeps the engine screen centering, fudge included, so a
+           rect centered on the screen keeps the original Duke look */
+        textX = 160;
+    } else {
+        textX = rect->centerX - uii.MenuTextWidth( line->label ) / 2;
+    }
+    start = uii.MenuText( textX, rect->topY, line->label, selected );
+
+    if ( line->bright || !selected ) {
+        return;
+    }
+    if ( line->cursorBothSides && rect->centerX == 160 ) {
+        /* centered menus park the nuke pair at the fixed columns like
+           the original probe(): the left one spins forward and the
+           right one mirrors it, instead of hugging the line's text;
+           the spin and columns come from ui/animations.txt; a missing
+           or empty file leaves nothing to spin, so the plain cursor
+           takes over */
+        const dnuiAnims_t *anims = dnMenuParser::Anims();
+        int tile = dnMenuParser::Tile( "SPINNINGNUKEICON" );
+        if ( anims->nukeFrames < 1 || anims->nukeFrameMs < 1 || tile < 1 ) {
+            uii.MenuCursor( start - 18, rect->topY - 7 );
+        } else {
+            int frame = ( uii.Milliseconds() / anims->nukeFrameMs ) % anims->nukeFrames;
+            uii.UiTile( anims->nukeLeftX, rect->topY - 7, tile + frame, 0, 0, 0 );
+            uii.UiTile( anims->nukeRightX, rect->topY - 7, tile + ( anims->nukeFrames - frame ) % anims->nukeFrames, 0, 0, 0 );
+        }
+    } else if ( line->cursorFromStart ) {
+        uii.MenuCursor( start - 18, rect->topY - 7 );
+    } else if ( line->cursorX ) {
+        uii.MenuCursor( line->cursorX, rect->topY - 7 );
+    }
+}
+
 void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t color ) {
     dukeLine_t *line;
-    int selected, start;
+    int selected;
+    dukeRect_t rect;
 
-    /* the framework passes the virtual rect but the lines draw straight
-       through the engine Duke helpers in Duke menu coordinates */
-    ( void )x;
-    ( void )y;
-    ( void )w;
-    ( void )h;
     ( void )color;
 
     /* the second menu set owns its own ownerdraw ids */
@@ -168,16 +209,20 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
         return;
     }
 
+    /* the tiles and lines draw straight through the engine Duke helpers,
+       anchored on the item rect mapped into Duke menu coordinates */
+    rect = Duke_MapRect( x, y, w, h );
+
     if ( ownerDraw == DUKE_OD_MAIN_LOGO ) {
-        uii.UiTile( 160, 28, dnMenuParser::Tile( "INGAMEDUKETHREEDEE" ), 0, 0, 0 );
+        uii.UiTile( rect.centerX, rect.topY, dnMenuParser::Tile( "INGAMEDUKETHREEDEE" ), 0, 0, 0 );
         return;
     }
     if ( ownerDraw == DUKE_OD_GAME_HEADER ) {
-        uii.UiTile( 160, 19, dnMenuParser::Tile( "MENUBAR" ), 16, 0, 0 );
+        uii.UiTile( rect.centerX, rect.topY, dnMenuParser::Tile( "MENUBAR" ), 16, 0, 0 );
         return;
     }
     if ( ownerDraw == DUKE_OD_GAME_HEADER_HIGH ) {
-        uii.UiTile( 160, 10, dnMenuParser::Tile( "MENUBAR" ), 16, 0, 0 );
+        uii.UiTile( rect.centerX, rect.topY, dnMenuParser::Tile( "MENUBAR" ), 16, 0, 0 );
         return;
     }
     if ( ownerDraw < DUKE_OD_LINE_BASE || ownerDraw - DUKE_OD_LINE_BASE >= DL_COUNT ) {
@@ -189,30 +234,7 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
         return;
     }
     selected = line->bright || Duke_LineFocused( ownerDraw );
-    start = uii.MenuText( line->x, line->y, line->label, selected );
-    if ( !line->bright && selected ) {
-        if ( line->cursorBothSides && line->x == 160 ) {
-            /* centered menus park the nuke pair at the fixed columns like
-               the original probe(): the left one spins forward and the
-               right one mirrors it, instead of hugging the line's text;
-               the spin and columns come from ui/animations.txt; a missing
-               or empty file leaves nothing to spin, so the plain cursor
-               takes over */
-            const dnuiAnims_t *anims = dnMenuParser::Anims();
-            int tile = dnMenuParser::Tile( "SPINNINGNUKEICON" );
-            if ( anims->nukeFrames < 1 || anims->nukeFrameMs < 1 || tile < 1 ) {
-                uii.MenuCursor( start - 18, line->y - 7 );
-            } else {
-                int frame = ( uii.Milliseconds() / anims->nukeFrameMs ) % anims->nukeFrames;
-                uii.UiTile( anims->nukeLeftX, line->y - 7, tile + frame, 0, 0, 0 );
-                uii.UiTile( anims->nukeRightX, line->y - 7, tile + ( anims->nukeFrames - frame ) % anims->nukeFrames, 0, 0, 0 );
-            }
-        } else if ( line->cursorFromStart ) {
-            uii.MenuCursor( start - 18, line->y - 7 );
-        } else {
-            uii.MenuCursor( line->cursorX, line->y - 7 );
-        }
-    }
+    Duke_PaintLine( line, &rect, selected );
 }
 
 /* ---- module entry points ---- */
