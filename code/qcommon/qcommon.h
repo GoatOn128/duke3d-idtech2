@@ -534,7 +534,7 @@ char *Cvar_Serverinfo(void);
 
 qboolean CVar_CheatsAllowed(void);
 // the idTech4 style cheat gate: CVAR_CHEAT cvars refuse to change
-// while allow_cheats is off (qcommon/CVar.cpp)
+// while allow_cheats is off (qcommon/dncvar.cpp)
 
 extern qboolean userinfo_modified;
 // this is set each time a CVAR_USERINFO variable is changed
