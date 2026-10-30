@@ -1,5 +1,7 @@
 // Customize controls. The rows come from the binding feeder; enter waits
 // for the new key on the selected row, escape cancels, backspace clears.
+// The reset footer row writes every default binding back through the
+// module resetcontrols script command.
 {
 	name "keys"
 	fullscreen 1
@@ -25,9 +27,17 @@
 		name "bind_list"
 		feeder 1
 		rect 48 40 544 340
-		elementheight 18
+		elementheight 16
 		columns 2 0 256 16 288 224 14
-		textscale 1
+		textscale 0.7
 		visible 1
+	}
+
+	itemDef {
+		name "keys_reset"
+		rect 80 432 240 32
+		ownerdraw 38
+		visible 1
+		action { play kickhit.wav ; duke resetcontrols }
 	}
 }

@@ -48,8 +48,9 @@ static void DC_DrawText( float x, float y, int font, float scale, vec4_t color,
     buf[len] = '\0';
 
     selected = ( color && ( color[0] >= 0.75f ) && ( color[1] >= 0.75f ) );
-    uii.MenuText( (int)( x * 0.5f + 0.5f ), (int)( y / 2.4f + 12.0f + 0.5f ), buf, selected );
-    ( void )scale;
+    /* the item textscale reaches the glyph renderer; the coordinate
+       conversion keeps the line origin anchored */
+    uii.MenuTextScaled( (int)( x * 0.5f + 0.5f ), (int)( y / 2.4f + 12.0f + 0.5f ), buf, selected, scale );
 }
 
 /* Duke menu text is an 8x8 grid on the 320x200 screen, so a character cell
@@ -213,7 +214,6 @@ static void DC_DrawTextWithCursor( float x, float y, int font, float scale, vec4
     int len, selected, i;
 
     ( void )font;
-    ( void )scale;
     ( void )style;
     if ( !text ) {
         return;
@@ -232,13 +232,22 @@ static void DC_DrawTextWithCursor( float x, float y, int font, float scale, vec4
     buf[len] = '\0';
 
     selected = ( color && ( color[0] >= 0.75f ) && ( color[1] >= 0.75f ) );
-    uii.MenuText( (int)( x * 0.5f + 0.5f ), (int)( y / 2.4f + 12.0f + 0.5f ), buf, selected );
+    uii.MenuTextScaled( (int)( x * 0.5f + 0.5f ), (int)( y / 2.4f + 12.0f + 0.5f ), buf, selected, scale );
     if ( cursor && ( dc.realTime / BLINK_DIVISOR ) % 2 == 0 ) {
         char bar[2];
         bar[0] = cursor;
         bar[1] = '\0';
-        uii.MenuText( (int)( x * 0.5f + 0.5f ) + cursorPos * 8, (int)( y / 2.4f + 12.0f + 0.5f ), bar, selected );
+        /* the bar sits one scaled glyph cell after the insertion point */
+        uii.MenuTextScaled( (int)( x * 0.5f + 0.5f ) + (int)( cursorPos * 8 * scale ),
+                            (int)( y / 2.4f + 12.0f + 0.5f ), bar, selected, scale );
     }
+}
+
+/* the Duke nuke cursor next to a focused row: the framework hands virtual
+   menu coordinates, the engine helper centers the symbol on the converted
+   Duke point */
+static void DC_DrawCursor( float x, float y ) {
+    uii.MenuCursor( (int)( x * 0.5f + 0.5f ) - 18, (int)( y / 2.4f + 12.0f + 0.5f ) - 7 );
 }
 
 static void DC_StartLocalSound( sfxHandle_t sfx, int channelNum ) {
@@ -396,6 +405,7 @@ static void SetupDisplayContext( void ) {
     dc.getCVarValue = uii.Cvar_Value;
     dc.setCVar = uii.Cvar_Set;
     dc.drawTextWithCursor = DC_DrawTextWithCursor;
+    dc.drawCursor = DC_DrawCursor;
     dc.setOverstrikeMode = DC_SetOverstrikeMode;
     dc.getOverstrikeMode = DC_GetOverstrikeMode;
     dc.startLocalSound = DC_StartLocalSound;

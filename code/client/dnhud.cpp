@@ -83,6 +83,31 @@ void DN_DrawUiTile(float x, float y, int tile, int shade, int palette, int top_l
     Tile(x, y, tile, shade, palette, top_left);
 }
 
+/* scaled UI tile for the menu framework: the item textscale stretches the
+   tile in Duke screen units before the screen projection */
+void DN_DrawUiTileScaled(float x, float y, int tile, int shade, int palette, int top_left, float scale)
+{
+    char path[MAX_QPATH];
+    int width, height;
+    LoadTiles();
+    if (tile < 0 || tile >= 6144 || !tileinfo[tile].width)
+    {
+        return;
+    }
+    width = (int)(tileinfo[tile].width * scale + 0.5f);
+    height = (int)(tileinfo[tile].height * scale + 0.5f);
+    if (!top_left)
+    {
+        x -= width / 2 + (int8_t)(tileinfo[tile].animation >> 8) * scale;
+        y -= height / 2 + (int8_t)(tileinfo[tile].animation >> 16) * scale;
+    }
+    snprintf(path, sizeof(path), "dn/tile%04d_p%d_s%d", tile, palette, shade < 0 ? 0 : shade);
+    int left = (int)lroundf(x * viddef.width / 320), top = (int)lroundf(y * viddef.height / 200);
+    int right = (int)lroundf((x + width) * viddef.width / 320);
+    int bottom = (int)lroundf((y + height) * viddef.height / 200);
+    re.DrawStretchPic(left, top, right - left, bottom - top, path);
+}
+
 static void Number(int x, int y, int value)
 {
     char text[16];

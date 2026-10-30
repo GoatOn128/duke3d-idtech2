@@ -129,6 +129,7 @@ private:
     static qboolean ItemParse_cvarStrList( dnItem *item, int handle );
     static qboolean ItemParse_cvarTest( dnItem *item, int handle );
     static qboolean ItemParse_decoration( dnItem *item, int handle );
+    static qboolean ItemParse_scrollable( dnItem *item, int handle );
     static qboolean ItemParse_disableCvar( dnItem *item, int handle );
     static qboolean ItemParse_doubleClick( dnItem *item, int handle );
     static qboolean ItemParse_elementheight( dnItem *item, int handle );

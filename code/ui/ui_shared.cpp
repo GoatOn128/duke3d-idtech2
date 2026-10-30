@@ -204,6 +204,9 @@ public:
 
 private:
 	vec_t *RowColor( int row );
+	/* keep the item cursor and the list cursor on the same row with a
+	   focus tick, used by hover and by every keyboard change */
+	void SetCursorRow( int row );
 };
 
 class dnModelItem : public dnItem {
@@ -1772,6 +1775,19 @@ int dnListBoxItem::OverListBox( float x, float y ) {
 	return 0;
 }
 
+/* one row change: sync the item cursor with the list cursor so the row
+   highlight follows, and tick the focus sound when the row moves */
+void dnListBoxItem::SetCursorRow( int row ) {
+	if ( row < 0 ) {
+		row = 0;
+	}
+	if ( row != cursorPos ) {
+		cursorPos = row;
+		if ( DC->Assets.itemFocusSound ) {
+			DC->startLocalSound( DC->Assets.itemFocusSound, CHAN_LOCAL_SOUND );
+		}
+	}
+}
 
 void dnListBoxItem::MouseEnterRect( float x, float y ) {
 	rectDef_t r;
@@ -1792,6 +1808,8 @@ void dnListBoxItem::MouseEnterRect( float x, float y ) {
 					listPtr->cursorPos =  (int)( ( x - r.x ) / listPtr->elementWidth )  + listPtr->startPos;
 					if ( listPtr->cursorPos >= listPtr->endPos ) {
 						listPtr->cursorPos = listPtr->endPos;
+					/* the row under the mouse takes the highlight right away */
+					SetCursorRow( listPtr->cursorPos );
 					}
 				}
 			} else {
@@ -1808,6 +1826,8 @@ void dnListBoxItem::MouseEnterRect( float x, float y ) {
 			if ( listPtr->cursorPos > listPtr->endPos ) {
 				listPtr->cursorPos = listPtr->endPos;
 			}
+			/* the row under the mouse takes the highlight right away */
+			SetCursorRow( listPtr->cursorPos );
 		}
 	}
 }
@@ -1895,7 +1915,12 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 	int count = DC->feederCount( special );
 	int max, viewmax;
 
-	if ( force || ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) && window.flags & WINDOW_HASFOCUS ) ) {
+	/* mouse keys pick the row under the cursor; keyboard keys work from
+	   anywhere while the list holds the focus */
+	if ( force || ( window.flags & WINDOW_HASFOCUS ) ) {
+		if ( ( key == K_MOUSE1 || key == K_MOUSE2 ) && !Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) ) {
+			return qfalse;
+		}
 		max = MaxScroll();
 		if ( window.flags & WINDOW_HORIZONTAL ) {
 			viewmax = ( window.rect.w / listPtr->elementWidth );
@@ -1911,7 +1936,7 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 					if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 						listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 					}
-					cursorPos = listPtr->cursorPos;
+					SetCursorRow( listPtr->cursorPos );
 					DC->feederSelection( special, cursorPos );
 				} else {
 					listPtr->startPos--;
@@ -1933,7 +1958,7 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 					if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 						listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 					}
-					cursorPos = listPtr->cursorPos;
+					SetCursorRow( listPtr->cursorPos );
 					DC->feederSelection( special, cursorPos );
 				} else {
 					listPtr->startPos++;
@@ -1957,7 +1982,7 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 					if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 						listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 					}
-					cursorPos = listPtr->cursorPos;
+					SetCursorRow( listPtr->cursorPos );
 					DC->feederSelection( special, cursorPos );
 				} else {
 					listPtr->startPos--;
@@ -1979,7 +2004,7 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 					if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 						listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 					}
-					cursorPos = listPtr->cursorPos;
+					SetCursorRow( listPtr->cursorPos );
 					DC->feederSelection( special, cursorPos );
 				} else {
 					listPtr->startPos++;
@@ -1996,6 +2021,10 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 			const char *cmd = DC->feederItemText( special, cursorPos, 0, NULL );
 			if ( ( int )special == DN_FEEDER_BINDS && cmd ) {
 				g_bindCapture.Start( this, cmd );
+				/* audible feedback that the row now swallows the next key */
+				if ( DC->Assets.itemFocusSound ) {
+					DC->startLocalSound( DC->Assets.itemFocusSound, CHAN_LOCAL_SOUND );
+				}
 			}
 			return qtrue;
 		}
@@ -2031,12 +2060,10 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 					RunScript( listPtr->doubleClick );
 				}
 				lastListBoxClickTime = DC->realTime + DOUBLE_CLICK_DELAY;
-				if ( cursorPos != listPtr->cursorPos ) {
-					if ( listPtr->cursorPos < DC->feederCount( special ) ) {
-						cursorPos = listPtr->cursorPos;   // only set if it's valid
-					}
-					DC->feederSelection( special, cursorPos );
+				if ( listPtr->cursorPos < DC->feederCount( special ) ) {
+					SetCursorRow( listPtr->cursorPos );   // only set if it is valid
 				}
+				DC->feederSelection( special, cursorPos );
 			}
 			return qtrue;
 		}
@@ -2063,7 +2090,7 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 				if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 					listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 				}
-				cursorPos = listPtr->cursorPos;
+				SetCursorRow( listPtr->cursorPos );
 				DC->feederSelection( special, cursorPos );
 			} else {
 				listPtr->startPos -= viewmax;
@@ -2086,8 +2113,8 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 				if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 					listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 				}
-				cursorPos = listPtr->cursorPos;
-				DC->feederSelection( special, cursorPos );
+				SetCursorRow( listPtr->cursorPos );
+					DC->feederSelection( special, cursorPos );
 			} else {
 				listPtr->startPos += viewmax;
 				if ( listPtr->startPos > max ) {
@@ -2647,6 +2674,10 @@ dnItem *dnMenu::SetPrevCursorItem( void ) {
 			cursorItem = itemCount - 1;
 		}
 
+		// focus never lands on a row scrolled out of a container view
+		if ( !ItemInView( items[cursorItem] ) ) {
+			continue;
+		}
 		if ( items[cursorItem]->SetFocus( DC->cursorx, DC->cursory ) ) {
 			HandleMouseMove( items[cursorItem]->window.rect.x + 1, items[cursorItem]->window.rect.y + 1 );
 			return items[cursorItem];
@@ -2680,6 +2711,10 @@ dnItem *dnMenu::SetNextCursorItem( void ) {
 			}
 		}
 
+		// focus never lands on a row scrolled out of a container view
+		if ( !ItemInView( items[cursorItem] ) ) {
+			continue;
+		}
 		if ( items[cursorItem]->SetFocus( DC->cursorx, DC->cursory ) ) {
 			HandleMouseMove( items[cursorItem]->window.rect.x + 1, items[cursorItem]->window.rect.y + 1 );
 			return items[cursorItem];
@@ -2687,6 +2722,91 @@ dnItem *dnMenu::SetNextCursorItem( void ) {
 	}
 
 	cursorItem = oldCursor;
+	return NULL;
+}
+
+/* rows of a scrollable container paint and take input only while they sit
+   inside the container view; partial rows stay visible */
+qboolean dnMenu::ItemInView( dnItem *item ) {
+	dnItem *container = item->containerItem;
+
+	if ( container == NULL || !( container->window.flags & WINDOW_SCROLLABLE ) ) {
+		return qtrue;
+	}
+
+	if ( item->window.rect.y + item->window.rect.h <= container->window.rect.y ) {
+		return qfalse;
+	}
+	if ( item->window.rect.y >= container->window.rect.y + container->window.rect.h ) {
+		return qfalse;
+	}
+	return qtrue;
+}
+
+/* scroll a scrollable windowDef container by one row step; the children
+   carry baked absolute rects, so scrolling shifts both their rects and
+   their cached text rects */
+void dnMenu::ScrollContainerBy( dnItem *container, float delta ) {
+	dnItem *child;
+	float contentBottom = 0;
+	float maxScroll;
+	float newOffset;
+	int i;
+
+	if ( container == NULL || !( container->window.flags & WINDOW_SCROLLABLE ) || itemCount <= 0 ) {
+		return;
+	}
+
+	/* the content height only needs measuring once, at offset zero; the
+	   children keep their distances to each other while scrolled */
+	if ( container->scrollContent == 0 ) {
+		for ( i = 0; i < itemCount; i++ ) {
+			child = items[i];
+			if ( child->containerItem == container ) {
+				float bottom = child->window.rect.y - container->window.rect.y + child->window.rect.h;
+				if ( bottom > contentBottom ) {
+					contentBottom = bottom;
+				}
+			}
+		}
+		container->scrollContent = contentBottom;
+	}
+
+	maxScroll = container->scrollContent - container->window.rect.h;
+	if ( maxScroll < 0 ) {
+		maxScroll = 0;
+	}
+	newOffset = container->scrollOffset + delta;
+	if ( newOffset < 0 ) {
+		newOffset = 0;
+	}
+	if ( newOffset > maxScroll ) {
+		newOffset = maxScroll;
+	}
+	delta = newOffset - container->scrollOffset;
+	if ( delta == 0 ) {
+		return;
+	}
+	container->scrollOffset = newOffset;
+
+	for ( i = 0; i < itemCount; i++ ) {
+		child = items[i];
+		if ( child->containerItem == container ) {
+			child->window.rect.y -= delta;
+			child->textRect.y -= delta;
+		}
+	}
+}
+
+/* the first scrollable container on the menu, NULL when there is none */
+dnItem *dnMenu::FindScrollContainer( void ) {
+	int i;
+
+	for ( i = 0; i < itemCount; i++ ) {
+		if ( items[i]->window.flags & WINDOW_SCROLLABLE ) {
+			return items[i];
+		}
+	}
 	return NULL;
 }
 
@@ -2870,10 +2990,24 @@ void dnMenu::HandleKey( int key, qboolean down ) {
 			DC->executeText( DN_EXEC_APPEND, "screenshot\n" );
 		}
 		break;
+	case K_MWHEELUP:
+	case K_MWHEELDOWN: {
+		/* the wheel scrolls a scrollable container under the cursor before
+		   it moves the row focus */
+		dnItem *container = FindScrollContainer();
+		if ( container && Rect_ContainsPoint( &container->window.rect, DC->cursorx, DC->cursory ) ) {
+			ScrollContainerBy( container, ( key == K_MWHEELUP ) ? -1.0f : 1.0f );
+		} else if ( key == K_MWHEELUP ) {
+			SetPrevCursorItem();
+		} else {
+			SetNextCursorItem();
+		}
+	}
+	break;
+
 	case K_KP_UPARROW:
 	case K_UPARROW:
 	case K_LEFTARROW:
-	case K_MWHEELUP:
 		SetPrevCursorItem();
 		break;
 
@@ -2889,7 +3023,6 @@ void dnMenu::HandleKey( int key, qboolean down ) {
 	case K_KP_DOWNARROW:
 	case K_DOWNARROW:
 	case K_RIGHTARROW:
-	case K_MWHEELDOWN:
 		SetNextCursorItem();
 		break;
 
@@ -4495,6 +4628,15 @@ void dnMenu::HandleMouseMove( float x, float y ) {
 				continue;
 			}
 
+			// rows scrolled out of a container view stop hovering
+			if ( !ItemInView( items[i] ) ) {
+				if ( items[i]->window.flags & WINDOW_MOUSEOVER ) {
+					items[i]->MouseLeave();
+					items[i]->SetMouseOver( qfalse );
+				}
+				continue;
+			}
+
 			// items can be enabled and disabled based on cvars
 			if ( items[i]->cvarFlags & ( CVAR_ENABLE | CVAR_DISABLE ) && !items[i]->EnableShowViaCvar( CVAR_ENABLE ) ) {
 				continue;
@@ -4536,6 +4678,7 @@ void dnMenu::HandleMouseMove( float x, float y ) {
 
 void dnMenu::Paint( qboolean forcePaint ) {
 	int i;
+	dnItem *item;
 
 	if ( !( window.flags & WINDOW_VISIBLE ) &&  !forcePaint ) {
 		return;
@@ -4561,7 +4704,27 @@ void dnMenu::Paint( qboolean forcePaint ) {
 	Window_Paint( &window, fadeAmount, fadeClamp, fadeCycle );
 
 	for ( i = 0; i < itemCount; i++ ) {
+		// rows scrolled out of a container view stay undrawn
+		if ( !ItemInView( items[i] ) ) {
+			continue;
+		}
 		items[i]->Paint();
+	}
+
+	/* the Duke nuke symbol rides next to the focused row; the ownerdraw
+	   lines draw their own cursor and edit fields show the text caret */
+	item = GetFocusedItem();
+	if ( item && ItemInView( item ) && item->window.ownerDraw == 0 ) {
+		if ( item->type == ITEM_TYPE_LISTBOX ) {
+			listBoxDef_t *listPtr = ( listBoxDef_t * )item->typeData;
+			if ( listPtr ) {
+				float rowY = item->window.rect.y + ( item->cursorPos - listPtr->startPos ) * listPtr->elementHeight;
+				DC->drawCursor( item->window.rect.x, rowY );
+			}
+		} else if ( item->type != ITEM_TYPE_EDITFIELD && item->type != ITEM_TYPE_NUMERICFIELD &&
+					item->type != ITEM_TYPE_VALIDFILEFIELD ) {
+			DC->drawCursor( item->textRect.x, item->window.rect.y );
+		}
 	}
 
 	if ( debugMode ) {

@@ -75,6 +75,7 @@ If you have questions concerning this license or the applicable additional terms
 #define WINDOW_BACKCOLORSET     0x00400000  // backcolor was explicitly set
 #define WINDOW_TIMEDVISIBLE     0x00800000  // visibility timing ( NOT implemented )
 #define WINDOW_IGNORE_HUDALPHA  0x01000000  // window will apply cg_hudAlpha value to colors unless this flag is set
+#define WINDOW_SCROLLABLE       0x02000000  // windowDef container whose children scroll under the mouse wheel
 
 // CGAME cursor type bits
 #define CURSOR_NONE             0x00000001
@@ -261,6 +262,8 @@ public:
 	qboolean textSavegameInfo; // text comes from the ui_savegameInfo cvar
 	void *parent;                   // menu owner
 	dnItem *containerItem;          // nested defs: the enclosing windowDef, NULL at menu scope
+	float scrollOffset;            // scrollable containers: how far the children scrolled down
+	float scrollContent;           // scrollable containers: content height measured at offset 0
 	qhandle_t asset;                // handle to asset
 	const char *mouseEnterText;     // mouse enter script
 	const char *mouseExitText;      // mouse exit script
@@ -392,6 +395,11 @@ public:
 	dnItem *GetFocusedItem( void );
 	dnItem *SetPrevCursorItem( void );
 	dnItem *SetNextCursorItem( void );
+
+	/* scrollable container support: gating, wheel scroll and the lookup */
+	qboolean ItemInView( dnItem *item );
+	void ScrollContainerBy( dnItem *container, float delta );
+	dnItem *FindScrollContainer( void );
 };
 
 /* the loaded menu set: the menu array, the open menu stack and every
@@ -505,6 +513,8 @@ typedef struct {
 	float ( *getCVarValue )( const char *cvar );
 	void ( *setCVar )( const char *cvar, const char *value );
 	void ( *drawTextWithCursor )( float x, float y, int font, float scale, vec4_t color, const char *text, int cursorPos, char cursor, int limit, int style );
+	/* the Duke nuke symbol beside the focused row */
+	void ( *drawCursor )( float x, float y );
 	void ( *setOverstrikeMode )( qboolean b );
 	qboolean ( *getOverstrikeMode )();
 	void ( *startLocalSound )( sfxHandle_t sfx, int channelNum );

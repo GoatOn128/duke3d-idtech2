@@ -686,6 +686,12 @@ qboolean dnMenuParser::ItemParse_decoration( dnItem *item, int handle ) {
     return qtrue;
 }
 
+/* the windowDef container scrolls its children under the mouse wheel */
+qboolean dnMenuParser::ItemParse_scrollable( dnItem *item, int handle ) {
+    item->window.flags |= WINDOW_SCROLLABLE;
+    return qtrue;
+}
+
 // notselectable
 qboolean dnMenuParser::ItemParse_notselectable( dnItem *item, int handle ) {
     listBoxDef_t *listPtr;
@@ -1299,6 +1305,7 @@ keywordHash_t dnMenuParser::itemParseKeywords[] = {
     {"rect", &dnMenuParser::ItemParse_rect, NULL},
     {"style", &dnMenuParser::ItemParse_style, NULL},
     {"decoration", &dnMenuParser::ItemParse_decoration, NULL},
+    {"scrollable", &dnMenuParser::ItemParse_scrollable, NULL},
     {"notselectable", &dnMenuParser::ItemParse_notselectable, NULL},
     {"wrapped", &dnMenuParser::ItemParse_wrapped, NULL},
     {"autowrapped", &dnMenuParser::ItemParse_autowrapped, NULL},
