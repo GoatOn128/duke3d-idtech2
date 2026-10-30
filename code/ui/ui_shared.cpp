@@ -39,39 +39,102 @@ If you have questions concerning this license or the applicable additional terms
 #define SCROLL_TIME_ADJUSTOFFSET    40
 #define SCROLL_TIME_FLOOR                   20
 
-typedef struct scrollInfo_s {
-	int nextScrollTime;
-	int nextAdjustTime;
-	int adjustValue;
-	int scrollKey;
-	float xStart;
-	float yStart;
+/* ---- mouse capture ---- */
+
+/* while the user holds a listbox arrow or drags a listbox/slider thumb,
+   the item keeps receiving updates: the capture stores the mode, the
+   auto scroll timing and the item that owns the drag */
+enum captureKind_t {
+	CAPTURE_NONE,
+	CAPTURE_LISTBOX_AUTO,
+	CAPTURE_LISTBOX_THUMB,
+	CAPTURE_SLIDER_THUMB
+};
+
+class dnMouseCapture {
+public:
+	qboolean Active( void ) const { return kind != CAPTURE_NONE; }
+	dnItem *Item( void ) const { return item; }
+	/* releases the drag; the captured item hears it through StopCapture */
+	void Stop( void ) {
+		if ( item ) {
+			item->StopCapture();
+		}
+		item = NULL;
+		kind = CAPTURE_NONE;
+	}
+	void StartListBoxAuto( dnItem *owner, int key, qboolean leftArrow );
+	void StartListBoxThumb( dnItem *owner, int key );
+	void StartSliderThumb( dnItem *owner, int key );
+	/* runs the held scroll once per frame before the menus paint */
+	void Update( void );
+
+private:
+	void AutoScroll( void );
+	void ThumbScroll( void );
+	void SliderThumb( void );
+
+	captureKind_t kind;
 	dnItem *item;
-	qboolean scrollDir;
-} scrollInfo_t;
+	int nextScrollTime;             // time the next auto scroll step fires
+	int nextAdjustTime;             // time the auto scroll speed steps up
+	int adjustValue;                // current delay between auto steps
+	int scrollKey;                  // key that started the capture
+	qboolean scrollDir;             // arrow direction of the auto scroll
+	float xStart;                   // thumb drag start
+	float yStart;
+};
 
-static scrollInfo_t scrollInfo;
+static dnMouseCapture g_capture;
 
-static void ( *captureFunc )( void *p ) = NULL;
-static void *captureData = NULL;
-static dnItem *itemCapture = NULL;   // item that has the mouse captured ( if any )
+/* ---- key binding capture ---- */
 
-displayContextDef_t *DC = NULL;
+/* while the user picks a new key the menu swallows every key press; the
+   waiting item can be a bindDef or a row of the bind list, the row
+   command rides along for the second case */
+class dnBindCapture {
+public:
+	qboolean Waiting( void ) const { return waiting; }
+	dnItem *Item( void ) const { return item; }
+	/* rowCmd can be NULL: a bindDef carries its command in the cvar */
+	void Start( dnItem *owner, const char *rowCmd ) {
+		if ( rowCmd ) {
+			Q_strncpyz( rowCommand, rowCmd, sizeof( rowCommand ) );
+		}
+		waiting = qtrue;
+		item = owner;
+	}
+	void Cancel( void ) { waiting = qfalse; }
+	/* the former Item_Bind_HandleKey: eats the picked key, clears the
+	   old bindings of the command and writes the new one */
+	qboolean HandleKey( int key, qboolean down );
 
-qboolean g_waitingForKey = qfalse;
-qboolean g_editingField = qfalse;
+private:
+	qboolean waiting;
+	dnItem *item;
+	char rowCommand[64];
+};
 
-static dnItem *g_bindItem = NULL;
-/* command of the row being rebound when the capture started from the bind
-   list instead of a bindDef item */
-static char s_bindRowCommand[64];
-dnItem *g_editItem = NULL;
+static dnBindCapture g_bindCapture;
 
-dnMenu Menus[MAX_MENUS];
-int menuCount = 0;
+/* ---- edit field capture ---- */
 
-dnMenu *menuStack[MAX_OPEN_MENUS];
-int openMenuCount = 0;
+/* the item whose text is being edited; its keys route through the
+   item's HandleEditKey until the user clicks elsewhere */
+class dnEditCapture {
+public:
+	qboolean IsActive( void ) const { return active; }
+	dnItem *Item( void ) const { return item; }
+	void Start( dnItem *owner ) { active = qtrue; item = owner; }
+	void Stop( void ) { active = qfalse; item = NULL; }
+	qboolean HandleKey( int key ) { return item->HandleEditKey( key ); }
+
+private:
+	qboolean active;
+	dnItem *item;
+};
+
+static dnEditCapture g_editCapture;
 
 static qboolean debugMode = qfalse;
 
@@ -79,7 +142,109 @@ static qboolean debugMode = qfalse;
 static int lastListBoxClickTime = 0;
 
 int BindingIDFromName( const char *name );
-qboolean Item_Bind_HandleKey( dnItem *item, int key, qboolean down );
+
+/* ---- the item type subclasses ---- */
+
+/* each class hooks its type behavior through the virtuals above; none
+   of them adds fields, so every one keeps the plain dnItem layout and
+   fits the one block size the allocator hands out. The per-type
+   painters and key handlers live below as out-of-line methods. */
+class dnTextItem : public dnItem {
+public:
+	void PaintType( void );
+};
+
+class dnOwnerDrawItem : public dnItem {
+public:
+	void PaintType( void );
+	qboolean HandleTypeKey( int key, qboolean down );
+};
+
+/* edit, numeric and filename fields paint through the shared text field
+   painter; their key entry runs through the menu edit state */
+class dnEditFieldItem : public dnItem {
+public:
+	void PaintType( void );
+	qboolean HandleEditKey( int key );
+};
+
+class dnListBoxItem : public dnItem {
+public:
+	void PaintType( void );
+	qboolean HandleTypeKey( int key, qboolean down );
+	/* the full list key logic, shared by the type hook, the feeder
+	   scroll and the auto scroll capture */
+	qboolean HandleListKey( int key, qboolean down, qboolean force );
+	void MouseEnterRect( float x, float y );
+	/* start a fresh list on the top row */
+	void InitControls( void ) {
+		listBoxDef_t *listPtr = ( listBoxDef_t * )typeData;
+
+		cursorPos = 0;
+		if ( listPtr ) {
+			listPtr->cursorPos = 0;
+			listPtr->startPos = 0;
+			listPtr->endPos = 0;
+		}
+	}
+	/* a held arrow or grabbed thumb starts a drag capture */
+	void StartCapture( int key );
+	/* feeder scroll from script code steps the list like a held arrow */
+	qboolean ScrollFeed( qboolean down ) {
+		return HandleListKey( ( down ) ? K_DOWNARROW : K_UPARROW, qtrue, qtrue );
+	}
+	int OverListBox( float x, float y );
+	int MaxScroll( void );
+	int ThumbPosition( void );
+	int ThumbDrawPosition( void );
+
+private:
+	vec_t *RowColor( int row );
+};
+
+class dnModelItem : public dnItem {
+public:
+	void PaintType( void );
+};
+
+class dnYesNoItem : public dnItem {
+public:
+	void PaintType( void );
+	qboolean HandleTypeKey( int key, qboolean down );
+};
+
+class dnMultiItem : public dnItem {
+public:
+	void PaintType( void );
+	qboolean HandleTypeKey( int key, qboolean down );
+
+private:
+	int CountSettings( void );
+	int FindCvarByValue( void );
+	const char *Setting( void );
+};
+
+class dnBindItem : public dnItem {
+public:
+	void PaintType( void );
+	qboolean HandleTypeKey( int key, qboolean down );
+};
+
+class dnSliderItem : public dnItem {
+public:
+	void PaintType( void );
+	qboolean HandleTypeKey( int key, qboolean down );
+	void StartCapture( int key );
+
+private:
+	float ThumbPosition( void );
+	int OverSlider( float x, float y );
+};
+
+/* the loaded menu set: menus, the open stack and the by-name lookups
+   the whole module reaches through g_menus */
+dnMenuSystem g_menus;
+
 
 #ifdef CGAME
 #define MEM_POOL_SIZE  128 * 1024
@@ -148,7 +313,7 @@ translateString_t translateStrings[] = {
 };
 
 void UI_RoQDone( void ) {
-	dnMenu *menu = Menu_GetFocused();
+	dnMenu *menu = g_menus.GetFocused();
 	if ( menu->onROQDone ) {
 		dnItem it;
 		it.parent = menu;
@@ -295,8 +460,7 @@ void String_Init() {
 	}
 	strHandleCount = 0;
 	strPoolIndex = 0;
-	menuCount = 0;
-	openMenuCount = 0;
+	g_menus.Reset();
 	UI_InitMemory();
 	if ( DC && DC->getBindingBuf ) {
 		Controls_GetConfig();
@@ -854,25 +1018,25 @@ void dnMenu::FadeItemByName( const char *p, qboolean fadeOut ) {
 	}
 }
 
-dnMenu *Menus_FindByName( const char *p ) {
+dnMenu *dnMenuSystem::FindByName( const char *p ) {
 	int i;
 	for ( i = 0; i < menuCount; i++ ) {
-		if ( Q_strcasecmp( Menus[i].window.name, p ) == 0 ) {
-			return &Menus[i];
+		if ( Q_strcasecmp( menus[i].window.name, p ) == 0 ) {
+			return &menus[i];
 		}
 	}
 	return NULL;
 }
 
-void Menus_ShowByName( const char *p ) {
-	dnMenu *menu = Menus_FindByName( p );
+void dnMenuSystem::ShowByName( const char *p ) {
+	dnMenu *menu = FindByName( p );
 	if ( menu ) {
 		menu->Activate();
 	}
 }
 
-void Menus_OpenByName( const char *p ) {
-	Menus_ActivateByName( p );
+void dnMenuSystem::OpenByName( const char *p ) {
+	ActivateByName( p );
 }
 
 void dnMenu::RunCloseScript( void ) {
@@ -883,30 +1047,30 @@ void dnMenu::RunCloseScript( void ) {
 	}
 }
 
-void Menus_CloseByName( const char *p ) {
-	dnMenu *menu = Menus_FindByName( p );
+void dnMenuSystem::CloseByName( const char *p ) {
+	dnMenu *menu = FindByName( p );
 	if ( menu != NULL ) {
 		menu->RunCloseScript();
 		menu->window.flags &= ~( WINDOW_VISIBLE | WINDOW_HASFOCUS );
 	}
 }
 
-void Menus_CloseAll() {
+void dnMenuSystem::CloseAll() {
 	int i;
 	for ( i = 0; i < menuCount; i++ ) {
-		Menus[i].RunCloseScript();
-		Menus[i].window.flags &= ~( WINDOW_HASFOCUS | WINDOW_VISIBLE );
+		menus[i].RunCloseScript();
+		menus[i].window.flags &= ~( WINDOW_HASFOCUS | WINDOW_VISIBLE );
 	}
 }
 
 /* run every onNamedEvent handler bound to this name across the open
    menus and their items, like the BFG gui HandleNamedEvent sweep */
-void Display_RunNamedEvent( const char *name ) {
+void dnMenuSystem::RunNamedEvent( const char *name ) {
 	int i, j, k;
 	dnItem it;
 
 	for ( i = 0; i < menuCount; i++ ) {
-		dnMenu *menu = &Menus[i];
+		dnMenu *menu = &menus[i];
 
 		if ( !( menu->window.flags & WINDOW_VISIBLE ) ) {
 			continue;
@@ -966,14 +1130,14 @@ void Script_FadeOut( dnItem *item, char **args ) {
 void Script_Open( dnItem *item, char **args ) {
 	const char *name;
 	if ( String_Parse( args, &name ) ) {
-		Menus_OpenByName( name );
+		g_menus.OpenByName( name );
 	}
 }
 
 void Script_Close( dnItem *item, char **args ) {
 	const char *name;
 	if ( String_Parse( args, &name ) ) {
-		Menus_CloseByName( name );
+		g_menus.CloseByName( name );
 	}
 }
 
@@ -981,7 +1145,7 @@ void Script_Close( dnItem *item, char **args ) {
 void Script_NamedEvent( dnItem *item, char **args ) {
 	const char *name;
 	if ( String_Parse( args, &name ) ) {
-		Display_RunNamedEvent( name );
+		g_menus.RunNamedEvent( name );
 	}
 }
 
@@ -1356,7 +1520,7 @@ qboolean dnItem::SetFocus( float x, float y ) {
 	qboolean playSound = qfalse;
 	dnMenu *parent = NULL;
 	// sanity check, non-null, not a decoration and does not already have the focus
-	if ( window.flags & WINDOW_DECORATION || window.flags & WINDOW_HASFOCUS || !( window.flags & WINDOW_VISIBLE ) || !Item_TreeVisible( this ) ) {
+	if ( window.flags & WINDOW_DECORATION || window.flags & WINDOW_HASFOCUS || !( window.flags & WINDOW_VISIBLE ) || !TreeVisible() ) {
 		return qfalse;
 	}
 
@@ -1416,15 +1580,15 @@ qboolean dnItem::SetFocus( float x, float y ) {
 	return qtrue;
 }
 
-int Item_ListBox_MaxScroll( dnItem *item ) {
-	listBoxDef_t *listPtr = (listBoxDef_t*)item->typeData;
-	int count = DC->feederCount( item->special );
+int dnListBoxItem::MaxScroll( void ) {
+	listBoxDef_t *listPtr = (listBoxDef_t*)typeData;
+	int count = DC->feederCount( special );
 	int max;
 
-	if ( item->window.flags & WINDOW_HORIZONTAL ) {
-		max = count - ( item->window.rect.w / listPtr->elementWidth ) + 1;
+	if ( window.flags & WINDOW_HORIZONTAL ) {
+		max = count - ( window.rect.w / listPtr->elementWidth ) + 1;
 	} else {
-		max = count - ( item->window.rect.h / listPtr->elementHeight ) + 1;
+		max = count - ( window.rect.h / listPtr->elementHeight ) + 1;
 	}
 	if ( max < 0 ) {
 		return 0;
@@ -1432,55 +1596,55 @@ int Item_ListBox_MaxScroll( dnItem *item ) {
 	return max;
 }
 
-int Item_ListBox_ThumbPosition( dnItem *item ) {
+int dnListBoxItem::ThumbPosition( void ) {
 	float max, pos, size;
-	listBoxDef_t *listPtr = (listBoxDef_t*)item->typeData;
+	listBoxDef_t *listPtr = (listBoxDef_t*)typeData;
 
-	max = Item_ListBox_MaxScroll( item );
-	if ( item->window.flags & WINDOW_HORIZONTAL ) {
-		size = item->window.rect.w - ( SCROLLBAR_SIZE * 2 ) - 2;
+	max = MaxScroll();
+	if ( window.flags & WINDOW_HORIZONTAL ) {
+		size = window.rect.w - ( SCROLLBAR_SIZE * 2 ) - 2;
 		if ( max > 0 ) {
 			pos = ( size - SCROLLBAR_SIZE ) / (float) max;
 		} else {
 			pos = 0;
 		}
 		pos *= listPtr->startPos;
-		return item->window.rect.x + 1 + SCROLLBAR_SIZE + pos;
+		return window.rect.x + 1 + SCROLLBAR_SIZE + pos;
 	} else {
-		size = item->window.rect.h - ( SCROLLBAR_SIZE * 2 ) - 2;
+		size = window.rect.h - ( SCROLLBAR_SIZE * 2 ) - 2;
 		if ( max > 0 ) {
 			pos = ( size - SCROLLBAR_SIZE ) / (float) max;
 		} else {
 			pos = 0;
 		}
 		pos *= listPtr->startPos;
-		return item->window.rect.y + 1 + SCROLLBAR_SIZE + pos;
+		return window.rect.y + 1 + SCROLLBAR_SIZE + pos;
 	}
 }
 
-int Item_ListBox_ThumbDrawPosition( dnItem *item ) {
+int dnListBoxItem::ThumbDrawPosition( void ) {
 	int min, max;
 
-	if ( itemCapture == item ) {
-		if ( item->window.flags & WINDOW_HORIZONTAL ) {
-			min = item->window.rect.x + SCROLLBAR_SIZE + 1;
-			max = item->window.rect.x + item->window.rect.w - 2 * SCROLLBAR_SIZE - 1;
+	if ( g_capture.Item() == this ) {
+		if ( window.flags & WINDOW_HORIZONTAL ) {
+			min = window.rect.x + SCROLLBAR_SIZE + 1;
+			max = window.rect.x + window.rect.w - 2 * SCROLLBAR_SIZE - 1;
 			if ( DC->cursorx >= min + SCROLLBAR_SIZE / 2 && DC->cursorx <= max + SCROLLBAR_SIZE / 2 ) {
 				return DC->cursorx - SCROLLBAR_SIZE / 2;
 			} else {
-				return Item_ListBox_ThumbPosition( item );
+				return ThumbPosition();
 			}
 		} else {
-			min = item->window.rect.y + SCROLLBAR_SIZE + 1;
-			max = item->window.rect.y + item->window.rect.h - 2 * SCROLLBAR_SIZE - 1;
+			min = window.rect.y + SCROLLBAR_SIZE + 1;
+			max = window.rect.y + window.rect.h - 2 * SCROLLBAR_SIZE - 1;
 			if ( DC->cursory >= min + SCROLLBAR_SIZE / 2 && DC->cursory <= max + SCROLLBAR_SIZE / 2 ) {
 				return DC->cursory - SCROLLBAR_SIZE / 2;
 			} else {
-				return Item_ListBox_ThumbPosition( item );
+				return ThumbPosition();
 			}
 		}
 	} else {
-		return Item_ListBox_ThumbPosition( item );
+		return ThumbPosition();
 	}
 }
 
@@ -1489,25 +1653,25 @@ int Item_ListBox_ThumbDrawPosition( dnItem *item ) {
    so the values line up vertically like the engine menu screens */
 #define DUKE_VALUE_COLUMN 320
 
-static float Item_ValueColumnX( dnItem *item ) {
-	return item->window.rect.x + DUKE_VALUE_COLUMN;
+float dnItem::ValueColumnX( void ) {
+	return window.rect.x + DUKE_VALUE_COLUMN;
 }
 
-float Item_Slider_ThumbPosition( dnItem *item ) {
+float dnSliderItem::ThumbPosition( void ) {
 	float value, range, x;
-	editFieldDef_t *editDef = ( editFieldDef_t * )item->typeData;
+	editFieldDef_t *editDef = ( editFieldDef_t * )typeData;
 
-	if ( item->text ) {
-		x = Item_ValueColumnX( item );
+	if ( text ) {
+		x = ValueColumnX();
 	} else {
-		x = item->window.rect.x;
+		x = window.rect.x;
 	}
 
-	if ( editDef == NULL && item->cvar ) {
+	if ( editDef == NULL && cvar ) {
 		return x;
 	}
 
-	value = DC->getCVarValue( item->cvar );
+	value = DC->getCVarValue( cvar );
 
 	if ( value < editDef->minVal ) {
 		value = editDef->minVal;
@@ -1523,11 +1687,11 @@ float Item_Slider_ThumbPosition( dnItem *item ) {
 	return x;
 }
 
-int Item_Slider_OverSlider( dnItem *item, float x, float y ) {
+int dnSliderItem::OverSlider( float x, float y ) {
 	rectDef_t r;
 
-	r.x = Item_Slider_ThumbPosition( item ) - ( SLIDER_THUMB_WIDTH / 2 );
-	r.y = item->window.rect.y - 2;
+	r.x = ThumbPosition() - ( SLIDER_THUMB_WIDTH / 2 );
+	r.y = window.rect.y - 2;
 	r.w = SLIDER_THUMB_WIDTH;
 	r.h = SLIDER_THUMB_HEIGHT;
 
@@ -1537,66 +1701,66 @@ int Item_Slider_OverSlider( dnItem *item, float x, float y ) {
 	return 0;
 }
 
-int Item_ListBox_OverLB( dnItem *item, float x, float y ) {
+int dnListBoxItem::OverListBox( float x, float y ) {
 	rectDef_t r;
 	listBoxDef_t *listPtr;
 	int thumbstart;
 	int count;
 
-	count = DC->feederCount( item->special );
-	listPtr = (listBoxDef_t*)item->typeData;
-	if ( item->window.flags & WINDOW_HORIZONTAL ) {
+	count = DC->feederCount( special );
+	listPtr = (listBoxDef_t*)typeData;
+	if ( window.flags & WINDOW_HORIZONTAL ) {
 		// check if on left arrow
-		r.x = item->window.rect.x;
-		r.y = item->window.rect.y + item->window.rect.h - SCROLLBAR_SIZE;
+		r.x = window.rect.x;
+		r.y = window.rect.y + window.rect.h - SCROLLBAR_SIZE;
 		r.h = r.w = SCROLLBAR_SIZE;
 		if ( Rect_ContainsPoint( &r, x, y ) ) {
 			return WINDOW_LB_LEFTARROW;
 		}
 		// check if on right arrow
-		r.x = item->window.rect.x + item->window.rect.w - SCROLLBAR_SIZE;
+		r.x = window.rect.x + window.rect.w - SCROLLBAR_SIZE;
 		if ( Rect_ContainsPoint( &r, x, y ) ) {
 			return WINDOW_LB_RIGHTARROW;
 		}
 		// check if on thumb
-		thumbstart = Item_ListBox_ThumbPosition( item );
+		thumbstart = ThumbPosition();
 		r.x = thumbstart;
 		if ( Rect_ContainsPoint( &r, x, y ) ) {
 			return WINDOW_LB_THUMB;
 		}
-		r.x = item->window.rect.x + SCROLLBAR_SIZE;
+		r.x = window.rect.x + SCROLLBAR_SIZE;
 		r.w = thumbstart - r.x;
 		if ( Rect_ContainsPoint( &r, x, y ) ) {
 			return WINDOW_LB_PGUP;
 		}
 		r.x = thumbstart + SCROLLBAR_SIZE;
-		r.w = item->window.rect.x + item->window.rect.w - SCROLLBAR_SIZE;
+		r.w = window.rect.x + window.rect.w - SCROLLBAR_SIZE;
 		if ( Rect_ContainsPoint( &r, x, y ) ) {
 			return WINDOW_LB_PGDN;
 		}
 	} else {
-		r.x = item->window.rect.x + item->window.rect.w - SCROLLBAR_SIZE;
-		r.y = item->window.rect.y;
+		r.x = window.rect.x + window.rect.w - SCROLLBAR_SIZE;
+		r.y = window.rect.y;
 		r.h = r.w = SCROLLBAR_SIZE;
 		if ( Rect_ContainsPoint( &r, x, y ) ) {
 			return WINDOW_LB_LEFTARROW;
 		}
-		r.y = item->window.rect.y + item->window.rect.h - SCROLLBAR_SIZE;
+		r.y = window.rect.y + window.rect.h - SCROLLBAR_SIZE;
 		if ( Rect_ContainsPoint( &r, x, y ) ) {
 			return WINDOW_LB_RIGHTARROW;
 		}
-		thumbstart = Item_ListBox_ThumbPosition( item );
+		thumbstart = ThumbPosition();
 		r.y = thumbstart;
 		if ( Rect_ContainsPoint( &r, x, y ) ) {
 			return WINDOW_LB_THUMB;
 		}
-		r.y = item->window.rect.y + SCROLLBAR_SIZE;
+		r.y = window.rect.y + SCROLLBAR_SIZE;
 		r.h = thumbstart - r.y;
 		if ( Rect_ContainsPoint( &r, x, y ) ) {
 			return WINDOW_LB_PGUP;
 		}
 		r.y = thumbstart + SCROLLBAR_SIZE;
-		r.h = item->window.rect.y + item->window.rect.h - SCROLLBAR_SIZE;
+		r.h = window.rect.y + window.rect.h - SCROLLBAR_SIZE;
 		if ( Rect_ContainsPoint( &r, x, y ) ) {
 			return WINDOW_LB_PGDN;
 		}
@@ -1605,21 +1769,21 @@ int Item_ListBox_OverLB( dnItem *item, float x, float y ) {
 }
 
 
-void Item_ListBox_MouseEnter( dnItem *item, float x, float y ) {
+void dnListBoxItem::MouseEnterRect( float x, float y ) {
 	rectDef_t r;
-	listBoxDef_t *listPtr = (listBoxDef_t*)item->typeData;
+	listBoxDef_t *listPtr = (listBoxDef_t*)typeData;
 
-	item->window.flags &= ~( WINDOW_LB_LEFTARROW | WINDOW_LB_RIGHTARROW | WINDOW_LB_THUMB | WINDOW_LB_PGUP | WINDOW_LB_PGDN );
-	item->window.flags |= Item_ListBox_OverLB( item, x, y );
+	window.flags &= ~( WINDOW_LB_LEFTARROW | WINDOW_LB_RIGHTARROW | WINDOW_LB_THUMB | WINDOW_LB_PGUP | WINDOW_LB_PGDN );
+	window.flags |= OverListBox( x, y );
 
-	if ( item->window.flags & WINDOW_HORIZONTAL ) {
-		if ( !( item->window.flags & ( WINDOW_LB_LEFTARROW | WINDOW_LB_RIGHTARROW | WINDOW_LB_THUMB | WINDOW_LB_PGUP | WINDOW_LB_PGDN ) ) ) {
+	if ( window.flags & WINDOW_HORIZONTAL ) {
+		if ( !( window.flags & ( WINDOW_LB_LEFTARROW | WINDOW_LB_RIGHTARROW | WINDOW_LB_THUMB | WINDOW_LB_PGUP | WINDOW_LB_PGDN ) ) ) {
 			// check for selection hit as we have exausted buttons and thumb
 			if ( listPtr->elementStyle == LISTBOX_IMAGE ) {
-				r.x = item->window.rect.x;
-				r.y = item->window.rect.y;
-				r.h = item->window.rect.h - SCROLLBAR_SIZE;
-				r.w = item->window.rect.w - listPtr->drawPadding;
+				r.x = window.rect.x;
+				r.y = window.rect.y;
+				r.h = window.rect.h - SCROLLBAR_SIZE;
+				r.w = window.rect.w - listPtr->drawPadding;
 				if ( Rect_ContainsPoint( &r, x, y ) ) {
 					listPtr->cursorPos =  (int)( ( x - r.x ) / listPtr->elementWidth )  + listPtr->startPos;
 					if ( listPtr->cursorPos >= listPtr->endPos ) {
@@ -1630,11 +1794,11 @@ void Item_ListBox_MouseEnter( dnItem *item, float x, float y ) {
 				// text hit..
 			}
 		}
-	} else if ( !( item->window.flags & ( WINDOW_LB_LEFTARROW | WINDOW_LB_RIGHTARROW | WINDOW_LB_THUMB | WINDOW_LB_PGUP | WINDOW_LB_PGDN ) ) ) {
-		r.x = item->window.rect.x;
-		r.y = item->window.rect.y;
-		r.w = item->window.rect.w - SCROLLBAR_SIZE;
-		r.h = item->window.rect.h - listPtr->drawPadding;
+	} else if ( !( window.flags & ( WINDOW_LB_LEFTARROW | WINDOW_LB_RIGHTARROW | WINDOW_LB_THUMB | WINDOW_LB_PGUP | WINDOW_LB_PGDN ) ) ) {
+		r.x = window.rect.x;
+		r.y = window.rect.y;
+		r.w = window.rect.w - SCROLLBAR_SIZE;
+		r.h = window.rect.h - listPtr->drawPadding;
 		if ( Rect_ContainsPoint( &r, x, y ) ) {
 			listPtr->cursorPos =  (int)( ( y - 2 - r.y ) / listPtr->elementHeight )  + listPtr->startPos;
 			if ( listPtr->cursorPos > listPtr->endPos ) {
@@ -1715,22 +1879,22 @@ void dnItem::SetMouseOver( qboolean focus ) {
 }
 
 
-qboolean Item_OwnerDraw_HandleKey( dnItem *item, int key ) {
-	if ( item && DC->ownerDrawHandleKey ) {
-		return DC->ownerDrawHandleKey( item->window.ownerDraw, item->window.ownerDrawFlags, &item->special, key );
+qboolean dnOwnerDrawItem::HandleTypeKey( int key, qboolean down ) {
+	if ( DC->ownerDrawHandleKey ) {
+		return DC->ownerDrawHandleKey( window.ownerDraw, window.ownerDrawFlags, &special, key );
 	}
 	return qfalse;
 }
 
-qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean force ) {
-	listBoxDef_t *listPtr = (listBoxDef_t*)item->typeData;
-	int count = DC->feederCount( item->special );
+qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) {
+	listBoxDef_t *listPtr = (listBoxDef_t*)typeData;
+	int count = DC->feederCount( special );
 	int max, viewmax;
 
-	if ( force || ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) && item->window.flags & WINDOW_HASFOCUS ) ) {
-		max = Item_ListBox_MaxScroll( item );
-		if ( item->window.flags & WINDOW_HORIZONTAL ) {
-			viewmax = ( item->window.rect.w / listPtr->elementWidth );
+	if ( force || ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) && window.flags & WINDOW_HASFOCUS ) ) {
+		max = MaxScroll();
+		if ( window.flags & WINDOW_HORIZONTAL ) {
+			viewmax = ( window.rect.w / listPtr->elementWidth );
 			if ( key == K_LEFTARROW || key == K_KP_LEFTARROW ) {
 				if ( !listPtr->notselectable ) {
 					listPtr->cursorPos--;
@@ -1743,8 +1907,8 @@ qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean 
 					if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 						listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 					}
-					item->cursorPos = listPtr->cursorPos;
-					DC->feederSelection( item->special, item->cursorPos );
+					cursorPos = listPtr->cursorPos;
+					DC->feederSelection( special, cursorPos );
 				} else {
 					listPtr->startPos--;
 					if ( listPtr->startPos < 0 ) {
@@ -1765,8 +1929,8 @@ qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean 
 					if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 						listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 					}
-					item->cursorPos = listPtr->cursorPos;
-					DC->feederSelection( item->special, item->cursorPos );
+					cursorPos = listPtr->cursorPos;
+					DC->feederSelection( special, cursorPos );
 				} else {
 					listPtr->startPos++;
 					if ( listPtr->startPos >= count ) {
@@ -1776,7 +1940,7 @@ qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean 
 				return qtrue;
 			}
 		} else {
-			viewmax = ( item->window.rect.h / listPtr->elementHeight );
+			viewmax = ( window.rect.h / listPtr->elementHeight );
 			if ( key == K_UPARROW || key == K_KP_UPARROW ) {
 				if ( !listPtr->notselectable ) {
 					listPtr->cursorPos--;
@@ -1789,8 +1953,8 @@ qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean 
 					if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 						listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 					}
-					item->cursorPos = listPtr->cursorPos;
-					DC->feederSelection( item->special, item->cursorPos );
+					cursorPos = listPtr->cursorPos;
+					DC->feederSelection( special, cursorPos );
 				} else {
 					listPtr->startPos--;
 					if ( listPtr->startPos < 0 ) {
@@ -1811,8 +1975,8 @@ qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean 
 					if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 						listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 					}
-					item->cursorPos = listPtr->cursorPos;
-					DC->feederSelection( item->special, item->cursorPos );
+					cursorPos = listPtr->cursorPos;
+					DC->feederSelection( special, cursorPos );
 				} else {
 					listPtr->startPos++;
 					if ( listPtr->startPos > max ) {
@@ -1825,51 +1989,49 @@ qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean 
 		/* the bind list starts the key capture on enter; the row command
 		   comes from the feeder, not from an item cvar */
 		if ( ( key == K_ENTER || key == K_KP_ENTER ) && !listPtr->notselectable ) {
-			const char *cmd = DC->feederItemText( item->special, item->cursorPos, 0, NULL );
-			if ( ( int )item->special == DN_FEEDER_BINDS && cmd ) {
-				Q_strncpyz( s_bindRowCommand, cmd, sizeof( s_bindRowCommand ) );
-				g_waitingForKey = qtrue;
-				g_bindItem = item;
+			const char *cmd = DC->feederItemText( special, cursorPos, 0, NULL );
+			if ( ( int )special == DN_FEEDER_BINDS && cmd ) {
+				g_bindCapture.Start( this, cmd );
 			}
 			return qtrue;
 		}
 		// mouse hit
 		if ( key == K_MOUSE1 || key == K_MOUSE2 ) {
-			if ( item->window.flags & WINDOW_LB_LEFTARROW ) {
+			if ( window.flags & WINDOW_LB_LEFTARROW ) {
 				listPtr->startPos--;
 				if ( listPtr->startPos < 0 ) {
 					listPtr->startPos = 0;
 				}
-			} else if ( item->window.flags & WINDOW_LB_RIGHTARROW ) {
+			} else if ( window.flags & WINDOW_LB_RIGHTARROW ) {
 				// one down
 				listPtr->startPos++;
 				if ( listPtr->startPos > max ) {
 					listPtr->startPos = max;
 				}
-			} else if ( item->window.flags & WINDOW_LB_PGUP ) {
+			} else if ( window.flags & WINDOW_LB_PGUP ) {
 				// page up
 				listPtr->startPos -= viewmax;
 				if ( listPtr->startPos < 0 ) {
 					listPtr->startPos = 0;
 				}
-			} else if ( item->window.flags & WINDOW_LB_PGDN ) {
+			} else if ( window.flags & WINDOW_LB_PGDN ) {
 				// page down
 				listPtr->startPos += viewmax;
 				if ( listPtr->startPos > max ) {
 					listPtr->startPos = max;
 				}
-			} else if ( item->window.flags & WINDOW_LB_THUMB ) {
+			} else if ( window.flags & WINDOW_LB_THUMB ) {
 			} else {
 				// select an item
 				if ( DC->realTime < lastListBoxClickTime && listPtr->doubleClick ) {
-					item->RunScript( listPtr->doubleClick );
+					RunScript( listPtr->doubleClick );
 				}
 				lastListBoxClickTime = DC->realTime + DOUBLE_CLICK_DELAY;
-				if ( item->cursorPos != listPtr->cursorPos ) {
-					if ( listPtr->cursorPos < DC->feederCount( item->special ) ) {
-						item->cursorPos = listPtr->cursorPos;   // only set if it's valid
+				if ( cursorPos != listPtr->cursorPos ) {
+					if ( listPtr->cursorPos < DC->feederCount( special ) ) {
+						cursorPos = listPtr->cursorPos;   // only set if it's valid
 					}
-					DC->feederSelection( item->special, item->cursorPos );
+					DC->feederSelection( special, cursorPos );
 				}
 			}
 			return qtrue;
@@ -1897,8 +2059,8 @@ qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean 
 				if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 					listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 				}
-				item->cursorPos = listPtr->cursorPos;
-				DC->feederSelection( item->special, item->cursorPos );
+				cursorPos = listPtr->cursorPos;
+				DC->feederSelection( special, cursorPos );
 			} else {
 				listPtr->startPos -= viewmax;
 				if ( listPtr->startPos < 0 ) {
@@ -1920,8 +2082,8 @@ qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean 
 				if ( listPtr->cursorPos >= listPtr->startPos + viewmax ) {
 					listPtr->startPos = listPtr->cursorPos - viewmax + 1;
 				}
-				item->cursorPos = listPtr->cursorPos;
-				DC->feederSelection( item->special, item->cursorPos );
+				cursorPos = listPtr->cursorPos;
+				DC->feederSelection( special, cursorPos );
 			} else {
 				listPtr->startPos += viewmax;
 				if ( listPtr->startPos > max ) {
@@ -1934,11 +2096,11 @@ qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean 
 	return qfalse;
 }
 
-qboolean Item_YesNo_HandleKey( dnItem *item, int key ) {
+qboolean dnYesNoItem::HandleTypeKey( int key, qboolean down ) {
 
-	if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) && item->window.flags & WINDOW_HASFOCUS && item->cvar ) {
+	if ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) && window.flags & WINDOW_HASFOCUS && cvar ) {
 		if ( key == K_MOUSE1 || key == K_ENTER || key == K_MOUSE2 || key == K_MOUSE3 ) {
-			DC->setCVar( item->cvar, va( "%i", !DC->getCVarValue( item->cvar ) ) );
+			DC->setCVar( cvar, va( "%i", !DC->getCVarValue( cvar ) ) );
 			return qtrue;
 		}
 	}
@@ -1947,24 +2109,24 @@ qboolean Item_YesNo_HandleKey( dnItem *item, int key ) {
 
 }
 
-int Item_Multi_CountSettings( dnItem *item ) {
-	multiDef_t *multiPtr = (multiDef_t*)item->typeData;
+int dnMultiItem::CountSettings( void ) {
+	multiDef_t *multiPtr = (multiDef_t*)typeData;
 	if ( multiPtr == NULL ) {
 		return 0;
 	}
 	return multiPtr->count;
 }
 
-int Item_Multi_FindCvarByValue( dnItem *item ) {
+int dnMultiItem::FindCvarByValue( void ) {
 	char buff[1024];
 	float value = 0;
 	int i;
-	multiDef_t *multiPtr = (multiDef_t*)item->typeData;
+	multiDef_t *multiPtr = (multiDef_t*)typeData;
 	if ( multiPtr ) {
 		if ( multiPtr->strDef ) {
-			DC->getCVarString( item->cvar, buff, sizeof( buff ) );
+			DC->getCVarString( cvar, buff, sizeof( buff ) );
 		} else {
-			value = DC->getCVarValue( item->cvar );
+			value = DC->getCVarValue( cvar );
 		}
 		for ( i = 0; i < multiPtr->count; i++ ) {
 			if ( multiPtr->strDef ) {
@@ -1981,16 +2143,16 @@ int Item_Multi_FindCvarByValue( dnItem *item ) {
 	return 0;
 }
 
-const char *Item_Multi_Setting( dnItem *item ) {
+const char *dnMultiItem::Setting( void ) {
 	char buff[1024];
 	float value = 0;
 	int i;
-	multiDef_t *multiPtr = (multiDef_t*)item->typeData;
+	multiDef_t *multiPtr = (multiDef_t*)typeData;
 	if ( multiPtr ) {
 		if ( multiPtr->strDef ) {
-			DC->getCVarString( item->cvar, buff, sizeof( buff ) );
+			DC->getCVarString( cvar, buff, sizeof( buff ) );
 		} else {
-			value = DC->getCVarValue( item->cvar );
+			value = DC->getCVarValue( cvar );
 		}
 		for ( i = 0; i < multiPtr->count; i++ ) {
 			if ( multiPtr->strDef ) {
@@ -2007,24 +2169,24 @@ const char *Item_Multi_Setting( dnItem *item ) {
 	return "";
 }
 
-qboolean Item_Multi_HandleKey( dnItem *item, int key ) {
-	multiDef_t *multiPtr = (multiDef_t*)item->typeData;
+qboolean dnMultiItem::HandleTypeKey( int key, qboolean down ) {
+	multiDef_t *multiPtr = (multiDef_t*)typeData;
 	if ( multiPtr ) {
-		if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) && item->window.flags & WINDOW_HASFOCUS && item->cvar ) {
+		if ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) && window.flags & WINDOW_HASFOCUS && cvar ) {
 			if ( key == K_MOUSE1 || key == K_ENTER || key == K_MOUSE2 || key == K_MOUSE3 ) {
-				int current = Item_Multi_FindCvarByValue( item ) + 1;
-				int max = Item_Multi_CountSettings( item );
+				int current = FindCvarByValue() + 1;
+				int max = CountSettings();
 				if ( current < 0 || current >= max ) {
 					current = 0;
 				}
 				if ( multiPtr->strDef ) {
-					DC->setCVar( item->cvar, multiPtr->cvarStr[current] );
+					DC->setCVar( cvar, multiPtr->cvarStr[current] );
 				} else {
 					float value = multiPtr->cvarValue[current];
 					if ( ( (float)( (int) value ) ) == value ) {
-						DC->setCVar( item->cvar, va( "%i", (int) value ) );
+						DC->setCVar( cvar, va( "%i", (int) value ) );
 					} else {
-						DC->setCVar( item->cvar, va( "%f", value ) );
+						DC->setCVar( cvar, va( "%f", value ) );
 					}
 				}
 				return qtrue;
@@ -2034,16 +2196,16 @@ qboolean Item_Multi_HandleKey( dnItem *item, int key ) {
 	return qfalse;
 }
 
-qboolean Item_TextField_HandleKey( dnItem *item, int key ) {
+qboolean dnEditFieldItem::HandleEditKey( int key ) {
 	char buff[1024];
 	int len;
 	dnItem *newItem = NULL;
-	editFieldDef_t *editPtr = (editFieldDef_t*)item->typeData;
+	editFieldDef_t *editPtr = (editFieldDef_t*)typeData;
 
-	if ( item->cvar ) {
+	if ( cvar ) {
 
 		memset( buff, 0, sizeof( buff ) );
-		DC->getCVarString( item->cvar, buff, sizeof( buff ) );
+		DC->getCVarString( cvar, buff, sizeof( buff ) );
 		len = strlen( buff );
 		if ( editPtr->maxChars && len > editPtr->maxChars ) {
 			len = editPtr->maxChars;
@@ -2053,31 +2215,31 @@ qboolean Item_TextField_HandleKey( dnItem *item, int key ) {
 
 
 			if ( key == 'h' - 'a' + 1 ) {      // ctrl-h is backspace
-				if ( item->cursorPos > 0 ) {
-					memmove( &buff[item->cursorPos - 1], &buff[item->cursorPos], len + 1 - item->cursorPos );
-					item->cursorPos--;
-					if ( item->cursorPos < editPtr->paintOffset ) {
+				if ( cursorPos > 0 ) {
+					memmove( &buff[cursorPos - 1], &buff[cursorPos], len + 1 - cursorPos );
+					cursorPos--;
+					if ( cursorPos < editPtr->paintOffset ) {
 						editPtr->paintOffset--;
 					}
 				}
-				DC->setCVar( item->cvar, buff );
+				DC->setCVar( cvar, buff );
 				return qtrue;
 			}
 
 
 			// filename fields only take characters that make valid save names
-			if ( item->type == ITEM_TYPE_VALIDFILEFIELD ) {
+			if ( type == ITEM_TYPE_VALIDFILEFIELD ) {
 				if ( !Q_isforfilename( key ) ) {
 					return qtrue;
 				}
 			}
 
 			// ignore any non printable chars
-			if ( key < 32 || !item->cvar ) {
+			if ( key < 32 || !cvar ) {
 				return qtrue;
 			}
 
-			if ( item->type == ITEM_TYPE_NUMERICFIELD ) {
+			if ( type == ITEM_TYPE_NUMERICFIELD ) {
 				if ( !Q_isnumeric( key ) ) {
 					return qfalse;
 				}
@@ -2087,20 +2249,20 @@ qboolean Item_TextField_HandleKey( dnItem *item, int key ) {
 				if ( ( len == MAX_EDITFIELD - 1 ) || ( editPtr->maxChars && len >= editPtr->maxChars ) ) {
 					return qtrue;
 				}
-				memmove( &buff[item->cursorPos + 1], &buff[item->cursorPos], len + 1 - item->cursorPos );
+				memmove( &buff[cursorPos + 1], &buff[cursorPos], len + 1 - cursorPos );
 			} else {
-				if ( editPtr->maxChars && item->cursorPos >= editPtr->maxChars ) {
+				if ( editPtr->maxChars && cursorPos >= editPtr->maxChars ) {
 					return qtrue;
 				}
 			}
 
-			buff[item->cursorPos] = key;
+			buff[cursorPos] = key;
 
-			DC->setCVar( item->cvar, buff );
+			DC->setCVar( cvar, buff );
 
-			if ( item->cursorPos < len + 1 ) {
-				item->cursorPos++;
-				if ( editPtr->maxPaintChars && item->cursorPos > editPtr->maxPaintChars ) {
+			if ( cursorPos < len + 1 ) {
+				cursorPos++;
+				if ( editPtr->maxPaintChars && cursorPos > editPtr->maxPaintChars ) {
 					editPtr->paintOffset++;
 				}
 			}
@@ -2108,44 +2270,44 @@ qboolean Item_TextField_HandleKey( dnItem *item, int key ) {
 		} else {
 
 			if ( key == K_DEL || key == K_KP_DEL ) {
-				if ( item->cursorPos < len ) {
-					memmove( buff + item->cursorPos, buff + item->cursorPos + 1, len - item->cursorPos );
-					DC->setCVar( item->cvar, buff );
+				if ( cursorPos < len ) {
+					memmove( buff + cursorPos, buff + cursorPos + 1, len - cursorPos );
+					DC->setCVar( cvar, buff );
 				}
 				return qtrue;
 			}
 
 			if ( key == K_RIGHTARROW || key == K_KP_RIGHTARROW ) {
-				if ( editPtr->maxPaintChars && item->cursorPos >= editPtr->maxPaintChars && item->cursorPos < len ) {
-					item->cursorPos++;
+				if ( editPtr->maxPaintChars && cursorPos >= editPtr->maxPaintChars && cursorPos < len ) {
+					cursorPos++;
 					editPtr->paintOffset++;
 					return qtrue;
 				}
-				if ( item->cursorPos < len ) {
-					item->cursorPos++;
+				if ( cursorPos < len ) {
+					cursorPos++;
 				}
 				return qtrue;
 			}
 
 			if ( key == K_LEFTARROW || key == K_KP_LEFTARROW ) {
-				if ( item->cursorPos > 0 ) {
-					item->cursorPos--;
+				if ( cursorPos > 0 ) {
+					cursorPos--;
 				}
-				if ( item->cursorPos < editPtr->paintOffset ) {
+				if ( cursorPos < editPtr->paintOffset ) {
 					editPtr->paintOffset--;
 				}
 				return qtrue;
 			}
 
 			if ( key == K_HOME || key == K_KP_HOME ) {
-				item->cursorPos = 0;
+				cursorPos = 0;
 				editPtr->paintOffset = 0;
 				return qtrue;
 			}
 
 			if ( key == K_END || key == K_KP_END ) {
-				item->cursorPos = len;
-				if ( item->cursorPos > editPtr->maxPaintChars ) {
+				cursorPos = len;
+				if ( cursorPos > editPtr->maxPaintChars ) {
 					editPtr->paintOffset = len - editPtr->maxPaintChars;
 				}
 				return qtrue;
@@ -2158,22 +2320,22 @@ qboolean Item_TextField_HandleKey( dnItem *item, int key ) {
 		}
 
 		if ( key == K_TAB || key == K_DOWNARROW || key == K_KP_DOWNARROW ) {
-			newItem = ( (dnMenu *)item->parent )->SetNextCursorItem();
+			newItem = ( (dnMenu *)parent )->SetNextCursorItem();
 			if ( newItem && ( newItem->type == ITEM_TYPE_EDITFIELD || newItem->type == ITEM_TYPE_NUMERICFIELD || newItem->type == ITEM_TYPE_VALIDFILEFIELD ) ) {
-				g_editItem = newItem;
+				g_editCapture.Start( newItem );
 			}
 		}
 
 		if ( key == K_UPARROW || key == K_KP_UPARROW ) {
-			newItem = ( (dnMenu *)item->parent )->SetPrevCursorItem();
+			newItem = ( (dnMenu *)parent )->SetPrevCursorItem();
 			if ( newItem && ( newItem->type == ITEM_TYPE_EDITFIELD || newItem->type == ITEM_TYPE_NUMERICFIELD || newItem->type == ITEM_TYPE_VALIDFILEFIELD ) ) {
-				g_editItem = newItem;
+				g_editCapture.Start( newItem );
 			}
 		}
 
 		if ( key == K_ENTER || key == K_KP_ENTER ) {
-			if ( item->onAccept ) {
-				item->RunScript( item->onAccept );
+			if ( onAccept ) {
+				RunScript( onAccept );
 			}
 		}
 
@@ -2187,39 +2349,85 @@ qboolean Item_TextField_HandleKey( dnItem *item, int key ) {
 
 }
 
-static void Scroll_ListBox_AutoFunc( void *p ) {
-	scrollInfo_t *si = (scrollInfo_t*)p;
-	if ( DC->realTime > si->nextScrollTime ) {
+/* the capture starts: the item remembers the drag key, the mode keeps
+   the auto scroll timing */
+void dnMouseCapture::StartListBoxAuto( dnItem *owner, int key, qboolean leftArrow ) {
+	kind = CAPTURE_LISTBOX_AUTO;
+	item = owner;
+	nextScrollTime = DC->realTime + SCROLL_TIME_START;
+	nextAdjustTime = DC->realTime + SCROLL_TIME_ADJUST;
+	adjustValue = SCROLL_TIME_START;
+	scrollKey = key;
+	scrollDir = leftArrow;
+}
+
+void dnMouseCapture::StartListBoxThumb( dnItem *owner, int key ) {
+	kind = CAPTURE_LISTBOX_THUMB;
+	item = owner;
+	scrollKey = key;
+	xStart = DC->cursorx;
+	yStart = DC->cursory;
+}
+
+void dnMouseCapture::StartSliderThumb( dnItem *owner, int key ) {
+	kind = CAPTURE_SLIDER_THUMB;
+	item = owner;
+	scrollKey = key;
+	xStart = DC->cursorx;
+	yStart = DC->cursory;
+}
+
+void dnMouseCapture::Update( void ) {
+	switch ( kind ) {
+	case CAPTURE_LISTBOX_AUTO:
+		AutoScroll();
+		break;
+	case CAPTURE_LISTBOX_THUMB:
+		ThumbScroll();
+		break;
+	case CAPTURE_SLIDER_THUMB:
+		SliderThumb();
+		break;
+	default:
+		break;
+	}
+}
+
+/* the auto scroll repeats its key on a shrinking timer, exactly what a
+   held listbox arrow needs; the mode guarantees the item is a listbox */
+void dnMouseCapture::AutoScroll( void ) {
+	if ( DC->realTime > nextScrollTime ) {
 		// need to scroll which is done by simulating a click to the item
 		// this is done a bit sideways as the autoscroll "knows" that the item is a listbox
 		// so it calls it directly
-		Item_ListBox_HandleKey( si->item, si->scrollKey, qtrue, qfalse );
-		si->nextScrollTime = DC->realTime + si->adjustValue;
+		( ( dnListBoxItem * )item )->HandleListKey( scrollKey, qtrue, qfalse );
+		nextScrollTime = DC->realTime + adjustValue;
 	}
 
-	if ( DC->realTime > si->nextAdjustTime ) {
-		si->nextAdjustTime = DC->realTime + SCROLL_TIME_ADJUST;
-		if ( si->adjustValue > SCROLL_TIME_FLOOR ) {
-			si->adjustValue -= SCROLL_TIME_ADJUSTOFFSET;
+	if ( DC->realTime > nextAdjustTime ) {
+		nextAdjustTime = DC->realTime + SCROLL_TIME_ADJUST;
+		if ( adjustValue > SCROLL_TIME_FLOOR ) {
+			adjustValue -= SCROLL_TIME_ADJUSTOFFSET;
 		}
 	}
 }
 
-static void Scroll_ListBox_ThumbFunc( void *p ) {
-	scrollInfo_t *si = (scrollInfo_t*)p;
+/* the thumb drag maps the cursor onto the scroll range; the mode
+   guarantees the item is a listbox */
+void dnMouseCapture::ThumbScroll( void ) {
 	rectDef_t r;
 	int pos, max;
 
-	listBoxDef_t *listPtr = (listBoxDef_t*)si->item->typeData;
-	if ( si->item->window.flags & WINDOW_HORIZONTAL ) {
-		if ( DC->cursorx == si->xStart ) {
+	listBoxDef_t *listPtr = (listBoxDef_t*)item->typeData;
+	if ( item->window.flags & WINDOW_HORIZONTAL ) {
+		if ( DC->cursorx == xStart ) {
 			return;
 		}
-		r.x = si->item->window.rect.x + SCROLLBAR_SIZE + 1;
-		r.y = si->item->window.rect.y + si->item->window.rect.h - SCROLLBAR_SIZE - 1;
+		r.x = item->window.rect.x + SCROLLBAR_SIZE + 1;
+		r.y = item->window.rect.y + item->window.rect.h - SCROLLBAR_SIZE - 1;
 		r.h = SCROLLBAR_SIZE;
-		r.w = si->item->window.rect.w - ( SCROLLBAR_SIZE * 2 ) - 2;
-		max = Item_ListBox_MaxScroll( si->item );
+		r.w = item->window.rect.w - ( SCROLLBAR_SIZE * 2 ) - 2;
+		max = ( ( dnListBoxItem * )item )->MaxScroll();
 		pos = ( DC->cursorx - r.x - SCROLLBAR_SIZE / 2 ) * max / ( r.w - SCROLLBAR_SIZE );
 		if ( pos < 0 ) {
 			pos = 0;
@@ -2227,14 +2435,14 @@ static void Scroll_ListBox_ThumbFunc( void *p ) {
 			pos = max;
 		}
 		listPtr->startPos = pos;
-		si->xStart = DC->cursorx;
-	} else if ( DC->cursory != si->yStart )     {
+		xStart = DC->cursorx;
+	} else if ( DC->cursory != yStart )     {
 
-		r.x = si->item->window.rect.x + si->item->window.rect.w - SCROLLBAR_SIZE - 1;
-		r.y = si->item->window.rect.y + SCROLLBAR_SIZE + 1;
-		r.h = si->item->window.rect.h - ( SCROLLBAR_SIZE * 2 ) - 2;
+		r.x = item->window.rect.x + item->window.rect.w - SCROLLBAR_SIZE - 1;
+		r.y = item->window.rect.y + SCROLLBAR_SIZE + 1;
+		r.h = item->window.rect.h - ( SCROLLBAR_SIZE * 2 ) - 2;
 		r.w = SCROLLBAR_SIZE;
-		max = Item_ListBox_MaxScroll( si->item );
+		max = ( ( dnListBoxItem * )item )->MaxScroll();
 		pos = ( DC->cursory - r.y - SCROLLBAR_SIZE / 2 ) * max / ( r.h - SCROLLBAR_SIZE );
 		if ( pos < 0 ) {
 			pos = 0;
@@ -2242,34 +2450,34 @@ static void Scroll_ListBox_ThumbFunc( void *p ) {
 			pos = max;
 		}
 		listPtr->startPos = pos;
-		si->yStart = DC->cursory;
+		yStart = DC->cursory;
 	}
 
-	if ( DC->realTime > si->nextScrollTime ) {
+	if ( DC->realTime > nextScrollTime ) {
 		// need to scroll which is done by simulating a click to the item
 		// this is done a bit sideways as the autoscroll "knows" that the item is a listbox
 		// so it calls it directly
-		Item_ListBox_HandleKey( si->item, si->scrollKey, qtrue, qfalse );
-		si->nextScrollTime = DC->realTime + si->adjustValue;
+		( ( dnListBoxItem * )item )->HandleListKey( scrollKey, qtrue, qfalse );
+		nextScrollTime = DC->realTime + adjustValue;
 	}
 
-	if ( DC->realTime > si->nextAdjustTime ) {
-		si->nextAdjustTime = DC->realTime + SCROLL_TIME_ADJUST;
-		if ( si->adjustValue > SCROLL_TIME_FLOOR ) {
-			si->adjustValue -= SCROLL_TIME_ADJUSTOFFSET;
+	if ( DC->realTime > nextAdjustTime ) {
+		nextAdjustTime = DC->realTime + SCROLL_TIME_ADJUST;
+		if ( adjustValue > SCROLL_TIME_FLOOR ) {
+			adjustValue -= SCROLL_TIME_ADJUSTOFFSET;
 		}
 	}
 }
 
-static void Scroll_Slider_ThumbFunc( void *p ) {
+/* the slider thumb drag maps the cursor onto the cvar range */
+void dnMouseCapture::SliderThumb( void ) {
 	float x, value, cursorx;
-	scrollInfo_t *si = (scrollInfo_t*)p;
-	editFieldDef_t *editDef = ( editFieldDef_t * )si->item->typeData;
+	editFieldDef_t *editDef = ( editFieldDef_t * )item->typeData;
 
-	if ( si->item->text ) {
-		x = Item_ValueColumnX( si->item );
+	if ( item->text ) {
+		x = item->ValueColumnX();
 	} else {
-		x = si->item->window.rect.x;
+		x = item->window.rect.x;
 	}
 
 	cursorx = DC->cursorx;
@@ -2283,95 +2491,69 @@ static void Scroll_Slider_ThumbFunc( void *p ) {
 	value /= SLIDER_WIDTH;
 	value *= ( editDef->maxVal - editDef->minVal );
 	value += editDef->minVal;
-	DC->setCVar( si->item->cvar, va( "%f", value ) );
+	DC->setCVar( item->cvar, va( "%f", value ) );
 }
 
-void dnItem::StartCapture( int key ) {
-	int flags;
-	switch ( type ) {
-	case ITEM_TYPE_EDITFIELD:
-	case ITEM_TYPE_NUMERICFIELD:
-	case ITEM_TYPE_VALIDFILEFIELD:
+/* plain items take no drag; the listbox and slider subclasses override */
+void dnItem::StartCapture( int ) {
+}
 
-	case ITEM_TYPE_LISTBOX:
-	{
-		flags = Item_ListBox_OverLB( this, DC->cursorx, DC->cursory );
-		if ( flags & ( WINDOW_LB_LEFTARROW | WINDOW_LB_RIGHTARROW ) ) {
-			scrollInfo.nextScrollTime = DC->realTime + SCROLL_TIME_START;
-			scrollInfo.nextAdjustTime = DC->realTime + SCROLL_TIME_ADJUST;
-			scrollInfo.adjustValue = SCROLL_TIME_START;
-			scrollInfo.scrollKey = key;
-			scrollInfo.scrollDir = ( flags & WINDOW_LB_LEFTARROW ) ? qtrue : qfalse;
-			scrollInfo.item = this;
-			captureData = &scrollInfo;
-			captureFunc = &Scroll_ListBox_AutoFunc;
-			itemCapture = this;
-		} else if ( flags & WINDOW_LB_THUMB ) {
-			scrollInfo.scrollKey = key;
-			scrollInfo.item = this;
-			scrollInfo.xStart = DC->cursorx;
-			scrollInfo.yStart = DC->cursory;
-			captureData = &scrollInfo;
-			captureFunc = &Scroll_ListBox_ThumbFunc;
-			itemCapture = this;
-		}
-		break;
-	}
-	case ITEM_TYPE_SLIDER:
-	{
-		flags = Item_Slider_OverSlider( this, DC->cursorx, DC->cursory );
-		if ( flags & WINDOW_LB_THUMB ) {
-			scrollInfo.scrollKey = key;
-			scrollInfo.item = this;
-			scrollInfo.xStart = DC->cursorx;
-			scrollInfo.yStart = DC->cursory;
-			captureData = &scrollInfo;
-			captureFunc = &Scroll_Slider_ThumbFunc;
-			itemCapture = this;
-		}
-		break;
-	}
+/* a held listbox arrow scrolls on a timer, a grabbed thumb follows the
+   cursor */
+void dnListBoxItem::StartCapture( int key ) {
+	int flags = OverListBox( DC->cursorx, DC->cursory );
+
+	if ( flags & ( WINDOW_LB_LEFTARROW | WINDOW_LB_RIGHTARROW ) ) {
+		g_capture.StartListBoxAuto( this, key, ( flags & WINDOW_LB_LEFTARROW ) ? qtrue : qfalse );
+	} else if ( flags & WINDOW_LB_THUMB ) {
+		g_capture.StartListBoxThumb( this, key );
 	}
 }
 
+/* a grabbed slider thumb follows the cursor */
+void dnSliderItem::StartCapture( int key ) {
+	if ( OverSlider( DC->cursorx, DC->cursory ) & WINDOW_LB_THUMB ) {
+		g_capture.StartSliderThumb( this, key );
+	}
+}
 void dnItem::StopCapture( void ) {
 
 }
 
-qboolean Item_Slider_HandleKey( dnItem *item, int key, qboolean down ) {
+qboolean dnSliderItem::HandleTypeKey( int key, qboolean down ) {
 	float x, value, width, work;
-	editFieldDef_t *editDef = ( editFieldDef_t * )item->typeData;
+	editFieldDef_t *editDef = ( editFieldDef_t * )typeData;
 	float step;
 
 	/* keyboard adjust: one bar segment per press, matching the painted bar */
-	if ( item->window.flags & WINDOW_HASFOCUS && item->cvar && editDef &&
+	if ( window.flags & WINDOW_HASFOCUS && cvar && editDef &&
 		 editDef->maxVal > editDef->minVal &&
 		 ( key == K_LEFTARROW || key == K_KP_LEFTARROW ||
 		   key == K_RIGHTARROW || key == K_KP_RIGHTARROW ) ) {
 		step = ( editDef->maxVal - editDef->minVal ) / DUKE_SLIDER_SEGMENTS;
-		value = DC->getCVarValue( item->cvar );
+		value = DC->getCVarValue( cvar );
 		value += ( key == K_LEFTARROW || key == K_KP_LEFTARROW ) ? -step : step;
 		if ( value < editDef->minVal ) {
 			value = editDef->minVal;
 		} else if ( value > editDef->maxVal ) {
 			value = editDef->maxVal;
 		}
-		DC->setCVar( item->cvar, va( "%f", value ) );
+		DC->setCVar( cvar, va( "%f", value ) );
 		return qtrue;
 	}
 
-	if ( item->window.flags & WINDOW_HASFOCUS && item->cvar && Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) ) {
+	if ( window.flags & WINDOW_HASFOCUS && cvar && Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) ) {
 		if ( key == K_MOUSE1 || key == K_ENTER || key == K_MOUSE2 || key == K_MOUSE3 ) {
 			if ( editDef ) {
 				rectDef_t testRect;
 				width = SLIDER_WIDTH;
-				if ( item->text ) {
-					x = Item_ValueColumnX( item );
+				if ( text ) {
+					x = ValueColumnX();
 				} else {
-					x = item->window.rect.x;
+					x = window.rect.x;
 				}
 
-				testRect = item->window.rect;
+				testRect = window.rect;
 				testRect.x = x;
 				value = (float)SLIDER_THUMB_WIDTH / 2;
 				testRect.x -= value;
@@ -2381,7 +2563,7 @@ qboolean Item_Slider_HandleKey( dnItem *item, int key, qboolean down ) {
 					value = work / width;
 					value *= ( editDef->maxVal - editDef->minVal );
 					value += editDef->minVal;
-					DC->setCVar( item->cvar, va( "%f", value ) );
+					DC->setCVar( cvar, va( "%f", value ) );
 					return qtrue;
 				}
 			}
@@ -2393,11 +2575,8 @@ qboolean Item_Slider_HandleKey( dnItem *item, int key, qboolean down ) {
 
 qboolean dnItem::HandleKey( int key, qboolean down ) {
 
-	if ( itemCapture ) {
-		itemCapture->StopCapture();
-		itemCapture = NULL;
-		captureFunc = NULL;
-		captureData = NULL;
+	if ( g_capture.Active() ) {
+		g_capture.Stop();
 	} else {
 		// the down check must bind to all three mouse keys, a bare || chain fires on key-up too
 		if ( down && ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3 ) ) {
@@ -2418,6 +2597,16 @@ void dnItem::PaintType( void ) {
 }
 
 qboolean dnItem::HandleTypeKey( int key, qboolean down ) {
+	return qfalse;
+}
+
+/* edit keys only mean something to the edit field subclass */
+qboolean dnItem::HandleEditKey( int key ) {
+	return qfalse;
+}
+
+/* only listboxes feed from the script feeder scroll */
+qboolean dnItem::ScrollFeed( qboolean down ) {
 	return qfalse;
 }
 
@@ -2512,10 +2701,10 @@ void dnMenu::CloseCinematics( void ) {
 	}
 }
 
-static void Display_CloseCinematics() {
+void dnMenuSystem::CloseCinematics() {
 	int i;
 	for ( i = 0; i < menuCount; i++ ) {
-		Menus[i].CloseCinematics();
+		menus[i].CloseCinematics();
 	}
 }
 
@@ -2532,22 +2721,24 @@ void dnMenu::Activate( void ) {
 		DC->startBackgroundTrack( soundName, soundName, 0 );
 	}
 
-	Display_CloseCinematics();
+	/* opening a menu stops the cinematics of every open menu, not just
+	   this one's items */
+	g_menus.CloseCinematics();
 
 }
 
-int Display_VisibleMenuCount() {
+int dnMenuSystem::VisibleMenuCount() {
 	int i, count;
 	count = 0;
 	for ( i = 0; i < menuCount; i++ ) {
-		if ( Menus[i].window.flags & ( WINDOW_FORCED | WINDOW_VISIBLE ) ) {
+		if ( menus[i].window.flags & ( WINDOW_FORCED | WINDOW_VISIBLE ) ) {
 			count++;
 		}
 	}
 	return count;
 }
 
-void Menus_HandleOOBClick( dnMenu *menu, int key, qboolean down ) {
+void dnMenuSystem::HandleOOBClick( dnMenu *menu, int key, qboolean down ) {
 	if ( menu ) {
 		int i;
 		// basically the behaviour we are looking for is if there are windows in the stack.. see if
@@ -2559,20 +2750,20 @@ void Menus_HandleOOBClick( dnMenu *menu, int key, qboolean down ) {
 		}
 
 		for ( i = 0; i < menuCount; i++ ) {
-			if ( Menus[i].OverActiveItem( DC->cursorx, DC->cursory ) ) {
+			if ( menus[i].OverActiveItem( DC->cursorx, DC->cursory ) ) {
 				menu->window.flags &= ~( WINDOW_HASFOCUS );
-				Menus[i].Activate();
-				Menus[i].HandleMouseMove( DC->cursorx, DC->cursory );
-				Menus[i].HandleKey( key, down );
+				menus[i].Activate();
+				menus[i].HandleMouseMove( DC->cursorx, DC->cursory );
+				menus[i].HandleKey( key, down );
 			}
 		}
 
-		if ( Display_VisibleMenuCount() == 0 ) {
+		if ( VisibleMenuCount() == 0 ) {
 			if ( DC->Pause ) {
 				DC->Pause( qfalse );
 			}
 		}
-		Display_CloseCinematics();
+		CloseCinematics();
 	}
 }
 
@@ -2597,22 +2788,20 @@ void dnMenu::HandleKey( int key, qboolean down ) {
 	}
 
 	inHandler = qtrue;
-	if ( g_waitingForKey && down ) {
-		Item_Bind_HandleKey( g_bindItem, key, down );
+	if ( g_bindCapture.Waiting() && down ) {
+		g_bindCapture.HandleKey( key, down );
 		inHandler = qfalse;
 		return;
 	}
 
-	if ( g_editingField && down ) {
-		if ( !Item_TextField_HandleKey( g_editItem, key ) ) {
-			g_editingField = qfalse;
-			g_editItem = NULL;
+	if ( g_editCapture.IsActive() && down ) {
+		if ( !g_editCapture.HandleKey( key ) ) {
+			g_editCapture.Stop();
 			inHandler = qfalse;
 			return;
 		} else if ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3 ) {
-			g_editingField = qfalse;
-			g_editItem = NULL;
-			Display_MouseMove( NULL, DC->cursorx, DC->cursory );
+			g_editCapture.Stop();
+			g_menus.MouseMove( NULL, DC->cursorx, DC->cursory );
 		} else {
 			return;
 		}
@@ -2624,7 +2813,7 @@ void dnMenu::HandleKey( int key, qboolean down ) {
 		// the guard must bind to all three mouse keys, a bare || chain re-enters the handler
 		if ( !inHandleKey && ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3 ) ) {
 			inHandleKey = qtrue;
-			Menus_HandleOOBClick( this, key, down );
+			g_menus.HandleOOBClick( this, key, down );
 			inHandleKey = qfalse;
 			inHandler = qfalse;
 			return;
@@ -2680,7 +2869,7 @@ void dnMenu::HandleKey( int key, qboolean down ) {
 		break;
 
 	case K_ESCAPE:
-		if ( !g_waitingForKey && onESC ) {
+		if ( !g_bindCapture.Waiting() && onESC ) {
 			dnItem it;
 			it.parent = this;
 			it.RunScript( onESC );
@@ -2705,8 +2894,7 @@ void dnMenu::HandleKey( int key, qboolean down ) {
 			} else if ( item->type == ITEM_TYPE_EDITFIELD || item->type == ITEM_TYPE_NUMERICFIELD || item->type == ITEM_TYPE_VALIDFILEFIELD ) {
 				if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) ) {
 					item->cursorPos = 0;
-					g_editingField = qtrue;
-					g_editItem = item;
+					g_editCapture.Start( item );
 					DC->setOverstrikeMode( qtrue );
 				}
 			} else {
@@ -2744,8 +2932,8 @@ void dnMenu::HandleKey( int key, qboolean down ) {
 		if ( item ) {
 			if ( item->type == ITEM_TYPE_EDITFIELD || item->type == ITEM_TYPE_NUMERICFIELD || item->type == ITEM_TYPE_VALIDFILEFIELD ) {
 				item->cursorPos = 0;
-				g_editingField = qtrue;
-				g_editItem = item;
+
+				g_editCapture.Start( item );
 				DC->setOverstrikeMode( qtrue );
 			} else {
 				item->Action();
@@ -2837,8 +3025,8 @@ void dnItem::TextColor( vec4_t *newColor ) {
 	}
 }
 
-void Item_Text_AutoWrapped_Paint( dnItem *item ) {
-	char text[1024];
+void dnItem::PaintAutoWrappedText( void ) {
+	char buf[1024];
 	const char *p, *textPtr, *newLinePtr;
 	char buff[1024];
 	int width, height, len, textWidth, newLine, newLineWidth;
@@ -2848,23 +3036,23 @@ void Item_Text_AutoWrapped_Paint( dnItem *item ) {
 	textWidth = 0;
 	newLinePtr = NULL;
 
-	if ( item->text == NULL ) {
-		if ( item->cvar == NULL ) {
+	if ( text == NULL ) {
+		if ( cvar == NULL ) {
 			return;
 		} else {
-			DC->getCVarString( item->cvar, text, sizeof( text ) );
-			textPtr = text;
+			DC->getCVarString( cvar, buf, sizeof( buf ) );
+			textPtr = buf;
 		}
 	} else {
-		textPtr = item->text;
+		textPtr = text;
 	}
 	if ( *textPtr == '\0' ) {
 		return;
 	}
-	item->TextColor( &color );
-	item->SetTextExtents( &width, &height, textPtr );
+	TextColor( &color );
+	SetTextExtents( &width, &height, textPtr );
 
-	y = item->textaligny;
+	y = textaligny;
 	len = 0;
 	buff[0] = '\0';
 	newLine = 0;
@@ -2876,20 +3064,20 @@ void Item_Text_AutoWrapped_Paint( dnItem *item ) {
 			newLinePtr = p + 1;
 			newLineWidth = textWidth;
 		}
-		textWidth = DC->textWidth( buff, item->font, item->textscale, 0 );
-		if ( ( newLine && textWidth > item->window.rect.w ) || *p == '\n' || *p == '\0' ) {
+		textWidth = DC->textWidth( buff, font, textscale, 0 );
+		if ( ( newLine && textWidth > window.rect.w ) || *p == '\n' || *p == '\0' ) {
 			if ( len ) {
-				if ( item->textalignment == ITEM_ALIGN_LEFT ) {
-					item->textRect.x = item->textalignx;
-				} else if ( item->textalignment == ITEM_ALIGN_RIGHT ) {
-					item->textRect.x = item->textalignx - newLineWidth;
-				} else if ( item->textalignment == ITEM_ALIGN_CENTER ) {
-					item->textRect.x = item->textalignx - newLineWidth / 2;
+				if ( textalignment == ITEM_ALIGN_LEFT ) {
+					textRect.x = textalignx;
+				} else if ( textalignment == ITEM_ALIGN_RIGHT ) {
+					textRect.x = textalignx - newLineWidth;
+				} else if ( textalignment == ITEM_ALIGN_CENTER ) {
+					textRect.x = textalignx - newLineWidth / 2;
 				}
-				item->textRect.y = y;
-				ToWindowCoords( &item->textRect.x, &item->textRect.y, &item->window );
+				textRect.y = y;
+				ToWindowCoords( &textRect.x, &textRect.y, &window );
 				buff[newLine] = '\0';
-				DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, color, buff, 0, 0, item->textStyle );
+				DC->drawText( textRect.x, textRect.y, font, textscale, color, buff, 0, 0, textStyle );
 			}
 			if ( *p == '\0' ) {
 				break;
@@ -2911,8 +3099,8 @@ void Item_Text_AutoWrapped_Paint( dnItem *item ) {
 	}
 }
 
-void Item_Text_Wrapped_Paint( dnItem *item ) {
-	char text[1024];
+void dnItem::PaintWrappedText( void ) {
+	char buf[1024];
 	const char *p, *start, *textPtr;
 	char buff[1024];
 	int width, height;
@@ -2922,181 +3110,185 @@ void Item_Text_Wrapped_Paint( dnItem *item ) {
 	// now paint the text and/or any optional images
 	// default to left
 
-	if ( item->text == NULL ) {
-		if ( item->cvar == NULL ) {
+	if ( text == NULL ) {
+		if ( cvar == NULL ) {
 			return;
 		} else {
-			DC->getCVarString( item->cvar, text, sizeof( text ) );
-			textPtr = text;
+			DC->getCVarString( cvar, buf, sizeof( buf ) );
+			textPtr = buf;
 		}
 	} else {
-		textPtr = item->text;
+		textPtr = text;
 	}
 	if ( *textPtr == '\0' ) {
 		return;
 	}
 
-	item->TextColor( &color );
-	item->SetTextExtents( &width, &height, textPtr );
+	TextColor( &color );
+	SetTextExtents( &width, &height, textPtr );
 
-	x = item->textRect.x;
-	y = item->textRect.y;
+	x = textRect.x;
+	y = textRect.y;
 	start = textPtr;
 	p = strchr( textPtr, '\r' );
 	while ( p && *p ) {
 		strncpy( buff, start, p - start + 1 );
 		buff[p - start] = '\0';
-		DC->drawText( x, y, item->font, item->textscale, color, buff, 0, 0, item->textStyle );
+		DC->drawText( x, y, font, textscale, color, buff, 0, 0, textStyle );
 		y += height + 5;
 		start += p - start + 1;
 		p = strchr( p + 1, '\r' );
 	}
-	DC->drawText( x, y, item->font, item->textscale, color, start, 0, 0, item->textStyle );
+	DC->drawText( x, y, font, textscale, color, start, 0, 0, textStyle );
 }
 
-void Item_Text_Paint( dnItem *item ) {
-	char text[1024];
+void dnItem::PaintText( void ) {
+	/* the local holds the cvar text; the member keeps the name text, so
+	   the buffer is named differently here */
+	char buf[1024];
 	char infostring[SAVE_INFOSTRING_LENGTH];
 	const char *textPtr;
 	int height, width;
 	vec4_t color;
 
 
-	if ( item->textSavegameInfo ) {
+	if ( textSavegameInfo ) {
 		// the client fills this cvar right before the save info text paints
 		DC->getCVarString( "ui_savegameInfo", infostring, sizeof( infostring ) );
-		item->text = &infostring[0];
+		text = &infostring[0];
 	}
 
-	if ( item->window.flags & WINDOW_WRAPPED ) {
-		Item_Text_Wrapped_Paint( item );
+	if ( window.flags & WINDOW_WRAPPED ) {
+		PaintWrappedText();
 		return;
 	}
-	if ( item->window.flags & WINDOW_AUTOWRAPPED ) {
-		Item_Text_AutoWrapped_Paint( item );
+	if ( window.flags & WINDOW_AUTOWRAPPED ) {
+		PaintAutoWrappedText();
 		return;
 	}
 
-	if ( item->text == NULL ) {
-		if ( item->cvar == NULL ) {
+	if ( text == NULL ) {
+		if ( cvar == NULL ) {
 			return;
 		} else {
-			DC->getCVarString( item->cvar, text, sizeof( text ) );
-			if ( item->window.flags & CG_SHOW_TEXTASINT ) {
-				COM_StripExtension( text, text );
+			DC->getCVarString( cvar, buf, sizeof( buf ) );
+			if ( window.flags & CG_SHOW_TEXTASINT ) {
+				COM_StripExtension( buf, buf );
 			}
-			textPtr = text;
+			textPtr = buf;
 		}
 	} else {
-		textPtr = item->text;
+		textPtr = text;
 	}
 
 	// this needs to go here as it sets extents for cvar types as well
-	item->SetTextExtents( &width, &height, textPtr );
+	SetTextExtents( &width, &height, textPtr );
 
 	if ( *textPtr == '\0' ) {
 		return;
 	}
 
 
-	item->TextColor( &color );
+	TextColor( &color );
 
 	// text shadow and outline styles are not ported yet
 
-	DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, color, textPtr, 0, 0, item->textStyle );
+	DC->drawText( textRect.x, textRect.y, font, textscale, color, textPtr, 0, 0, textStyle );
 }
 
 
 
 
-void Item_TextField_Paint( dnItem *item ) {
+void dnEditFieldItem::PaintType( void ) {
 	char buff[1024];
 	vec4_t newColor, lowLight;
 	int offset;
-	dnMenu *parent = (dnMenu*)item->parent;
-	editFieldDef_t *editPtr = (editFieldDef_t*)item->typeData;
+	dnMenu *owner = (dnMenu*)parent;
+	editFieldDef_t *editPtr = (editFieldDef_t*)typeData;
 
-	Item_Text_Paint( item );
+	PaintText();
 
 	buff[0] = '\0';
 
-	if ( item->cvar ) {
-		DC->getCVarString( item->cvar, buff, sizeof( buff ) );
+	if ( cvar ) {
+		DC->getCVarString( cvar, buff, sizeof( buff ) );
 	}
 
-	parent = (dnMenu*)item->parent;
+	owner = (dnMenu*)parent;
 
-	if ( item->window.flags & WINDOW_HASFOCUS ) {
-		lowLight[0] = 0.8 * parent->focusColor[0];
-		lowLight[1] = 0.8 * parent->focusColor[1];
-		lowLight[2] = 0.8 * parent->focusColor[2];
-		lowLight[3] = 0.8 * parent->focusColor[3];
-		LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+	if ( window.flags & WINDOW_HASFOCUS ) {
+		lowLight[0] = 0.8 * owner->focusColor[0];
+		lowLight[1] = 0.8 * owner->focusColor[1];
+		lowLight[2] = 0.8 * owner->focusColor[2];
+		lowLight[3] = 0.8 * owner->focusColor[3];
+		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
 	} else {
-		memcpy( &newColor, &item->window.foreColor, sizeof( vec4_t ) );
+		memcpy( &newColor, &window.foreColor, sizeof( vec4_t ) );
 	}
 
-	offset = ( item->text && *item->text ) ? 8 : 0;
-	if ( item->window.flags & WINDOW_HASFOCUS && g_editingField ) {
+	offset = ( text && *text ) ? 8 : 0;
+	if ( window.flags & WINDOW_HASFOCUS && g_editCapture.IsActive() ) {
 		char cursor = DC->getOverstrikeMode() ? '_' : '|';
-		DC->drawTextWithCursor( item->textRect.x + item->textRect.w + offset, item->textRect.y, item->font, item->textscale, newColor, buff + editPtr->paintOffset, item->cursorPos - editPtr->paintOffset, cursor, editPtr->maxPaintChars, item->textStyle );
+		DC->drawTextWithCursor( textRect.x + textRect.w + offset, textRect.y, font, textscale, newColor, buff + editPtr->paintOffset, cursorPos - editPtr->paintOffset, cursor, editPtr->maxPaintChars, textStyle );
 	} else {
-		DC->drawText( item->textRect.x + item->textRect.w + offset, item->textRect.y, item->font, item->textscale, newColor, buff + editPtr->paintOffset, 0, editPtr->maxPaintChars, item->textStyle );
+		DC->drawText( textRect.x + textRect.w + offset, textRect.y, font, textscale, newColor, buff + editPtr->paintOffset, 0, editPtr->maxPaintChars, textStyle );
 	}
 
 }
 
-void Item_YesNo_Paint( dnItem *item ) {
+void dnYesNoItem::PaintType( void ) {
 	vec4_t newColor, lowLight;
 	float value;
-	dnMenu *parent = (dnMenu*)item->parent;
+	dnMenu *owner = (dnMenu*)parent;
 	const char *yes_str = "yes", *no_str = "no";
 
-	value = ( item->cvar ) ? DC->getCVarValue( item->cvar ) : 0;
+	value = ( cvar ) ? DC->getCVarValue( cvar ) : 0;
 
-	if ( item->window.flags & WINDOW_HASFOCUS ) {
-		lowLight[0] = 0.8 * parent->focusColor[0];
-		lowLight[1] = 0.8 * parent->focusColor[1];
-		lowLight[2] = 0.8 * parent->focusColor[2];
-		lowLight[3] = 0.8 * parent->focusColor[3];
-		LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+	if ( window.flags & WINDOW_HASFOCUS ) {
+		lowLight[0] = 0.8 * owner->focusColor[0];
+		lowLight[1] = 0.8 * owner->focusColor[1];
+		lowLight[2] = 0.8 * owner->focusColor[2];
+		lowLight[3] = 0.8 * owner->focusColor[3];
+		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
 	} else {
-		memcpy( &newColor, &item->window.foreColor, sizeof( vec4_t ) );
+		memcpy( &newColor, &window.foreColor, sizeof( vec4_t ) );
 	}
 
 	yes_str = DC->getTranslatedString( yes_str );
 	no_str = DC->getTranslatedString( no_str );
 
-	if ( item->text ) {
-		Item_Text_Paint( item );
-		DC->drawText( Item_ValueColumnX( item ), item->textRect.y, item->font, item->textscale, newColor, ( value != 0 ) ? yes_str : no_str, 0, 0, item->textStyle );
+	if ( text ) {
+		PaintText();
+		DC->drawText( ValueColumnX(), textRect.y, font, textscale, newColor, ( value != 0 ) ? yes_str : no_str, 0, 0, textStyle );
 	} else {
-		DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, newColor, ( value != 0 ) ? yes_str : no_str, 0, 0, item->textStyle );
+		DC->drawText( textRect.x, textRect.y, font, textscale, newColor, ( value != 0 ) ? yes_str : no_str, 0, 0, textStyle );
 	}
 }
 
-void Item_Multi_Paint( dnItem *item ) {
+void dnMultiItem::PaintType( void ) {
 	vec4_t newColor, lowLight;
-	const char *text = "";
-	dnMenu *parent = (dnMenu*)item->parent;
+	/* the member keeps the name text, so the drawn setting is named
+	   value here */
+	const char *value = "";
+	dnMenu *owner = (dnMenu*)parent;
 
-	if ( item->window.flags & WINDOW_HASFOCUS ) {
-		lowLight[0] = 0.8 * parent->focusColor[0];
-		lowLight[1] = 0.8 * parent->focusColor[1];
-		lowLight[2] = 0.8 * parent->focusColor[2];
-		lowLight[3] = 0.8 * parent->focusColor[3];
-		LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+	if ( window.flags & WINDOW_HASFOCUS ) {
+		lowLight[0] = 0.8 * owner->focusColor[0];
+		lowLight[1] = 0.8 * owner->focusColor[1];
+		lowLight[2] = 0.8 * owner->focusColor[2];
+		lowLight[3] = 0.8 * owner->focusColor[3];
+		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
 	} else {
-		memcpy( &newColor, &item->window.foreColor, sizeof( vec4_t ) );
+		memcpy( &newColor, &window.foreColor, sizeof( vec4_t ) );
 	}
 
-	text = Item_Multi_Setting( item );
+	value = Setting();
 
-	if ( item->text ) {
-		Item_Text_Paint( item );
-		DC->drawText( Item_ValueColumnX( item ), item->textRect.y, item->font, item->textscale, newColor, text, 0, 0, item->textStyle );
+	if ( text ) {
+		PaintText();
+		DC->drawText( ValueColumnX(), textRect.y, font, textscale, newColor, value, 0, 0, textStyle );
 	} else {
-		DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, newColor, text, 0, 0, item->textStyle );
+		DC->drawText( textRect.x, textRect.y, font, textscale, newColor, value, 0, 0, textStyle );
 	}
 }
 
@@ -3376,27 +3568,27 @@ const char *UI_BindListKeys( int index ) {
 	return g_nameBind1;
 }
 
-void Item_Slider_Paint( dnItem *item ) {
+void dnSliderItem::PaintType( void ) {
 	/* the Duke build has no shader slider assets, so the bar is a row of
 	   glyph dashes: the dim bar first, then the filled part drawn bright
 	   over the same glyphs so both halves line up exactly */
 	static const char barFull[DUKE_SLIDER_SEGMENTS + 1] = "----------";
 	vec4_t barDim = { 0.45f, 0.45f, 0.45f, 1.0f };
 	vec4_t barLit = { 1.0f, 1.0f, 1.0f, 1.0f };
-	editFieldDef_t *editDef = ( editFieldDef_t * )item->typeData;
+	editFieldDef_t *editDef = ( editFieldDef_t * )typeData;
 	char filled[DUKE_SLIDER_SEGMENTS + 1];
 	float x, y, value, frac;
 	int filledCount, i;
 
-	y = item->window.rect.y;
-	if ( item->text ) {
-		Item_Text_Paint( item );
-		x = Item_ValueColumnX( item );
+	y = window.rect.y;
+	if ( text ) {
+		PaintText();
+		x = ValueColumnX();
 	} else {
-		x = item->window.rect.x;
+		x = window.rect.x;
 	}
 
-	value = ( item->cvar ) ? DC->getCVarValue( item->cvar ) : 0;
+	value = ( cvar ) ? DC->getCVarValue( cvar ) : 0;
 	frac = 0.0f;
 	if ( editDef && editDef->maxVal > editDef->minVal ) {
 		if ( value < editDef->minVal ) {
@@ -3412,58 +3604,59 @@ void Item_Slider_Paint( dnItem *item ) {
 	}
 	filled[filledCount] = '\0';
 
-	DC->drawText( x, y, item->font, item->textscale, barDim, barFull, 0, 0, item->textStyle );
+	DC->drawText( x, y, font, textscale, barDim, barFull, 0, 0, textStyle );
 	if ( filledCount > 0 ) {
-		DC->drawText( x, y, item->font, item->textscale, barLit, filled, 0, 0, item->textStyle );
+		DC->drawText( x, y, font, textscale, barLit, filled, 0, 0, textStyle );
 	}
 }
 
-void Item_Bind_Paint( dnItem *item ) {
+void dnBindItem::PaintType( void ) {
 	vec4_t newColor, lowLight;
 	float value;
 	int maxChars = 0;
-	dnMenu *parent = (dnMenu*)item->parent;
-	editFieldDef_t *editPtr = (editFieldDef_t*)item->typeData;
+	dnMenu *owner = (dnMenu*)parent;
+	editFieldDef_t *editPtr = (editFieldDef_t*)typeData;
 	if ( editPtr ) {
 		maxChars = editPtr->maxPaintChars;
 	}
 
-	value = ( item->cvar ) ? DC->getCVarValue( item->cvar ) : 0;
+	value = ( cvar ) ? DC->getCVarValue( cvar ) : 0;
 
-	if ( item->window.flags & WINDOW_HASFOCUS ) {
-		if ( g_bindItem == item ) {
+	if ( window.flags & WINDOW_HASFOCUS ) {
+		if ( g_bindCapture.Item() == this ) {
 			lowLight[0] = 0.8f * 1.0f;
 			lowLight[1] = 0.8f * 0.0f;
 			lowLight[2] = 0.8f * 0.0f;
 			lowLight[3] = 0.8f * 1.0f;
 		} else {
-			lowLight[0] = 0.8f * parent->focusColor[0];
-			lowLight[1] = 0.8f * parent->focusColor[1];
-			lowLight[2] = 0.8f * parent->focusColor[2];
-			lowLight[3] = 0.8f * parent->focusColor[3];
+			lowLight[0] = 0.8f * owner->focusColor[0];
+			lowLight[1] = 0.8f * owner->focusColor[1];
+			lowLight[2] = 0.8f * owner->focusColor[2];
+			lowLight[3] = 0.8f * owner->focusColor[3];
 		}
-		LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
 	} else {
-		memcpy( &newColor, &item->window.foreColor, sizeof( vec4_t ) );
+		memcpy( &newColor, &window.foreColor, sizeof( vec4_t ) );
 	}
 
-	if ( item->text ) {
-		Item_Text_Paint( item );
-		BindingFromName( item->cvar );
-		DC->drawText( item->textRect.x + item->textRect.w + 8, item->textRect.y, item->font, item->textscale, newColor, g_nameBind1, 0, maxChars, item->textStyle );
+	if ( text ) {
+		PaintText();
+		BindingFromName( cvar );
+		DC->drawText( textRect.x + textRect.w + 8, textRect.y, font, textscale, newColor, g_nameBind1, 0, maxChars, textStyle );
 	} else {
-		DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, newColor, ( value != 0 ) ? "FIXME" : "FIXME", 0, maxChars, item->textStyle );
+		DC->drawText( textRect.x, textRect.y, font, textscale, newColor, ( value != 0 ) ? "FIXME" : "FIXME", 0, maxChars, textStyle );
 	}
 }
 
 qboolean Display_KeyBindPending() {
-	return g_waitingForKey;
+	return g_bindCapture.Waiting();
 }
 
 /* nested defs live flat in the menu item list with baked absolute rects;
    reachability walks the container back links, so a hidden windowDef hides
    its whole subtree */
-qboolean Item_TreeVisible( dnItem *item ) {
+qboolean dnItem::TreeVisible( void ) {
+	dnItem *item = this;
 	while ( item ) {
 		if ( !( item->window.flags & ( WINDOW_VISIBLE | WINDOW_FORCED ) ) ) {
 			return qfalse;
@@ -3473,22 +3666,22 @@ qboolean Item_TreeVisible( dnItem *item ) {
 	return qtrue;
 }
 
-qboolean Item_Bind_HandleKey( dnItem *item, int key, qboolean down ) {
+qboolean dnBindCapture::HandleKey( int key, qboolean down ) {
 	int id;
 	int i;
 	/* a bindDef carries the command in its cvar; a listbox row stores it
 	   in the capture buffer instead */
-	const char *bindCommand = ( item->type == ITEM_TYPE_BIND && item->cvar ) ? item->cvar : s_bindRowCommand;
+	const char *bindCommand = ( item->type == ITEM_TYPE_BIND && item->cvar ) ? item->cvar : rowCommand;
 
-	if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) && !g_waitingForKey ) {
+	if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) && !waiting ) {
 		if ( down && ( key == K_MOUSE1 || key == K_ENTER ) ) {
-			g_waitingForKey = qtrue;
-			g_bindItem = item;
+
+			Start( item, NULL );
 		}
 		return qtrue;
 	} else
 	{
-		if ( !g_waitingForKey || g_bindItem == NULL ) {
+		if ( !waiting || item == NULL ) {
 			return qtrue;
 		}
 
@@ -3499,7 +3692,7 @@ qboolean Item_Bind_HandleKey( dnItem *item, int key, qboolean down ) {
 		switch ( key )
 		{
 		case K_ESCAPE:
-			g_waitingForKey = qfalse;
+			Cancel();
 			return qtrue;
 
 		case K_BACKSPACE:
@@ -3558,7 +3751,7 @@ qboolean Item_Bind_HandleKey( dnItem *item, int key, qboolean down ) {
 	}
 
 	Controls_SetConfig( qtrue );
-	g_waitingForKey = qfalse;
+	Cancel();
 
 	return qtrue;
 }
@@ -3572,34 +3765,34 @@ void AdjustFrom640( float *x, float *y, float *w, float *h ) {
 	*h *= DC->yscale;
 }
 
-void Item_Model_Paint( dnItem *item ) {
+void dnModelItem::PaintType( void ) {
 	float x, y, w, h;
 	refdef_t refdef;
 	qhandle_t hModel;
 	refEntity_t ent;
 	vec3_t mins, maxs, origin;
 	vec3_t angles;
-	modelDef_t *modelPtr = (modelDef_t*)item->typeData;
+	modelDef_t *modelPtr = (modelDef_t*)typeData;
 	int backLerpWhole;
 
 	if ( modelPtr == NULL ) {
 		return;
 	}
 
-	if ( !item->asset ) {
+	if ( !asset ) {
 		return;
 	}
 
-	hModel = item->asset;
+	hModel = asset;
 
 	// setup the refdef
 	memset( &refdef, 0, sizeof( refdef ) );
 	refdef.rdflags = RDF_NOWORLDMODEL;
 	AxisClear( refdef.viewaxis );
-	x = item->window.rect.x + 1;
-	y = item->window.rect.y + 1;
-	w = item->window.rect.w - 2;
-	h = item->window.rect.h - 2;
+	x = window.rect.x + 1;
+	y = window.rect.y + 1;
+	w = window.rect.w - 2;
+	h = window.rect.h - 2;
 
 	AdjustFrom640( &x, &y, &w, &h );
 
@@ -3618,7 +3811,7 @@ void Item_Model_Paint( dnItem *item ) {
 		float len = 0.5 * ( maxs[2] - mins[2] );
 		origin[0] = len / 0.268;    // len / tan( fov/2 )
 	} else {
-		origin[0] = item->textscale;
+		origin[0] = textscale;
 	}
 
 #define NEWWAY
@@ -3642,8 +3835,8 @@ void Item_Model_Paint( dnItem *item ) {
 
 	// use item storage to track
 	if ( modelPtr->rotationSpeed ) {
-		if ( DC->realTime > item->window.nextTime ) {
-			item->window.nextTime = DC->realTime + modelPtr->rotationSpeed;
+		if ( DC->realTime > window.nextTime ) {
+			window.nextTime = DC->realTime + modelPtr->rotationSpeed;
 			modelPtr->angle = (int)( modelPtr->angle + 1 ) % 360;
 		}
 	}
@@ -3690,69 +3883,66 @@ void Item_Model_Paint( dnItem *item ) {
 }
 
 
-void Item_Image_Paint( dnItem *item ) {
-	if ( item == NULL ) {
-		return;
-	}
-	DC->drawHandlePic( item->window.rect.x + 1, item->window.rect.y + 1, item->window.rect.w - 2, item->window.rect.h - 2, item->asset );
+void dnItem::PaintImage( void ) {
+	DC->drawHandlePic( window.rect.x + 1, window.rect.y + 1, window.rect.w - 2, window.rect.h - 2, asset );
 }
 
 /* Duke menus highlight the selected row by drawing it bright; the glyph
    renderer only has the dim and bright palette variants, so the row color
    is picked by cursor position rather than shaded */
-static vec_t *Item_ListBox_RowColor( dnItem *item, int row ) {
+vec_t *dnListBoxItem::RowColor( int row ) {
 	static vec4_t rowDim = { 0.45f, 0.45f, 0.45f, 1.0f };
 	static vec4_t rowLit = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	return ( row == item->cursorPos ) ? rowLit : rowDim;
+	return ( row == cursorPos ) ? rowLit : rowDim;
 }
 
-void Item_ListBox_Paint( dnItem *item ) {
+void dnListBoxItem::PaintType( void ) {
 	float x, y, size, count, i, thumb;
 	qhandle_t image;
 	qhandle_t optionalImage;
-	listBoxDef_t *listPtr = (listBoxDef_t*)item->typeData;
+	listBoxDef_t *listPtr = (listBoxDef_t*)typeData;
 
 	// the listbox is horizontal or vertical and has a fixed size scroll bar going either direction
 	// elements are enumerated from the DC and either text or image handles are acquired from the DC as well
 	// textscale is used to size the text, textalignx and textaligny are used to size image elements
 	// there is no clipping available so only the last completely visible item is painted
-	count = DC->feederCount( item->special );
+	count = DC->feederCount( special );
 	// default is vertical if horizontal flag is not here
-	if ( item->window.flags & WINDOW_HORIZONTAL ) {
+	if ( window.flags & WINDOW_HORIZONTAL ) {
 		// draw scrollbar in bottom of the window
 		// bar
-		x = item->window.rect.x + 1;
-		y = item->window.rect.y + item->window.rect.h - SCROLLBAR_SIZE - 1;
+		x = window.rect.x + 1;
+		y = window.rect.y + window.rect.h - SCROLLBAR_SIZE - 1;
 		DC->drawHandlePic( x, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarArrowLeft );
 		x += SCROLLBAR_SIZE - 1;
-		size = item->window.rect.w - ( SCROLLBAR_SIZE * 2 );
+		size = window.rect.w - ( SCROLLBAR_SIZE * 2 );
 		DC->drawHandlePic( x, y, size + 1, SCROLLBAR_SIZE, DC->Assets.scrollBar );
 		x += size - 1;
 		DC->drawHandlePic( x, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarArrowRight );
 		// thumb
-		thumb = Item_ListBox_ThumbDrawPosition( item ); //Item_ListBox_ThumbPosition(item);
+		thumb = ThumbDrawPosition(); //Item_ListBox_ThumbPosition(item);
 		if ( thumb > x - SCROLLBAR_SIZE - 1 ) {
 			thumb = x - SCROLLBAR_SIZE - 1;
 		}
 		DC->drawHandlePic( thumb, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarThumb );
 		listPtr->endPos = listPtr->startPos;
-		size = item->window.rect.w - 2;
+		size = window.rect.w - 2;
 		// items
 		// size contains max available space
 		if ( listPtr->elementStyle == LISTBOX_IMAGE ) {
-			x = item->window.rect.x + 1;
-			y = item->window.rect.y + 1;
+			x = window.rect.x + 1;
+			y = window.rect.y + 1;
 			for ( i = listPtr->startPos; i < count; i++ ) {
 				// always draw at least one
 				// which may overdraw the box if it is too small for the element
-				image = DC->feederItemImage( item->special, i );
+				image = DC->feederItemImage( special, i );
 				if ( image ) {
 					DC->drawHandlePic( x + 1, y + 1, listPtr->elementWidth - 2, listPtr->elementHeight - 2, image );
 				}
 
-				if ( i == item->cursorPos ) {
-					DC->drawRect( x, y, listPtr->elementWidth - 1, listPtr->elementHeight - 1, item->window.borderSize, item->window.borderColor );
+				if ( i == cursorPos ) {
+					DC->drawRect( x, y, listPtr->elementWidth - 1, listPtr->elementHeight - 1, window.borderSize, window.borderColor );
 				}
 
 				size -= listPtr->elementWidth;
@@ -3770,12 +3960,12 @@ void Item_ListBox_Paint( dnItem *item ) {
 		// the Duke build registers no scrollbar shader assets, so the bar is
 		// a column of glyph dashes: dim track down the whole height, bright
 		// dash over the thumb position
-		x = item->window.rect.x + item->window.rect.w - SCROLLBAR_SIZE - 1;
-		y = item->window.rect.y + 1;
+		x = window.rect.x + window.rect.w - SCROLLBAR_SIZE - 1;
+		y = window.rect.y + 1;
 
 		listPtr->endPos = listPtr->startPos;
-		size = item->window.rect.h - ( SCROLLBAR_SIZE * 2 );
-		thumb = Item_ListBox_ThumbDrawPosition( item );
+		size = window.rect.h - ( SCROLLBAR_SIZE * 2 );
+		thumb = ThumbDrawPosition();
 		if ( thumb > y + size - listPtr->elementHeight ) {
 			thumb = y + size - listPtr->elementHeight;
 		}
@@ -3787,26 +3977,26 @@ void Item_ListBox_Paint( dnItem *item ) {
 			// a missing elementHeight would spin the loop forever
 			dashStep = ( listPtr->elementHeight > 0 ) ? listPtr->elementHeight : 16.0f;
 			for ( dashY = y; dashY < y + size; dashY += dashStep ) {
-				DC->drawText( x, dashY, item->font, item->textscale, trackDim, "-", 0, 0, item->textStyle );
+				DC->drawText( x, dashY, font, textscale, trackDim, "-", 0, 0, textStyle );
 			}
-			DC->drawText( x, thumb, item->font, item->textscale, thumbLit, "-", 0, 0, item->textStyle );
+			DC->drawText( x, thumb, font, textscale, thumbLit, "-", 0, 0, textStyle );
 		}
 
 		// adjust size for item painting
-		size = item->window.rect.h - 2;
+		size = window.rect.h - 2;
 		if ( listPtr->elementStyle == LISTBOX_IMAGE ) {
-			x = item->window.rect.x + 1;
-			y = item->window.rect.y + 1;
+			x = window.rect.x + 1;
+			y = window.rect.y + 1;
 			for ( i = listPtr->startPos; i < count; i++ ) {
 				// always draw at least one
 				// which may overdraw the box if it is too small for the element
-				image = DC->feederItemImage( item->special, i );
+				image = DC->feederItemImage( special, i );
 				if ( image ) {
 					DC->drawHandlePic( x + 1, y + 1, listPtr->elementWidth - 2, listPtr->elementHeight - 2, image );
 				}
 
-				if ( i == item->cursorPos ) {
-					DC->drawRect( x, y, listPtr->elementWidth - 1, listPtr->elementHeight - 1, item->window.borderSize, item->window.borderColor );
+				if ( i == cursorPos ) {
+					DC->drawRect( x, y, listPtr->elementWidth - 1, listPtr->elementHeight - 1, window.borderSize, window.borderColor );
 				}
 
 				listPtr->endPos++;
@@ -3818,8 +4008,8 @@ void Item_ListBox_Paint( dnItem *item ) {
 				y += listPtr->elementHeight;
 			}
 		} else {
-			x = item->window.rect.x + 1;
-			y = item->window.rect.y + 1;
+			x = window.rect.x + 1;
+			y = window.rect.y + 1;
 			for ( i = listPtr->startPos; i < count; i++ ) {
 				const char *text;
 				// always draw at least one
@@ -3828,19 +4018,19 @@ void Item_ListBox_Paint( dnItem *item ) {
 				if ( listPtr->numColumns > 0 ) {
 					int j;
 					for ( j = 0; j < listPtr->numColumns; j++ ) {
-						text = DC->feederItemText( item->special, i, j, &optionalImage );
+						text = DC->feederItemText( special, i, j, &optionalImage );
 						if ( optionalImage != NULL ) {
 							DC->drawHandlePic( x + 4 + listPtr->columnInfo[j].pos, y - 1 + listPtr->elementHeight / 2, listPtr->columnInfo[j].width, listPtr->columnInfo[j].width, optionalImage );
 						} else if ( text ) {
-							DC->drawText( x + 4 + listPtr->columnInfo[j].pos, y, item->font, item->textscale, Item_ListBox_RowColor( item, i ), text, 0, listPtr->columnInfo[j].maxChars, item->textStyle );
+							DC->drawText( x + 4 + listPtr->columnInfo[j].pos, y, font, textscale, RowColor( i ), text, 0, listPtr->columnInfo[j].maxChars, textStyle );
 						}
 					}
 				} else {
-					text = DC->feederItemText( item->special, i, 0, &optionalImage );
+					text = DC->feederItemText( special, i, 0, &optionalImage );
 					if ( optionalImage != NULL ) {
 						// image columns from the feeder are not drawn yet
 					} else if ( text ) {
-						DC->drawText( x + 4, y, item->font, item->textscale, Item_ListBox_RowColor( item, i ), text, 0, 0, item->textStyle );
+						DC->drawText( x + 4, y, font, textscale, RowColor( i ), text, 0, 0, textStyle );
 					}
 				}
 
@@ -3857,66 +4047,60 @@ void Item_ListBox_Paint( dnItem *item ) {
 }
 
 
-void Item_OwnerDraw_Paint( dnItem *item ) {
-	dnMenu *parent;
-
-	if ( item == NULL ) {
-		return;
-	}
-
-	parent = (dnMenu*)item->parent;
+void dnOwnerDrawItem::PaintType( void ) {
+	dnMenu *owner = (dnMenu*)parent;
 
 	if ( DC->ownerDrawItem ) {
 		vec4_t color, lowLight;
-		dnMenu *parent = (dnMenu*)item->parent;
-		Fade( &item->window.flags, &item->window.foreColor[3], parent->fadeClamp, &item->window.nextTime, parent->fadeCycle, qtrue, parent->fadeAmount );
-		memcpy( &color, &item->window.foreColor, sizeof( color ) );
-		if ( item->numColors > 0 && DC->getValue ) {
+		dnMenu *owner = (dnMenu*)parent;
+		Fade( &window.flags, &window.foreColor[3], owner->fadeClamp, &window.nextTime, owner->fadeCycle, qtrue, owner->fadeAmount );
+		memcpy( &color, &window.foreColor, sizeof( color ) );
+		if ( numColors > 0 && DC->getValue ) {
 			// if the value is within one of the ranges then set color to that, otherwise leave at default
 			int i;
-			float f = DC->getValue( item->window.ownerDraw, item->colorRangeType );
-			for ( i = 0; i < item->numColors; i++ ) {
-				if ( f >= item->colorRanges[i].low && f <= item->colorRanges[i].high ) {
-					memcpy( &color, &item->colorRanges[i].color, sizeof( color ) );
+			float f = DC->getValue( window.ownerDraw, colorRangeType );
+			for ( i = 0; i < numColors; i++ ) {
+				if ( f >= colorRanges[i].low && f <= colorRanges[i].high ) {
+					memcpy( &color, &colorRanges[i].color, sizeof( color ) );
 					break;
 				}
 			}
 		}
 
 		// take hudalpha into account unless explicitly ignoring
-		if ( !( item->window.flags & WINDOW_IGNORE_HUDALPHA ) ) {
+		if ( !( window.flags & WINDOW_IGNORE_HUDALPHA ) ) {
 			color[3] *= DC->getCVarValue( "cg_hudAlpha" );;
 		}
 
 
-		if ( item->window.flags & WINDOW_HASFOCUS ) {
-			lowLight[0] = 0.8 * parent->focusColor[0];
-			lowLight[1] = 0.8 * parent->focusColor[1];
-			lowLight[2] = 0.8 * parent->focusColor[2];
-			lowLight[3] = 0.8 * parent->focusColor[3];
-			LerpColor( parent->focusColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-		} else if ( item->textStyle == ITEM_TEXTSTYLE_BLINK && !( ( DC->realTime / BLINK_DIVISOR ) & 1 ) ) {
-			lowLight[0] = 0.8 * item->window.foreColor[0];
-			lowLight[1] = 0.8 * item->window.foreColor[1];
-			lowLight[2] = 0.8 * item->window.foreColor[2];
-			lowLight[3] = 0.8 * item->window.foreColor[3];
-			LerpColor( item->window.foreColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+		if ( window.flags & WINDOW_HASFOCUS ) {
+			lowLight[0] = 0.8 * owner->focusColor[0];
+			lowLight[1] = 0.8 * owner->focusColor[1];
+			lowLight[2] = 0.8 * owner->focusColor[2];
+			lowLight[3] = 0.8 * owner->focusColor[3];
+			LerpColor( owner->focusColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+		} else if ( textStyle == ITEM_TEXTSTYLE_BLINK && !( ( DC->realTime / BLINK_DIVISOR ) & 1 ) ) {
+			lowLight[0] = 0.8 * window.foreColor[0];
+			lowLight[1] = 0.8 * window.foreColor[1];
+			lowLight[2] = 0.8 * window.foreColor[2];
+			lowLight[3] = 0.8 * window.foreColor[3];
+			LerpColor( window.foreColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
 		}
 
-		if ( item->cvarFlags & ( CVAR_ENABLE | CVAR_DISABLE ) && !item->EnableShowViaCvar( CVAR_ENABLE ) ) {
-			memcpy( color, parent->disableColor, sizeof( vec4_t ) );
+		if ( cvarFlags & ( CVAR_ENABLE | CVAR_DISABLE ) && !EnableShowViaCvar( CVAR_ENABLE ) ) {
+			memcpy( color, owner->disableColor, sizeof( vec4_t ) );
 		}
 
-		if ( item->text ) {
-			Item_Text_Paint( item );
-			if ( item->text[0] ) {
+		if ( text ) {
+			PaintText();
+			if ( text[0] ) {
 				// +8 shifts the bar past the label of owner draw items with text
-				DC->ownerDrawItem( item->textRect.x + item->textRect.w + 8, item->window.rect.y, item->window.rect.w, item->window.rect.h, 0, item->textaligny, item->window.ownerDraw, item->window.ownerDrawFlags, item->alignment, item->special, item->font, item->textscale, color, item->window.background, item->textStyle );
+				DC->ownerDrawItem( textRect.x + textRect.w + 8, window.rect.y, window.rect.w, window.rect.h, 0, textaligny, window.ownerDraw, window.ownerDrawFlags, alignment, special, font, textscale, color, window.background, textStyle );
 			} else {
-				DC->ownerDrawItem( item->textRect.x + item->textRect.w, item->window.rect.y, item->window.rect.w, item->window.rect.h, 0, item->textaligny, item->window.ownerDraw, item->window.ownerDrawFlags, item->alignment, item->special, item->font, item->textscale, color, item->window.background, item->textStyle );
+				DC->ownerDrawItem( textRect.x + textRect.w, window.rect.y, window.rect.w, window.rect.h, 0, textaligny, window.ownerDraw, window.ownerDrawFlags, alignment, special, font, textscale, color, window.background, textStyle );
 			}
 		} else {
-			DC->ownerDrawItem( item->window.rect.x, item->window.rect.y, item->window.rect.w, item->window.rect.h, item->textalignx, item->textaligny, item->window.ownerDraw, item->window.ownerDrawFlags, item->alignment, item->special, item->font, item->textscale, color, item->window.background, item->textStyle );
+			DC->ownerDrawItem( window.rect.x, window.rect.y, window.rect.w, window.rect.h, textalignx, textaligny, window.ownerDraw, window.ownerDrawFlags, alignment, special, font, textscale, color, window.background, textStyle );
 		}
 	}
 }
@@ -4054,7 +4238,7 @@ void dnItem::Paint( void ) {
 	}
 
 	// a nested def paints only while its container chain is visible
-	if ( !Item_TreeVisible( this ) ) {
+	if ( !TreeVisible() ) {
 		return;
 	}
 
@@ -4072,109 +4256,6 @@ void dnItem::Paint( void ) {
 
 	PaintType();
 }
-
-/* ---- the item type subclasses ---- */
-
-/* each class hooks its type behavior through the virtuals above; none
-   of them adds fields, so every one keeps the plain dnItem layout and
-   fits the one block size the allocator hands out */
-class dnTextItem : public dnItem {
-public:
-	void PaintType( void ) {
-		Item_Text_Paint( this );
-	}
-};
-
-class dnOwnerDrawItem : public dnItem {
-public:
-	void PaintType( void ) {
-		Item_OwnerDraw_Paint( this );
-	}
-	qboolean HandleTypeKey( int key, qboolean down ) {
-		return Item_OwnerDraw_HandleKey( this, key );
-	}
-};
-
-/* edit, numeric and filename fields paint through the shared text field
-   painter; their key entry runs through the menu edit state */
-class dnEditFieldItem : public dnItem {
-public:
-	void PaintType( void ) {
-		Item_TextField_Paint( this );
-	}
-};
-
-class dnListBoxItem : public dnItem {
-public:
-	void PaintType( void ) {
-		Item_ListBox_Paint( this );
-	}
-	qboolean HandleTypeKey( int key, qboolean down ) {
-		return Item_ListBox_HandleKey( this, key, down, qfalse );
-	}
-	/* track the row and the scrollbars the cursor sits on */
-	void MouseEnterRect( float x, float y ) {
-		Item_ListBox_MouseEnter( this, x, y );
-	}
-	/* start a fresh list on the top row */
-	void InitControls( void ) {
-		listBoxDef_t *listPtr = ( listBoxDef_t * )typeData;
-
-		cursorPos = 0;
-		if ( listPtr ) {
-			listPtr->cursorPos = 0;
-			listPtr->startPos = 0;
-			listPtr->endPos = 0;
-		}
-	}
-};
-
-class dnModelItem : public dnItem {
-public:
-	void PaintType( void ) {
-		Item_Model_Paint( this );
-	}
-};
-
-class dnYesNoItem : public dnItem {
-public:
-	void PaintType( void ) {
-		Item_YesNo_Paint( this );
-	}
-	qboolean HandleTypeKey( int key, qboolean down ) {
-		return Item_YesNo_HandleKey( this, key );
-	}
-};
-
-class dnMultiItem : public dnItem {
-public:
-	void PaintType( void ) {
-		Item_Multi_Paint( this );
-	}
-	qboolean HandleTypeKey( int key, qboolean down ) {
-		return Item_Multi_HandleKey( this, key );
-	}
-};
-
-class dnBindItem : public dnItem {
-public:
-	void PaintType( void ) {
-		Item_Bind_Paint( this );
-	}
-	qboolean HandleTypeKey( int key, qboolean down ) {
-		return Item_Bind_HandleKey( this, key, down );
-	}
-};
-
-class dnSliderItem : public dnItem {
-public:
-	void PaintType( void ) {
-		Item_Slider_Paint( this );
-	}
-	qboolean HandleTypeKey( int key, qboolean down ) {
-		return Item_Slider_HandleKey( this, key, down );
-	}
-};
 
 /* installs the subclass vtable for the type; the subclasses carry no
    fields of their own, so nothing else in the block changes */
@@ -4269,11 +4350,11 @@ dnItem *dnMenu::GetFocusedItem( void ) {
 	return NULL;
 }
 
-dnMenu *Menu_GetFocused() {
+dnMenu *dnMenuSystem::GetFocused() {
 	int i;
 	for ( i = 0; i < menuCount; i++ ) {
-		if ( Menus[i].window.flags & WINDOW_HASFOCUS && Menus[i].window.flags & WINDOW_VISIBLE ) {
-			return &Menus[i];
+		if ( menus[i].window.flags & WINDOW_HASFOCUS && menus[i].window.flags & WINDOW_VISIBLE ) {
+			return &menus[i];
 		}
 	}
 	return NULL;
@@ -4284,7 +4365,7 @@ void dnMenu::ScrollFeeder( int feeder, qboolean down ) {
 	int i;
 	for ( i = 0; i < itemCount; i++ ) {
 		if ( items[i]->special == feeder ) {
-			Item_ListBox_HandleKey( items[i], ( down ) ? K_DOWNARROW : K_UPARROW, qtrue, qtrue );
+			items[i]->ScrollFeed( down );
 			return;
 		}
 	}
@@ -4292,12 +4373,12 @@ void dnMenu::ScrollFeeder( int feeder, qboolean down ) {
 
 
 
-void Menu_SetFeederSelection( dnMenu *menu, int feeder, int index, const char *name ) {
+void dnMenuSystem::SetFeederSelection( dnMenu *menu, int feeder, int index, const char *name ) {
 	if ( menu == NULL ) {
 		if ( name == NULL ) {
-			menu = Menu_GetFocused();
+			menu = GetFocused();
 		} else {
-			menu = Menus_FindByName( name );
+			menu = FindByName( name );
 		}
 	}
 
@@ -4318,32 +4399,32 @@ void Menu_SetFeederSelection( dnMenu *menu, int feeder, int index, const char *n
 	}
 }
 
-qboolean Menus_AnyFullScreenVisible() {
+qboolean dnMenuSystem::AnyFullScreenVisible() {
 	int i;
 	for ( i = 0; i < menuCount; i++ ) {
-		if ( Menus[i].window.flags & WINDOW_VISIBLE && Menus[i].fullScreen ) {
+		if ( menus[i].window.flags & WINDOW_VISIBLE && menus[i].fullScreen ) {
 			return qtrue;
 		}
 	}
 	return qfalse;
 }
 
-dnMenu *Menus_ActivateByName( const char *p ) {
+dnMenu *dnMenuSystem::ActivateByName( const char *p ) {
 	int i;
 	dnMenu *m = NULL;
-	dnMenu *focus = Menu_GetFocused();
+	dnMenu *focus = GetFocused();
 	for ( i = 0; i < menuCount; i++ ) {
-		if ( Q_strcasecmp( Menus[i].window.name, p ) == 0 ) {
-			m = &Menus[i];
+		if ( Q_strcasecmp( menus[i].window.name, p ) == 0 ) {
+			m = &menus[i];
 			m->Activate();
 			if ( openMenuCount < MAX_OPEN_MENUS && focus != NULL ) {
 				menuStack[openMenuCount++] = focus;
 			}
 		} else {
-			Menus[i].window.flags &= ~WINDOW_HASFOCUS;
+			menus[i].window.flags &= ~WINDOW_HASFOCUS;
 		}
 	}
-	Display_CloseCinematics();
+	CloseCinematics();
 	return m;
 }
 
@@ -4368,11 +4449,11 @@ void dnMenu::HandleMouseMove( float x, float y ) {
 		return;
 	}
 
-	if ( itemCapture ) {
+	if ( g_capture.Active() ) {
 		return;
 	}
 
-	if ( g_waitingForKey || g_editingField ) {
+	if ( g_bindCapture.Waiting() || g_editCapture.IsActive() ) {
 		return;
 	}
 
@@ -4385,7 +4466,7 @@ void dnMenu::HandleMouseMove( float x, float y ) {
 			}
 
 			// a nested def only responds when its container chain is visible
-			if ( !Item_TreeVisible( items[i] ) ) {
+			if ( !items[i]->TreeVisible() ) {
 				continue;
 			}
 
@@ -4491,27 +4572,27 @@ void dnItem::ValidateTypeData( void ) {
 	}
 }
 
-int Menu_Count() {
+int dnMenuSystem::Count() {
 	return menuCount;
 }
 
 /*
 ===============
-dnMenu::Alloc
+dnMenuSystem::AllocMenu
 
 takes a menu slot and counts it right away; the qcommon .menu parser
 builds its menus through it while the menu block parses, and the menu
 name can be empty until the name keyword fills it in
 ===============
 */
-dnMenu *dnMenu::Alloc( const char *name ) {
+dnMenu *dnMenuSystem::AllocMenu( const char *name ) {
 	dnMenu *menu;
 
 	if ( menuCount >= MAX_MENUS ) {
 		return NULL;
 	}
 
-	menu = &Menus[menuCount];
+	menu = &menus[menuCount];
 	menu->Init();
 	menu->window.name = name;
 	menuCount++;
@@ -4549,14 +4630,12 @@ dnItem *dnMenu::AddItem( const char *name, int type ) {
 	return item;
 }
 
-void Menu_PaintAll() {
+void dnMenuSystem::PaintAll() {
 	int i;
-	if ( captureFunc ) {
-		captureFunc( captureData );
-	}
+	g_capture.Update();
 
-	for ( i = 0; i < Menu_Count(); i++ ) {
-		Menus[i].Paint( qfalse );
+	for ( i = 0; i < Count(); i++ ) {
+		menus[i].Paint( qfalse );
 	}
 
 	if ( debugMode ) {
@@ -4565,8 +4644,9 @@ void Menu_PaintAll() {
 	}
 }
 
-void Menu_Reset() {
+void dnMenuSystem::Reset() {
 	menuCount = 0;
+	openMenuCount = 0;
 }
 
 displayContextDef_t *Display_GetContext() {
@@ -4574,24 +4654,24 @@ displayContextDef_t *Display_GetContext() {
 }
 
 
-void *Display_CaptureItem( int x, int y ) {
+dnMenu *dnMenuSystem::CaptureItem( int x, int y ) {
 	int i;
 
 	for ( i = 0; i < menuCount; i++ ) {
-		if ( Rect_ContainsPoint( &Menus[i].window.rect, x, y ) ) {
-			return &Menus[i];
+		if ( Rect_ContainsPoint( &menus[i].window.rect, x, y ) ) {
+			return &menus[i];
 		}
 	}
 	return NULL;
 }
 
 
-qboolean Display_MouseMove( void *p, int x, int y ) {
+qboolean dnMenuSystem::MouseMove( dnMenu *menu, int x, int y ) {
 	int i;
-	dnMenu *menu = (dnMenu *)p;
+
 
 	if ( menu == NULL ) {
-		menu = Menu_GetFocused();
+		menu = GetFocused();
 		if ( menu ) {
 			if ( menu->window.flags & WINDOW_POPUP ) {
 				menu->HandleMouseMove( x, y );
@@ -4599,7 +4679,7 @@ qboolean Display_MouseMove( void *p, int x, int y ) {
 			}
 		}
 		for ( i = 0; i < menuCount; i++ ) {
-			Menus[i].HandleMouseMove( x, y );
+			menus[i].HandleMouseMove( x, y );
 		}
 	} else {
 		menu->window.rect.x += x;
@@ -4610,12 +4690,12 @@ qboolean Display_MouseMove( void *p, int x, int y ) {
 
 }
 
-int Display_CursorType( int x, int y ) {
+int dnMenuSystem::CursorType( int x, int y ) {
 	int i;
 	for ( i = 0; i < menuCount; i++ ) {
 		rectDef_t r2;
-		r2.x = Menus[i].window.rect.x - 3;
-		r2.y = Menus[i].window.rect.y - 3;
+		r2.x = menus[i].window.rect.x - 3;
+		r2.y = menus[i].window.rect.y - 3;
 		r2.w = r2.h = 7;
 		if ( Rect_ContainsPoint( &r2, x, y ) ) {
 			return CURSOR_SIZER;
@@ -4625,13 +4705,13 @@ int Display_CursorType( int x, int y ) {
 }
 
 
-void Display_HandleKey( int key, qboolean down, int x, int y ) {
+void dnMenuSystem::HandleKey( int key, qboolean down, int x, int y ) {
 	/* every fullscreen menu covers the whole screen rect, so a point
 	   capture cannot tell them apart: the focused menu owns the key,
 	   and the capture only serves menus without focus */
-	dnMenu *menu = Menu_GetFocused();
+	dnMenu *menu = GetFocused();
 	if ( menu == NULL ) {
-		menu = (dnMenu *)Display_CaptureItem( x, y );
+		menu = CaptureItem( x, y );
 	}
 	if ( menu ) {
 		menu->HandleKey( key, down );
@@ -4668,10 +4748,10 @@ void dnMenu::CacheContents( void ) {
 
 }
 
-void Display_CacheAll() {
+void dnMenuSystem::CacheAll() {
 	int i;
 	for ( i = 0; i < menuCount; i++ ) {
-		Menus[i].CacheContents();
+		menus[i].CacheContents();
 	}
 }
 
@@ -4687,7 +4767,7 @@ qboolean dnMenu::OverActiveItem( float x, float y ) {
 				}
 
 				// a nested def only counts as active with its container chain visible
-				if ( !Item_TreeVisible( items[i] ) ) {
+				if ( !items[i]->TreeVisible() ) {
 					continue;
 				}
 

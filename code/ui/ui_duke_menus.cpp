@@ -139,7 +139,7 @@ void Duke_PlaySound( sfxHandle_t sfx ) {
 
 /* the focused item of the focused menu, used to light the lines */
 static qboolean Duke_LineFocused( int ownerDraw ) {
-    dnMenu *menu = Menu_GetFocused();
+    dnMenu *menu = g_menus.GetFocused();
     dnItem *item = menu ? menu->GetFocusedItem() : NULL;
 
     return ( item != NULL && item->window.ownerDraw == ownerDraw ) ? qtrue : qfalse;
@@ -212,7 +212,7 @@ static void Duke_StartGame( void ) {
         episode = 1;
     }
 
-    Menus_CloseAll();
+    g_menus.CloseAll();
     uii.Cvar_SetValue( "deathmatch", 0 );
     uii.Cvar_SetValue( "coop", 0 );
     uii.Cvar_SetValue( "gamerules", 0 );
@@ -240,14 +240,14 @@ void Duke_Refresh( void ) {
     }
 
     /* keep the bind list current while the keys menu is up */
-    keys = Menus_FindByName( "keys" );
+    keys = g_menus.FindByName( "keys" );
     if ( keys && ( keys->window.flags & WINDOW_VISIBLE ) ) {
         Controls_GetConfig();
     }
 
     Duke2_Refresh();
 
-    if ( Menus_AnyFullScreenVisible() ) {
+    if ( g_menus.AnyFullScreenVisible() ) {
         /* the old engine dims the running game behind in-game menus and
            otherwise draws the menu background tile */
         if ( uii.GetConnState() == DN_CONN_ACTIVE ) {
@@ -255,7 +255,7 @@ void Duke_Refresh( void ) {
         } else {
             uii.MenuBackground();
         }
-        Menu_PaintAll();
+        g_menus.PaintAll();
     }
 }
 
@@ -273,19 +273,19 @@ void Duke_KeyEvent( int key, int down ) {
         return;
     }
 
-    menu = Menu_GetFocused();
+    menu = g_menus.GetFocused();
     if ( down && key == K_ESCAPE && menu && menu->window.name &&
          Q_strcasecmp( menu->window.name, "main" ) == 0 ) {
         if ( uii.GetConnState() == DN_CONN_ACTIVE ) {
             /* leave the menu and go back to the game */
             uii.MenuSound( DN_UISOUND_BACK );
-            Menus_CloseAll();
+            g_menus.CloseAll();
         }
         /* stay on the main menu when no game is running */
         return;
     }
 
-    Display_HandleKey( key, down, dc->cursorx, dc->cursory );
+    g_menus.HandleKey( key, down, dc->cursorx, dc->cursory );
 }
 
 void Duke_MouseEvent( int x, int y ) {
@@ -316,24 +316,24 @@ void Duke_MouseEvent( int x, int y ) {
     if ( dc->cursory > SCREEN_HEIGHT - 1 ) {
         dc->cursory = SCREEN_HEIGHT - 1;
     }
-    Display_MouseMove( NULL, dc->cursorx, dc->cursory );
+    g_menus.MouseMove( NULL, dc->cursorx, dc->cursory );
 }
 
 void Duke_SetActiveMenu( dn_uimenu_t menu ) {
-    Menus_CloseAll();
+    g_menus.CloseAll();
     if ( menu != DN_UIMENU_NONE ) {
-        Menus_OpenByName( "main" );
+        g_menus.OpenByName( "main" );
     }
 }
 
 /* engine console commands open a module menu by name */
 void Duke_OpenMenu( const char *name ) {
-    Menus_CloseAll();
+    g_menus.CloseAll();
     if ( name && name[0] ) {
-        Menus_OpenByName( name );
+        g_menus.OpenByName( name );
     }
 }
 
 int Duke_IsFullscreen( void ) {
-    return Menus_AnyFullScreenVisible() ? 1 : 0;
+    return g_menus.AnyFullScreenVisible() ? 1 : 0;
 }
