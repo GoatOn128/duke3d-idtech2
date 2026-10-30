@@ -42,6 +42,7 @@ int         Duke_IsFullscreen( void );
 void        Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t color );
 sfxHandle_t Duke_RegisterSound( const char *name );
 void        Duke_PlaySound( sfxHandle_t sfx );
+void        Duke_SlideBegin( void );
 
 /* Second Duke menu set (ui_duke_menus2.cpp): the menus live in .menu
    script files under ui/, the module owns the ownerdraws, the engine data

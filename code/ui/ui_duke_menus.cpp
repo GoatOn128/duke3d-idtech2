@@ -236,6 +236,21 @@ static void Duke_StartGame( void ) {
 
 void Duke_Refresh( void ) {
     dnMenu *keys;
+    /* the screen that last held focus: a new name means the screens
+       switched and the new one slides up from below */
+    static char slideMenu[64] = "";
+
+    {
+        dnMenu *focused = g_menus.GetFocused();
+        if ( focused && focused->window.name && focused->window.name[0] ) {
+            if ( Q_strcasecmp( slideMenu, focused->window.name ) != 0 ) {
+                Q_strncpyz( slideMenu, focused->window.name, sizeof( slideMenu ) );
+                Duke_SlideBegin();
+            }
+        } else {
+            slideMenu[0] = '\0';
+        }
+    }
 
     /* mirror the connection state so the main menu can gate SAVE GAME */
     uii.Cvar_Set( "dn_serveractive", uii.GetConnState() == DN_CONN_ACTIVE ? "1" : "0" );

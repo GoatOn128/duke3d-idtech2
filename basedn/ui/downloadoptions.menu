@@ -1,4 +1,5 @@
-// Download options.
+// Download options. The rows sit at the 36 virtual pixel pitch of the
+// other framework menus.
 {
 	name "downloadoptions"
 	fullscreen 1
@@ -36,7 +37,7 @@
 		type 11
 		text "maps"
 		cvar "allow_download_maps"
-		rect 80 92 480 24
+		rect 80 100 480 24
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -47,7 +48,7 @@
 		type 11
 		text "player models/skins"
 		cvar "allow_download_players"
-		rect 80 120 480 24
+		rect 80 136 480 24
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -58,7 +59,7 @@
 		type 11
 		text "models"
 		cvar "allow_download_models"
-		rect 80 148 480 24
+		rect 80 172 480 24
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -69,7 +70,7 @@
 		type 11
 		text "sounds"
 		cvar "allow_download_sounds"
-		rect 80 176 480 24
+		rect 80 208 480 24
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
