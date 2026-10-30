@@ -13,12 +13,6 @@
 #define DUKE_OD_GAME_HEADER 1
 #define DUKE_OD_LINE_BASE   16
 
-/* the spinning nuke menu cursor and the fixed columns the centered menus
-   park it at, like the original probe() in the Duke MENUES.CPP */
-#define DUKE_SPINNING_NUKE 2813
-#define DUKE_NUKE_LEFT_X   50
-#define DUKE_NUKE_RIGHT_X  270
-
 /* every ownerdraw line in the menus, in dukeLines order */
 enum {
     DL_MAIN_NEW,
@@ -91,8 +85,8 @@ static dukeLine_t dukeLines[DL_COUNT] = {
     {"NO",                 160, 145, 0, 0, 115, 0},
 
     {"OPTIONS",            160, 16,  1, 0, 0,  0},
-    {"CUSTOMIZE CONTROLS", 40,  181, 0, 1, 0,  0},
-    {"RESET DEFAULTS",     40,  195, 0, 1, 0,  0},
+    {"CUSTOMIZE CONTROLS", 160, 181, 0, 1, 0,  1},
+    {"RESET DEFAULTS",     160, 195, 0, 1, 0,  1},
     {NULL,                 0,   0,   0, 0, 0,  0},
 
     {"CUSTOMIZE CONTROLS", 160, 12,  1, 0, 0,  0},

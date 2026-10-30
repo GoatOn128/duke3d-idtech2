@@ -1,8 +1,10 @@
 // Duke main menu. The logo tile and the seven menu lines are ownerdraws
-// painted through the engine Duke glyph helpers.
+// painted through the engine Duke glyph helpers. The slide keyword sets
+// the screen change direction for every menu.
 {
 	name "main"
 	fullscreen 1
+	slide left
 	focuscolor 1 1 1 1
 	onOpen { setfocus main_new }
 
