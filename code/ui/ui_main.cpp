@@ -252,14 +252,11 @@ static qboolean DC_OwnerDrawHandleKey( int ownerDraw, int flags, float *special,
 
 /* ---- list feeders ---- */
 
-/* feeder ids the .menu listDefs reference through their special field */
-#define DN_FEEDER_BINDS      1
-#define DN_FEEDER_SERVERS    2
+/* server cache mirroring the Duke2 joinserver refresh: the engine owns the
+   real list, the feeder just relays it one frame at a time */
 #define DN_FEEDER_MAX_SERVERS 32
 #define DN_FEEDER_SERVER_TEXT 80
 
-/* server cache mirroring the Duke2 joinserver refresh: the engine owns the
-   real list, the feeder just relays it one frame at a time */
 static char s_feederServerNames[DN_FEEDER_MAX_SERVERS][DN_FEEDER_SERVER_TEXT];
 
 static int DC_FeederCount( float feederID ) {
