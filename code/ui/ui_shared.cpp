@@ -3661,7 +3661,7 @@ void Item_Image_Paint( dnItem *item ) {
 /* Duke menus highlight the selected row by drawing it bright; the glyph
    renderer only has the dim and bright palette variants, so the row color
    is picked by cursor position rather than shaded */
-static vec4_t *Item_ListBox_RowColor( dnItem *item, int row ) {
+static vec_t *Item_ListBox_RowColor( dnItem *item, int row ) {
 	static vec4_t rowDim = { 0.45f, 0.45f, 0.45f, 1.0f };
 	static vec4_t rowLit = { 1.0f, 1.0f, 1.0f, 1.0f };
 
