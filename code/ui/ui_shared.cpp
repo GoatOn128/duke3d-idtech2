@@ -1484,12 +1484,21 @@ int Item_ListBox_ThumbDrawPosition( dnItem *item ) {
 	}
 }
 
+/* framework rows share one value column: sliders, yes/no toggles and
+   choice lists all draw their value at the same offset from the row rect,
+   so the values line up vertically like the engine menu screens */
+#define DUKE_VALUE_COLUMN 320
+
+static float Item_ValueColumnX( dnItem *item ) {
+	return item->window.rect.x + DUKE_VALUE_COLUMN;
+}
+
 float Item_Slider_ThumbPosition( dnItem *item ) {
 	float value, range, x;
 	editFieldDef_t *editDef = ( editFieldDef_t * )item->typeData;
 
 	if ( item->text ) {
-		x = item->textRect.x + item->textRect.w + 8;
+		x = Item_ValueColumnX( item );
 	} else {
 		x = item->window.rect.x;
 	}
@@ -2258,7 +2267,7 @@ static void Scroll_Slider_ThumbFunc( void *p ) {
 	editFieldDef_t *editDef = ( editFieldDef_t * )si->item->typeData;
 
 	if ( si->item->text ) {
-		x = si->item->textRect.x + si->item->textRect.w + 8;
+		x = Item_ValueColumnX( si->item );
 	} else {
 		x = si->item->window.rect.x;
 	}
@@ -2357,7 +2366,7 @@ qboolean Item_Slider_HandleKey( dnItem *item, int key, qboolean down ) {
 				rectDef_t testRect;
 				width = SLIDER_WIDTH;
 				if ( item->text ) {
-					x = item->textRect.x + item->textRect.w + 8;
+					x = Item_ValueColumnX( item );
 				} else {
 					x = item->window.rect.x;
 				}
@@ -3060,7 +3069,7 @@ void Item_YesNo_Paint( dnItem *item ) {
 
 	if ( item->text ) {
 		Item_Text_Paint( item );
-		DC->drawText( item->textRect.x + item->textRect.w + 8, item->textRect.y, item->font, item->textscale, newColor, ( value != 0 ) ? yes_str : no_str, 0, 0, item->textStyle );
+		DC->drawText( Item_ValueColumnX( item ), item->textRect.y, item->font, item->textscale, newColor, ( value != 0 ) ? yes_str : no_str, 0, 0, item->textStyle );
 	} else {
 		DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, newColor, ( value != 0 ) ? yes_str : no_str, 0, 0, item->textStyle );
 	}
@@ -3085,7 +3094,7 @@ void Item_Multi_Paint( dnItem *item ) {
 
 	if ( item->text ) {
 		Item_Text_Paint( item );
-		DC->drawText( item->textRect.x + item->textRect.w + 8, item->textRect.y, item->font, item->textscale, newColor, text, 0, 0, item->textStyle );
+		DC->drawText( Item_ValueColumnX( item ), item->textRect.y, item->font, item->textscale, newColor, text, 0, 0, item->textStyle );
 	} else {
 		DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, newColor, text, 0, 0, item->textStyle );
 	}
@@ -3382,7 +3391,7 @@ void Item_Slider_Paint( dnItem *item ) {
 	y = item->window.rect.y;
 	if ( item->text ) {
 		Item_Text_Paint( item );
-		x = item->textRect.x + item->textRect.w + 8;
+		x = Item_ValueColumnX( item );
 	} else {
 		x = item->window.rect.x;
 	}
@@ -4617,9 +4626,12 @@ int Display_CursorType( int x, int y ) {
 
 
 void Display_HandleKey( int key, qboolean down, int x, int y ) {
-	dnMenu *menu = (dnMenu *)Display_CaptureItem( x, y );
+	/* every fullscreen menu covers the whole screen rect, so a point
+	   capture cannot tell them apart: the focused menu owns the key,
+	   and the capture only serves menus without focus */
+	dnMenu *menu = Menu_GetFocused();
 	if ( menu == NULL ) {
-		menu = Menu_GetFocused();
+		menu = (dnMenu *)Display_CaptureItem( x, y );
 	}
 	if ( menu ) {
 		menu->HandleKey( key, down );

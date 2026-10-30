@@ -78,7 +78,7 @@ static duke2Line_t duke2Lines[DL2_COUNT] = {
     {"PLAYER SETUP",        160, 24,  1, 0, 0},
     {"DOWNLOAD OPTIONS",    40,  100, 0, 1, 0},
     {"VIDEO SETUP",         160, 24,  1, 0, 0},
-    {"APPLY CHANGES",       40,  140, 0, 1, 0}
+    {"APPLY CHANGES",       40,  170, 0, 1, 0}
 };
 
 /* ---- dmflags rows, mirroring the engine DMOptions callback table ---- */

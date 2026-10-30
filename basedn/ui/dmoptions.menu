@@ -8,6 +8,13 @@
 	onESC { play item15.wav ; close dmoptions ; open startserver }
 
 	itemDef {
+		name "dm_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
 		name "dm_title"
 		ownerdraw 126
 		decoration

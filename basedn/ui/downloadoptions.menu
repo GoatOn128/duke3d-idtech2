@@ -7,6 +7,13 @@
 	onESC { play item15.wav ; close downloadoptions ; open playerconfig }
 
 	itemDef {
+		name "dl_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
 		name "dl_title"
 		ownerdraw 127
 		decoration
