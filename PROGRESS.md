@@ -160,6 +160,13 @@ Legend:
       (sound channel, focus pulse and blink, save line length); the
       seeded tile/animation defaults are gone so the ui text files are
       the only source; `ui/menus.txt` gained `#include` support
+- [x] UI scripting documentation: `docs/ui-scripting.md` walks through
+      the whole menu system the way a person reads it, how
+      `ui/menus.txt` loads screens, the .menu syntax with every
+      keyword, the script commands including the `duke` subcommands,
+      the ownerdraw ids, the feeders, the data files and the
+      coordinate mapping, with a worked example screen and the
+      gotchas (ownerdraw rows ignore their script rect for drawing)
 - [ ] Duke menus on the idTech 3 framework (main, new game, options,
       load, save)
 - [ ] Cut the menus over to the module, retire `menu.cpp`/`qmenu.cpp`
