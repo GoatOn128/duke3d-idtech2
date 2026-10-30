@@ -84,9 +84,9 @@ static dukeLine_t dukeLines[DL_COUNT] = {
     {"NO",                 160, 145, 0, 0, 115},
 
     {"OPTIONS",            160, 16,  1, 0, 0},
-    {"CUSTOMIZE CONTROLS", 40,  200, 0, 1, 0},
-    {"RESET DEFAULTS",     40,  214, 0, 1, 0},
-    {"GO TO CONSOLE",      40,  228, 0, 1, 0},
+    {"CUSTOMIZE CONTROLS", 40,  172, 0, 1, 0},
+    {"RESET DEFAULTS",     40,  186, 0, 1, 0},
+    {"GO TO CONSOLE",      40,  200, 0, 1, 0},
 
     {"CUSTOMIZE CONTROLS", 160, 12,  1, 0, 0},
 };

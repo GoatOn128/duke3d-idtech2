@@ -16,7 +16,7 @@
 
 	itemDef {
 		name "dm_0"
-		rect 16 68 260 28
+		rect 16 72 260 38.4
 		ownerdraw 96
 		visible 1
 		action { play bulithit.wav }
@@ -24,7 +24,7 @@
 
 	itemDef {
 		name "dm_1"
-		rect 16 100 260 28
+		rect 16 110.4 260 38.4
 		ownerdraw 97
 		visible 1
 		action { play bulithit.wav }
@@ -32,7 +32,7 @@
 
 	itemDef {
 		name "dm_2"
-		rect 16 132 260 28
+		rect 16 148.8 260 38.4
 		ownerdraw 98
 		visible 1
 		action { play bulithit.wav }
@@ -40,7 +40,7 @@
 
 	itemDef {
 		name "dm_3"
-		rect 16 164 260 28
+		rect 16 187.2 260 38.4
 		ownerdraw 99
 		visible 1
 		action { play bulithit.wav }
@@ -48,7 +48,7 @@
 
 	itemDef {
 		name "dm_4"
-		rect 16 196 260 28
+		rect 16 225.6 260 38.4
 		ownerdraw 100
 		visible 1
 		action { play bulithit.wav }
@@ -56,7 +56,7 @@
 
 	itemDef {
 		name "dm_5"
-		rect 16 228 260 28
+		rect 16 264 260 38.4
 		ownerdraw 101
 		visible 1
 		action { play bulithit.wav }
@@ -64,7 +64,7 @@
 
 	itemDef {
 		name "dm_6"
-		rect 16 260 260 28
+		rect 16 302.4 260 38.4
 		ownerdraw 102
 		visible 1
 		action { play bulithit.wav }
@@ -72,7 +72,7 @@
 
 	itemDef {
 		name "dm_7"
-		rect 16 292 260 28
+		rect 16 340.8 260 38.4
 		ownerdraw 103
 		visible 1
 		action { play bulithit.wav }
@@ -80,7 +80,7 @@
 
 	itemDef {
 		name "dm_8"
-		rect 336 68 260 28
+		rect 336 72 260 38.4
 		ownerdraw 104
 		visible 1
 		action { play bulithit.wav }
@@ -88,7 +88,7 @@
 
 	itemDef {
 		name "dm_9"
-		rect 336 100 260 28
+		rect 336 110.4 260 38.4
 		ownerdraw 105
 		visible 1
 		action { play bulithit.wav }
@@ -96,7 +96,7 @@
 
 	itemDef {
 		name "dm_10"
-		rect 336 132 260 28
+		rect 336 148.8 260 38.4
 		ownerdraw 106
 		visible 1
 		action { play bulithit.wav }
@@ -104,7 +104,7 @@
 
 	itemDef {
 		name "dm_11"
-		rect 336 164 260 28
+		rect 336 187.2 260 38.4
 		ownerdraw 107
 		visible 1
 		action { play bulithit.wav }
@@ -112,7 +112,7 @@
 
 	itemDef {
 		name "dm_12"
-		rect 336 196 260 28
+		rect 336 225.6 260 38.4
 		ownerdraw 108
 		visible 1
 		action { play bulithit.wav }
@@ -120,7 +120,7 @@
 
 	itemDef {
 		name "dm_13"
-		rect 336 228 260 28
+		rect 336 264 260 38.4
 		ownerdraw 109
 		visible 1
 		action { play bulithit.wav }
@@ -128,7 +128,7 @@
 
 	itemDef {
 		name "dm_14"
-		rect 336 260 260 28
+		rect 336 302.4 260 38.4
 		ownerdraw 110
 		visible 1
 		action { play bulithit.wav }

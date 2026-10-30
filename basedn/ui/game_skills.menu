@@ -23,7 +23,7 @@
 
 	itemDef {
 		name "skill_0"
-		rect 70 112 500 40
+		rect 70 134.4 500 48
 		ownerdraw 29
 		visible 1
 		action { play kickhit.wav ; setcvar skill 0 ; setcvar respawn_monsters 0 ; setcvar dn_skill_choice 1 ; play piece02.wav }
@@ -31,7 +31,7 @@
 
 	itemDef {
 		name "skill_1"
-		rect 70 152 500 40
+		rect 70 182.4 500 48
 		ownerdraw 30
 		visible 1
 		action { play kickhit.wav ; setcvar skill 1 ; setcvar respawn_monsters 0 ; setcvar dn_skill_choice 2 ; play letsrk03.wav }
@@ -39,7 +39,7 @@
 
 	itemDef {
 		name "skill_2"
-		rect 70 192 500 40
+		rect 70 230.4 500 48
 		ownerdraw 31
 		visible 1
 		action { play kickhit.wav ; setcvar skill 2 ; setcvar respawn_monsters 0 ; setcvar dn_skill_choice 3 ; play getsom1a.wav }
@@ -47,7 +47,7 @@
 
 	itemDef {
 		name "skill_3"
-		rect 70 232 500 40
+		rect 70 278.4 500 48
 		ownerdraw 32
 		visible 1
 		action { play kickhit.wav ; setcvar skill 3 ; setcvar respawn_monsters 1 ; setcvar dn_skill_choice 4 ; play imgood12.wav }

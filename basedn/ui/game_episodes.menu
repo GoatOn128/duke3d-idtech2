@@ -22,7 +22,7 @@
 
 	itemDef {
 		name "episode_0"
-		rect 70 112 500 40
+		rect 70 134.4 500 48
 		ownerdraw 24
 		visible 1
 		action { play kickhit.wav ; setcvar dn_episode 1 ; close game_episodes ; open game_skills }
@@ -30,7 +30,7 @@
 
 	itemDef {
 		name "episode_1"
-		rect 70 152 500 40
+		rect 70 182.4 500 48
 		ownerdraw 25
 		visible 1
 		action { play kickhit.wav ; setcvar dn_episode 2 ; close game_episodes ; open game_skills }
@@ -38,7 +38,7 @@
 
 	itemDef {
 		name "episode_2"
-		rect 70 192 500 40
+		rect 70 230.4 500 48
 		ownerdraw 26
 		visible 1
 		action { play kickhit.wav ; setcvar dn_episode 3 ; close game_episodes ; open game_skills }
@@ -46,7 +46,7 @@
 
 	itemDef {
 		name "episode_3"
-		rect 70 232 500 40
+		rect 70 278.4 500 48
 		ownerdraw 27
 		visible 1
 		action { play kickhit.wav ; setcvar dn_episode 4 ; close game_episodes ; open game_skills }

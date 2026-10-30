@@ -108,7 +108,7 @@
 
 	itemDef {
 		name "vid_apply"
-		rect 64 260 512 24
+		rect 64 302.4 512 38.4
 		ownerdraw 131
 		visible 1
 		action { play kickhit.wav ; exec vid_restart }

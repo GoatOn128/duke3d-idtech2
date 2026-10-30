@@ -15,7 +15,7 @@
 
 	itemDef {
 		name "main_new"
-		rect 144 106 416 32
+		rect 144 127.2 416 38.4
 		ownerdraw 16
 		visible 1
 		action { play kickhit.wav ; close main ; open game_episodes }
@@ -23,7 +23,7 @@
 
 	itemDef {
 		name "main_save"
-		rect 144 138 416 32
+		rect 144 165.6 416 38.4
 		ownerdraw 17
 		visible 1
 		cvarTest "dn_serveractive"
@@ -33,7 +33,7 @@
 
 	itemDef {
 		name "main_load"
-		rect 144 170 416 32
+		rect 144 204 416 38.4
 		ownerdraw 18
 		visible 1
 		action { play kickhit.wav ; close main ; open loadgame }
@@ -41,7 +41,7 @@
 
 	itemDef {
 		name "main_options"
-		rect 144 202 416 32
+		rect 144 242.4 416 38.4
 		ownerdraw 19
 		visible 1
 		action { play kickhit.wav ; close main ; open options }
@@ -49,7 +49,7 @@
 
 	itemDef {
 		name "main_multi"
-		rect 144 234 416 32
+		rect 144 280.8 416 38.4
 		ownerdraw 20
 		visible 1
 		action { play kickhit.wav ; close main ; open multiplayer }
@@ -57,7 +57,7 @@
 
 	itemDef {
 		name "main_video"
-		rect 144 266 416 32
+		rect 144 319.2 416 38.4
 		ownerdraw 21
 		visible 1
 		action { play kickhit.wav ; close main ; open video }
@@ -65,7 +65,7 @@
 
 	itemDef {
 		name "main_quit"
-		rect 144 298 416 32
+		rect 144 357.6 416 38.4
 		ownerdraw 22
 		visible 1
 		action { play kickhit.wav ; close main ; open quit }

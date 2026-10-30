@@ -22,7 +22,7 @@
 
 	itemDef {
 		name "load_0"
-		rect 190 56 320 28
+		rect 190 62.4 320 33.6
 		ownerdraw 64
 		visible 1
 		action { play kickhit.wav ; duke load 0 }
@@ -30,7 +30,7 @@
 
 	itemDef {
 		name "load_1"
-		rect 190 84 320 28
+		rect 190 96 320 33.6
 		ownerdraw 65
 		visible 1
 		action { play kickhit.wav ; duke load 1 }
@@ -38,7 +38,7 @@
 
 	itemDef {
 		name "load_2"
-		rect 190 112 320 28
+		rect 190 129.6 320 33.6
 		ownerdraw 66
 		visible 1
 		action { play kickhit.wav ; duke load 2 }
@@ -46,7 +46,7 @@
 
 	itemDef {
 		name "load_3"
-		rect 190 140 320 28
+		rect 190 163.2 320 33.6
 		ownerdraw 67
 		visible 1
 		action { play kickhit.wav ; duke load 3 }
@@ -54,7 +54,7 @@
 
 	itemDef {
 		name "load_4"
-		rect 190 168 320 28
+		rect 190 196.8 320 33.6
 		ownerdraw 68
 		visible 1
 		action { play kickhit.wav ; duke load 4 }
@@ -62,7 +62,7 @@
 
 	itemDef {
 		name "load_5"
-		rect 190 196 320 28
+		rect 190 230.4 320 33.6
 		ownerdraw 69
 		visible 1
 		action { play kickhit.wav ; duke load 5 }
@@ -70,7 +70,7 @@
 
 	itemDef {
 		name "load_6"
-		rect 190 224 320 28
+		rect 190 264 320 33.6
 		ownerdraw 70
 		visible 1
 		action { play kickhit.wav ; duke load 6 }
@@ -78,7 +78,7 @@
 
 	itemDef {
 		name "load_7"
-		rect 190 252 320 28
+		rect 190 297.6 320 33.6
 		ownerdraw 71
 		visible 1
 		action { play kickhit.wav ; duke load 7 }
@@ -86,7 +86,7 @@
 
 	itemDef {
 		name "load_8"
-		rect 190 280 320 28
+		rect 190 331.2 320 33.6
 		ownerdraw 72
 		visible 1
 		action { play kickhit.wav ; duke load 8 }
@@ -94,7 +94,7 @@
 
 	itemDef {
 		name "load_9"
-		rect 190 308 320 28
+		rect 190 364.8 320 33.6
 		ownerdraw 73
 		visible 1
 		action { play kickhit.wav ; duke load 9 }
@@ -102,7 +102,7 @@
 
 	itemDef {
 		name "load_10"
-		rect 190 336 320 28
+		rect 190 398.4 320 33.6
 		ownerdraw 74
 		visible 1
 		action { play kickhit.wav ; duke load 10 }

@@ -85,7 +85,7 @@
 
 	itemDef {
 		name "ss_dmflags"
-		rect 64 200 512 24
+		rect 64 230.4 512 33.6
 		ownerdraw 124
 		visible 1
 		action { play kickhit.wav ; close startserver ; open dmoptions }
@@ -93,7 +93,7 @@
 
 	itemDef {
 		name "ss_begin"
-		rect 64 228 512 24
+		rect 64 264 512 33.6
 		ownerdraw 125
 		visible 1
 		action { play kickhit.wav ; duke startserver }
