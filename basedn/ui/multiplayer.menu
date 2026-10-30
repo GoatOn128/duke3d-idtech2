@@ -7,6 +7,13 @@
 	onESC { play item15.wav ; close multiplayer ; open main }
 
 	itemDef {
+		name "mp_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
 		name "mp_title"
 		ownerdraw 114
 		decoration

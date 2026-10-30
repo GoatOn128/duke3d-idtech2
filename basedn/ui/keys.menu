@@ -8,6 +8,13 @@
 	onESC { play item15.wav ; close keys ; open options }
 
 	itemDef {
+		name "keys_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
 		name "keys_title"
 		ownerdraw 40
 		decoration

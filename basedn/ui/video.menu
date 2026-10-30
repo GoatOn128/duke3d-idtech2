@@ -1,12 +1,20 @@
 // Video setup. The mode, refresh rate and display lists are runtime engine
 // data and are attached to the named items after the menu files parse.
-// Engine order: texture quality 0..3 maps to gl_picmip 3..0.
+// Engine order: texture quality 0..3 maps to gl_picmip 3..0. The rows sit
+// at 16 Duke pixel steps like the options screen.
 {
 	name "video"
 	fullscreen 1
 	focuscolor 1 1 1 1
 	onOpen { duke readvideo ; setfocus vid_mode }
 	onESC { play item15.wav ; close video ; open main }
+
+	itemDef {
+		name "vid_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
 
 	itemDef {
 		name "vid_title"
@@ -20,7 +28,7 @@
 		type 12
 		text "video mode"
 		cvar "gl_mode"
-		rect 80 56 480 24
+		rect 80 56 480 38.4
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -31,7 +39,7 @@
 		type 12
 		text "refresh rate"
 		cvar "vid_displayrefresh"
-		rect 80 84 480 24
+		rect 80 94.4 480 38.4
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -42,7 +50,7 @@
 		type 11
 		text "fullscreen"
 		cvar "vid_fullscreen"
-		rect 80 112 480 24
+		rect 80 132.8 480 38.4
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -53,7 +61,7 @@
 		type 12
 		text "display"
 		cvar "vid_display"
-		rect 80 140 480 24
+		rect 80 171.2 480 38.4
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -64,7 +72,7 @@
 		type 12
 		text "screen size"
 		cvar "viewsize"
-		rect 80 168 480 24
+		rect 80 209.6 480 38.4
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -76,7 +84,7 @@
 		type 12
 		text "brightness"
 		cvar "vid_gamma"
-		rect 80 196 480 24
+		rect 80 248 480 38.4
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -88,7 +96,7 @@
 		type 12
 		text "texture quality"
 		cvar "gl_picmip"
-		rect 80 224 480 24
+		rect 80 286.4 480 38.4
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -100,7 +108,7 @@
 		type 11
 		text "sync every frame"
 		cvar "gl_finish"
-		rect 80 252 480 24
+		rect 80 324.8 480 38.4
 		textscale 1
 		forecolor 0.45 0.45 0.45 1
 		visible 1
@@ -108,7 +116,7 @@
 
 	itemDef {
 		name "vid_apply"
-		rect 64 302.4 512 38.4
+		rect 80 379.2 480 38.4
 		ownerdraw 131
 		visible 1
 		action { play kickhit.wav ; exec vid_restart }

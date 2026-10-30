@@ -7,6 +7,13 @@
 	onESC { play item15.wav ; close quit ; open main }
 
 	itemDef {
+		name "quit_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
 		name "quit_title"
 		ownerdraw 33
 		decoration

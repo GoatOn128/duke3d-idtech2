@@ -8,6 +8,13 @@
 	onESC { play item15.wav ; close addressbook ; open joinserver }
 
 	itemDef {
+		name "ab_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
 		name "adr_title"
 		ownerdraw 122
 		decoration

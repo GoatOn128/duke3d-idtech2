@@ -8,6 +8,13 @@
 	onESC { play item15.wav ; close joinserver ; open multiplayer }
 
 	itemDef {
+		name "join_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
 		name "join_title"
 		ownerdraw 118
 		decoration

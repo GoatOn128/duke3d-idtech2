@@ -8,6 +8,13 @@
 	onESC { play item15.wav ; close startserver ; open multiplayer }
 
 	itemDef {
+		name "ss_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
 		name "ss_title"
 		ownerdraw 123
 		decoration

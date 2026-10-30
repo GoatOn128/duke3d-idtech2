@@ -10,6 +10,13 @@
 	onESC { play item15.wav ; close playerconfig ; open multiplayer }
 
 	itemDef {
+		name "pc_header"
+		ownerdraw 1
+		decoration
+		visible 1
+	}
+
+	itemDef {
 		name "pc_title"
 		ownerdraw 128
 		decoration
