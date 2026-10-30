@@ -2100,6 +2100,11 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 	return qfalse;
 }
 
+/* the type hook runs the full list logic without the forced scroll */
+qboolean dnListBoxItem::HandleTypeKey( int key, qboolean down ) {
+	return HandleListKey( key, down, qfalse );
+}
+
 qboolean dnYesNoItem::HandleTypeKey( int key, qboolean down ) {
 
 	if ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) && window.flags & WINDOW_HASFOCUS && cvar ) {
@@ -3200,6 +3205,11 @@ void dnItem::PaintText( void ) {
 	DC->drawText( textRect.x, textRect.y, font, textscale, color, textPtr, 0, 0, textStyle );
 }
 
+/* text and button rows paint through the shared text painter */
+void dnTextItem::PaintType( void ) {
+	PaintText();
+}
+
 
 
 
@@ -3757,6 +3767,17 @@ qboolean dnBindCapture::HandleKey( int key, qboolean down ) {
 	Controls_SetConfig( qtrue );
 	Cancel();
 
+	return qtrue;
+}
+
+/* a click on a bindDef row starts the key capture; the capture itself
+   eats the keys once it is waiting */
+qboolean dnBindItem::HandleTypeKey( int key, qboolean down ) {
+	if ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) ) {
+		if ( down && ( key == K_MOUSE1 || key == K_ENTER ) ) {
+			g_bindCapture.Start( this, NULL );
+		}
+	}
 	return qtrue;
 }
 
