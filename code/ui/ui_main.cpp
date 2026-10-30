@@ -250,15 +250,63 @@ static qboolean DC_OwnerDrawHandleKey( int ownerDraw, int flags, float *special,
     return Duke_OwnerDrawHandleKey( ownerDraw, flags, special, key );
 }
 
+/* ---- list feeders ---- */
+
+/* feeder ids the .menu listDefs reference through their special field */
+#define DN_FEEDER_BINDS      1
+#define DN_FEEDER_SERVERS    2
+#define DN_FEEDER_MAX_SERVERS 32
+#define DN_FEEDER_SERVER_TEXT 80
+
+/* server cache mirroring the Duke2 joinserver refresh: the engine owns the
+   real list, the feeder just relays it one frame at a time */
+static char s_feederServerNames[DN_FEEDER_MAX_SERVERS][DN_FEEDER_SERVER_TEXT];
+
 static int DC_FeederCount( float feederID ) {
-    ( void )feederID;
+    int count;
+
+    if ( ( int )feederID == DN_FEEDER_BINDS ) {
+        return UI_BindListCount();
+    }
+    if ( ( int )feederID == DN_FEEDER_SERVERS ) {
+        count = uii.GetServers( ( char * )s_feederServerNames,
+                                sizeof( s_feederServerNames[0] ),
+                                DN_FEEDER_MAX_SERVERS );
+        if ( count > DN_FEEDER_MAX_SERVERS ) {
+            count = DN_FEEDER_MAX_SERVERS;
+        }
+        return count;
+    }
     return 0;
 }
 
 static const char *DC_FeederItemText( float feederID, int index, int column, qhandle_t *handle ) {
-    ( void )feederID; ( void )index; ( void )column;
+    static char address[DN_FEEDER_SERVER_TEXT];
+
     if ( handle ) {
         *handle = NULL;
+    }
+    if ( ( int )feederID == DN_FEEDER_BINDS ) {
+        if ( column == 0 ) {
+            return UI_BindListLabel( index );
+        }
+        if ( column == 1 ) {
+            return UI_BindListKeys( index );
+        }
+        return NULL;
+    }
+    if ( ( int )feederID == DN_FEEDER_SERVERS ) {
+        if ( index < 0 || index >= DN_FEEDER_MAX_SERVERS || !s_feederServerNames[index][0] ) {
+            return "<no server>";
+        }
+        if ( column == 0 ) {
+            return s_feederServerNames[index];
+        }
+        if ( column == 1 ) {
+            address[0] = '\0';
+            uii.GetServerAddress( index, address, sizeof( address ) );
+            return address;
+        }
     }
     return NULL;
 }

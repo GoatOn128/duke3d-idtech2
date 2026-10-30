@@ -3332,6 +3332,27 @@ void BindingFromName( const char *cvar ) {
 	strcpy( g_nameBind1, "???" );
 }
 
+/* list feeders read the binding table directly; the command string doubles
+   as the row label so the list can never drift from the key setup */
+int UI_BindListCount( void ) {
+	return g_bindCount;
+}
+
+const char *UI_BindListLabel( int index ) {
+	if ( index < 0 || index >= g_bindCount ) {
+		return NULL;
+	}
+	return g_bindings[index].command;
+}
+
+const char *UI_BindListKeys( int index ) {
+	if ( index < 0 || index >= g_bindCount ) {
+		return NULL;
+	}
+	BindingFromName( g_bindings[index].command );
+	return g_nameBind1;
+}
+
 void Item_Slider_Paint( dnItem *item ) {
 	/* the Duke build has no shader slider assets, so the bar is a row of
 	   glyph dashes: the dim bar first, then the filled part drawn bright
@@ -3637,6 +3658,16 @@ void Item_Image_Paint( dnItem *item ) {
 	DC->drawHandlePic( item->window.rect.x + 1, item->window.rect.y + 1, item->window.rect.w - 2, item->window.rect.h - 2, item->asset );
 }
 
+/* Duke menus highlight the selected row by drawing it bright; the glyph
+   renderer only has the dim and bright palette variants, so the row color
+   is picked by cursor position rather than shaded */
+static vec4_t *Item_ListBox_RowColor( dnItem *item, int row ) {
+	static vec4_t rowDim = { 0.45f, 0.45f, 0.45f, 1.0f };
+	static vec4_t rowLit = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	return ( row == item->cursorPos ) ? rowLit : rowDim;
+}
+
 void Item_ListBox_Paint( dnItem *item ) {
 	float x, y, size, count, i, thumb;
 	qhandle_t image;
@@ -3697,22 +3728,30 @@ void Item_ListBox_Paint( dnItem *item ) {
 		}
 	} else {
 		// draw scrollbar to right side of the window
+		// the Duke build registers no scrollbar shader assets, so the bar is
+		// a column of glyph dashes: dim track down the whole height, bright
+		// dash over the thumb position
 		x = item->window.rect.x + item->window.rect.w - SCROLLBAR_SIZE - 1;
 		y = item->window.rect.y + 1;
-		DC->drawHandlePic( x, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarArrowUp );
-		y += SCROLLBAR_SIZE - 1;
 
 		listPtr->endPos = listPtr->startPos;
 		size = item->window.rect.h - ( SCROLLBAR_SIZE * 2 );
-		DC->drawHandlePic( x, y, SCROLLBAR_SIZE, size + 1, DC->Assets.scrollBar );
-		y += size - 1;
-		DC->drawHandlePic( x, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarArrowDown );
-		// thumb
-		thumb = Item_ListBox_ThumbDrawPosition( item ); //Item_ListBox_ThumbPosition(item);
-		if ( thumb > y - SCROLLBAR_SIZE - 1 ) {
-			thumb = y - SCROLLBAR_SIZE - 1;
+		thumb = Item_ListBox_ThumbDrawPosition( item );
+		if ( thumb > y + size - listPtr->elementHeight ) {
+			thumb = y + size - listPtr->elementHeight;
 		}
-		DC->drawHandlePic( x, thumb, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarThumb );
+		{
+			vec4_t trackDim = { 0.45f, 0.45f, 0.45f, 1.0f };
+			vec4_t thumbLit = { 1.0f, 1.0f, 1.0f, 1.0f };
+			float dashY, dashStep;
+
+			// a missing elementHeight would spin the loop forever
+			dashStep = ( listPtr->elementHeight > 0 ) ? listPtr->elementHeight : 16.0f;
+			for ( dashY = y; dashY < y + size; dashY += dashStep ) {
+				DC->drawText( x, dashY, item->font, item->textscale, trackDim, "-", 0, 0, item->textStyle );
+			}
+			DC->drawText( x, thumb, item->font, item->textscale, thumbLit, "-", 0, 0, item->textStyle );
+		}
 
 		// adjust size for item painting
 		size = item->window.rect.h - 2;
@@ -3754,7 +3793,7 @@ void Item_ListBox_Paint( dnItem *item ) {
 						if ( optionalImage != NULL ) {
 							DC->drawHandlePic( x + 4 + listPtr->columnInfo[j].pos, y - 1 + listPtr->elementHeight / 2, listPtr->columnInfo[j].width, listPtr->columnInfo[j].width, optionalImage );
 						} else if ( text ) {
-							DC->drawText( x + 4 + listPtr->columnInfo[j].pos, y + listPtr->elementHeight, item->font, item->textscale, item->window.foreColor, text, 0, listPtr->columnInfo[j].maxChars, item->textStyle );
+							DC->drawText( x + 4 + listPtr->columnInfo[j].pos, y, item->font, item->textscale, Item_ListBox_RowColor( item, i ), text, 0, listPtr->columnInfo[j].maxChars, item->textStyle );
 						}
 					}
 				} else {
@@ -3762,12 +3801,8 @@ void Item_ListBox_Paint( dnItem *item ) {
 					if ( optionalImage != NULL ) {
 						// image columns from the feeder are not drawn yet
 					} else if ( text ) {
-						DC->drawText( x + 4, y + listPtr->elementHeight, item->font, item->textscale, item->window.foreColor, text, 0, 0, item->textStyle );
+						DC->drawText( x + 4, y, item->font, item->textscale, Item_ListBox_RowColor( item, i ), text, 0, 0, item->textStyle );
 					}
-				}
-
-				if ( i == item->cursorPos ) {
-					DC->fillRect( x + 2, y + 2, item->window.rect.w - SCROLLBAR_SIZE - 4, listPtr->elementHeight, item->window.outlineColor );
 				}
 
 				size -= listPtr->elementHeight;
