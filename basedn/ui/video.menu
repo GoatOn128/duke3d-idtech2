@@ -13,6 +13,7 @@
 	itemDef {
 		name "vid_header"
 		ownerdraw 1
+		rect 112 16.8 416 33.6
 		decoration
 		visible 1
 	}
@@ -20,6 +21,7 @@
 	itemDef {
 		name "vid_title"
 		ownerdraw 130
+		rect 112 28.8 416 38.4
 		decoration
 		visible 1
 	}
@@ -117,7 +119,7 @@
 
 	itemDef {
 		name "vid_apply"
-		rect 80 379.2 480 38.4
+		rect 112 379.2 416 38.4
 		ownerdraw 131
 		visible 1
 		action { play kickhit.wav ; exec vid_restart }

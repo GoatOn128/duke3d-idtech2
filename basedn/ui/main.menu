@@ -1,6 +1,7 @@
 // Duke main menu. The logo tile and the seven menu lines are ownerdraws
-// painted through the engine Duke glyph helpers. The slide keyword sets
-// the screen change direction for every menu.
+// painted through the engine Duke glyph helpers; the item rects place
+// them, a rect centered on the screen keeps the original Duke centering.
+// The slide keyword sets the screen change direction for every menu.
 {
 	name "main"
 	fullscreen 1
@@ -11,13 +12,14 @@
 	itemDef {
 		name "main_logo"
 		ownerdraw 0
+		rect 112 38.4 416 38.4
 		decoration
 		visible 1
 	}
 
 	itemDef {
 		name "main_new"
-		rect 144 127.2 416 38.4
+		rect 112 132 416 38.4
 		ownerdraw 16
 		visible 1
 		action { play kickhit.wav ; close main ; open game_episodes }
@@ -25,7 +27,7 @@
 
 	itemDef {
 		name "main_save"
-		rect 144 165.6 416 38.4
+		rect 112 170.4 416 38.4
 		ownerdraw 17
 		visible 1
 		cvarTest "dn_serveractive"
@@ -35,7 +37,7 @@
 
 	itemDef {
 		name "main_load"
-		rect 144 204 416 38.4
+		rect 112 208.8 416 38.4
 		ownerdraw 18
 		visible 1
 		action { play kickhit.wav ; close main ; open loadgame }
@@ -43,7 +45,7 @@
 
 	itemDef {
 		name "main_options"
-		rect 144 242.4 416 38.4
+		rect 112 247.2 416 38.4
 		ownerdraw 19
 		visible 1
 		action { play kickhit.wav ; close main ; open options }
@@ -51,7 +53,7 @@
 
 	itemDef {
 		name "main_multi"
-		rect 144 280.8 416 38.4
+		rect 112 285.6 416 38.4
 		ownerdraw 20
 		visible 1
 		action { play kickhit.wav ; close main ; open multiplayer }
@@ -59,7 +61,7 @@
 
 	itemDef {
 		name "main_quit"
-		rect 144 357.6 416 38.4
+		rect 112 362.4 416 38.4
 		ownerdraw 22
 		visible 1
 		action { play kickhit.wav ; close main ; open quit }

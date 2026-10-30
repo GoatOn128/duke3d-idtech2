@@ -109,10 +109,18 @@ Menu script coordinates live in a 640x480 virtual space, the idTech 3 convention
 
 Two rules of thumb cover most cases:
 
-- To center something horizontally, give it a full-width rect (x 0, width 640) and textalign 1, or place it at x 320 with the item centered.
-- A Duke y position multiplies up by about 2.4 in script space; the code tables in ui_duke_menus.cpp and ui_duke_menus2.cpp store their positions in Duke coordinates directly.
+- To center something horizontally, give it a rect centered on the screen: x 112 with width 416 puts the rect center at 320 virtual, which is the Duke screen center at 160.
+- A Duke y position maps to script space as (dukeY - 12) * 2.4, so 33.6 virtual pixels is the 14 Duke pixel row pitch and 38.4 is 16 Duke pixels.
 
-One important exception: ownerdraw items do not use the script rect for their position. The module's ownerdraw code paints those rows at the Duke positions baked into its line tables (dukeLines and duke2Lines), so moving or resizing the item in the .menu file changes nothing on screen. The rect still matters for mouse hit testing and focus order; the drawn pixels come from the code table. This is why editing the position of a header or a special row in a .menu file appears to do nothing. Making these rows honor their script rects is planned work; until then, positions of ownerdraw rows are changed in the code tables.
+Ownerdraw items honor their script rects. The module maps the rect into the Duke menu grid with the same formula the framework text drawing uses (x halves, y divides by 2.4 plus 12) and paints against it:
+
+- Line rows draw centered on the rect's center. A rect centered on the screen (center x 320 virtual, Duke 160) keeps the engine's own centering with its original layout fudge, so the shipped screens keep their exact look; any other center centers the text plainly on the rect.
+- Left anchored rows (the address book, refresh, deathmatch and begin rows of the join and start server screens) sit on the rect's left edge.
+- The logo and header tiles center on the rect's center with their top at the rect's top.
+- The save, load and server rows sit on the rect's left edge and trim their text against the rect's right edge; the deathmatch flag values right-align on the rect's right edge.
+- The credits scroller is the one exception: it ignores its rect and scrolls the whole screen.
+
+The code line tables (dukeLines in ui_duke_menus.cpp, duke2Lines in ui_duke_menus2.cpp) carry the look, not the placement: the text, brightness and cursor behavior. Where a row sits belongs to its .menu rect.
 
 ## Script commands
 
@@ -161,7 +169,7 @@ Some rows are drawn by the module instead of by the framework, and the script pi
 - 0: the spinning Duke3D logo on the main menu.
 - 1: the menu header bar, the metal plate with rivets (the MENUBAR tile, drawn centered).
 - 2: the high header bar, the same plate drawn higher, for the screens whose headers ride the top of the screen (options and customize controls, matching the original game's own placement for those two screens).
-- 16 and up: the Duke line tables. Each number indexes a row in the code tables (dukeLines in ui_duke_menus.cpp, duke2Lines in ui_duke_menus2.cpp) that carries the text, the Duke position, brightness and cursor behavior.
+- 16 and up: the Duke line tables. Each number indexes a row in the code tables (dukeLines in ui_duke_menus.cpp, duke2Lines in ui_duke_menus2.cpp) that carries the text, brightness and cursor behavior; the item rect places the row.
 - 64 and up (DUKE2_OD_BASE): the second menu set's ids. 64 to 74 are the save slot rows (slot 0 to 10), 80 to 87 the LAN server rows, 88 the credits scroller, 96 to 110 the deathmatch flag rows, 111 the deathmatch flag value readout, and 112 and up the static lines of duke2Lines.
 
 The keys screen uses ownerdraw 40 for one of its footer helpers and ownerdraw 2 for its header, for example.
@@ -271,7 +279,8 @@ Add a load line for its file in ui/menus.txt and it shows up in game. Nothing in
 
 ## Gotchas, collected
 
-- Ownerdraw rows ignore their script rect for drawing; their positions live in the code line tables. The rect still drives focus and mouse hit tests.
+- Ownerdraw rows honor their script rect for drawing, focus and mouse hit tests alike. An ownerdraw item without a rect paints at the top left corner, so every ownerdraw item in the shipped files carries one.
+- Centered ownerdraw rows keep the engine centering only when their rect is centered on the screen (rect center x 320 virtual); a rect off center centers the text plainly, and the two anchored join and start server rows sit on the rect's left edge instead.
 - The bind list shows real labels now, but the key column still reads the engine bindings by command name, so a command in binds.lst that nothing binds to shows as unbound rather than disappearing.
 - mouse button 2 behaves like escape in the menus, except while a bind capture is waiting, where it can be bound like any other key.
 - Text style 3 blinks with the focusBlink rate from ui/config.txt; focused text pulses with focusPulse. Setting either to zero freezes the effect instead of dividing by zero.

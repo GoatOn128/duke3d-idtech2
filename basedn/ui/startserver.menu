@@ -10,6 +10,7 @@
 	itemDef {
 		name "ss_header"
 		ownerdraw 1
+		rect 112 16.8 416 33.6
 		decoration
 		visible 1
 	}
@@ -17,6 +18,7 @@
 	itemDef {
 		name "ss_title"
 		ownerdraw 123
+		rect 112 28.8 416 38.4
 		decoration
 		visible 1
 	}
@@ -92,7 +94,7 @@
 
 	itemDef {
 		name "ss_dmflags"
-		rect 64 230.4 512 33.6
+		rect 80 235.2 240 33.6
 		ownerdraw 124
 		visible 1
 		action { play kickhit.wav ; close startserver ; open dmoptions }
@@ -100,7 +102,7 @@
 
 	itemDef {
 		name "ss_begin"
-		rect 64 264 512 33.6
+		rect 80 268.8 240 33.6
 		ownerdraw 125
 		visible 1
 		action { play kickhit.wav ; duke startserver }

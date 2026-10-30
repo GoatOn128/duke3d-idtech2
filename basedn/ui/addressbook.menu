@@ -10,6 +10,7 @@
 	itemDef {
 		name "ab_header"
 		ownerdraw 1
+		rect 112 16.8 416 33.6
 		decoration
 		visible 1
 	}
@@ -17,6 +18,7 @@
 	itemDef {
 		name "adr_title"
 		ownerdraw 122
+		rect 112 28.8 416 38.4
 		decoration
 		visible 1
 	}

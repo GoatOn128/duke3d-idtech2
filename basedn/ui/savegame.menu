@@ -10,6 +10,7 @@
 	itemDef {
 		name "save_header"
 		ownerdraw 1
+		rect 112 16.8 416 33.6
 		decoration
 		visible 1
 	}
@@ -17,13 +18,14 @@
 	itemDef {
 		name "save_title"
 		ownerdraw 112
+		rect 112 28.8 416 38.4
 		decoration
 		visible 1
 	}
 
 	itemDef {
 		name "save_1"
-		rect 190 96 320 33.6
+		rect 200 100.8 384 33.6
 		ownerdraw 65
 		visible 1
 		action { play kickhit.wav ; duke save 1 }
@@ -31,7 +33,7 @@
 
 	itemDef {
 		name "save_2"
-		rect 190 129.6 320 33.6
+		rect 200 134.4 384 33.6
 		ownerdraw 66
 		visible 1
 		action { play kickhit.wav ; duke save 2 }
@@ -39,7 +41,7 @@
 
 	itemDef {
 		name "save_3"
-		rect 190 163.2 320 33.6
+		rect 200 168 384 33.6
 		ownerdraw 67
 		visible 1
 		action { play kickhit.wav ; duke save 3 }
@@ -47,7 +49,7 @@
 
 	itemDef {
 		name "save_4"
-		rect 190 196.8 320 33.6
+		rect 200 201.6 384 33.6
 		ownerdraw 68
 		visible 1
 		action { play kickhit.wav ; duke save 4 }
@@ -55,7 +57,7 @@
 
 	itemDef {
 		name "save_5"
-		rect 190 230.4 320 33.6
+		rect 200 235.2 384 33.6
 		ownerdraw 69
 		visible 1
 		action { play kickhit.wav ; duke save 5 }
@@ -63,7 +65,7 @@
 
 	itemDef {
 		name "save_6"
-		rect 190 264 320 33.6
+		rect 200 268.8 384 33.6
 		ownerdraw 70
 		visible 1
 		action { play kickhit.wav ; duke save 6 }
@@ -71,7 +73,7 @@
 
 	itemDef {
 		name "save_7"
-		rect 190 297.6 320 33.6
+		rect 200 302.4 384 33.6
 		ownerdraw 71
 		visible 1
 		action { play kickhit.wav ; duke save 7 }
@@ -79,7 +81,7 @@
 
 	itemDef {
 		name "save_8"
-		rect 190 331.2 320 33.6
+		rect 200 336 384 33.6
 		ownerdraw 72
 		visible 1
 		action { play kickhit.wav ; duke save 8 }
@@ -87,7 +89,7 @@
 
 	itemDef {
 		name "save_9"
-		rect 190 364.8 320 33.6
+		rect 200 369.6 384 33.6
 		ownerdraw 73
 		visible 1
 		action { play kickhit.wav ; duke save 9 }
@@ -95,7 +97,7 @@
 
 	itemDef {
 		name "save_10"
-		rect 190 398.4 320 33.6
+		rect 200 403.2 384 33.6
 		ownerdraw 74
 		visible 1
 		action { play kickhit.wav ; duke save 10 }

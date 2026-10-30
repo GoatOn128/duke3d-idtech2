@@ -9,6 +9,7 @@
 	itemDef {
 		name "quit_header"
 		ownerdraw 1
+		rect 112 16.8 416 33.6
 		decoration
 		visible 1
 	}
@@ -16,13 +17,14 @@
 	itemDef {
 		name "quit_title"
 		ownerdraw 33
+		rect 112 187.2 416 38.4
 		decoration
 		visible 1
 	}
 
 	itemDef {
 		name "quit_yes"
-		rect 250 254.4 140 48
+		rect 112 259.2 416 38.4
 		ownerdraw 34
 		visible 1
 		action { play kickhit.wav ; exec quit }
@@ -30,7 +32,7 @@
 
 	itemDef {
 		name "quit_no"
-		rect 250 314.4 140 48
+		rect 112 319.2 416 38.4
 		ownerdraw 35
 		visible 1
 		action { play item15.wav ; close quit ; open main }
