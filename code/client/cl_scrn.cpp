@@ -42,6 +42,10 @@ qboolean scr_initialized; // ready to draw
 
 int scr_draw_loading;
 
+// set when the menu starts a level while disconnected: hold the Duke3D load
+// screen until the server data arrives
+static qboolean scr_load_pending;
+
 vrect_t scr_vrect; // position of render window on screen
 
 cvar_t *scr_viewsize;
@@ -692,6 +696,17 @@ SCR_Loading_f
 */
 void SCR_Loading_f(void)
 {
+    // the menu starts a level while still disconnected: the plaque would
+    // bail out at the console check, so hold the load screen instead until
+    // the server data arrives
+    if (cls.state == ca_disconnected)
+    {
+        if (cls.key_dest != key_console)
+        {
+            scr_load_pending = true;
+        }
+        return;
+    }
     SCR_BeginLoadingPlaque();
 }
 
@@ -1503,6 +1518,12 @@ void SCR_UpdateScreen(void)
         return; // not initialized yet
     }
 
+    // the level is up: release the menu load screen
+    if (cls.state == ca_active)
+    {
+        scr_load_pending = false;
+    }
+
     /*
     ** range check cl_camera_separation so we don't inadvertently fry someone's
     ** brain
@@ -1589,6 +1610,15 @@ void SCR_UpdateScreen(void)
             // do 3D refresh drawing, and then update the screen
             if (DN_DrawIntermission())
             {
+                // the menu is bringing a level up: the Duke3D load screen
+                // covers the killserver/wait/map gap, LOADING until the
+                // server data arrives
+                if (scr_load_pending && cls.state == ca_disconnected)
+                {
+                    re.DrawFill(0, 0, viddef.width, viddef.height, 0);
+                    UI_DrawLoadScreen();
+                    continue;
+                }
                 // keep a background under a console sliding over the menu screens
                 if (cls.state != ca_active && scr_con_current < 1.0)
                 {

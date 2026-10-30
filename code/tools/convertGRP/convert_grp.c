@@ -945,6 +945,8 @@ static int write_ui_tiles(const char *dir)
     }
     written += write_ui_tile(dir, 2456, 0, 16);
     written += write_ui_tile(dir, 2457, 0, 16);
+    /* LOADSCREEN, the backdrop dofrontscreens() draws on level load. */
+    written += write_ui_tile(dir, 3281, 0, 0);
     for (tile = 3240; tile <= 3242; tile++)
     {
         written += write_ui_tile(dir, tile, 0, 0);

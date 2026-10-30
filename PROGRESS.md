@@ -138,10 +138,13 @@ Legend:
       `DrawLoadScreen` in `ui_main.cpp`, `UI_DrawLoadScreen` in
       `dnui.cpp`): while the client loads a level the screen draws the
       Duke3D load screen, the `dofrontscreens()` layout from the
-      original PREMAP.CPP, backdrop with ENTERING and the level name,
-      instead of the Quake 2 console, the idTech 3
-      `UI_DRAW_CONNECT_SCREEN` slot; the console stays only while a
-      download runs
+      original PREMAP.CPP, the LOADSCREEN tile (3281, emitted by
+      `convertgrp`) behind LOADING or ENTERING and the level name
+      under it, instead of the Quake 2 console, the idTech 3
+      `UI_DRAW_CONNECT_SCREEN` slot; the LOADING variant holds over
+      the menu-to-server gap (`scr_load_pending` in `cl_scrn.cpp`),
+      the level name arrives with the server data, and the console
+      stays only while a download runs
 - [ ] Duke menus on the idTech 3 framework (main, new game, options,
       load, save)
 - [ ] Cut the menus over to the module, retire `menu.cpp`/`qmenu.cpp`
