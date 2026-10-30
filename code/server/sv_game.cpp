@@ -40,7 +40,7 @@ void PF_Unicast (edict_t *ent, qboolean reliable)
 		return;
 
 	p = NUM_FOR_EDICT(ent);
-	if (p < 1 || p > maxclients->value)
+	if (p < 1 || p > maxclients.GetFloat())
 		return;
 
 	client = svs.clients + (p-1);
@@ -90,7 +90,7 @@ void PF_cprintf (edict_t *ent, int level, char *fmt, ...)
 	if (ent)
 	{
 		n = NUM_FOR_EDICT(ent);
-		if (n < 1 || n > maxclients->value)
+		if (n < 1 || n > maxclients.GetFloat())
 			Com_Error (ERR_DROP, "cprintf to a non-client");
 	}
 
@@ -119,7 +119,7 @@ void PF_centerprintf (edict_t *ent, char *fmt, ...)
 	int			n;
 	
 	n = NUM_FOR_EDICT(ent);
-	if (n < 1 || n > maxclients->value)
+	if (n < 1 || n > maxclients.GetFloat())
 		return;	// Com_Error (ERR_DROP, "centerprintf to a non-client");
 
 	va_start (argptr,fmt);

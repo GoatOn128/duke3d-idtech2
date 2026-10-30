@@ -115,7 +115,7 @@ qboolean SV_SetPlayer(void)
     if (s[0] >= '0' && s[0] <= '9')
     {
         idnum = atoi(Cmd_Argv(1));
-        if (idnum < 0 || idnum >= maxclients->value)
+        if (idnum < 0 || idnum >= maxclients.GetFloat())
         {
             Com_Printf("Bad client slot: %i\n", idnum);
             return false;
@@ -132,7 +132,7 @@ qboolean SV_SetPlayer(void)
     }
 
     // check for a name match
-    for (i = 0, cl = svs.clients; i < maxclients->value; i++, cl++)
+    for (i = 0, cl = svs.clients; i < maxclients.GetFloat(); i++, cl++)
     {
         if (!cl->state)
         {
@@ -672,8 +672,8 @@ void SV_GameMap_f(void)
             // clear all the client inuse flags before saving so that
             // when the level is re-entered, the clients will spawn
             // at spawn points instead of occupying body shells
-            savedInuse = (qboolean *)(malloc(maxclients->value * sizeof(qboolean)));
-            for (i = 0, cl = svs.clients; i < maxclients->value; i++, cl++)
+            savedInuse = (qboolean *)(malloc(maxclients.GetFloat() * sizeof(qboolean)));
+            for (i = 0, cl = svs.clients; i < maxclients.GetFloat(); i++, cl++)
             {
                 savedInuse[i] = cl->edict->inuse;
                 cl->edict->inuse = false;
@@ -682,7 +682,7 @@ void SV_GameMap_f(void)
             SV_WriteLevelFile();
 
             // we must restore these for clients to transfer over correctly
-            for (i = 0, cl = svs.clients; i < maxclients->value; i++, cl++)
+            for (i = 0, cl = svs.clients; i < maxclients.GetFloat(); i++, cl++)
             {
                 cl->edict->inuse = savedInuse[i];
             }
@@ -834,7 +834,7 @@ void SV_Savegame_f(void)
         return;
     }
 
-    if (maxclients->value == 1 && svs.clients[0].edict->client->ps.stats[STAT_HEALTH] <= 0)
+    if (maxclients.GetFloat() == 1 && svs.clients[0].edict->client->ps.stats[STAT_HEALTH] <= 0)
     {
         Com_Printf("\nCan't savegame while dead!\n");
         return;
@@ -919,7 +919,7 @@ void SV_Status_f(void)
 
     Com_Printf("num score ping name            lastmsg address               qport \n");
     Com_Printf("--- ----- ---- --------------- ------- --------------------- ------\n");
-    for (i = 0, cl = svs.clients; i < maxclients->value; i++, cl++)
+    for (i = 0, cl = svs.clients; i < maxclients.GetFloat(); i++, cl++)
     {
         if (!cl->state)
         {
@@ -994,7 +994,7 @@ void SV_ConSay_f(void)
 
     strcat(text, p);
 
-    for (j = 0, client = svs.clients; j < maxclients->value; j++, client++)
+    for (j = 0, client = svs.clients; j < maxclients.GetFloat(); j++, client++)
     {
         if (client->state != cs_spawned)
         {
