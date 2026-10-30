@@ -27,9 +27,9 @@
 		name "bind_list"
 		feeder 1
 		rect 48 40 544 340
-		elementheight 16
+		elementheight 20
 		columns 2 0 256 16 288 224 14
-		textscale 0.7
+		textscale 1
 		visible 1
 	}
 

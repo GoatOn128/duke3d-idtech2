@@ -53,10 +53,12 @@ static void DC_DrawText( float x, float y, int font, float scale, vec4_t color,
     uii.MenuTextScaled( (int)( x * 0.5f + 0.5f ), (int)( y / 2.4f + 12.0f + 0.5f ), buf, selected, scale );
 }
 
-/* Duke menu text is an 8x8 grid on the 320x200 screen, so a character cell
-   is 16x16 in the 640x480 virtual space at scale 1 */
+/* the engine measures the real per-glyph widths in Duke pixels; the
+   virtual menu space is twice the 320x200 Duke grid, so the measured
+   width doubles back into virtual pixels */
 static int DC_TextWidth( const char *text, int font, float scale, int limit ) {
-    int len;
+    char buf[MAX_TOKENLENGTH];
+    int len, i;
     ( void )font;
     if ( !text ) {
         return 0;
@@ -65,7 +67,14 @@ static int DC_TextWidth( const char *text, int font, float scale, int limit ) {
     if ( limit > 0 && limit < len ) {
         len = limit;
     }
-    return (int)( len * 16.0f * scale );
+    if ( len > (int)sizeof( buf ) - 1 ) {
+        len = (int)sizeof( buf ) - 1;
+    }
+    for ( i = 0; i < len; i++ ) {
+        buf[i] = text[i];
+    }
+    buf[len] = '\0';
+    return (int)( uii.MenuTextWidth( buf ) * scale * 2.0f );
 }
 
 static int DC_TextHeight( const char *text, int font, float scale, int limit ) {

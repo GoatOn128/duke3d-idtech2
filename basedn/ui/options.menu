@@ -1,7 +1,8 @@
 // Options. The setting rows live inside a scrollable windowDef container:
 // adding an option means adding one more child itemDef, the mouse wheel
 // scrolls the container when the rows outgrow the view. Rows render at
-// textscale 0.7; the value column still lines up with the menu scope rows.
+// full glyph scale like the other Duke menus; the value column still
+// lines up with the menu scope rows.
 {
 	name "options"
 	fullscreen 1
@@ -36,7 +37,7 @@
 			text "effects volume"
 			cvarFloat s_volume 0.5 0 1
 			rect 0 0 480 24
-			textscale 0.7
+			textscale 1
 			forecolor 0.45 0.45 0.45 1
 			visible 1
 		}
@@ -47,7 +48,7 @@
 			text "music volume"
 			cvarFloat s_musicvolume 0.5 0 1
 			rect 0 24 480 24
-			textscale 0.7
+			textscale 1
 			forecolor 0.45 0.45 0.45 1
 			visible 1
 		}
@@ -58,7 +59,7 @@
 			text "music"
 			cvar "s_music"
 			rect 0 48 480 24
-			textscale 0.7
+			textscale 1
 			forecolor 0.45 0.45 0.45 1
 			visible 1
 		}
@@ -69,7 +70,7 @@
 			text "mouse speed"
 			cvarFloat sensitivity 3 1 11
 			rect 0 72 480 24
-			textscale 0.7
+			textscale 1
 			forecolor 0.45 0.45 0.45 1
 			visible 1
 		}
@@ -80,7 +81,7 @@
 			text "always run"
 			cvar "cl_run"
 			rect 0 96 480 24
-			textscale 0.7
+			textscale 1
 			forecolor 0.45 0.45 0.45 1
 			visible 1
 		}
@@ -91,7 +92,7 @@
 			text "invert mouse"
 			cvar "m_pitch"
 			rect 0 120 480 24
-			textscale 0.7
+			textscale 1
 			forecolor 0.45 0.45 0.45 1
 			visible 1
 			cvarFloatList { "no" 0.022 "yes" -0.022 }
@@ -103,7 +104,7 @@
 			text "crosshair"
 			cvar "crosshair"
 			rect 0 144 480 24
-			textscale 0.7
+			textscale 1
 			forecolor 0.45 0.45 0.45 1
 			visible 1
 			cvarFloatList { "none" 0 "cross" 1 "dot" 2 "angle" 3 }
@@ -115,7 +116,7 @@
 			text "use joystick"
 			cvar "in_joystick"
 			rect 0 168 480 24
-			textscale 0.7
+			textscale 1
 			forecolor 0.45 0.45 0.45 1
 			visible 1
 		}
@@ -125,7 +126,7 @@
 			type 1
 			text "video setup"
 			rect 0 192 480 24
-			textscale 0.7
+			textscale 1
 			forecolor 0.45 0.45 0.45 1
 			visible 1
 			action { play kickhit.wav ; close options ; open video }

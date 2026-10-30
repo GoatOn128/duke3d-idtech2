@@ -13,6 +13,12 @@
 #define DUKE_OD_GAME_HEADER 1
 #define DUKE_OD_LINE_BASE   16
 
+/* the spinning nuke menu cursor and the fixed columns the centered menus
+   park it at, like the original probe() in the Duke MENUES.CPP */
+#define DUKE_SPINNING_NUKE 2813
+#define DUKE_NUKE_LEFT_X   50
+#define DUKE_NUKE_RIGHT_X  270
+
 /* every ownerdraw line in the menus, in dukeLines order */
 enum {
     DL_MAIN_NEW,
@@ -56,7 +62,7 @@ typedef struct {
     int bright;             /* always drawn in the selected shade */
     int cursorFromStart;    /* cursor sits 18 pixels left of the text start */
     int cursorX;            /* fixed cursor x when cursorFromStart is 0 */
-    int cursorBothSides;    /* the symbol also rides the right end of the line */
+    int cursorBothSides;    /* centered lines carry the nuke pair at fixed columns */
 } dukeLine_t;
 
 static dukeLine_t dukeLines[DL_COUNT] = {
@@ -69,16 +75,16 @@ static dukeLine_t dukeLines[DL_COUNT] = {
     {"QUIT GAME",          160, 163, 0, 1, 0,  1},
 
     {"SELECT AN EPISODE",  160, 24,  1, 0, 0,  0},
-    {"L.A. MELTDOWN",      160, 70,  0, 1, 0,  0},
-    {"LUNAR APOCALYPSE",   160, 90,  0, 1, 0,  0},
-    {"SHRAPNEL CITY",      160, 110, 0, 1, 0,  0},
-    {"THE BIRTH",          160, 130, 0, 1, 0,  0},
+    {"L.A. MELTDOWN",      160, 70,  0, 1, 0,  1},
+    {"LUNAR APOCALYPSE",   160, 90,  0, 1, 0,  1},
+    {"SHRAPNEL CITY",      160, 110, 0, 1, 0,  1},
+    {"THE BIRTH",          160, 130, 0, 1, 0,  1},
 
     {"SELECT SKILL",       160, 24,  1, 0, 0,  0},
-    {"PIECE OF CAKE",      160, 70,  0, 1, 0,  0},
-    {"LET'S ROCK",         160, 90,  0, 1, 0,  0},
-    {"COME GET SOME",      160, 110, 0, 1, 0,  0},
-    {"DAMN I'M GOOD",      160, 130, 0, 1, 0,  0},
+    {"PIECE OF CAKE",      160, 70,  0, 1, 0,  1},
+    {"LET'S ROCK",         160, 90,  0, 1, 0,  1},
+    {"COME GET SOME",      160, 110, 0, 1, 0,  1},
+    {"DAMN I'M GOOD",      160, 130, 0, 1, 0,  1},
 
     {"QUIT GAME?",         160, 90,  1, 0, 0,  0},
     {"YES",                160, 120, 0, 0, 115, 0},
@@ -183,14 +189,17 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
     selected = line->bright || Duke_LineFocused( ownerDraw );
     start = uii.MenuText( line->x, line->y, line->label, selected );
     if ( !line->bright && selected ) {
-        if ( line->cursorFromStart ) {
+        if ( line->cursorBothSides && line->x == 160 ) {
+            /* centered menus park the nuke pair at the fixed columns like
+               the original probe(): the left one spins forward and the
+               right one mirrors it, instead of hugging the line's text */
+            int frame = ( uii.Milliseconds() / 66 ) % 7;
+            uii.UiTile( DUKE_NUKE_LEFT_X, line->y - 7, DUKE_SPINNING_NUKE + frame, 0, 0, 0 );
+            uii.UiTile( DUKE_NUKE_RIGHT_X, line->y - 7, DUKE_SPINNING_NUKE + ( 7 - frame ) % 7, 0, 0, 0 );
+        } else if ( line->cursorFromStart ) {
             uii.MenuCursor( start - 18, line->y - 7 );
         } else {
             uii.MenuCursor( line->cursorX, line->y - 7 );
-        }
-        if ( line->cursorBothSides ) {
-            /* the symbol also rides the right end of the centered line */
-            uii.MenuCursor( start + uii.MenuTextWidth( line->label ) + 10, line->y - 7 );
         }
     }
 }

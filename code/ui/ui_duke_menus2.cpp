@@ -376,6 +376,14 @@ static void Duke2_DrawSlot( int slot ) {
     } else {
         snprintf( label, sizeof( label ), "%2d  %s", slot, s_saveDesc[slot] );
     }
+    /* long level names would run off the 320 wide screen, so trim the
+       row until it ends inside the menu area */
+    {
+        int len = ( int )strlen( label );
+        while ( len > 1 && 100 + uii.MenuTextWidth( label ) > 296 ) {
+            label[--len] = '\0';
+        }
+    }
     start = uii.MenuText( 100, y, label, selected );
     if ( selected ) {
         uii.MenuCursor( start - 18, y - 7 );
@@ -383,10 +391,19 @@ static void Duke2_DrawSlot( int slot ) {
 }
 
 static void Duke2_DrawServer( int index ) {
-    const char *label = ( index < s_serverCount ) ? s_serverNames[index] : "<no server>";
+    char label[80];
     int y = 86 + index * 13;
     int selected = Duke2_LineFocused( DUKE2_OD_BASE + DUKE2_OD_SERVER0 + index );
-    int start = uii.MenuText( 100, y, label, selected );
+    int len, start;
+
+    snprintf( label, sizeof( label ), "%s",
+              ( index < s_serverCount ) ? s_serverNames[index] : "<no server>" );
+    /* long server names would run off the 320 wide screen */
+    len = ( int )strlen( label );
+    while ( len > 1 && 100 + uii.MenuTextWidth( label ) > 296 ) {
+        label[--len] = '\0';
+    }
+    start = uii.MenuText( 100, y, label, selected );
 
     if ( selected ) {
         uii.MenuCursor( start - 18, y - 7 );
@@ -443,10 +460,14 @@ static void Duke2_DrawDmFlag( int index ) {
     /* two columns of rows, eight on the left, seven on the right */
     int x = ( index < 8 ) ? 8 : 168;
     int y = 44 + ( index % 8 ) * 16;
+    /* the setting right-aligns inside its column so the longest label
+       never collides with it */
+    int columnEnd = ( index < 8 ) ? 152 : 312;
+    const char *value = Duke2_DmFlagValue( f, flags );
     int selected = Duke2_LineFocused( DUKE2_OD_BASE + DUKE2_OD_DMFLAG0 + index );
 
     uii.MenuText( x, y, f->label, selected );
-    uii.MenuText( x + 112, y, Duke2_DmFlagValue( f, flags ), selected );
+    uii.MenuText( columnEnd - uii.MenuTextWidth( value ), y, value, selected );
 }
 
 void Duke2_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t color ) {
