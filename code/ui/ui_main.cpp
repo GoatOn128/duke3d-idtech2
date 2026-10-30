@@ -321,7 +321,7 @@ static void DC_DrawTextWithCursor( float x, float y, int font, float scale, vec4
 
     selected = ( color && ( color[0] >= 0.75f ) && ( color[1] >= 0.75f ) );
     uii.MenuTextScaled( (int)( x * 0.5f + 0.5f ), (int)( y / 2.4f + 12.0f + 0.5f ), buf, selected, scale );
-    if ( cursor && ( dc.realTime / BLINK_DIVISOR ) % 2 == 0 ) {
+    if ( cursor && ( dc.realTime / UI_BlinkDivisor() ) % 2 == 0 ) {
         char bar[2];
         bar[0] = cursor;
         bar[1] = '\0';
@@ -566,11 +566,13 @@ static int Init( void ) {
     UI_InitMemory();
     String_Init();
     Duke_MenusInit();
-    /* the named tiles and motion parameters first: the ui text files
-       override the built-in defaults, the menu scripts and ownerdraws
-       read the tables from here on */
+    /* the ui text files first: they are the only source for the named
+       tiles, motion parameters, module behavior values and the bind
+       list; the menu scripts and ownerdraws read the tables from here on */
     dnMenuParser::LoadResources( "ui/resources.txt" );
     dnMenuParser::LoadAnimations( "ui/animations.txt" );
+    dnMenuParser::LoadConfig( "ui/config.txt" );
+    UI_LoadBindList( "ui/binds.lst" );
     /* the Duke menus are .menu script data now: ui/menus.txt lists the
        files, the qcommon menu parser loads them through the engine FS,
        and the runtime engine lists reach the parsed items right after */

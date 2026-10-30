@@ -1,7 +1,7 @@
 // Named Duke tiles the UI module draws its menus with. The names follow
 // names.h from the original Duke3D 1.5 source, the numbers are art tile
-// ids in the converted group file. Lines are "name tile"; a missing file
-// keeps the module's built-in defaults.
+// ids in the converted group file. Lines are "name tile"; the file is
+// the only source, the module ships no built-in tile numbers.
 
 MENUSCREEN          2456
 MENUBAR             2457

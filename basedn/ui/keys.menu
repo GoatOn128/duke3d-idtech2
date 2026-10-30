@@ -1,4 +1,5 @@
-// Customize controls. The rows come from the binding feeder; enter waits
+// Customize controls. The rows come from ui/binds.lst ("label" "command"
+// "default key"); enter waits
 // for the new key on the selected row, escape cancels, backspace clears.
 // The reset footer row writes every default binding back through the
 // module resetcontrols script command.
@@ -28,9 +29,9 @@
 	listDef {
 		name "bind_list"
 		feeder 1
-		rect 48 40 544 340
-		elementheight 20
-		columns 2 0 256 16 288 224 14
+		rect 48 40 544 344
+		elementheight 38
+		columns 2 0 220 13 260 300 12
 		textscale 1
 		visible 1
 	}

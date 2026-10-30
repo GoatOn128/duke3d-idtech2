@@ -517,12 +517,17 @@ void Duke2_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t 
                     /* centered menus park the nuke pair at the fixed columns
                        like the original probe(): the left one spins forward
                        and the right one mirrors it; the spin and columns
-                       come from ui/animations.txt */
+                       come from ui/animations.txt; a missing or empty file
+                       leaves nothing to spin, so the plain cursor takes over */
                     const dnuiAnims_t *anims = dnMenuParser::Anims();
                     int tile = dnMenuParser::Tile( "SPINNINGNUKEICON" );
-                    int frame = ( uii.Milliseconds() / anims->nukeFrameMs ) % anims->nukeFrames;
-                    uii.UiTile( anims->nukeLeftX, line->y - 7, tile + frame, 0, 0, 0 );
-                    uii.UiTile( anims->nukeRightX, line->y - 7, tile + ( anims->nukeFrames - frame ) % anims->nukeFrames, 0, 0, 0 );
+                    if ( anims->nukeFrames < 1 || anims->nukeFrameMs < 1 || tile < 1 ) {
+                        uii.MenuCursor( start - 18, line->y - 7 );
+                    } else {
+                        int frame = ( uii.Milliseconds() / anims->nukeFrameMs ) % anims->nukeFrames;
+                        uii.UiTile( anims->nukeLeftX, line->y - 7, tile + frame, 0, 0, 0 );
+                        uii.UiTile( anims->nukeRightX, line->y - 7, tile + ( anims->nukeFrames - frame ) % anims->nukeFrames, 0, 0, 0 );
+                    }
                 } else if ( line->cursorFromStart ) {
                     uii.MenuCursor( start - 18, line->y - 7 );
                 } else if ( line->cursorX ) {

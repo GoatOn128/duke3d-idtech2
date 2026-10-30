@@ -42,6 +42,9 @@ If you have questions concerning this license or the applicable additional terms
 /* open .menu sources at once, handles are 1..MAX_MENU_SOURCES */
 #define MAX_MENU_SOURCES 8
 
+/* nested #include depth the menu list loader allows */
+#define MAX_INCLUDE_DEPTH 8
+
 /* keyword table entry: a .menu keyword with its parse handler */
 typedef struct keywordHash_s
 {
@@ -54,10 +57,9 @@ enum { KEYWORDHASH_SIZE = 512 };
 
 /* ---- data driven ui tables ---- */
 
-/* named tiles and menu motion parameters live in ui text files
-   (ui/resources.txt, ui/animations.txt); the tables seed with the
-   built-in defaults so the menus still work when the files are
-   missing */
+/* named tiles, menu motion parameters and module behavior values live in
+   ui text files (ui/resources.txt, ui/animations.txt, ui/config.txt);
+   the tables start empty, the files are the only source */
 #define MAX_UI_RESOURCES 128
 
 typedef struct {
@@ -73,6 +75,13 @@ typedef struct {
     int nukeLeftX;              /* fixed column of the left nuke cursor */
     int nukeRightX;             /* fixed column of the right nuke cursor */
 } dnuiAnims_t;
+
+typedef struct {
+    int soundChannel;           /* channel the menus pass to startLocalSound */
+    int focusPulse;             /* focus text pulse divisor; below 1 freezes the pulse */
+    int focusBlink;             /* focus text blink switch in ms */
+    int saveInfoLength;         /* longest savegame info line, 0 keeps the whole buffer */
+} dnuiConfig_t;
 
 /* one .menu file handed over by the engine as a single malloc'd block;
    the cursor walks it token by token until the source closes */
@@ -102,17 +111,19 @@ public:
     /* loads every .menu file named by the list file (ui/menus.txt) */
     static void LoadMenus( const char *listFile );
 
-    /* ui data files: ui/resources.txt overrides the named tiles,
-       ui/animations.txt overrides the motion parameters; both keep the
-       built-in defaults when the file is missing */
+    /* ui data files: ui/resources.txt owns the named tiles,
+       ui/animations.txt owns the motion parameters, ui/config.txt owns
+       the module behavior values; the files are the only source */
     static void LoadResources( const char *file );
     static void LoadAnimations( const char *file );
+    static void LoadConfig( const char *file );
 
     /* tile id a ui resource name maps to, 0 when the name is unknown */
     static int Tile( const char *name );
 
     /* the motion parameters the menus run with */
     static const dnuiAnims_t *Anims( void );
+    static const dnuiConfig_t *Config( void );
 
 private:
     dnMenuParser( void );        /* static methods only */
@@ -283,6 +294,7 @@ private:
     /* ---- data driven ui tables ---- */
     static dnuiResource_t s_resources[MAX_UI_RESOURCES];
     static dnuiAnims_t s_anims;
+    static dnuiConfig_t s_config;
 };
 
 #endif

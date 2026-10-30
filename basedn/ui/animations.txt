@@ -1,6 +1,6 @@
-// Menu motion the UI module runs with. Lines are "keyword value"; a
-// missing file keeps the module's built-in defaults, unknown keywords
-// warn on the console.
+// Menu motion the UI module runs with. Lines are "keyword value"; the
+// file is the only source for the motion, unknown keywords warn on the
+// console.
 
 slideTime    180    // ms the screen slide transition runs
 slideDist     40    // Duke pixels the slide sweeps across
