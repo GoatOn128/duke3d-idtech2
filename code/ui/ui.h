@@ -3,7 +3,7 @@
 #ifndef DN_UI_H
 #define DN_UI_H
 #include "../game/q_shared.h"
-#define DN_UI_API_VERSION 7
+#define DN_UI_API_VERSION 8
 
 /* Command execution timings, mirroring the engine EXEC_* values. */
 #define DN_EXEC_NOW 0
@@ -81,6 +81,12 @@ typedef struct
     int (*GetCredits)(char *buffer, uint32_t size);
     int (*MenuTextScaled)(int x, int y, const char *text, int selected, float scale);
     int (*MenuTextWidth)(const char *text);
+    /* menu cinematics (client/roq.cpp): the rect is the windowDef rect in
+       the 640x480 virtual menu space */
+    int (*PlayCinematic)(const char *name, float x, float y, float w, float h);
+    void (*StopCinematic)(int handle);
+    int (*RunCinematicFrame)(int handle);
+    void (*DrawCinematic)(int handle, float x, float y, float w, float h);
 } dn_ui_import_t;
 
 typedef struct

@@ -56,6 +56,14 @@ void DN_IntroFrame(void);
 qboolean DN_IntroActive(void);
 void DN_IntroDraw(void);
 void DN_IntroKey(int key);
+
+/* menu cinematics (client/roq.cpp): RoQ playback for the UI module, the
+   rect arrives in the 640x480 virtual menu space */
+int DN_ROQ_PlayCinematic(const char *name, float x, float y, float w, float h);
+void DN_ROQ_StopCinematic(int handle);
+int DN_ROQ_RunCinematicFrame(int handle);
+void DN_ROQ_DrawCinematic(int handle, float x, float y, float w, float h);
+void DN_ROQ_StopAll(void);
 void IN_ApplyMouseDelta(usercmd_t *command, float x, float y);
 #include "input.h"
 #include "keys.h"

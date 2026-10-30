@@ -17,6 +17,7 @@ set(engine_sources
     client/dnhud.cpp
     client/dnmenu.cpp
     client/dnintro.cpp
+    client/roq.cpp
     client/dnintermission.cpp
     client/cl_tent.cpp
     client/cl_view.cpp
