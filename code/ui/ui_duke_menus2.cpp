@@ -642,6 +642,13 @@ void Duke_RunScript( char **args ) {
         if ( String_Parse( args, &arg ) ) {
             Duke2_Connect( atoi( arg ) );
         }
+    } else if ( Q_strcasecmp( cmd, "connectselected" ) == 0 ) {
+        /* the server list item names its row through the listbox cursor */
+        dnMenu *menu = Menus_FindByName( "joinserver" );
+        dnItem *list = menu ? menu->FindItemByName( "join_serverlist" ) : NULL;
+        if ( list && list->type == ITEM_TYPE_LISTBOX ) {
+            Duke2_Connect( list->cursorPos );
+        }
     } else {
         /* unknown subcommand: consume its argument so the remaining
            script tokens are not misread as more commands */

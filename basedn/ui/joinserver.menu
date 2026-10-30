@@ -1,4 +1,5 @@
-// Join server. The server rows fill from the LAN browser at runtime.
+// Join server. The server list scrolls through the LAN browser entries;
+// double click connects to the selected row.
 {
 	name "joinserver"
 	fullscreen 1
@@ -36,67 +37,14 @@
 		visible 1
 	}
 
-	itemDef {
-		name "join_server_0"
-		rect 64 172.8 512 31.2
-		ownerdraw 80
+	listDef {
+		name "join_serverlist"
+		feeder 2
+		rect 64 172.8 512 249.6
+		elementheight 31.2
+		columns 2 0 192 12 224 272 16
+		doubleclick { play kickhit.wav ; duke connectselected }
+		textscale 1
 		visible 1
-		action { duke connect 0 }
-	}
-
-	itemDef {
-		name "join_server_1"
-		rect 64 204 512 31.2
-		ownerdraw 81
-		visible 1
-		action { duke connect 1 }
-	}
-
-	itemDef {
-		name "join_server_2"
-		rect 64 235.2 512 31.2
-		ownerdraw 82
-		visible 1
-		action { duke connect 2 }
-	}
-
-	itemDef {
-		name "join_server_3"
-		rect 64 266.4 512 31.2
-		ownerdraw 83
-		visible 1
-		action { duke connect 3 }
-	}
-
-	itemDef {
-		name "join_server_4"
-		rect 64 297.6 512 31.2
-		ownerdraw 84
-		visible 1
-		action { duke connect 4 }
-	}
-
-	itemDef {
-		name "join_server_5"
-		rect 64 328.8 512 31.2
-		ownerdraw 85
-		visible 1
-		action { duke connect 5 }
-	}
-
-	itemDef {
-		name "join_server_6"
-		rect 64 360 512 31.2
-		ownerdraw 86
-		visible 1
-		action { duke connect 6 }
-	}
-
-	itemDef {
-		name "join_server_7"
-		rect 64 391.2 512 31.2
-		ownerdraw 87
-		visible 1
-		action { duke connect 7 }
 	}
 }

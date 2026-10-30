@@ -62,6 +62,9 @@ qboolean g_waitingForKey = qfalse;
 qboolean g_editingField = qfalse;
 
 static dnItem *g_bindItem = NULL;
+/* command of the row being rebound when the capture started from the bind
+   list instead of a bindDef item */
+static char s_bindRowCommand[64];
 dnItem *g_editItem = NULL;
 
 dnMenu Menus[MAX_MENUS];
@@ -1810,6 +1813,17 @@ qboolean Item_ListBox_HandleKey( dnItem *item, int key, qboolean down, qboolean 
 				return qtrue;
 			}
 		}
+		/* the bind list starts the key capture on enter; the row command
+		   comes from the feeder, not from an item cvar */
+		if ( ( key == K_ENTER || key == K_KP_ENTER ) && !listPtr->notselectable ) {
+			const char *cmd = DC->feederItemText( item->special, item->cursorPos, 0, NULL );
+			if ( ( int )item->special == DN_FEEDER_BINDS && cmd ) {
+				Q_strncpyz( s_bindRowCommand, cmd, sizeof( s_bindRowCommand ) );
+				g_waitingForKey = qtrue;
+				g_bindItem = item;
+			}
+			return qtrue;
+		}
 		// mouse hit
 		if ( key == K_MOUSE1 || key == K_MOUSE2 ) {
 			if ( item->window.flags & WINDOW_LB_LEFTARROW ) {
@@ -3440,6 +3454,9 @@ qboolean Display_KeyBindPending() {
 qboolean Item_Bind_HandleKey( dnItem *item, int key, qboolean down ) {
 	int id;
 	int i;
+	/* a bindDef carries the command in its cvar; a listbox row stores it
+	   in the capture buffer instead */
+	const char *bindCommand = ( item->type == ITEM_TYPE_BIND && item->cvar ) ? item->cvar : s_bindRowCommand;
 
 	if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) && !g_waitingForKey ) {
 		if ( down && ( key == K_MOUSE1 || key == K_ENTER ) ) {
@@ -3464,7 +3481,7 @@ qboolean Item_Bind_HandleKey( dnItem *item, int key, qboolean down ) {
 			return qtrue;
 
 		case K_BACKSPACE:
-			id = BindingIDFromName( item->cvar );
+			id = BindingIDFromName( bindCommand );
 			if ( id != -1 ) {
 				// a -1 key clears every binding of the command on the way down;
 				// returning early would leave the old second binding active
@@ -3494,7 +3511,7 @@ qboolean Item_Bind_HandleKey( dnItem *item, int key, qboolean down ) {
 	}
 
 
-	id = BindingIDFromName( item->cvar );
+	id = BindingIDFromName( bindCommand );
 
 	if ( id != -1 ) {
 		if ( key == -1 ) {

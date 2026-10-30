@@ -46,6 +46,10 @@ If you have questions concerning this license or the applicable additional terms
 #define MAX_COLOR_RANGES 10
 #define MAX_OPEN_MENUS 16
 
+/* list feeder ids the .menu listDefs reference through feeder */
+#define DN_FEEDER_BINDS      1
+#define DN_FEEDER_SERVERS    2
+
 #define WINDOW_MOUSEOVER        0x00000001  // mouse is over it, non exclusive
 #define WINDOW_HASFOCUS         0x00000002  // has cursor focus, exclusive
 #define WINDOW_VISIBLE          0x00000004  // is visible
