@@ -1,0 +1,13 @@
+// Module behavior values. Lines are "keyword value"; the file is the
+// only source, unknown keywords warn on the console.
+//
+// soundChannel   channel the menus pass to startLocalSound
+// focusPulse     focus text pulse divisor; below 1 freezes the pulse
+// focusBlink     focus text blink switch in ms
+// saveInfoLength longest savegame info line the load/save feeders show,
+//                0 keeps the whole buffer
+
+soundChannel  5
+focusPulse    75
+focusBlink    250
+saveInfoLength  256

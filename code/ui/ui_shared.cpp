@@ -31,6 +31,9 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "ui_local.h"
 
+// the ui data tables (config values, named tiles) live in the parser
+#include "../qcommon/dnmenuparser.h"
+
 // placement new installs the item subclass vtables
 #include <new>
 
@@ -144,6 +147,18 @@ static qboolean debugMode = qfalse;
 
 #define DOUBLE_CLICK_DELAY 300
 static int lastListBoxClickTime = 0;
+
+/* the behavior values come from ui/config.txt through the parser; the
+   fallbacks keep the text paint sane when the file sets nothing */
+float UI_PulseDivisor( void ) {
+    int v = dnMenuParser::Config()->focusPulse;
+    return ( v > 0 ) ? ( float )v : 1000000.0f;
+}
+
+int UI_BlinkDivisor( void ) {
+    int v = dnMenuParser::Config()->focusBlink;
+    return ( v > 0 ) ? v : 2000000000;
+}
 
 int BindingIDFromName( const char *name );
 
@@ -1352,7 +1367,7 @@ void Script_SetFocus( dnItem *item, char **args ) {
 				focusItem->RunScript( focusItem->onFocus );
 			}
 			if ( DC->Assets.itemFocusSound ) {
-				DC->startLocalSound( DC->Assets.itemFocusSound, CHAN_LOCAL_SOUND );
+				DC->startLocalSound( DC->Assets.itemFocusSound, dnMenuParser::Config()->soundChannel );
 			}
 		}
 	}
@@ -1390,7 +1405,7 @@ void Script_Exec( dnItem *item, char **args ) {
 void Script_Play( dnItem *item, char **args ) {
 	const char *val;
 	if ( String_Parse( args, &val ) ) {
-		DC->startLocalSound( DC->registerSound( val ), CHAN_LOCAL_SOUND );      // all sounds are not 3d
+		DC->startLocalSound( DC->registerSound( val ), dnMenuParser::Config()->soundChannel );      // all sounds are not 3d
 	}
 }
 
@@ -1574,7 +1589,7 @@ qboolean dnItem::SetFocus( float x, float y ) {
 	}
 
 	if ( playSound && sfx ) {
-		DC->startLocalSound( *sfx, CHAN_LOCAL_SOUND );
+		DC->startLocalSound( *sfx, dnMenuParser::Config()->soundChannel );
 	}
 
 	for ( i = 0; i < parent->itemCount; i++ ) {
@@ -1784,7 +1799,7 @@ void dnListBoxItem::SetCursorRow( int row ) {
 	if ( row != cursorPos ) {
 		cursorPos = row;
 		if ( DC->Assets.itemFocusSound ) {
-			DC->startLocalSound( DC->Assets.itemFocusSound, CHAN_LOCAL_SOUND );
+			DC->startLocalSound( DC->Assets.itemFocusSound, dnMenuParser::Config()->soundChannel );
 		}
 	}
 }
@@ -2023,7 +2038,7 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 				g_bindCapture.Start( this, cmd );
 				/* audible feedback that the row now swallows the next key */
 				if ( DC->Assets.itemFocusSound ) {
-					DC->startLocalSound( DC->Assets.itemFocusSound, CHAN_LOCAL_SOUND );
+					DC->startLocalSound( DC->Assets.itemFocusSound, dnMenuParser::Config()->soundChannel );
 				}
 			}
 			return qtrue;
@@ -3148,13 +3163,13 @@ void dnItem::TextColor( vec4_t *newColor ) {
 		lowLight[1] = 0.8 * parent->focusColor[1];
 		lowLight[2] = 0.8 * parent->focusColor[2];
 		lowLight[3] = 0.8 * parent->focusColor[3];
-		LerpColor( parent->focusColor,lowLight,*newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-	} else if ( textStyle == ITEM_TEXTSTYLE_BLINK && !( ( DC->realTime / BLINK_DIVISOR ) & 1 ) ) {
+		LerpColor( parent->focusColor,lowLight,*newColor,0.5 + 0.5 * sin( ( float )DC->realTime / UI_PulseDivisor() ) );
+	} else if ( textStyle == ITEM_TEXTSTYLE_BLINK && !( ( DC->realTime / UI_BlinkDivisor() ) & 1 ) ) {
 		lowLight[0] = 0.8 * window.foreColor[0];
 		lowLight[1] = 0.8 * window.foreColor[1];
 		lowLight[2] = 0.8 * window.foreColor[2];
 		lowLight[3] = 0.8 * window.foreColor[3];
-		LerpColor( window.foreColor,lowLight,*newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+		LerpColor( window.foreColor,lowLight,*newColor,0.5 + 0.5 * sin( ( float )DC->realTime / UI_PulseDivisor() ) );
 	} else {
 		memcpy( newColor, &window.foreColor, sizeof( vec4_t ) );
 		// items can be enabled and disabled based on cvars
@@ -3288,7 +3303,7 @@ void dnItem::PaintText( void ) {
 	/* the local holds the cvar text; the member keeps the name text, so
 	   the buffer is named differently here */
 	char buf[1024];
-	char infostring[SAVE_INFOSTRING_LENGTH];
+	char infostring[1024];
 	const char *textPtr;
 	int height, width;
 	vec4_t color;
@@ -3297,6 +3312,11 @@ void dnItem::PaintText( void ) {
 	if ( textSavegameInfo ) {
 		// the client fills this cvar right before the save info text paints
 		DC->getCVarString( "ui_savegameInfo", infostring, sizeof( infostring ) );
+		// ui/config.txt caps the line length, 0 keeps the whole buffer
+		int maxLen = dnMenuParser::Config()->saveInfoLength;
+		if ( maxLen > 0 && maxLen < ( int )sizeof( infostring ) ) {
+			infostring[maxLen] = '\0';
+		}
 		text = &infostring[0];
 	}
 
@@ -3368,7 +3388,7 @@ void dnEditFieldItem::PaintType( void ) {
 		lowLight[1] = 0.8 * owner->focusColor[1];
 		lowLight[2] = 0.8 * owner->focusColor[2];
 		lowLight[3] = 0.8 * owner->focusColor[3];
-		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( ( float )DC->realTime / UI_PulseDivisor() ) );
 	} else {
 		memcpy( &newColor, &window.foreColor, sizeof( vec4_t ) );
 	}
@@ -3396,7 +3416,7 @@ void dnYesNoItem::PaintType( void ) {
 		lowLight[1] = 0.8 * owner->focusColor[1];
 		lowLight[2] = 0.8 * owner->focusColor[2];
 		lowLight[3] = 0.8 * owner->focusColor[3];
-		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( ( float )DC->realTime / UI_PulseDivisor() ) );
 	} else {
 		memcpy( &newColor, &window.foreColor, sizeof( vec4_t ) );
 	}
@@ -3424,7 +3444,7 @@ void dnMultiItem::PaintType( void ) {
 		lowLight[1] = 0.8 * owner->focusColor[1];
 		lowLight[2] = 0.8 * owner->focusColor[2];
 		lowLight[3] = 0.8 * owner->focusColor[3];
-		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( ( float )DC->realTime / UI_PulseDivisor() ) );
 	} else {
 		memcpy( &newColor, &window.foreColor, sizeof( vec4_t ) );
 	}
@@ -3438,10 +3458,9 @@ void dnMultiItem::PaintType( void ) {
 		DC->drawText( textRect.x, textRect.y, font, textscale, newColor, value, 0, 0, textStyle );
 	}
 }
-
-
 typedef struct {
-	char    *command;
+	char    label[32];
+	char    command[32];
 	int id;
 	int defaultbind1;
 	int defaultbind2;
@@ -3449,136 +3468,97 @@ typedef struct {
 	int bind2;
 } bind_t;
 
-typedef struct
-{
-	char*   name;
-	float defaultvalue;
-	float value;
-} configcvar_t;
+#define MAX_BINDS 64
 
+/* the rows come from ui/binds.lst, the module ships no built-in list */
+static bind_t g_bindings[MAX_BINDS];
+static int g_bindCount = 0;
 
-static bind_t g_bindings[] =
-{
-	{"+scores",      -1,             -1, -1, -1},
-	{"+speed",           K_SHIFT,        -1, -1, -1},
-	{"+forward",     K_UPARROW,      -1, -1, -1},
-	{"+back",            K_DOWNARROW,    -1, -1, -1},
-	{"+moveleft",        ',',         -1, -1, -1},
-	{"+moveright",       '.',         -1, -1, -1},
-	{"+moveup",      K_SPACE,        -1, -1, -1},
-	{"+movedown",        'c',         -1, -1, -1},
-	{"+left",            K_LEFTARROW,    -1, -1, -1},
-	{"+right",           K_RIGHTARROW,   -1, -1, -1},
-	{"+strafe",      K_ALT,          -1, -1, -1},
-	{"+lookup",      K_PGDN,         -1, -1, -1},
-	{"+lookdown",        K_DEL,          -1, -1, -1},
-	{"+mlook",           '/',         -1, -1, -1},
-	{"centerview",       K_END,          -1, -1, -1},
-	{"+zoom",            'z',             -1, -1, -1},
-	{"weaponbank 1", '1',         -1, -1, -1},
-	{"weaponbank 2", '2',         -1, -1, -1},
-	{"weaponbank 3", '3',         -1, -1, -1},
-	{"weaponbank 4", '4',         -1, -1, -1},
-	{"weaponbank 5", '5',         -1, -1, -1},
-	{"weaponbank 6", '6',         -1, -1, -1},
-	{"weaponbank 7", '7',         -1, -1, -1},
-	{"weaponbank 8", '8',         -1, -1, -1},
-	{"weaponbank 9", '9',         -1, -1, -1},
-	{"weaponbank 10",    '0',         -1, -1, -1},
-	{"weapon 1",     -1,             -1, -1, -1},
-	{"weapon 2",     -1,             -1, -1, -1},
-	{"weapon 3",     -1,             -1, -1, -1},
-	{"weapon 4",     -1,             -1, -1, -1},
-	{"weapon 5",     -1,             -1, -1, -1},
-	{"weapon 6",     -1,             -1, -1, -1},
-	{"weapon 7",     -1,             -1, -1, -1},
-	{"weapon 8",     -1,             -1, -1, -1},
-	{"weapon 9",     -1,             -1, -1, -1},
-	{"weapon 10",        -1,             -1, -1, -1},
-	{"weapon 11",        -1,             -1, -1, -1},
-	{"weapon 12",        -1,             -1, -1, -1},
-	{"weapon 13",        -1,             -1, -1, -1},
-	{"weapon 14",        -1,             -1, -1, -1},
-	{"weapon 15",        -1,             -1, -1, -1},
-	{"weapon 16",        -1,             -1, -1, -1},
-	{"weapon 17",        -1,             -1, -1, -1},
-	{"weapon 18",        -1,             -1, -1, -1},
-	{"weapon 19",        -1,             -1, -1, -1},
-	{"weapon 20",        -1,             -1, -1, -1},
-	{"weapon 21",        -1,             -1, -1, -1},
-	{"weapon 22",        -1,             -1, -1, -1},
-	{"weapon 23",        -1,             -1, -1, -1},
-	{"weapon 24",        -1,             -1, -1, -1},
-	{"weapon 25",        -1,             -1, -1, -1},
-	{"weapon 26",        -1,             -1, -1, -1},
-	{"weapon 27",        -1,             -1, -1, -1},
-	{"weapon 28",        -1,             -1, -1, -1},
-	{"weapon 29",        -1,             -1, -1, -1},
-	{"weapon 30",        -1,             -1, -1, -1},
-	{"weapon 31",        -1,             -1, -1, -1},
-	{"weapon 32",        -1,             -1, -1, -1},
-	{"+attack",      K_CTRL,         -1, -1, -1},
-	{"weapprev",     K_MWHEELDOWN,   -1, -1, -1},
-	{"weapnext",     K_MWHEELUP,     -1, -1, -1},
-	{"weapalt",          -1,             -1, -1, -1},
-	{"weaplastused", -1,             -1, -1, -1},
-	{"weapnextinbank",   -1,             -1, -1, -1},
-	{"weapprevinbank",   -1,             -1, -1, -1},
-	{"+useitem",     K_ENTER,        -1, -1, -1},
-	{"itemprev",     '[',         -1, -1, -1},
-	{"itemnext",     ']',         -1, -1, -1},
-	{"+button3",     K_MOUSE3,       -1, -1, -1},
-	{"prevTeamMember",   -1,             -1, -1, -1},
-	{"nextTeamMember",   -1,             -1, -1, -1},
-	{"nextOrder",        -1,             -1, -1, -1},
-	{"confirmOrder", -1,             -1, -1, -1},
-	{"denyOrder",        -1,             -1, -1, -1},
-	{"taskOffense",  -1,             -1, -1, -1},
-	{"taskDefense",  -1,             -1, -1, -1},
-	{"taskPatrol",       -1,             -1, -1, -1},
-	{"taskCamp",     -1,             -1, -1, -1},
-	{"taskFollow",       -1,             -1, -1, -1},
-	{"taskRetrieve", -1,             -1, -1, -1},
-	{"taskEscort",       -1,             -1, -1, -1},
-	{"taskOwnFlag",  -1,             -1, -1, -1},
-	{"taskSuicide",  -1,             -1, -1, -1},
-	{"tauntKillInsult", -1,              -1, -1, -1},
-	{"tauntPraise",  -1,             -1, -1, -1},
-	{"tauntTaunt",       -1,             -1, -1, -1},
-	{"tauntDeathInsult",-1,              -1, -1, -1},
-	{"tauntGauntlet",    -1,             -1, -1, -1},
-	{"scoresUp",     -1,             -1, -1, -1},
-	{"scoresDown",       -1,             -1, -1, -1},
-	{"messagemode",  -1,             -1, -1, -1},
-	{"messagemode2", -1,             -1, -1, -1},
-	{"messagemode3", -1,             -1, -1, -1},
-	{"messagemode4", -1,             -1, -1, -1},
+/* matches a key name from the list file to a keynum through the engine
+   key name dump; returns -1 when nothing matches */
+static int Bind_KeynumFromName( const char *name ) {
+	char buf[64];
+	int i;
 
-	{"savegame quicksave",   -1,         -1, -1, -1},
-	{"loadgame quicksave",   -1,         -1, -1, -1},
+	if ( !name || !name[0] ) {
+		return -1;
+	}
+	for ( i = 0; i < 256; i++ ) {
+		buf[0] = '\0';
+		uii.Key_KeynumToStringBuf( i, buf, ( int )sizeof( buf ) );
+		if ( buf[0] && Q_strcasecmp( buf, name ) == 0 ) {
+			return i;
+		}
+	}
+	return -1;
+}
 
-	{"+activate",        -1,             -1, -1, -1},
-	{"zoomin",           -1,             -1, -1, -1},
-	{"zoomout",          -1,             -1, -1, -1},
-	{"+kick",            -1,             -1, -1, -1},
-	{"+reload",      -1,             -1, -1, -1},
-	{"+sprint",      -1,             -1, -1, -1},
-	{"notebook",     K_TAB,          -1, -1, -1},
-	{"+leanleft",        -1,             -1, -1, -1},
-	{"+leanright",       -1,             -1, -1, -1},
-	{"kill",         -1,             -1, -1, -1},
-	// Q2 engine commands shown in the Duke customize controls list
-	{"+klook",       -1,             -1, -1, -1},
-	{"inven",        -1,             -1, -1, -1},
-	{"invuse",       -1,             -1, -1, -1},
-	{"invdrop",      -1,             -1, -1, -1},
-	{"invprev",      -1,             -1, -1, -1},
-	{"invnext",      -1,             -1, -1, -1},
-	{"cmd help",     -1,             -1, -1, -1}
-};
+/*
+===============
+UI_LoadBindList
 
+reads ui/binds.lst, rows are "label" "command" "default key"; the key
+name follows the engine's Key_KeynumToStringBuf strings, an empty name
+leaves the default unbound; the file is the only source for the list
+===============
+*/
+void UI_LoadBindList( const char *file ) {
+	dnMenuSource src;
+	pc_token_t token;
+	int i;
 
-static const int g_bindCount = sizeof( g_bindings ) / sizeof( bind_t );
+	if ( !src.Open( file ) ) {
+		UI_Printf( S_COLOR_YELLOW "bind list not found: %s\n", file );
+		return;
+	}
+
+	g_bindCount = 0;
+	while ( g_bindCount < MAX_BINDS && src.ReadToken( &token ) ) {
+		char label[32];
+		char command[32];
+		char keyname[64];
+		int key;
+
+		Q_strncpyz( label, token.string, sizeof( label ) );
+		if ( !src.ReadToken( &token ) ) {
+			break;
+		}
+		Q_strncpyz( command, token.string, sizeof( command ) );
+		if ( !src.ReadToken( &token ) ) {
+			break;
+		}
+		Q_strncpyz( keyname, token.string, sizeof( keyname ) );
+
+		key = Bind_KeynumFromName( keyname );
+		if ( keyname[0] && key == -1 ) {
+			UI_Printf( S_COLOR_YELLOW "unknown default key %s for %s\n", keyname, command );
+		}
+
+		/* a repeated command refreshes its row instead of adding a
+		   second one */
+		for ( i = 0; i < g_bindCount; i++ ) {
+			if ( Q_strcasecmp( g_bindings[i].command, command ) == 0 ) {
+				break;
+			}
+		}
+		if ( i == MAX_BINDS ) {
+			break;
+		}
+		Q_strncpyz( g_bindings[i].label, label, sizeof( g_bindings[i].label ) );
+		Q_strncpyz( g_bindings[i].command, command, sizeof( g_bindings[i].command ) );
+		g_bindings[i].id = i;
+		g_bindings[i].defaultbind1 = key;
+		g_bindings[i].defaultbind2 = -1;
+		g_bindings[i].bind1 = -1;
+		g_bindings[i].bind2 = -1;
+		if ( i == g_bindCount ) {
+			g_bindCount++;
+		}
+	}
+
+	src.Close();
+}
+
 
 static void Controls_GetKeyAssignment( char *command, int *twokeys ) {
 	int count;
@@ -3694,8 +3674,9 @@ void BindingFromName( const char *cvar ) {
 	strcpy( g_nameBind1, "???" );
 }
 
-/* list feeders read the binding table directly; the command string doubles
-   as the row label so the list can never drift from the key setup */
+/* list feeders read the binding table directly; the labels come from
+   ui/binds.lst so the rows show real names, the key column stays bound
+   to the command strings */
 int UI_BindListCount( void ) {
 	return g_bindCount;
 }
@@ -3704,7 +3685,7 @@ const char *UI_BindListLabel( int index ) {
 	if ( index < 0 || index >= g_bindCount ) {
 		return NULL;
 	}
-	return g_bindings[index].command;
+	return g_bindings[index].label;
 }
 
 const char *UI_BindListKeys( int index ) {
@@ -3781,7 +3762,7 @@ void dnBindItem::PaintType( void ) {
 			lowLight[2] = 0.8f * owner->focusColor[2];
 			lowLight[3] = 0.8f * owner->focusColor[3];
 		}
-		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+		LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( ( float )DC->realTime / UI_PulseDivisor() ) );
 	} else {
 		memcpy( &newColor, &window.foreColor, sizeof( vec4_t ) );
 	}
@@ -4236,13 +4217,13 @@ void dnOwnerDrawItem::PaintType( void ) {
 			lowLight[1] = 0.8 * owner->focusColor[1];
 			lowLight[2] = 0.8 * owner->focusColor[2];
 			lowLight[3] = 0.8 * owner->focusColor[3];
-			LerpColor( owner->focusColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-		} else if ( textStyle == ITEM_TEXTSTYLE_BLINK && !( ( DC->realTime / BLINK_DIVISOR ) & 1 ) ) {
+			LerpColor( owner->focusColor,lowLight,color,0.5 + 0.5 * sin( ( float )DC->realTime / UI_PulseDivisor() ) );
+		} else if ( textStyle == ITEM_TEXTSTYLE_BLINK && !( ( DC->realTime / UI_BlinkDivisor() ) & 1 ) ) {
 			lowLight[0] = 0.8 * window.foreColor[0];
 			lowLight[1] = 0.8 * window.foreColor[1];
 			lowLight[2] = 0.8 * window.foreColor[2];
 			lowLight[3] = 0.8 * window.foreColor[3];
-			LerpColor( window.foreColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
+			LerpColor( window.foreColor,lowLight,color,0.5 + 0.5 * sin( ( float )DC->realTime / UI_PulseDivisor() ) );
 		}
 
 		if ( cvarFlags & ( CVAR_ENABLE | CVAR_DISABLE ) && !EnableShowViaCvar( CVAR_ENABLE ) ) {
@@ -4981,5 +4962,6 @@ qboolean dnMenu::OverActiveItem( float x, float y ) {
 	}
 	return qfalse;
 }
+
 
 

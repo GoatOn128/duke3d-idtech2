@@ -1,0 +1,30 @@
+// Customize controls rows. Lines are "label" "command" "default key";
+// the label is what the list shows, the command is what the engine binds,
+// the default key is what the reset footer row writes back. Key names
+// follow the engine's key name strings (the same names bind prints in
+// the console); an empty key name leaves the default unbound. This file
+// is the only source for the list, the module ships no built-in rows.
+// The commands are idTech 2 engine commands; the game code may add more.
+
+"FIRE"              "+attack"       "CTRL"
+"JUMP"              "+moveup"       "SPACE"
+"CROUCH"            "+movedown"     "C"
+"RUN"               "+speed"        "SHIFT"
+"STRAFE"            "+strafe"       "ALT"
+"MOVE FORWARD"      "+forward"      "UPARROW"
+"MOVE BACKWARD"     "+back"         "DOWNARROW"
+"TURN LEFT"         "+left"         "LEFTARROW"
+"TURN RIGHT"        "+right"        "RIGHTARROW"
+"SIDE STEP LEFT"    "+moveleft"     ","
+"SIDE STEP RIGHT"   "+moveright"    "."
+"LOOK UP"           "+lookup"       "PGDN"
+"LOOK DOWN"         "+lookdown"     "DEL"
+"CENTER VIEW"       "centerview"    "END"
+"KEYBOARD LOOK"     "+klook"        "/"
+"INVENTORY"         "inven"         "TAB"
+"USE ITEM"          "invuse"        "ENTER"
+"PREVIOUS ITEM"     "invprev"       "["
+"NEXT ITEM"         "invnext"       "]"
+"DROP ITEM"         "invdrop"       ""
+"SHOW COMMANDS"     "cmd help"      ""
+"MESSAGE"           "messagemode"   ""

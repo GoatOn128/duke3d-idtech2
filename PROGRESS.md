@@ -147,12 +147,19 @@ Legend:
       the level name arrives with the server data, and the console
       stays only while a download runs
 - [x] Menu art and motion as ui data: the qcommon menu parser grows
-      named tile and animation tables seeded with the built-in defaults;
-      `ui/resources.txt` overrides the named tiles (names follow the
-      original names.h: MENUSCREEN, MENUBAR, INGAMEDUKETHREEDEE,
-      SPINNINGNUKEICON, LOADSCREEN), `ui/animations.txt` overrides the
-      screen slide and the nuke cursor spin, and the ui module reads
-      both at init so the menus retarget without recompiling
+      named tile and animation tables; `ui/resources.txt` owns the named
+      tiles (names follow the original names.h: MENUSCREEN, MENUBAR,
+      INGAMEDUKETHREEDEE, SPINNINGNUKEICON, LOADSCREEN),
+      `ui/animations.txt` owns the screen slide and the nuke cursor
+      spin, and the ui module reads both at init so the menus retarget
+      without recompiling
+- [x] Customize controls and module config as ui data: the keys screen
+      rows come from `ui/binds.lst` ("label" "command" "default key"),
+      real labels instead of raw command names, spacing matches the
+      Duke menu grid; `ui/config.txt` owns the module behavior values
+      (sound channel, focus pulse and blink, save line length); the
+      seeded tile/animation defaults are gone so the ui text files are
+      the only source; `ui/menus.txt` gained `#include` support
 - [ ] Duke menus on the idTech 3 framework (main, new game, options,
       load, save)
 - [ ] Cut the menus over to the module, retire `menu.cpp`/`qmenu.cpp`

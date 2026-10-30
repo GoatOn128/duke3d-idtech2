@@ -2111,13 +2111,32 @@ void dnMenuParser::LoadMenus( const char *listFile ) {
         return;
     }
 
+    static int s_includeDepth = 0;
+
     while ( ReadToken( handle, &token ) ) {
         if ( Q_stricmp( token.string, "load" ) == 0 ) {
             if ( ReadToken( handle, &token ) ) {
                 Menu_Load( token.string );
             }
+        } else if ( token.string[0] == '#' ) {
+            /* "#include <file>" pulls another menu list into this one */
+            if ( !ReadToken( handle, &token ) || Q_stricmp( token.string, "include" ) != 0 ) {
+                PC_SourceWarning( handle, "expected 'include' after # but found %s\n", token.string );
+                continue;
+            }
+            if ( !ReadToken( handle, &token ) ) {
+                PC_SourceWarning( handle, "missing file after #include\n" );
+                continue;
+            }
+            if ( s_includeDepth >= MAX_INCLUDE_DEPTH ) {
+                PC_SourceWarning( handle, "#include nested too deep, %s skipped\n", token.string );
+                continue;
+            }
+            s_includeDepth++;
+            LoadMenus( token.string );
+            s_includeDepth--;
         } else {
-            PC_SourceWarning( handle, "expected 'load' but found %s\n", token.string );
+            PC_SourceWarning( handle, "expected 'load' or '#include' but found %s\n", token.string );
         }
     }
 
@@ -2126,24 +2145,19 @@ void dnMenuParser::LoadMenus( const char *listFile ) {
 
 /* ---- data driven ui tables ---- */
 
-/* the built-in defaults follow the original Duke3D 1.5 names.h tiles and
-   the motion the port shipped with; the ui text files override them */
-dnuiResource_t dnMenuParser::s_resources[MAX_UI_RESOURCES] = {
-    { "MENUSCREEN", 2456 },
-    { "MENUBAR", 2457 },
-    { "INGAMEDUKETHREEDEE", 2499 },
-    { "SPINNINGNUKEICON", 2813 },
-    { "LOADSCREEN", 3281 },
-};
-
-dnuiAnims_t dnMenuParser::s_anims = { 180, 40, 7, 66, 50, 270 };
+/* the tables start empty: the ui text files are the only source, the
+   module ships no built-in tile numbers or motion values */
+dnuiResource_t dnMenuParser::s_resources[MAX_UI_RESOURCES];
+dnuiAnims_t dnMenuParser::s_anims;
+dnuiConfig_t dnMenuParser::s_config;
 
 /*
 ===============
 dnMenuParser::LoadResources
 
 reads ui/resources.txt, "name tilenumber" lines: a known name overrides
-its entry, a new name joins the table; a missing file keeps the defaults
+its entry, a new name joins the table; a missing file leaves the table
+empty
 ===============
 */
 void dnMenuParser::LoadResources( const char *file ) {
@@ -2197,7 +2211,7 @@ int dnMenuParser::Tile( const char *name ) {
 dnMenuParser::LoadAnimations
 
 reads ui/animations.txt, "keyword value" lines; unknown keywords warn and
-keep the defaults
+are skipped
 ===============
 */
 void dnMenuParser::LoadAnimations( const char *file ) {
@@ -2244,4 +2258,48 @@ void dnMenuParser::LoadAnimations( const char *file ) {
 
 const dnuiAnims_t *dnMenuParser::Anims( void ) {
     return &s_anims;
+}
+
+/*
+===============
+dnMenuParser::LoadConfig
+
+reads ui/config.txt, "keyword value" lines with the module behavior
+values; the file is the only source, unknown keywords warn
+===============
+*/
+void dnMenuParser::LoadConfig( const char *file ) {
+    pc_token_t token;
+    int handle;
+
+    handle = OpenSource( file );
+    if ( !handle ) {
+        return;
+    }
+
+    while ( ReadToken( handle, &token ) ) {
+        int value;
+
+        if ( !PC_Int_Parse( handle, &value ) ) {
+            PC_SourceError( handle, "missing value for %s\n", token.string );
+            break;
+        }
+        if ( Q_strcasecmp( token.string, "soundChannel" ) == 0 ) {
+            s_config.soundChannel = value;
+        } else if ( Q_strcasecmp( token.string, "focusPulse" ) == 0 ) {
+            s_config.focusPulse = value;
+        } else if ( Q_strcasecmp( token.string, "focusBlink" ) == 0 ) {
+            s_config.focusBlink = value;
+        } else if ( Q_strcasecmp( token.string, "saveInfoLength" ) == 0 ) {
+            s_config.saveInfoLength = value;
+        } else {
+            PC_SourceWarning( handle, "unknown config keyword %s\n", token.string );
+        }
+    }
+
+    CloseSource( handle );
+}
+
+const dnuiConfig_t *dnMenuParser::Config( void ) {
+    return &s_config;
 }
