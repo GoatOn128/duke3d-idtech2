@@ -107,10 +107,12 @@ If you have questions concerning this license or the applicable additional terms
 #define ASSET_SLIDER_THUMB          "ui/assets/sliderbutt_1.tga"
 
 #define SCROLLBAR_SIZE      16.0
-#define SLIDER_WIDTH        96.0
+#define SLIDER_WIDTH        160.0
 #define SLIDER_HEIGHT       16.0
-#define SLIDER_THUMB_WIDTH  12.0
+#define SLIDER_THUMB_WIDTH  16.0
 #define SLIDER_THUMB_HEIGHT 20.0
+/* the Duke build draws sliders as glyph dash bars; this many segments */
+#define DUKE_SLIDER_SEGMENTS 10
 #define NUM_CROSSHAIRS      10
 
 typedef struct {

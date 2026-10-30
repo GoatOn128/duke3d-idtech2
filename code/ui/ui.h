@@ -3,7 +3,7 @@
 #ifndef DN_UI_H
 #define DN_UI_H
 #include "../game/q_shared.h"
-#define DN_UI_API_VERSION 5
+#define DN_UI_API_VERSION 6
 
 /* Command execution timings, mirroring the engine EXEC_* values. */
 #define DN_EXEC_NOW 0
@@ -66,6 +66,7 @@ typedef struct
     int (*MenuText)(int x, int y, const char *text, int selected);
     void (*MenuCursor)(int x, int y);
     void (*MenuBackground)(void);
+    void (*FadeScreen)(void);
     void (*MenuSound)(int sound);
     int (*SaveSlotInfo)(int slot, char *buffer, uint32_t size);
     int (*CanSave)(void);

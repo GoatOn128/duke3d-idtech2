@@ -273,6 +273,12 @@ static void UI_MenuBackground(void)
     DN_MenuBackground();
 }
 
+// Dim the rendered frame behind an in-game menu, the old menu.cpp behavior.
+static void UI_FadeScreen(void)
+{
+    re.DrawFadeScreen();
+}
+
 static void UI_MenuSound(int sound)
 {
     // The three menu sounds from menu.cpp, reachable by the module
@@ -848,6 +854,7 @@ dn_ui_export_t *CL_LoadUI(void)
     imports.MenuText = UI_MenuText;
     imports.MenuCursor = UI_MenuCursor;
     imports.MenuBackground = UI_MenuBackground;
+    imports.FadeScreen = UI_FadeScreen;
     imports.MenuSound = UI_MenuSound;
     imports.SaveSlotInfo = UI_SaveSlotInfo;
     imports.CanSave = UI_CanSave;

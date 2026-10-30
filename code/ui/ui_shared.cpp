@@ -2275,10 +2275,28 @@ void dnItem::StopCapture( void ) {
 
 qboolean Item_Slider_HandleKey( dnItem *item, int key, qboolean down ) {
 	float x, value, width, work;
+	editFieldDef_t *editDef = ( editFieldDef_t * )item->typeData;
+	float step;
+
+	/* keyboard adjust: one bar segment per press, matching the painted bar */
+	if ( item->window.flags & WINDOW_HASFOCUS && item->cvar && editDef &&
+		 editDef->maxVal > editDef->minVal &&
+		 ( key == K_LEFTARROW || key == K_KP_LEFTARROW ||
+		   key == K_RIGHTARROW || key == K_KP_RIGHTARROW ) ) {
+		step = ( editDef->maxVal - editDef->minVal ) / DUKE_SLIDER_SEGMENTS;
+		value = DC->getCVarValue( item->cvar );
+		value += ( key == K_LEFTARROW || key == K_KP_LEFTARROW ) ? -step : step;
+		if ( value < editDef->minVal ) {
+			value = editDef->minVal;
+		} else if ( value > editDef->maxVal ) {
+			value = editDef->maxVal;
+		}
+		DC->setCVar( item->cvar, va( "%f", value ) );
+		return qtrue;
+	}
 
 	if ( item->window.flags & WINDOW_HASFOCUS && item->cvar && Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) ) {
 		if ( key == K_MOUSE1 || key == K_ENTER || key == K_MOUSE2 || key == K_MOUSE3 ) {
-			editFieldDef_t *editDef = ( editFieldDef_t * )item->typeData;
 			if ( editDef ) {
 				rectDef_t testRect;
 				width = SLIDER_WIDTH;
@@ -3273,21 +3291,16 @@ void BindingFromName( const char *cvar ) {
 }
 
 void Item_Slider_Paint( dnItem *item ) {
-	vec4_t newColor, lowLight;
-	float x, y, value;
-	dnMenu *parent = (dnMenu*)item->parent;
-
-	value = ( item->cvar ) ? DC->getCVarValue( item->cvar ) : 0;
-
-	if ( item->window.flags & WINDOW_HASFOCUS ) {
-		lowLight[0] = 0.8 * parent->focusColor[0];
-		lowLight[1] = 0.8 * parent->focusColor[1];
-		lowLight[2] = 0.8 * parent->focusColor[2];
-		lowLight[3] = 0.8 * parent->focusColor[3];
-		LerpColor( parent->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-	} else {
-		memcpy( &newColor, &item->window.foreColor, sizeof( vec4_t ) );
-	}
+	/* the Duke build has no shader slider assets, so the bar is a row of
+	   glyph dashes: the dim bar first, then the filled part drawn bright
+	   over the same glyphs so both halves line up exactly */
+	static const char barFull[DUKE_SLIDER_SEGMENTS + 1] = "----------";
+	vec4_t barDim = { 0.45f, 0.45f, 0.45f, 1.0f };
+	vec4_t barLit = { 1.0f, 1.0f, 1.0f, 1.0f };
+	editFieldDef_t *editDef = ( editFieldDef_t * )item->typeData;
+	char filled[DUKE_SLIDER_SEGMENTS + 1];
+	float x, y, value, frac;
+	int filledCount, i;
 
 	y = item->window.rect.y;
 	if ( item->text ) {
@@ -3296,11 +3309,27 @@ void Item_Slider_Paint( dnItem *item ) {
 	} else {
 		x = item->window.rect.x;
 	}
-	DC->setColor( newColor );
-	DC->drawHandlePic( x, y, SLIDER_WIDTH, SLIDER_HEIGHT, DC->Assets.sliderBar );
 
-	x = Item_Slider_ThumbPosition( item );
-	DC->drawHandlePic( x - ( SLIDER_THUMB_WIDTH / 2 ), y - 2, SLIDER_THUMB_WIDTH, SLIDER_THUMB_HEIGHT, DC->Assets.sliderThumb );
+	value = ( item->cvar ) ? DC->getCVarValue( item->cvar ) : 0;
+	frac = 0.0f;
+	if ( editDef && editDef->maxVal > editDef->minVal ) {
+		if ( value < editDef->minVal ) {
+			value = editDef->minVal;
+		} else if ( value > editDef->maxVal ) {
+			value = editDef->maxVal;
+		}
+		frac = ( value - editDef->minVal ) / ( editDef->maxVal - editDef->minVal );
+	}
+	filledCount = ( int )( frac * DUKE_SLIDER_SEGMENTS + 0.5f );
+	for ( i = 0; i < filledCount; i++ ) {
+		filled[i] = '-';
+	}
+	filled[filledCount] = '\0';
+
+	DC->drawText( x, y, item->font, item->textscale, barDim, barFull, 0, 0, item->textStyle );
+	if ( filledCount > 0 ) {
+		DC->drawText( x, y, item->font, item->textscale, barLit, filled, 0, 0, item->textStyle );
+	}
 }
 
 void Item_Bind_Paint( dnItem *item ) {
