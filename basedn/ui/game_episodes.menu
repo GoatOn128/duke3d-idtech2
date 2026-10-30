@@ -4,7 +4,7 @@
 	fullscreen 1
 	focuscolor 1 1 1 1
 	onOpen { setfocus episode_0 }
-	onESC { play item15.wav ; close game_episodes ; open main }
+	onESC { play item15.wav ; slideclose 640 0 10 16 ; open main }
 
 	itemDef {
 		name "ep_header"
@@ -25,7 +25,7 @@
 		rect 70 134.4 500 48
 		ownerdraw 24
 		visible 1
-		action { play kickhit.wav ; setcvar dn_episode 1 ; close game_episodes ; open game_skills }
+		action { play kickhit.wav ; setcvar dn_episode 1 ; slideclose -640 0 10 16 ; open game_skills }
 	}
 
 	itemDef {
@@ -33,7 +33,7 @@
 		rect 70 182.4 500 48
 		ownerdraw 25
 		visible 1
-		action { play kickhit.wav ; setcvar dn_episode 2 ; close game_episodes ; open game_skills }
+		action { play kickhit.wav ; setcvar dn_episode 2 ; slideclose -640 0 10 16 ; open game_skills }
 	}
 
 	itemDef {
@@ -41,7 +41,7 @@
 		rect 70 230.4 500 48
 		ownerdraw 26
 		visible 1
-		action { play kickhit.wav ; setcvar dn_episode 3 ; close game_episodes ; open game_skills }
+		action { play kickhit.wav ; setcvar dn_episode 3 ; slideclose -640 0 10 16 ; open game_skills }
 	}
 
 	itemDef {
@@ -49,6 +49,6 @@
 		rect 70 278.4 500 48
 		ownerdraw 27
 		visible 1
-		action { play kickhit.wav ; setcvar dn_episode 4 ; close game_episodes ; open game_skills }
+		action { play kickhit.wav ; setcvar dn_episode 4 ; slideclose -640 0 10 16 ; open game_skills }
 	}
 }

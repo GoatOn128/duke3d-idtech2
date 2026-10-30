@@ -3,7 +3,7 @@
 	name "credits"
 	fullscreen 1
 	focuscolor 1 1 1 1
-	onESC { play item15.wav ; close credits ; open main }
+	onESC { play item15.wav ; slideclose 640 0 10 16 ; open main }
 
 	itemDef {
 		name "credits_scroll"

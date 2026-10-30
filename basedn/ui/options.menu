@@ -7,7 +7,7 @@
 	fullscreen 1
 	focuscolor 1 1 1 1
 	onOpen { setfocus opt_sfx }
-	onESC { play item15.wav ; close options ; open main }
+	onESC { play item15.wav ; slideclose 640 0 10 16 ; open main }
 
 	itemDef {
 		name "opt_header"
@@ -128,7 +128,7 @@
 			textscale 0.7
 			forecolor 0.45 0.45 0.45 1
 			visible 1
-			action { play kickhit.wav ; close options ; open video }
+			action { play kickhit.wav ; slideclose -640 0 10 16 ; open video }
 		}
 	}
 
@@ -137,7 +137,7 @@
 		rect 80 405.6 480 38.4
 		ownerdraw 37
 		visible 1
-		action { play kickhit.wav ; close options ; open keys }
+		action { play kickhit.wav ; slideclose -640 0 10 16 ; open keys }
 	}
 
 	itemDef {

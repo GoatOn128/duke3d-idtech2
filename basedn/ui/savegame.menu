@@ -5,7 +5,7 @@
 	fullscreen 1
 	focuscolor 1 1 1 1
 	onOpen { duke readsave ; setfocus save_1 }
-	onESC { play item15.wav ; close savegame ; open main }
+	onESC { play item15.wav ; slideclose 640 0 10 16 ; open main }
 
 	itemDef {
 		name "save_header"

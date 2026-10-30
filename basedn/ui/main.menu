@@ -18,7 +18,7 @@
 		rect 144 127.2 416 38.4
 		ownerdraw 16
 		visible 1
-		action { play kickhit.wav ; close main ; open game_episodes }
+		action { play kickhit.wav ; slideclose -640 0 10 16 ; open game_episodes }
 	}
 
 	itemDef {
@@ -28,7 +28,7 @@
 		visible 1
 		cvarTest "dn_serveractive"
 		enableCvar { 1 }
-		action { play kickhit.wav ; close main ; open savegame }
+		action { play kickhit.wav ; slideclose -640 0 10 16 ; open savegame }
 	}
 
 	itemDef {
@@ -36,7 +36,7 @@
 		rect 144 204 416 38.4
 		ownerdraw 18
 		visible 1
-		action { play kickhit.wav ; close main ; open loadgame }
+		action { play kickhit.wav ; slideclose -640 0 10 16 ; open loadgame }
 	}
 
 	itemDef {
@@ -44,7 +44,7 @@
 		rect 144 242.4 416 38.4
 		ownerdraw 19
 		visible 1
-		action { play kickhit.wav ; close main ; open options }
+		action { play kickhit.wav ; slideclose -640 0 10 16 ; open options }
 	}
 
 	itemDef {
@@ -52,7 +52,7 @@
 		rect 144 280.8 416 38.4
 		ownerdraw 20
 		visible 1
-		action { play kickhit.wav ; close main ; open multiplayer }
+		action { play kickhit.wav ; slideclose -640 0 10 16 ; open multiplayer }
 	}
 
 	itemDef {
@@ -60,6 +60,6 @@
 		rect 144 357.6 416 38.4
 		ownerdraw 22
 		visible 1
-		action { play kickhit.wav ; close main ; open quit }
+		action { play kickhit.wav ; slideclose -640 0 10 16 ; open quit }
 	}
 }

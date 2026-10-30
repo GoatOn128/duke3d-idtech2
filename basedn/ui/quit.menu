@@ -4,7 +4,7 @@
 	fullscreen 1
 	focuscolor 1 1 1 1
 	onOpen { setfocus quit_no }
-	onESC { play item15.wav ; close quit ; open main }
+	onESC { play item15.wav ; slideclose 640 0 10 16 ; open main }
 
 	itemDef {
 		name "quit_header"
@@ -33,6 +33,6 @@
 		rect 250 314.4 140 48
 		ownerdraw 35
 		visible 1
-		action { play item15.wav ; close quit ; open main }
+		action { play item15.wav ; slideclose 640 0 10 16 ; open main }
 	}
 }

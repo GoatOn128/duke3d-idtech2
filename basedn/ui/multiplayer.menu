@@ -4,7 +4,7 @@
 	fullscreen 1
 	focuscolor 1 1 1 1
 	onOpen { setfocus mp_join }
-	onESC { play item15.wav ; close multiplayer ; open main }
+	onESC { play item15.wav ; slideclose 640 0 10 16 ; open main }
 
 	itemDef {
 		name "mp_header"
@@ -25,7 +25,7 @@
 		rect 144 120 416 38.4
 		ownerdraw 115
 		visible 1
-		action { play kickhit.wav ; close multiplayer ; open joinserver }
+		action { play kickhit.wav ; slideclose -640 0 10 16 ; open joinserver }
 	}
 
 	itemDef {
@@ -33,7 +33,7 @@
 		rect 144 158.4 416 38.4
 		ownerdraw 116
 		visible 1
-		action { play kickhit.wav ; close multiplayer ; open startserver }
+		action { play kickhit.wav ; slideclose -640 0 10 16 ; open startserver }
 	}
 
 	itemDef {
@@ -41,6 +41,6 @@
 		rect 144 196.8 416 38.4
 		ownerdraw 117
 		visible 1
-		action { play kickhit.wav ; close multiplayer ; open playerconfig }
+		action { play kickhit.wav ; slideclose -640 0 10 16 ; open playerconfig }
 	}
 }

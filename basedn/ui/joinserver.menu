@@ -5,7 +5,7 @@
 	fullscreen 1
 	focuscolor 1 1 1 1
 	onOpen { duke refreshservers ; setfocus join_addressbook }
-	onESC { play item15.wav ; close joinserver ; open multiplayer }
+	onESC { play item15.wav ; slideclose 640 0 10 16 ; open multiplayer }
 
 	itemDef {
 		name "join_header"
@@ -26,7 +26,7 @@
 		rect 64 72 512 33.6
 		ownerdraw 119
 		visible 1
-		action { play kickhit.wav ; close joinserver ; open addressbook }
+		action { play kickhit.wav ; slideclose -640 0 10 16 ; open addressbook }
 	}
 
 	itemDef {

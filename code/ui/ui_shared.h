@@ -264,6 +264,7 @@ public:
 	dnItem *containerItem;          // nested defs: the enclosing windowDef, NULL at menu scope
 	float scrollOffset;            // scrollable containers: how far the children scrolled down
 	float scrollContent;           // scrollable containers: content height measured at offset 0
+	Rectangle slideHome;           // the on-screen layout a slide-out remembers for the next slide-in
 	qhandle_t asset;                // handle to asset
 	const char *mouseEnterText;     // mouse enter script
 	const char *mouseExitText;      // mouse exit script
@@ -400,6 +401,12 @@ public:
 	qboolean ItemInView( dnItem *item );
 	void ScrollContainerBy( dnItem *container, float delta );
 	dnItem *FindScrollContainer( void );
+
+	/* Duke 3D screen slide: shift every item by a delta, either settling
+	   into the layout (slide-in) or leaving it (slide-out) */
+	void SlideItems( float dx, float dy, int time, float amt, qboolean slideOut );
+
+	qboolean slideClosing;         // a slide-out is playing, the menu closes once it settles
 };
 
 /* the loaded menu set: the menu array, the open menu stack and every
@@ -430,12 +437,19 @@ public:
 	void CloseCinematics( void );
 	void PaintAll( void );
 	void CacheAll( void );
+	void SlideCloseByName( const char *name, float dx, float dy, int time, float amt );
 
 private:
 	dnMenu menus[MAX_MENUS];
 	int menuCount;
 	dnMenu *menuStack[MAX_OPEN_MENUS];
 	int openMenuCount;
+
+	/* the slide the next opened menu plays: the incoming direction, pacing
+	   and step count the last slideclose chose */
+	float slideInDx;
+	int slideTime;
+	float slideAmt;
 };
 
 extern dnMenuSystem g_menus;

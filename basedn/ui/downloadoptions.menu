@@ -4,7 +4,7 @@
 	fullscreen 1
 	focuscolor 1 1 1 1
 	onOpen { setfocus dl_allow }
-	onESC { play item15.wav ; close downloadoptions ; open playerconfig }
+	onESC { play item15.wav ; slideclose 640 0 10 16 ; open playerconfig }
 
 	itemDef {
 		name "dl_header"

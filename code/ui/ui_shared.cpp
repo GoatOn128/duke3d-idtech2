@@ -1043,7 +1043,12 @@ void dnMenuSystem::ShowByName( const char *p ) {
 }
 
 void dnMenuSystem::OpenByName( const char *p ) {
-	ActivateByName( p );
+	dnMenu *menu = ActivateByName( p );
+	/* the incoming screen plays the slide the last slideclose picked;
+	   without one it enters from the right like Duke 3D */
+	if ( menu != NULL ) {
+		menu->SlideItems( slideInDx, 0, slideTime, slideAmt, qfalse );
+	}
 }
 
 void dnMenu::RunCloseScript( void ) {
@@ -1062,11 +1067,25 @@ void dnMenuSystem::CloseByName( const char *p ) {
 	}
 }
 
+/* slide a screen out and close it once the slide settles; the next
+   OpenByName slides its screen in from the opposite side */
+void dnMenuSystem::SlideCloseByName( const char *name, float dx, float dy, int time, float amt ) {
+	dnMenu *menu = FindByName( name );
+	if ( menu != NULL && ( menu->window.flags & WINDOW_VISIBLE ) ) {
+		menu->SlideItems( dx, dy, time, amt, qtrue );
+		menu->slideClosing = qtrue;
+		slideInDx = -dx;
+		slideTime = time;
+		slideAmt = amt;
+	}
+}
+
 void dnMenuSystem::CloseAll() {
 	int i;
 	for ( i = 0; i < menuCount; i++ ) {
 		menus[i].RunCloseScript();
 		menus[i].window.flags &= ~( WINDOW_HASFOCUS | WINDOW_VISIBLE );
+		menus[i].slideClosing = qfalse;
 	}
 }
 
@@ -1145,6 +1164,21 @@ void Script_Close( dnItem *item, char **args ) {
 	const char *name;
 	if ( String_Parse( args, &name ) ) {
 		g_menus.CloseByName( name );
+	}
+}
+
+/* slide the current screen out by a delta and close it once the slide
+   settles; the screen the script opens next slides in from the opposite
+   side, like the Duke 3D screen transitions */
+void Script_SlideClose( dnItem *item, char **args ) {
+	float dx, dy, amt;
+	int time;
+
+	if ( Float_Parse( args, &dx ) && Float_Parse( args, &dy ) && Int_Parse( args, &time ) && Float_Parse( args, &amt ) ) {
+		dnMenu *menu = ( dnMenu * )item->parent;
+		if ( menu && menu->window.name ) {
+			g_menus.SlideCloseByName( menu->window.name, dx, dy, time, amt );
+		}
 	}
 }
 
@@ -1291,6 +1325,64 @@ void dnMenu::TransitionItemByName( const char *p, rectDef_t rectFrom, rectDef_t 
 	}
 }
 
+/* the Duke 3D screen slide: every item travels by the same delta. The
+   transition machinery steps rectClient, so the rects convert into that
+   space relative to the menu origin first. A slide-out remembers the
+   on-screen layout so the matching slide-in can settle back onto it */
+void dnMenu::SlideItems( float dx, float dy, int time, float amt, qboolean slideOut ) {
+	rectDef_t rectFrom, rectTo;
+	dnItem *item;
+	float originX, originY;
+	int i;
+
+	if ( amt <= 0 ) {
+		return;
+	}
+
+	originX = window.rect.x + ( window.border != 0 ? window.borderSize : 0 );
+	originY = window.rect.y + ( window.border != 0 ? window.borderSize : 0 );
+
+	for ( i = 0; i < itemCount; i++ ) {
+		item = items[i];
+
+		if ( slideOut ) {
+			/* remember the on-screen layout, scroll offsets included */
+			item->slideHome = item->window.rect;
+			rectFrom.x = item->window.rect.x - originX;
+			rectFrom.y = item->window.rect.y - originY;
+			rectFrom.w = item->window.rect.w;
+			rectFrom.h = item->window.rect.h;
+			rectTo = rectFrom;
+			rectTo.x += dx;
+			rectTo.y += dy;
+		} else {
+			/* settle back where the slide-out started, or the parsed layout */
+			if ( item->slideHome.w != 0 && item->slideHome.h != 0 ) {
+				rectTo.x = item->slideHome.x - originX;
+				rectTo.y = item->slideHome.y - originY;
+			} else {
+				rectTo.x = item->window.rect.x - originX;
+				rectTo.y = item->window.rect.y - originY;
+			}
+			rectTo.w = item->window.rect.w;
+			rectTo.h = item->window.rect.h;
+			rectFrom = rectTo;
+			rectFrom.x += dx;
+			rectFrom.y += dy;
+		}
+
+		item->window.flags |= ( WINDOW_INTRANSITION | WINDOW_VISIBLE );
+		item->window.offsetTime = time;
+		memcpy( &item->window.rectClient, &rectFrom, sizeof( rectDef_t ) );
+		memcpy( &item->window.rectEffects, &rectTo, sizeof( rectDef_t ) );
+		item->window.rectEffects2.x = fabs( rectTo.x - rectFrom.x ) / amt;
+		item->window.rectEffects2.y = fabs( rectTo.y - rectFrom.y ) / amt;
+		item->window.rectEffects2.w = 0;
+		item->window.rectEffects2.h = 0;
+		item->UpdatePosition();
+	}
+}
+
 
 void Script_Transition( dnItem *item, char **args ) {
 	const char *name;
@@ -1422,6 +1514,7 @@ commandDef_t commandList[] =
 	{"setcolor", &Script_SetColor},              // works on this
 	{"open", &Script_Open},                      // menu
 	{"close", &Script_Close},                    // menu
+	{"slideclose", &Script_SlideClose},          // dx dy time amt, closes the current screen
 	{"namedEvent", &Script_NamedEvent},          // run the handlers bound to the name
 	{"clipboard", &Script_Clipboard},            // show the current clipboard group by name
 	{"showpage", &Script_NotebookShowpage},
@@ -2838,6 +2931,8 @@ void dnMenuSystem::CloseCinematics() {
 }
 
 void dnMenu::Activate( void ) {
+	/* reopening cancels any slide-out still playing */
+	slideClosing = qfalse;
 	window.flags |= ( WINDOW_HASFOCUS | WINDOW_VISIBLE );
 	if ( onOpen ) {
 		dnItem item;
@@ -4819,8 +4914,28 @@ dnItem *dnMenu::AddItem( const char *name, int type ) {
 }
 
 void dnMenuSystem::PaintAll() {
-	int i;
+	int i, j;
+	qboolean busy;
+
 	g_capture.Update();
+
+	/* a screen sliding out closes once its items settle offscreen */
+	for ( i = 0; i < menuCount; i++ ) {
+		if ( !menus[i].slideClosing ) {
+			continue;
+		}
+		busy = qfalse;
+		for ( j = 0; j < menus[i].itemCount; j++ ) {
+			if ( menus[i].items[j]->window.flags & WINDOW_INTRANSITION ) {
+				busy = qtrue;
+				break;
+			}
+		}
+		if ( !busy ) {
+			menus[i].slideClosing = qfalse;
+			CloseByName( menus[i].window.name );
+		}
+	}
 
 	for ( i = 0; i < Count(); i++ ) {
 		menus[i].Paint( qfalse );
@@ -4835,6 +4950,9 @@ void dnMenuSystem::PaintAll() {
 void dnMenuSystem::Reset() {
 	menuCount = 0;
 	openMenuCount = 0;
+	slideInDx = 640;
+	slideTime = 10;
+	slideAmt = 16;
 }
 
 displayContextDef_t *Display_GetContext() {

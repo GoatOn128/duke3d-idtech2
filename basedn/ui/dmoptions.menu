@@ -5,7 +5,7 @@
 	fullscreen 1
 	focuscolor 1 1 1 1
 	onOpen { setfocus dm_0 }
-	onESC { play item15.wav ; close dmoptions ; open startserver }
+	onESC { play item15.wav ; slideclose 640 0 10 16 ; open startserver }
 
 	itemDef {
 		name "dm_header"

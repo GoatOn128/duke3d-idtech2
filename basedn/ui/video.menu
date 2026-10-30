@@ -7,7 +7,7 @@
 	fullscreen 1
 	focuscolor 1 1 1 1
 	onOpen { duke readvideo ; setfocus vid_mode }
-	onESC { play item15.wav ; close video ; open main }
+	onESC { play item15.wav ; slideclose 640 0 10 16 ; open options }
 
 	itemDef {
 		name "vid_header"
