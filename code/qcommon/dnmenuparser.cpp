@@ -51,6 +51,7 @@ dnMenuSource::dnMenuSource( void ) {
     buffer = NULL;
     cursor = NULL;
     line = 0;
+    unreadValid = qfalse;
     filename[0] = '\0';
 }
 
@@ -73,6 +74,7 @@ void dnMenuSource::Close( void ) {
     buffer = NULL;
     cursor = NULL;
     line = 0;
+    unreadValid = qfalse;
     filename[0] = '\0';
 }
 
@@ -87,6 +89,11 @@ int dnMenuSource::ReadToken( pc_token_t *token ) {
     memset( token, 0, sizeof( *token ) );
     if ( !buffer ) {
         return 0;
+    }
+    if ( unreadValid ) {
+        *token = unreadToken;
+        unreadValid = qfalse;
+        return 1;
     }
 
     p = cursor;
@@ -213,6 +220,11 @@ int dnMenuSource::ReadToken( pc_token_t *token ) {
     return 1;
 }
 
+void dnMenuSource::UnreadToken( const pc_token_t *token ) {
+    unreadToken = *token;
+    unreadValid = qtrue;
+}
+
 qboolean dnMenuSource::FileAndLine( char *out, int *outLine ) const {
     if ( !buffer ) {
         out[0] = '\0';
@@ -263,6 +275,13 @@ int dnMenuParser::ReadToken( int handle, pc_token_t *token ) {
         return 0;
     }
     return sources[handle - 1].ReadToken( token );
+}
+
+void dnMenuParser::UnreadToken( int handle, pc_token_t *token ) {
+    if ( handle < 1 || handle > MAX_MENU_SOURCES ) {
+        return;
+    }
+    sources[handle - 1].UnreadToken( token );
 }
 
 qboolean dnMenuParser::SourceFileAndLine( int handle, char *out, int *line ) {
@@ -2105,11 +2124,14 @@ qboolean dnMenuParser::Menu_New( int handle ) {
 ===============
 Menu_Load
 
-loads every menu in a .menu file; each menu is one braced block
+loads every menu in a .menu file; each menu is one braced block and
+a "#include <file>" between blocks splices another .menu file in place
 ===============
 */
 void dnMenuParser::Menu_Load( const char *menuFile ) {
     int handle;
+    pc_token_t token;
+    static int s_includeDepth = 0;
 
     handle = OpenSource( menuFile );
     if ( !handle ) {
@@ -2117,7 +2139,36 @@ void dnMenuParser::Menu_Load( const char *menuFile ) {
         return;
     }
 
-    while ( Menu_New( handle ) ) {
+    /* the file is a stream of menu blocks; a "#include <file>" between
+       blocks splices another .menu file in at that spot */
+    while ( ReadToken( handle, &token ) ) {
+        pc_token_t inc;
+
+        if ( token.type == TT_PUNCTUATION && token.string[0] == '#' ) {
+            if ( !ReadToken( handle, &inc ) || Q_stricmp( inc.string, "include" ) != 0 ) {
+                PC_SourceWarning( handle, "expected 'include' after # but found %s\n", inc.string );
+                continue;
+            }
+            if ( !ReadToken( handle, &inc ) ) {
+                PC_SourceWarning( handle, "missing file after #include\n" );
+                continue;
+            }
+            if ( s_includeDepth >= MAX_INCLUDE_DEPTH ) {
+                PC_SourceWarning( handle, "#include nested too deep, %s skipped\n", inc.string );
+                continue;
+            }
+            s_includeDepth++;
+            Menu_Load( inc.string );
+            s_includeDepth--;
+            continue;
+        }
+
+        /* peeked the next block opener: hand it back so the parser
+           reads it as its own first token */
+        UnreadToken( handle, &token );
+        if ( !Menu_New( handle ) ) {
+            break;
+        }
     }
 
     CloseSource( handle );

@@ -27,6 +27,14 @@ An include works exactly like pasting the other file's lines into this one. Incl
 
 If menus.txt is missing, no menus load at all, and if a load line names a file that does not exist you get a console warning and the rest of the list still runs.
 
+The include works inside the .menu files as well. A #include line between menu blocks splices another .menu file in at that exact spot:
+
+```
+#include ui/common.menu
+```
+
+The included file loads completely, menus and all, and the outer file picks up right where it left off. The same eight level depth limit applies, and a chain that runs too deep stops with a console warning instead of looping. Includes are only read between menu blocks: inside a menuDef the # would be an unknown keyword, so shared rows inside one screen still come through inherit or nested containers.
+
 ## The .menu file format
 
 A .menu file holds one or more menu blocks. A menu block starts with menuDef and a set of braces:
