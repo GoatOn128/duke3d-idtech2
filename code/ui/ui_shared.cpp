@@ -2092,7 +2092,6 @@ qboolean dnListBoxItem::HandleListKey( int key, qboolean down, qboolean force ) 
 				}
 				SetCursorRow( listPtr->cursorPos );
 				DC->feederSelection( special, cursorPos );
-\				} else {
 			} else {
 				listPtr->startPos -= viewmax;
 				if ( listPtr->startPos < 0 ) {
