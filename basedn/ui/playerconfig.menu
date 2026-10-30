@@ -66,7 +66,7 @@
 
 	itemDef {
 		name "pc_downloads"
-		rect 64 180 512 24
+		rect 64 206.4 512 38.4
 		ownerdraw 129
 		visible 1
 		action { play kickhit.wav ; close playerconfig ; open downloadoptions }

@@ -15,7 +15,7 @@
 
 	itemDef {
 		name "mp_join"
-		rect 144 106 416 28
+		rect 144 120 416 38.4
 		ownerdraw 115
 		visible 1
 		action { play kickhit.wav ; close multiplayer ; open joinserver }
@@ -23,7 +23,7 @@
 
 	itemDef {
 		name "mp_start"
-		rect 144 138 416 28
+		rect 144 158.4 416 38.4
 		ownerdraw 116
 		visible 1
 		action { play kickhit.wav ; close multiplayer ; open startserver }
@@ -31,7 +31,7 @@
 
 	itemDef {
 		name "mp_setup"
-		rect 144 170 416 28
+		rect 144 196.8 416 38.4
 		ownerdraw 117
 		visible 1
 		action { play kickhit.wav ; close multiplayer ; open playerconfig }

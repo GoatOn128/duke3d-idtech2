@@ -153,7 +153,7 @@
 
 	itemDef {
 		name "opt_controls"
-		rect 80 400 480 24
+		rect 80 379.2 480 33.6
 		ownerdraw 37
 		visible 1
 		action { play kickhit.wav ; close options ; open keys }
@@ -161,7 +161,7 @@
 
 	itemDef {
 		name "opt_defaults"
-		rect 80 428 480 24
+		rect 80 412.8 480 33.6
 		ownerdraw 38
 		visible 1
 		action { play kickhit.wav ; exec default.cfg }
@@ -169,7 +169,7 @@
 
 	itemDef {
 		name "opt_console"
-		rect 80 456 480 24
+		rect 80 446.4 480 33.6
 		ownerdraw 39
 		visible 1
 		action { play kickhit.wav ; close options ; exec toggleconsole }

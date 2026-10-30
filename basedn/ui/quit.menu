@@ -15,7 +15,7 @@
 
 	itemDef {
 		name "quit_yes"
-		rect 250 212 140 40
+		rect 250 254.4 140 48
 		ownerdraw 34
 		visible 1
 		action { play kickhit.wav ; exec quit }
@@ -23,7 +23,7 @@
 
 	itemDef {
 		name "quit_no"
-		rect 250 262 140 40
+		rect 250 314.4 140 48
 		ownerdraw 35
 		visible 1
 		action { play item15.wav ; close quit ; open main }
