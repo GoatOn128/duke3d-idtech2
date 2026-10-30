@@ -31,7 +31,7 @@ set(engine_sources
     client/dndebuggraph.cpp
     qcommon/crc.cpp
     qcommon/cvar.cpp
-    qcommon/CVar.cpp
+    qcommon/dncvar.cpp
     qcommon/files.cpp
     sdl/sdl_input.cpp
     client/keys.cpp

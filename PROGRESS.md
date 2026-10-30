@@ -217,7 +217,7 @@ Legend:
 ## Console and cvars (idTech 4)
 
 - [x] idTech4 style cvar system: statically declared `idCVar` objects
-      (`qcommon/CVar.h`/`CVar.cpp`, written from scratch against the
+      (`qcommon/dncvar.h`/`dncvar.cpp`, written from scratch against the
       idTech4 architecture) with typed values, declared ranges and cheat
       protection now sit behind the classic `Cvar_*()` entry points;
       the console gains `seta`, `setu`, `sets`, `reset`, `toggle` and
