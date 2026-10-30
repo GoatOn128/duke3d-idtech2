@@ -182,6 +182,11 @@ Legend:
       feeder ids, ownerdraw id blocks, voice chats and wolf multiplayer
       classes are gone, and the dead `CG_SHOW_TEXTASINT` cvar text
       check (a popup-flag alias) went with them
+- [x] Menu file includes: a `#include <file>` line between menuDef
+      blocks splices another .menu file in at that spot, nesting up to
+      eight deep like the menus.txt includes; the menu lexer grew an
+      unread (a one token push back) so the loader can peek the next
+      block opener before handing it to the parser
 - [x] UI scripting documentation: `docs/ui-scripting.md` walks through
       the whole menu system the way a person reads it, how
       `ui/menus.txt` loads screens, the .menu syntax with every

@@ -42,7 +42,7 @@ If you have questions concerning this license or the applicable additional terms
 /* open .menu sources at once, handles are 1..MAX_MENU_SOURCES */
 #define MAX_MENU_SOURCES 8
 
-/* nested #include depth the menu list loader allows */
+/* nested #include depth the menu list and menu file loaders allow */
 #define MAX_INCLUDE_DEPTH 8
 
 /* keyword table entry: a .menu keyword with its parse handler */
@@ -102,12 +102,17 @@ public:
     qboolean Open( const char *file );
     void Close( void );
     int ReadToken( pc_token_t *token );
+    /* push a token back so the next ReadToken hands it out again; one
+       token deep, a second unread overwrites the first */
+    void UnreadToken( const pc_token_t *token );
     qboolean FileAndLine( char *out, int *line ) const;
 
 private:
     char *buffer;               /* whole file text, nul-terminated */
     char *cursor;               /* next character to read */
     int line;                   /* line the last token started on */
+    pc_token_t unreadToken;     /* pushed back token, handed out first */
+    qboolean unreadValid;       /* a token sits in unreadToken */
     char filename[MAX_QPATH];
 };
 
@@ -146,6 +151,7 @@ private:
     static int OpenSource( const char *file );
     static int CloseSource( int handle );
     static int ReadToken( int handle, pc_token_t *token );
+    static void UnreadToken( int handle, pc_token_t *token );
     static qboolean SourceFileAndLine( int handle, char *filename, int *line );
 
     /* ---- parse helpers shared by the keyword handlers ---- */
