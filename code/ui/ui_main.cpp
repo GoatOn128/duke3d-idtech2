@@ -572,6 +572,7 @@ static int Init( void ) {
     dnMenuParser::LoadResources( "ui/resources.txt" );
     dnMenuParser::LoadAnimations( "ui/animations.txt" );
     dnMenuParser::LoadConfig( "ui/config.txt" );
+    dnMenuParser::LoadGui( "ui/gui.txt" );
     UI_LoadBindList( "ui/binds.lst" );
     /* the Duke menus are .menu script data now: ui/menus.txt lists the
        files, the qcommon menu parser loads them through the engine FS,

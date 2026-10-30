@@ -169,6 +169,12 @@ Legend:
       the original placement, and the code line tables carry only the
       look (text, brightness, cursor behavior); the credits scroller
       keeps ignoring its rect
+- [x] Menu inheritance and user script macros: menuDef gained an
+      `inherit` keyword that starts a menu from an already loaded one
+      (window look, colors, scripts and fade settings carry over, items
+      do not), and `ui/gui.txt` owns named script macros the scripts run
+      through `gui::<name>` (or `gui <name>`), nesting up to four deep,
+      so transitions and repeated script patterns become data
 - [x] UI scripting documentation: `docs/ui-scripting.md` walks through
       the whole menu system the way a person reads it, how
       `ui/menus.txt` loads screens, the .menu syntax with every

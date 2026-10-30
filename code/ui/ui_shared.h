@@ -293,7 +293,7 @@ public:
 	void Init( void );
 
 	/* the former Item_* framework helpers as methods */
-	void RunScript( const char *s );
+	void RunScript( const char *s, int depth = 0 );
 	void SetScreenCoords( float x, float y );
 	void UpdatePosition( void );
 	qboolean EnableShowViaCvar( int flag );

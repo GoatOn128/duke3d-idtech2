@@ -59,6 +59,7 @@ The same shape repeats everywhere: a keyword, then its values. Text strings go i
 These are the keywords a menuDef block understands:
 
 - name: the menu's name, used by open, close, setfocus and the module's own lookups.
+- inherit: start this menu from an already loaded one. The parent's window look, colors, scripts and fade settings carry over; the items do not, every menu builds its own rows. The parent must load earlier in the menu list, and the child keeps its own name no matter where inherit sits in the block.
 - fullscreen: 1 makes the menu cover the whole screen and own the keyboard.
 - rect: the menu rectangle in virtual screen coordinates (see the coordinates section below).
 - style, border, bordersize, visible: window look basics.
@@ -132,7 +133,7 @@ onESC { play item15.wav ; close keys ; open options }
 
 The framework commands:
 
-- open / close: open or close a menu by name. close with no name closes the current menu.
+- open / close: open or close a menu by name.
 - show / hide: show or hide a group or a named item.
 - fadein / fadeout: fade a group or item in or out using the menu's fade settings.
 - setfocus: move focus to a named item.
@@ -161,6 +162,22 @@ The module adds one more: duke. It takes a subcommand and forwards it to the mod
 - duke resetcontrols: write every default binding back, the reset row on the keys screen.
 
 Unknown commands warn on the console, and an unknown duke subcommand eats its argument so the rest of the script is not misread.
+
+### gui macros
+
+Scripts can also run a user macro from ui/gui.txt with the gui command:
+
+```
+onESC { gui::cancel ; close keys ; open options }
+```
+
+The macro expands to exactly the script text its line in ui/gui.txt carries, and runs right there in place; gui cancel with a space works the same. Macros can call other macros, up to four levels deep, and a loop that nests deeper warns on the console instead of hanging. Because the macro text is fixed at load time, a macro is a name for a piece of script, not a function with arguments; the reuse comes from naming the patterns your screens repeat, like the accept and cancel sounds or a transition you want on several screens:
+
+```
+"slide_up"   "transition mygroup 0 480 480 160 0 64 480 160 250 0.1"
+```
+
+That line, placed in ui/gui.txt, turns gui::slide_up into a reusable animation: any item in the group mygroup slides from the bottom of its frame into place over 250 ms. Editing the macro edits it everywhere it runs, without touching the .menu files or the C++.
 
 ## Ownerdraw ids
 
@@ -217,6 +234,15 @@ A name that already exists is retargeted, a new name joins the table. Without th
 ui/animations.txt: the motion values, one keyword and value per line. slideTime and slideDist drive the screen-change slide; nukeFrames and nukeFrameMs drive the spinning cursor cycle; nukeLeftX and nukeRightX park the cursor pair's columns on centered menus. Without the file the slide stays off and the spinning cursor hands over to the plain cursor.
 
 ui/config.txt: the module behavior values. soundChannel is the engine sound channel menu sounds play on. focusPulse is the pulse rate of focused text (smaller is faster; zero or less freezes the pulse). focusBlink is the blink switch time in milliseconds for blinking text style. saveInfoLength caps the savegame info line in the load and save feeders, with 0 meaning unlimited. All four warn on unknown keywords and degrade safely when missing.
+
+ui/gui.txt: the user script macros, one quoted name and one quoted script per line:
+
+```
+"accept"    "play kickhit.wav"
+"cancel"    "play item15.wav"
+```
+
+A repeated name retargets its macro, the table holds 32 macros, and without the file no macros exist: a gui:: name that is not in the table warns on the console and the rest of the script still runs.
 
 ui/binds.lst: the customize controls rows. Lines are a quoted label, a quoted command and a quoted default key:
 

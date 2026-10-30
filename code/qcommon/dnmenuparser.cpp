@@ -1443,6 +1443,38 @@ qboolean dnMenuParser::MenuParse_name( dnItem *item, int handle ) {
     return qtrue;
 }
 
+/* inherit: start this menu from an already loaded one. The parent's
+   window look, colors, scripts and fade settings carry over; the items
+   stay behind, every menu builds its own rows. The parent must load
+   earlier in the menu list */
+qboolean dnMenuParser::MenuParse_inherit( dnItem *item, int handle ) {
+    dnMenu *menu = (dnMenu*)item;
+    dnMenu *parent;
+    pc_token_t token;
+
+    if ( !ReadToken( handle, &token ) ) {
+        return qfalse;
+    }
+    parent = g_menus.FindByName( token.string );
+    if ( parent == NULL || parent == menu ) {
+        PC_SourceError( handle, "unknown menu to inherit: %s\n", token.string );
+        return qfalse;
+    }
+
+    /* the name stays this menu's own: keep the one parsed so far, the
+       copy would drag the parent's in */
+    {
+        const char *ownName = menu->window.name;
+
+        *menu = *parent;
+        menu->window.name = ownName;
+        menu->itemCount = 0;
+        menu->cursorItem = 0;
+        memset( menu->items, 0, sizeof( menu->items ) );
+    }
+    return qtrue;
+}
+
 qboolean dnMenuParser::MenuParse_fullscreen( dnItem *item, int handle ) {
     dnMenu *menu = (dnMenu*)item;
     if ( !PC_Int_Parse( handle, (int*)&menu->fullScreen ) ) {
@@ -1959,6 +1991,7 @@ qboolean dnMenuParser::MenuParse_slide( dnItem *item, int handle ) {
 keywordHash_t dnMenuParser::menuParseKeywords[] = {
     {"font", &dnMenuParser::MenuParse_font, NULL},
     {"name", &dnMenuParser::MenuParse_name, NULL},
+    {"inherit", &dnMenuParser::MenuParse_inherit, NULL},
     {"fullscreen", &dnMenuParser::MenuParse_fullscreen, NULL},
     {"slide", &dnMenuParser::MenuParse_slide, NULL},
     {"rect", &dnMenuParser::MenuParse_rect, NULL},
@@ -2150,6 +2183,8 @@ void dnMenuParser::LoadMenus( const char *listFile ) {
 dnuiResource_t dnMenuParser::s_resources[MAX_UI_RESOURCES];
 dnuiAnims_t dnMenuParser::s_anims;
 dnuiConfig_t dnMenuParser::s_config;
+dnuiGui_t dnMenuParser::s_gui[MAX_GUI_MACROS];
+int dnMenuParser::s_guiCount = 0;
 
 /*
 ===============
@@ -2302,4 +2337,64 @@ void dnMenuParser::LoadConfig( const char *file ) {
 
 const dnuiConfig_t *dnMenuParser::Config( void ) {
     return &s_config;
+}
+
+/*
+===============
+dnMenuParser::LoadGui
+
+reads ui/gui.txt, "name" "script" lines of user script macros; a known
+name retargets its macro, a new name joins the table; a missing file
+leaves the table empty
+===============
+*/
+void dnMenuParser::LoadGui( const char *file ) {
+    pc_token_t token;
+    int handle;
+
+    handle = OpenSource( file );
+    if ( !handle ) {
+        return;
+    }
+
+    while ( ReadToken( handle, &token ) ) {
+        char name[32];
+        char script[256];
+        int i;
+
+        Q_strncpyz( name, token.string, sizeof( name ) );
+        if ( !ReadToken( handle, &token ) ) {
+            PC_SourceWarning( handle, "missing script for gui macro %s\n", name );
+            break;
+        }
+        Q_strncpyz( script, token.string, sizeof( script ) );
+
+        for ( i = 0; i < s_guiCount; i++ ) {
+            if ( Q_strcasecmp( s_gui[i].name, name ) == 0 ) {
+                break;
+            }
+        }
+        if ( i == s_guiCount ) {
+            if ( s_guiCount >= MAX_GUI_MACROS ) {
+                PC_SourceWarning( handle, "too many gui macros, %s dropped\n", name );
+                continue;
+            }
+            s_guiCount++;
+        }
+        Q_strncpyz( s_gui[i].name, name, sizeof( s_gui[0].name ) );
+        Q_strncpyz( s_gui[i].script, script, sizeof( s_gui[0].script ) );
+    }
+
+    CloseSource( handle );
+}
+
+const char *dnMenuParser::GuiScript( const char *name ) {
+    int i;
+
+    for ( i = 0; i < s_guiCount; i++ ) {
+        if ( Q_strcasecmp( s_gui[i].name, name ) == 0 ) {
+            return s_gui[i].script;
+        }
+    }
+    return NULL;
 }
