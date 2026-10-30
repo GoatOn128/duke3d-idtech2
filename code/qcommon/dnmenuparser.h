@@ -123,6 +123,7 @@ public:
 
     /* the motion parameters the menus run with */
     static const dnuiAnims_t *Anims( void );
+    static const dnuiConfig_t *Config( void );
 
 private:
     dnMenuParser( void );        /* static methods only */
