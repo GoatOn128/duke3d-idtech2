@@ -30,8 +30,10 @@ three.
     port: `dneditfield` (console edit field) and `dnconsolehistory`
     (persistent console history). The idTech4 style cvar system
     (`dncvar.h`/`dncvar.cpp`: statically declared `idCVar` objects with typed
-    values, declared ranges and cheat protection) sits behind the
-    classic `Cvar_*()` entry points. The idTech4 style command system
+    values, declared ranges and cheat protection) owns the whole
+    registry (`cvar.cpp` folded into `dncvar.cpp`); the classic
+    `Cvar_*()` entry points remain as its compatibility layer while the
+    engine and game modules port to `idCVar`. The idTech4 style command system
     (`cmd.cpp`: command flags with a cheat gate and descriptions behind
     `Cmd_AddCommand`) does the same for the command list.
   - `ref_gl/` — the OpenGL renderer module: `gl_image`, `gl_model`,
@@ -192,7 +194,7 @@ assuming a build ran against it.
 | Frame stepping and rate caps | `qcommon/common.cpp` (`Qcommon_Frame`), `client/cl_main.cpp` (`CL_Frame`) |
 | Parallel mesh builds | `ref_gl/dnrender.cpp`, `qcommon/dnjobs.cpp` (`DN_JobsParallelFor`) |
 | Console edit field and history | `qcommon/dneditfield.cpp`, `qcommon/dnconsolehistory.cpp`, `client/console.cpp` |
-| Cvars (idTech 4 style system) | `qcommon/cvar.cpp`, `qcommon/dncvar.h`, `qcommon/dncvar.cpp` |
+| Cvars (idTech 4 style system) | `qcommon/dncvar.h`, `qcommon/dncvar.cpp` |
 | Command system (idTech 4 style) | `qcommon/cmd.cpp` |
 | Win32 system console and debug graphs | `win32/dn_syscon.cpp`, `client/dndebuggraph.cpp`, `client/console.cpp` |
 | CI behavior | `.github/workflows/build-windows.yml` |

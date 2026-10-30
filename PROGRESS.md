@@ -233,6 +233,13 @@ Legend:
       `CVar_CheatsAllowed`), and `cmdlist` gains a wildcard filter plus
       the flag letter and the description column
 
+
+- [x] cvar system consolidation: the legacy `Cvar_*()` implementation
+      moved from `qcommon/cvar.cpp` into `qcommon/dncvar.cpp`; the
+      idTech4 cvar system now owns the whole registry, with `Cvar_*()`
+      kept temporarily as the compatibility API until every module
+      ports to `idCVar`
+
 ## Engine milestones
 
 - [~] Duke-native map loading: Build `.map` files through
