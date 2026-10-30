@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // cl_main.cpp  -- client main loop
 
 #include "client.h"
+#include "../qcommon/dncvar.h"
 
 cvar_t *freelook;
 
@@ -94,11 +95,11 @@ centity_t cl_entities[MAX_EDICTS];
 
 entity_state_t cl_parse_entities[MAX_PARSE_ENTITIES];
 
-extern cvar_t *allow_download;
-extern cvar_t *allow_download_players;
-extern cvar_t *allow_download_models;
-extern cvar_t *allow_download_sounds;
-extern cvar_t *allow_download_maps;
+extern idCVar allow_download;
+extern idCVar allow_download_players;
+extern idCVar allow_download_models;
+extern idCVar allow_download_sounds;
+extern idCVar allow_download_maps;
 
 //======================================================================
 
@@ -1191,7 +1192,7 @@ void CL_RequestNextDownload(void)
         return;
     }
 
-    if (!allow_download->value && precache_check < ENV_CNT)
+    if (!allow_download.GetFloat() && precache_check < ENV_CNT)
     {
         precache_check = ENV_CNT;
     }
@@ -1200,7 +1201,7 @@ void CL_RequestNextDownload(void)
     if (precache_check == CS_MODELS)
     {                                   // confirm map
         precache_check = CS_MODELS + 2; // 0 isn't used
-        if (allow_download_maps->value)
+        if (allow_download_maps.GetFloat())
         {
             if (!CL_CheckOrDownloadFile(cl.configstrings[CS_MODELS + 1]))
             {
@@ -1210,7 +1211,7 @@ void CL_RequestNextDownload(void)
     }
     if (precache_check >= CS_MODELS && precache_check < CS_MODELS + MAX_MODELS)
     {
-        if (allow_download_models->value)
+        if (allow_download_models.GetFloat())
         {
             while (precache_check < CS_MODELS + MAX_MODELS && cl.configstrings[precache_check][0])
             {
@@ -1285,7 +1286,7 @@ void CL_RequestNextDownload(void)
     }
     if (precache_check >= CS_SOUNDS && precache_check < CS_SOUNDS + MAX_SOUNDS)
     {
-        if (allow_download_sounds->value)
+        if (allow_download_sounds.GetFloat())
         {
             if (precache_check == CS_SOUNDS)
             {
@@ -1329,7 +1330,7 @@ void CL_RequestNextDownload(void)
     if (precache_check >= CS_PLAYERSKINS &&
         precache_check < CS_PLAYERSKINS + MAX_CLIENTS * PLAYER_MULT)
     {
-        if (allow_download_players->value)
+        if (allow_download_players.GetFloat())
         {
             while (precache_check < CS_PLAYERSKINS + MAX_CLIENTS * PLAYER_MULT)
             {
@@ -1443,7 +1444,7 @@ void CL_RequestNextDownload(void)
 
     if (precache_check > ENV_CNT && precache_check < TEXTURE_CNT)
     {
-        if (allow_download->value && allow_download_maps->value)
+        if (allow_download.GetFloat() && allow_download_maps.GetFloat())
         {
             while (precache_check < TEXTURE_CNT)
             {
@@ -1481,7 +1482,7 @@ void CL_RequestNextDownload(void)
         extern int numtexinfo;
         extern mapsurface_t map_surfaces[];
 
-        if (allow_download->value && allow_download_maps->value)
+        if (allow_download.GetFloat() && allow_download_maps.GetFloat())
         {
             while (precache_tex < numtexinfo)
             {
