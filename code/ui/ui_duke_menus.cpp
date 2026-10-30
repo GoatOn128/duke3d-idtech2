@@ -11,6 +11,9 @@
 /* two standalone tiles; line ownerdraws index the line table below */
 #define DUKE_OD_MAIN_LOGO   0
 #define DUKE_OD_GAME_HEADER 1
+/* the options and controls screens ride the same bar higher: their own
+   header placement in the original menues.c (MENUBAR at y 10) */
+#define DUKE_OD_GAME_HEADER_HIGH 2
 #define DUKE_OD_LINE_BASE   16
 
 /* every ownerdraw line in the menus, in dukeLines order */
@@ -84,12 +87,12 @@ static dukeLine_t dukeLines[DL_COUNT] = {
     {"YES",                160, 120, 0, 0, 115, 0},
     {"NO",                 160, 145, 0, 0, 115, 0},
 
-    {"OPTIONS",            160, 16,  1, 0, 0,  0},
+    {"OPTIONS",            160, 15,  1, 0, 0,  0},
     {"CUSTOMIZE CONTROLS", 160, 181, 0, 1, 0,  1},
     {"RESET DEFAULTS",     160, 195, 0, 1, 0,  1},
     {NULL,                 0,   0,   0, 0, 0,  0},
 
-    {"CUSTOMIZE CONTROLS", 160, 12,  1, 0, 0,  0},
+    {"CUSTOMIZE CONTROLS", 160, 15,  1, 0, 0,  0},
 };
 
 /* the skill voice that plays before the level loads, per skill choice */
@@ -170,6 +173,10 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
     }
     if ( ownerDraw == DUKE_OD_GAME_HEADER ) {
         uii.UiTile( 160, 19, 2457, 16, 0, 0 );
+        return;
+    }
+    if ( ownerDraw == DUKE_OD_GAME_HEADER_HIGH ) {
+        uii.UiTile( 160, 10, 2457, 16, 0, 0 );
         return;
     }
     if ( ownerDraw < DUKE_OD_LINE_BASE || ownerDraw - DUKE_OD_LINE_BASE >= DL_COUNT ) {

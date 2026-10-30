@@ -11,7 +11,9 @@
 
 	itemDef {
 		name "keys_header"
-		ownerdraw 1
+		// the controls screen rides the bar higher, its own header
+		// placement in the original menues.c (MENUBAR at y 10)
+		ownerdraw 2
 		decoration
 		visible 1
 	}
