@@ -1459,7 +1459,7 @@ commandDef_t commandList[] =
 int scriptCommandCount = sizeof( commandList ) / sizeof( commandDef_t );
 
 
-void dnItem::RunScript( const char *s ) {
+void dnItem::RunScript( const char *s, int depth ) {
 	char script[1024], *p;
 	int i;
 	qboolean bRan;
@@ -1475,6 +1475,32 @@ void dnItem::RunScript( const char *s ) {
 			}
 
 			if ( command[0] == ';' && command[1] == '\0' ) {
+				continue;
+			}
+
+			// user macros from ui/gui.txt: gui::name (or gui name) expands
+			// to the macro's script; the tokenizer splits the colons off,
+			// so the name can arrive behind a :: token
+			if ( Q_strcasecmp( command, "gui" ) == 0 ) {
+				const char *macroName = NULL;
+				const char *macro;
+
+				if ( String_Parse( &p, &macroName ) && Q_strncmp( macroName, "::", 2 ) == 0 ) {
+					macroName = NULL;
+					String_Parse( &p, &macroName );
+				}
+				if ( macroName == NULL ) {
+					UI_Printf( S_COLOR_YELLOW "gui macro command without a name\n" );
+					continue;
+				}
+				macro = dnMenuParser::GuiScript( macroName );
+				if ( macro == NULL ) {
+					UI_Printf( S_COLOR_YELLOW "unknown gui macro %s\n", macroName );
+				} else if ( depth >= 4 ) {
+					UI_Printf( S_COLOR_YELLOW "gui macro %s nests too deep\n", macroName );
+				} else {
+					RunScript( macro, depth + 1 );
+				}
 				continue;
 			}
 

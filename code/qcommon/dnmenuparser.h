@@ -83,6 +83,14 @@ typedef struct {
     int saveInfoLength;         /* longest savegame info line, 0 keeps the whole buffer */
 } dnuiConfig_t;
 
+/* one user script macro from ui/gui.txt: a quoted name and a quoted
+   script the gui:: script command expands */
+#define MAX_GUI_MACROS 32
+typedef struct {
+    char name[32];
+    char script[256];
+} dnuiGui_t;
+
 /* one .menu file handed over by the engine as a single malloc'd block;
    the cursor walks it token by token until the source closes */
 class dnMenuSource
@@ -113,10 +121,12 @@ public:
 
     /* ui data files: ui/resources.txt owns the named tiles,
        ui/animations.txt owns the motion parameters, ui/config.txt owns
-       the module behavior values; the files are the only source */
+       the module behavior values, ui/gui.txt owns the script macros;
+       the files are the only source */
     static void LoadResources( const char *file );
     static void LoadAnimations( const char *file );
     static void LoadConfig( const char *file );
+    static void LoadGui( const char *file );
 
     /* tile id a ui resource name maps to, 0 when the name is unknown */
     static int Tile( const char *name );
@@ -124,6 +134,9 @@ public:
     /* the motion parameters the menus run with */
     static const dnuiAnims_t *Anims( void );
     static const dnuiConfig_t *Config( void );
+
+    /* the script a gui macro name maps to, NULL when the name is unknown */
+    static const char *GuiScript( const char *name );
 
 private:
     dnMenuParser( void );        /* static methods only */
@@ -266,6 +279,7 @@ private:
     static qboolean ItemParse_bindDef( dnItem *item, int handle );
     static qboolean ItemParse_listDef( dnItem *item, int handle );
     static qboolean MenuParse_onNamedEvent( dnItem *item, int handle );
+    static qboolean MenuParse_inherit( dnItem *item, int handle );
     static qboolean MenuParse_name( dnItem *item, int handle );
     static qboolean MenuParse_onClose( dnItem *item, int handle );
     static qboolean MenuParse_onESC( dnItem *item, int handle );
@@ -295,6 +309,8 @@ private:
     static dnuiResource_t s_resources[MAX_UI_RESOURCES];
     static dnuiAnims_t s_anims;
     static dnuiConfig_t s_config;
+    static dnuiGui_t s_gui[MAX_GUI_MACROS];
+    static int s_guiCount;
 };
 
 #endif

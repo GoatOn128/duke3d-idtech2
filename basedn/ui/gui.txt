@@ -1,0 +1,9 @@
+// User script macros for the menu scripts. Each line is a quoted name
+// and a quoted script. A script runs a macro with gui::<name> anywhere
+// a command can go, for example action { gui::accept }. Macros can call
+// other macros, up to four levels deep. A repeated name retargets its
+// macro. This file is the only source: without it no macros exist and
+// unknown gui names warn on the console.
+
+"accept"    "play kickhit.wav"
+"cancel"    "play item15.wav"
