@@ -112,7 +112,7 @@ void SV_BroadcastPrintf(int level, char *fmt, ...)
         Com_Printf("%s", copy);
     }
 
-    for (i = 0, cl = svs.clients; i < maxclients->value; i++, cl++)
+    for (i = 0, cl = svs.clients; i < maxclients.GetFloat(); i++, cl++)
     {
         if (level < cl->messagelevel)
         {
@@ -224,7 +224,7 @@ void SV_Multicast(vec3_t origin, multicast_t to)
     }
 
     // send the data to all relevent clients
-    for (j = 0, client = svs.clients; j < maxclients->value; j++, client++)
+    for (j = 0, client = svs.clients; j < maxclients.GetFloat(); j++, client++)
     {
         if (client->state == cs_free || client->state == cs_zombie)
         {
@@ -556,7 +556,7 @@ void SV_SendClientMessages(void)
     // read the next demo message if needed
     if (sv.state == ss_demo && sv.demofile)
     {
-        if (sv_paused->value)
+        if (sv_paused.GetFloat())
         {
             msglen = 0;
         }
@@ -589,7 +589,7 @@ void SV_SendClientMessages(void)
     }
 
     // send a message to each connected client
-    for (i = 0, c = svs.clients; i < maxclients->value; i++, c++)
+    for (i = 0, c = svs.clients; i < maxclients.GetFloat(); i++, c++)
     {
         if (!c->state)
         {

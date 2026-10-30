@@ -135,7 +135,7 @@ void SV_CheckForSavegame(void)
     FILE *f;
     int i;
 
-    if (sv_noreload->value)
+    if (sv_noreload.GetFloat())
     {
         return;
     }
@@ -219,8 +219,8 @@ void SV_SpawnServer(char *server, char *spawnpoint, server_state_t serverstate,
     strcpy(sv.configstrings[CS_NAME], server);
     if (Cvar_VariableValue("deathmatch"))
     {
-        sprintf(sv.configstrings[CS_AIRACCEL], "%g", sv_airaccelerate->value);
-        pm_airaccelerate = sv_airaccelerate->value;
+        sprintf(sv.configstrings[CS_AIRACCEL], "%g", sv_airaccelerate.GetFloat());
+        pm_airaccelerate = sv_airaccelerate.GetFloat();
     }
     else
     {
@@ -233,7 +233,7 @@ void SV_SpawnServer(char *server, char *spawnpoint, server_state_t serverstate,
     strcpy(sv.name, server);
 
     // leave slots at start for clients only
-    for (i = 0; i < maxclients->value; i++)
+    for (i = 0; i < maxclients.GetFloat(); i++)
     {
         // needs to reconnect
         if (svs.clients[i].state > cs_connected)
@@ -356,18 +356,18 @@ void SV_InitGame(void)
     // init clients
     if (Cvar_VariableValue("deathmatch"))
     {
-        if (maxclients->value <= 1)
+        if (maxclients.GetFloat() <= 1)
         {
             Cvar_FullSet("maxclients", "8", CVAR_SERVERINFO | CVAR_LATCH);
         }
-        else if (maxclients->value > MAX_CLIENTS)
+        else if (maxclients.GetFloat() > MAX_CLIENTS)
         {
             Cvar_FullSet("maxclients", va("%i", MAX_CLIENTS), CVAR_SERVERINFO | CVAR_LATCH);
         }
     }
     else if (Cvar_VariableValue("coop"))
     {
-        if (maxclients->value <= 1 || maxclients->value > 4)
+        if (maxclients.GetFloat() <= 1 || maxclients.GetFloat() > 4)
         {
             Cvar_FullSet("maxclients", "4", CVAR_SERVERINFO | CVAR_LATCH);
         }
@@ -390,12 +390,12 @@ void SV_InitGame(void)
     }
 
     svs.spawncount = rand();
-    svs.clients = (client_t *)(Z_Malloc(sizeof(client_t) * maxclients->value));
-    svs.num_client_entities = maxclients->value * UPDATE_BACKUP * MAX_EDICTS;
+    svs.clients = (client_t *)(Z_Malloc(sizeof(client_t) * maxclients.GetFloat()));
+    svs.num_client_entities = maxclients.GetFloat() * UPDATE_BACKUP * MAX_EDICTS;
     svs.client_entities = (entity_state_t *)(Z_Malloc(sizeof(entity_state_t) * svs.num_client_entities));
 
     // init network stuff
-    NET_Config(dedicated->value || maxclients->value > 1);
+    NET_Config(dedicated->value || maxclients.GetFloat() > 1);
 
     // heartbeats will always be sent to the id master
     svs.last_heartbeat = -99999; // send immediately
@@ -404,7 +404,7 @@ void SV_InitGame(void)
 
     // init game
     SV_InitGameProgs();
-    for (i = 0; i < maxclients->value; i++)
+    for (i = 0; i < maxclients.GetFloat(); i++)
     {
         ent = EDICT_NUM(i + 1);
         ent->s.number = i + 1;

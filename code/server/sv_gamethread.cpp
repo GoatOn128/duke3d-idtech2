@@ -33,8 +33,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../qcommon/dnerrortrap.h"
 
-static cvar_t *com_smp;
-static cvar_t *com_sleepGame;
+static idCVar com_smp("com_smp", "1", 0);
+static idCVar com_sleepGame("com_sleepGame", "0", 0);
 
 DN_GameThread gameThread;
 
@@ -48,8 +48,7 @@ void DN_GameThread::Init()
 {
     // BFG com_smp: run the game code on its own thread; com_sleepGame
     // adds an artificial sleep to the tic for frame pacing tests
-    com_smp = Cvar_Get("com_smp", "1", 0);
-    com_sleepGame = Cvar_Get("com_sleepGame", "0", 0);
+    // (both are statically declared idCVar objects)
 }
 
 void DN_GameThread::Shutdown()
@@ -66,9 +65,9 @@ int DN_GameThread::Run()
     int i;
 
     // debugging tool to test frame pacing, like the BFG com_sleepGame
-    if (com_sleepGame->value)
+    if (com_sleepGame.GetFloat())
     {
-        SDL_Delay((int)com_sleepGame->value);
+        SDL_Delay((int)com_sleepGame.GetFloat());
     }
 
     // Com_Error cannot unwind across threads: while the trap is
@@ -100,7 +99,7 @@ int DN_GameThread::Run()
 
 void DN_GameThread::RunGameTic()
 {
-    if (com_smp->value)
+    if (com_smp.GetFloat())
     {
         // like the BFG RunGameAndDraw: the thread starts once and every
         // tic is one SignalWork / WaitForThread cycle

@@ -240,6 +240,17 @@ Legend:
       kept temporarily as the compatibility API until every module
       ports to `idCVar`
 
+- [x] server module ports to `idCVar`: every cvar the server
+      declares (`sv_paused`, `maxclients`, `sv_noreload`,
+      `sv_airaccelerate`, `sv_enforcetime`, `timeout`, `zombietime`,
+      `rcon_password`, the `allow_download` family, `sv_showclamp`,
+      `hostname`, `public_server`, `sv_reconnect_limit`, `sv_timedemo`,
+      plus `com_smp`/`com_sleepGame` on the game thread) is now a
+      statically constructed `idCVar` object registered from
+      `Cvar_Init`, the `->value`/`->string` field reads are typed
+      `Get*()` calls, and `SV_Init` keeps only the by-name `Cvar_Get`
+      registrations it reads through the registry
+
 ## Engine milestones
 
 - [~] Duke-native map loading: Build `.map` files through

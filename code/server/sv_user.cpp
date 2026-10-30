@@ -302,11 +302,11 @@ SV_BeginDownload_f
 void SV_BeginDownload_f(void)
 {
 	char	*name;
-	extern	cvar_t *allow_download;
-	extern	cvar_t *allow_download_players;
-	extern	cvar_t *allow_download_models;
-	extern	cvar_t *allow_download_sounds;
-	extern	cvar_t *allow_download_maps;
+	extern	idCVar	allow_download;
+	extern	idCVar	allow_download_players;
+	extern	idCVar	allow_download_models;
+	extern	idCVar	allow_download_sounds;
+	extern	idCVar	allow_download_maps;
 	extern	int		file_from_pak; // ZOID did file come from pak?
 	int offset = 0;
 
@@ -317,19 +317,19 @@ void SV_BeginDownload_f(void)
 
 	// hacked by zoid to allow more conrol over download
 	// first off, no .. or global allow check
-	if (strstr (name, "..") || !allow_download->value
+	if (strstr (name, "..") || !allow_download.GetFloat()
 		// leading dot is no good
 		|| *name == '.' 
 		// leading slash bad as well, must be in subdir
 		|| *name == '/'
 		// next up, skin check
-		|| (strncmp(name, "players/", 6) == 0 && !allow_download_players->value)
+		|| (strncmp(name, "players/", 6) == 0 && !allow_download_players.GetFloat())
 		// now models
-		|| (strncmp(name, "models/", 6) == 0 && !allow_download_models->value)
+		|| (strncmp(name, "models/", 6) == 0 && !allow_download_models.GetFloat())
 		// now sounds
-		|| (strncmp(name, "sound/", 6) == 0 && !allow_download_sounds->value)
+		|| (strncmp(name, "sound/", 6) == 0 && !allow_download_sounds.GetFloat())
 		// now maps (note special case for maps, must not be in pak)
-		|| (strncmp(name, "maps/", 6) == 0 && !allow_download_maps->value)
+		|| (strncmp(name, "maps/", 6) == 0 && !allow_download_maps.GetFloat())
 		// MUST be in a subdirectory	
 		|| !strstr (name, "/") )	
 	{	// don't allow anything with .. path
@@ -511,7 +511,7 @@ void SV_ClientThink (client_t *cl, usercmd_t *cmd)
 {
 	cl->commandMsec -= cmd->msec;
 
-	if (cl->commandMsec < 0 && sv_enforcetime->value )
+	if (cl->commandMsec < 0 && sv_enforcetime.GetFloat() )
 	{
 		Com_DPrintf ("commandMsec underflow from %s\n", cl->name);
 		return;
@@ -620,7 +620,7 @@ void SV_ExecuteClientMessage (client_t *cl)
 				return;
 			}
 
-			if (!sv_paused->value)
+			if (!sv_paused.GetFloat())
 			{
 				net_drop = cl->netchan.dropped;
 				if (net_drop < 20)

@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //define	PARANOID			// speed sapping error checking
 
 #include "../qcommon/qcommon.h"
+#include "../qcommon/dncvar.h"
 #include "../game/game.h"
 
 //=============================================================================
@@ -190,12 +191,12 @@ extern	netadr_t	master_adr[MAX_MASTERS];	// address of the master server
 extern	server_static_t	svs;				// persistant server info
 extern	server_t		sv;					// local server
 
-extern	cvar_t		*sv_paused;
-extern	cvar_t		*maxclients;
-extern	cvar_t		*sv_noreload;			// don't reload level state when reentering
-extern	cvar_t		*sv_airaccelerate;		// don't reload level state when reentering
+extern	idCVar		sv_paused;
+extern	idCVar		maxclients;
+extern	idCVar		sv_noreload;			// don't reload level state when reentering
+extern	idCVar		sv_airaccelerate;		// don't reload level state when reentering
 											// development tool
-extern	cvar_t		*sv_enforcetime;
+extern	idCVar		sv_enforcetime;
 
 extern	client_t	*sv_client;
 extern	edict_t		*sv_player;
