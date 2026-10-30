@@ -445,3 +445,22 @@ cost anything as long as this file and PROGRESS.md are current.
   closed and recreated (update_pull_request state closed; the code
   content can be re-pushed from the old branch).
 
+
+- 2026-10-30: Duke3D load screen follow-up merged to main: PR #70 as
+  squash 3a7d866a (CI green, 0 errors, 0 warnings, branch and main).
+  The UI module DrawLoadScreen draws the LOADSCREEN tile 3281 through
+  uii.UiTile (the dofrontscreens() backdrop from the original PREMAP.CPP)
+  and reads LOADING while uii.GetConnState() is DN_CONN_DISCONNECTED,
+  ENTERING with the level name once the server data arrived; cl_scrn.cpp
+  gained scr_load_pending so the loading command from the menu holds the
+  module load screen over the killserver/wait/map gap (drawn in the
+  DN_DrawIntermission branch, cleared at ca_active, console loading still
+  does nothing). convertgrp write_ui_tiles now emits tile 3281.
+  Tooling finding: push_files corrupts binary content - every byte >=
+  0x80 expands to its two-byte UTF-8 encoding (verified with a 256-byte
+  0x00..0xff probe that came back 384 bytes). Generated art cannot be
+  committed through the connector; the LOADSCREEN backdrop
+  basedn/pics/dn/tile3281_p0_s0.pcx must be emitted by re-running
+  convertgrp against duke3d.grp (DrawStretchPic tolerates the missing
+  pic until then, the load screen shows black with the text). The probe
+  branch agent/binary-test (file probe.bin) can be deleted in the UI.
