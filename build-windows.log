@@ -17,7 +17,7 @@ InstalledDir: C:\Program Files\LLVM\bin
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Asset preparation skipped: needs 3drealms/duke3d.grp.
--- Configuring done (7.6s)
+-- Configuring done (5.7s)
 -- Generating done (0.1s)
 -- Build files have been written to: D:/a/duke3d-idtech2/duke3d-idtech2/code/out/build/x86
 === build: windows-clang-x86 preset ===
@@ -25,946 +25,124 @@ InstalledDir: C:\Program Files\LLVM\bin
 [1/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_draw.cpp.obj
 [2/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_mesh.cpp.obj
 [3/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmain.cpp.obj
-[4/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
-[5/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
-[6/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
+[4/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_light.cpp.obj
+[5/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_model.cpp.obj
+[6/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_image.cpp.obj
 [7/155] Building CXX object CMakeFiles\ref_gl.dir\game\q_shared.cpp.obj
 [8/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_shaders.cpp.obj
 [9/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_warp.cpp.obj
 [10/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rsurf.cpp.obj
 [11/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dntransport.cpp.obj
 [12/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnpcx.cpp.obj
-[13/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
+[13/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
 [14/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmap.cpp.obj
-[15/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnmath.cpp.obj
-[16/155] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
-[17/155] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
-[18/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
-[19/155] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
+[15/155] Building CXX object CMakeFiles\ref_gl.dir\win32\q_shwin.cpp.obj
+[16/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\gl_rmisc.cpp.obj
+[17/155] Building CXX object CMakeFiles\game.dir\game\dnrandom.cpp.obj
+[18/155] Building CXX object CMakeFiles\game.dir\game\dnmain.cpp.obj
+[19/155] Building CXX object CMakeFiles\ref_gl.dir\qcommon\dnvisibility.cpp.obj
 [20/155] Building CXX object CMakeFiles\game.dir\game\dnassets.cpp.obj
-[21/155] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
-[22/155] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
-[23/155] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
-[24/155] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
-[25/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\glimp_sdl.cpp.obj
-[26/155] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
-[27/155] Building CXX object CMakeFiles\game.dir\game\dnintermission.cpp.obj
-[28/155] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
-[29/155] Building CXX object CMakeFiles\game.dir\game\dnplayer.cpp.obj
-[30/155] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
+[21/155] Building CXX object CMakeFiles\game.dir\game\dnentity.cpp.obj
+[22/155] Building CXX object CMakeFiles\game.dir\qcommon\dnenemies.cpp.obj
+[23/155] Building CXX object CMakeFiles\game.dir\game\dnlighting.cpp.obj
+[24/155] Building CXX object CMakeFiles\game.dir\game\dnlights.cpp.obj
+[25/155] Building CXX object CMakeFiles\game.dir\game\dndrop.cpp.obj
+[26/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\glimp_sdl.cpp.obj
+[27/155] Building CXX object CMakeFiles\game.dir\game\dnspawn.cpp.obj
+[28/155] Building CXX object CMakeFiles\game.dir\game\dnintermission.cpp.obj
+[29/155] Building CXX object CMakeFiles\game.dir\game\dnmultiplayer.cpp.obj
+[30/155] Building CXX object CMakeFiles\game.dir\game\dnplayer.cpp.obj
 [31/155] Building CXX object CMakeFiles\game.dir\game\dnweapons.cpp.obj
-[32/155] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
+[32/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
 [33/155] Building CXX object CMakeFiles\game.dir\game\dndamage.cpp.obj
-[34/155] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
-[35/155] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
-[36/155] Building CXX object CMakeFiles\ref_gl.dir\ref_gl\dnrender.cpp.obj
+[34/155] Building CXX object CMakeFiles\game.dir\game\dncombat.cpp.obj
+[35/155] Building CXX object CMakeFiles\game.dir\game\dnprojectiles.cpp.obj
+[36/155] Building CXX object CMakeFiles\game.dir\game\dnactors.cpp.obj
 [37/155] Building CXX object CMakeFiles\game.dir\game\dnalert.cpp.obj
 [38/155] Building CXX object CMakeFiles\game.dir\game\dnphysics.cpp.obj
 [39/155] Building CXX object CMakeFiles\game.dir\qcommon\dnzrange.cpp.obj
 [40/155] Building CXX object CMakeFiles\game.dir\game\dnmove.cpp.obj
 [41/155] Building CXX object CMakeFiles\game.dir\game\dnenemyshots.cpp.obj
 [42/155] Building CXX object CMakeFiles\game.dir\game\dnlaser.cpp.obj
-[43/155] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
-[44/155] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
+[43/155] Building CXX object CMakeFiles\game.dir\game\dnnativeai.cpp.obj
+[44/155] Building CXX object CMakeFiles\game.dir\game\dnsound.cpp.obj
 [45/155] Building CXX object CMakeFiles\game.dir\game\dnstyles.cpp.obj
 [46/155] Building CXX object CMakeFiles\game.dir\game\dntransport.cpp.obj
-[47/155] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
-[48/155] Building CXX object CMakeFiles\game.dir\game\dndestruct.cpp.obj
+[47/155] Building CXX object CMakeFiles\game.dir\game\dndestruct.cpp.obj
+[48/155] Building CXX object CMakeFiles\game.dir\game\dnwallhit.cpp.obj
 [49/155] Building CXX object CMakeFiles\game.dir\game\dnsectors.cpp.obj
-[50/155] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
-[51/155] Building CXX object CMakeFiles\game.dir\game\dnfallers.cpp.obj
+[50/155] Building CXX object CMakeFiles\game.dir\game\dnfallers.cpp.obj
+[51/155] Building CXX object CMakeFiles\game.dir\game\dnvehicles.cpp.obj
 [52/155] Building CXX object CMakeFiles\game.dir\game\dneffects.cpp.obj
 [53/155] Building CXX object CMakeFiles\game.dir\game\dnmapspawn.cpp.obj
-[54/155] Building CXX object CMakeFiles\game.dir\game\dngibs.cpp.obj
-[55/155] Building CXX object CMakeFiles\game.dir\game\dndecals.cpp.obj
-[56/155] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
-[57/155] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
+[54/155] Building CXX object CMakeFiles\game.dir\game\dndecals.cpp.obj
+[55/155] Building CXX object CMakeFiles\game.dir\game\dngibs.cpp.obj
+[56/155] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
+[57/155] Building CXX object CMakeFiles\game.dir\game\dnuse.cpp.obj
 [58/155] Building CXX object CMakeFiles\game.dir\game\dncommands.cpp.obj
-[59/155] Building CXX object CMakeFiles\game.dir\game\dnconvm.cpp.obj
+[59/155] Building CXX object CMakeFiles\game.dir\game\dnsave.cpp.obj
 [60/155] Building CXX object CMakeFiles\game.dir\qcommon\dnanimation.cpp.obj
 [61/155] Building CXX object CMakeFiles\game.dir\qcommon\dnmath.cpp.obj
 [62/155] Building CXX object CMakeFiles\game.dir\game\dnconrun.cpp.obj
-[63/155] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
-[64/155] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
-[65/155] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
-[66/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnenemies.cpp.obj
+[63/155] Building CXX object CMakeFiles\game.dir\qcommon\dnplayermove.cpp.obj
+[64/155] Building CXX object CMakeFiles\game.dir\qcommon\dncon.cpp.obj
+[65/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnenemies.cpp.obj
+[66/155] Building CXX object CMakeFiles\game.dir\qcommon\dntransport.cpp.obj
 [67/155] Building CXX object CMakeFiles\cgame.dir\cgame\dnmain.cpp.obj
-[68/155] Building CXX object CMakeFiles\game.dir\game\q_shared.cpp.obj
-[69/155] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
+[68/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnzrange.cpp.obj
+[69/155] Building CXX object CMakeFiles\game.dir\game\q_shared.cpp.obj
 [70/155] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponview.cpp.obj
 [71/155] Building CXX object CMakeFiles\game.dir\qcommon\dnmap.cpp.obj
-[72/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnzrange.cpp.obj
-[73/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnanimation.cpp.obj
-[74/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
-[75/155] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
-[76/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
-[77/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
+[72/155] Building CXX object CMakeFiles\cgame.dir\cgame\dnanimation.cpp.obj
+[73/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmath.cpp.obj
+[74/155] Building CXX object CMakeFiles\cgame.dir\cgame\dnweaponanim.cpp.obj
+[75/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnanimation.cpp.obj
+[76/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnplayermove.cpp.obj
+[77/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dntransport.cpp.obj
 [78/155] Building CXX object CMakeFiles\cgame.dir\game\q_shared.cpp.obj
-[79/155] Building CXX object CMakeFiles\ui.dir\ui\ui_duke_menus.cpp.obj
-[80/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
+[79/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dncon.cpp.obj
+[80/155] Building CXX object CMakeFiles\ui.dir\ui\ui_duke_menus.cpp.obj
 [81/155] Building CXX object CMakeFiles\ui.dir\ui\ui_main.cpp.obj
 [82/155] Building CXX object CMakeFiles\cgame.dir\qcommon\dnmap.cpp.obj
 [83/155] Building CXX object CMakeFiles\ui.dir\ui\ui_util.cpp.obj
 [84/155] Building CXX object CMakeFiles\ui.dir\ui\ui_duke_menus2.cpp.obj
 [85/155] Building CXX object CMakeFiles\ui.dir\game\q_shared.cpp.obj
 [86/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_cin.cpp.obj
-[87/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
-[88/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
-[89/155] Building CXX object CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj
+[87/155] Building CXX object CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj
+[88/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\cgamex86.dll
+[89/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\dngamex86.dll
 [90/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_ents.cpp.obj
-[91/155] Building CXX object CMakeFiles\ui.dir\ui\ui_shared.cpp.obj
-FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_shared.cpp.obj 
-"C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_shared.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_shared.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_shared.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(331,8): error: use of undeclared identifier 'DC'
-  331 |                 if ( DC->Print ) {
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(332,4): error: use of undeclared identifier 'DC'
-  332 |                         DC->Print( "UI_Alloc: Failure. Out of memory!\n" );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(465,7): error: use of undeclared identifier 'DC'
-  465 |         if ( DC && DC->getBindingBuf ) {
-      |              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(465,13): error: use of undeclared identifier 'DC'
-  465 |         if ( DC && DC->getBindingBuf ) {
-      |                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(559,2): error: use of undeclared identifier 'DC'
-  559 |         DC = dc;
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(568,2): error: use of undeclared identifier 'DC'
-  568 |         DC->setColor( color );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(569,2): error: use of undeclared identifier 'DC'
-  569 |         DC->drawHandlePic( rect->x, rect->y, rect->w, rect->h, DC->Assets.gradientBar );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(569,57): error: use of undeclared identifier 'DC'
-  569 |         DC->drawHandlePic( rect->x, rect->y, rect->w, rect->h, DC->Assets.gradientBar );
-      |                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(570,2): error: use of undeclared identifier 'DC'
-  570 |         DC->setColor( NULL );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(591,8): error: use of undeclared identifier 'DC'
-  591 |                 if ( DC->realTime > *nextTime ) {
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(592,16): error: use of undeclared identifier 'DC'
-  592 |                         *nextTime = DC->realTime + offsetTime;
-      |                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(619,3): error: use of undeclared identifier 'DC'
-  619 |                 DC->drawRect( w->rect.x, w->rect.y, w->rect.w, w->rect.h, 1, color );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(637,4): error: use of undeclared identifier 'DC'
-  637 |                         DC->setColor( w->backColor );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(638,4): error: use of undeclared identifier 'DC'
-  638 |                         DC->drawHandlePic( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->background );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(639,4): error: use of undeclared identifier 'DC'
-  639 |                         DC->setColor( NULL );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(641,4): error: use of undeclared identifier 'DC'
-  641 |                         DC->fillRect( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->backColor );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(647,4): error: use of undeclared identifier 'DC'
-  647 |                         DC->setColor( w->foreColor );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(649,3): error: use of undeclared identifier 'DC'
-  649 |                 DC->drawHandlePic( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->background );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(650,3): error: use of undeclared identifier 'DC'
-  650 |                 DC->setColor( NULL );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(652,8): error: use of undeclared identifier 'DC'
-  652 |                 if ( DC->getTeamColor ) {
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(653,4): error: use of undeclared identifier 'DC'
-  653 |                         DC->getTeamColor( &color );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(654,4): error: use of undeclared identifier 'DC'
-  654 |                         DC->fillRect( fillRect.x, fillRect.y, fillRect.w, fillRect.h, color );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(658,19): error: use of undeclared identifier 'DC'
-  658 |                         w->cinematic = DC->playCinematic( w->cinematicName, fillRect.x, fillRect.y, fillRect.w, fillRect.h );
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(664,4): error: use of undeclared identifier 'DC'
-  664 |                         DC->runCinematicFrame( w->cinematic );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(665,4): error: use of undeclared identifier 'DC'
-  665 |                         DC->drawCinematic( w->cinematic, fillRect.x, fillRect.y, fillRect.w, fillRect.h );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(682,4): error: use of undeclared identifier 'DC'
-  682 |                         DC->drawRect( w->rect.x, w->rect.y, w->rect.w, w->rect.h, w->borderSize, color );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(684,4): error: use of undeclared identifier 'DC'
-  684 |                         DC->drawRect( w->rect.x, w->rect.y, w->rect.w, w->rect.h, w->borderSize, w->borderColor );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(688,3): error: use of undeclared identifier 'DC'
-  688 |                 DC->setColor( w->borderColor );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(689,3): error: use of undeclared identifier 'DC'
-  689 |                 DC->drawTopBottom( w->rect.x, w->rect.y, w->rect.w, w->rect.h, w->borderSize );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(690,3): error: use of undeclared identifier 'DC'
-  690 |                 DC->setColor( NULL );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(693,3): error: use of undeclared identifier 'DC'
-  693 |                 DC->setColor( w->borderColor );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(694,3): error: use of undeclared identifier 'DC'
-  694 |                 DC->drawSides( w->rect.x, w->rect.y, w->rect.w, w->rect.h, w->borderSize );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(695,3): error: use of undeclared identifier 'DC'
-  695 |                 DC->setColor( NULL );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(907,29): error: use of undeclared identifier 'DC'
-  907 |                 item->window.background = DC->registerShaderNoMip( name );
-      |                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(932,7): error: use of undeclared identifier 'DC'
-  932 |         if ( DC->getTeamColor ) {
-      |              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(935,3): error: use of undeclared identifier 'DC'
-  935 |                 DC->getTeamColor( &color );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(995,6): error: use of undeclared identifier 'DC'
-  995 |                                         DC->stopCinematic( item->window.cinematic );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1157,2): error: use of undeclared identifier 'DC'
- 1157 |         DC->getCVarString( "cg_clipboardName", curscript, sizeof( curscript ) ); // grab the string the client set
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1180,10): error: use of undeclared identifier 'DC'
- 1180 |         pages = DC->getCVarValue( "cg_notebookpages" );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1184,13): error: use of undeclared identifier 'DC'
- 1184 |                 curpage = DC->getCVarValue( "ui_notebookCurrentPage" );
-      |                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1260,3): error: use of undeclared identifier 'DC'
- 1260 |                 DC->setCVar( "ui_notebookCurrentPage", va( "%d", curpage ) ); // store new current page
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1347,9): error: use of undeclared identifier 'DC'
- 1347 |                         if ( DC->Assets.itemFocusSound ) {
-      |                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1348,5): error: use of undeclared identifier 'DC'
- 1348 |                                 DC->startLocalSound( DC->Assets.itemFocusSound, CHAN_LOCAL_SOUND );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1348,26): error: use of undeclared identifier 'DC'
- 1348 |                                 DC->startLocalSound( DC->Assets.itemFocusSound, CHAN_LOCAL_SOUND );
-      |                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1357,3): error: use of undeclared identifier 'DC'
- 1357 |                 DC->setCVar( "team_model", name );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1364,3): error: use of undeclared identifier 'DC'
- 1364 |                 DC->setCVar( "team_headmodel", name );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1371,3): error: use of undeclared identifier 'DC'
- 1371 |                 DC->setCVar( cvar, val );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1379,3): error: use of undeclared identifier 'DC'
- 1379 |                 DC->executeText( DN_EXEC_APPEND, va( "%s ; ", val ) );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1386,3): error: use of undeclared identifier 'DC'
- 1386 |                 DC->startLocalSound( DC->registerSound( val ), CHAN_LOCAL_SOUND );      // all sounds are not 3d
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1386,24): error: use of undeclared identifier 'DC'
- 1386 |                 DC->startLocalSound( DC->registerSound( val ), CHAN_LOCAL_SOUND );      // all sounds are not 3d
-      |                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1393,3): error: use of undeclared identifier 'DC'
- 1393 |                 DC->startBackgroundTrack( val, val, 0 );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1404,4): error: use of undeclared identifier 'DC'
- 1404 |                         DC->feederAddItem( t->special, name, atoi( val ) );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1469,5): error: use of undeclared identifier 'DC'
- 1469 |                                 DC->runScript( &p );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1481,3): error: use of undeclared identifier 'DC'
- 1481 |                 DC->getCVarString( cvarTest, buff, sizeof( buff ) );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1519,22): error: use of undeclared identifier 'DC'
- 1519 |         sfxHandle_t *sfx = &DC->Assets.itemFocusSound;
-      |                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1570,3): error: use of undeclared identifier 'DC'
- 1570 |                 DC->startLocalSound( *sfx, CHAN_LOCAL_SOUND );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1585,14): error: use of undeclared identifier 'DC'
- 1585 |         int count = DC->feederCount( special );
-      |                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1632,9): error: use of undeclared identifier 'DC'
- 1632 |                         if ( DC->cursorx >= min + SCROLLBAR_SIZE / 2 && DC->cursorx <= max + SCROLLBAR_SIZE / 2 ) {
-      |                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1632,52): error: use of undeclared identifier 'DC'
- 1632 |                         if ( DC->cursorx >= min + SCROLLBAR_SIZE / 2 && DC->cursorx <= max + SCROLLBAR_SIZE / 2 ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1633,12): error: use of undeclared identifier 'DC'
- 1633 |                                 return DC->cursorx - SCROLLBAR_SIZE / 2;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1640,9): error: use of undeclared identifier 'DC'
- 1640 |                         if ( DC->cursory >= min + SCROLLBAR_SIZE / 2 && DC->cursory <= max + SCROLLBAR_SIZE / 2 ) {
-      |                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1640,52): error: use of undeclared identifier 'DC'
- 1640 |                         if ( DC->cursory >= min + SCROLLBAR_SIZE / 2 && DC->cursory <= max + SCROLLBAR_SIZE / 2 ) {
-      |                                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1641,12): error: use of undeclared identifier 'DC'
- 1641 |                                 return DC->cursory - SCROLLBAR_SIZE / 2;
-      |                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1674,10): error: use of undeclared identifier 'DC'
- 1674 |         value = DC->getCVarValue( cvar );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1710,10): error: use of undeclared identifier 'DC'
- 1710 |         count = DC->feederCount( special );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1883,7): error: use of undeclared identifier 'DC'
- 1883 |         if ( DC->ownerDrawHandleKey ) {
-      |              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1884,10): error: use of undeclared identifier 'DC'
- 1884 |                 return DC->ownerDrawHandleKey( window.ownerDraw, window.ownerDrawFlags, &special, key );
-      |                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1891,14): error: use of undeclared identifier 'DC'
- 1891 |         int count = DC->feederCount( special );
-      |                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1894,52): error: use of undeclared identifier 'DC'
- 1894 |         if ( force || ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) && window.flags & WINDOW_HASFOCUS ) ) {
-      |                                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1894,65): error: use of undeclared identifier 'DC'
- 1894 |         if ( force || ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) && window.flags & WINDOW_HASFOCUS ) ) {
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1911,6): error: use of undeclared identifier 'DC'
- 1911 |                                         DC->feederSelection( special, cursorPos );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1933,6): error: use of undeclared identifier 'DC'
- 1933 |                                         DC->feederSelection( special, cursorPos );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1957,6): error: use of undeclared identifier 'DC'
- 1957 |                                         DC->feederSelection( special, cursorPos );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1979,6): error: use of undeclared identifier 'DC'
- 1979 |                                         DC->feederSelection( special, cursorPos );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1992,22): error: use of undeclared identifier 'DC'
- 1992 |                         const char *cmd = DC->feederItemText( special, cursorPos, 0, NULL );
-      |                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2026,10): error: use of undeclared identifier 'DC'
- 2026 |                                 if ( DC->realTime < lastListBoxClickTime && listPtr->doubleClick ) {
-      |                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2029,28): error: use of undeclared identifier 'DC'
- 2029 |                                 lastListBoxClickTime = DC->realTime + DOUBLE_CLICK_DELAY;
-      |                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2031,32): error: use of undeclared identifier 'DC'
- 2031 |                                         if ( listPtr->cursorPos < DC->feederCount( special ) ) {
-      |                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2034,6): error: use of undeclared identifier 'DC'
- 2034 |                                         DC->feederSelection( special, cursorPos );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2063,5): error: use of undeclared identifier 'DC'
- 2063 |                                 DC->feederSelection( special, cursorPos );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2086,5): error: use of undeclared identifier 'DC'
- 2086 |                                 DC->feederSelection( special, cursorPos );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2101,41): error: use of undeclared identifier 'DC'
- 2101 |         if ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) && window.flags & WINDOW_HASFOCUS && cvar ) {
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2101,54): error: use of undeclared identifier 'DC'
- 2101 |         if ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) && window.flags & WINDOW_HASFOCUS && cvar ) {
-      |                                                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2103,4): error: use of undeclared identifier 'DC'
- 2103 |                         DC->setCVar( cvar, va( "%i", !DC->getCVarValue( cvar ) ) );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2103,34): error: use of undeclared identifier 'DC'
- 2103 |                         DC->setCVar( cvar, va( "%i", !DC->getCVarValue( cvar ) ) );
-      |                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2127,4): error: use of undeclared identifier 'DC'
- 2127 |                         DC->getCVarString( cvar, buff, sizeof( buff ) );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2129,12): error: use of undeclared identifier 'DC'
- 2129 |                         value = DC->getCVarValue( cvar );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2153,4): error: use of undeclared identifier 'DC'
- 2153 |                         DC->getCVarString( cvar, buff, sizeof( buff ) );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2155,12): error: use of undeclared identifier 'DC'
- 2155 |                         value = DC->getCVarValue( cvar );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2175,42): error: use of undeclared identifier 'DC'
- 2175 |                 if ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) && window.flags & WINDOW_HASFOCUS && cvar ) {
-      |                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2175,55): error: use of undeclared identifier 'DC'
- 2175 |                 if ( Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) && window.flags & WINDOW_HASFOCUS && cvar ) {
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2183,6): error: use of undeclared identifier 'DC'
- 2183 |                                         DC->setCVar( cvar, multiPtr->cvarStr[current] );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2187,7): error: use of undeclared identifier 'DC'
- 2187 |                                                 DC->setCVar( cvar, va( "%i", (int) value ) );
-      |                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2189,7): error: use of undeclared identifier 'DC'
- 2189 |                                                 DC->setCVar( cvar, va( "%f", value ) );
-      |                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2208,3): error: use of undeclared identifier 'DC'
- 2208 |                 DC->getCVarString( cvar, buff, sizeof( buff ) );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2225,5): error: use of undeclared identifier 'DC'
- 2225 |                                 DC->setCVar( cvar, buff );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2248,10): error: use of undeclared identifier 'DC'
- 2248 |                         if ( !DC->getOverstrikeMode() ) {
-      |                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2261,4): error: use of undeclared identifier 'DC'
- 2261 |                         DC->setCVar( cvar, buff );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2275,6): error: use of undeclared identifier 'DC'
- 2275 |                                         DC->setCVar( cvar, buff );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2317,5): error: use of undeclared identifier 'DC'
- 2317 |                                 DC->setOverstrikeMode( !DC->getOverstrikeMode() );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2317,29): error: use of undeclared identifier 'DC'
- 2317 |                                 DC->setOverstrikeMode( !DC->getOverstrikeMode() );
-      |                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2357,19): error: use of undeclared identifier 'DC'
- 2357 |         nextScrollTime = DC->realTime + SCROLL_TIME_START;
-      |                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2358,19): error: use of undeclared identifier 'DC'
- 2358 |         nextAdjustTime = DC->realTime + SCROLL_TIME_ADJUST;
-      |                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2368,11): error: use of undeclared identifier 'DC'
- 2368 |         xStart = DC->cursorx;
-      |                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2369,11): error: use of undeclared identifier 'DC'
- 2369 |         yStart = DC->cursory;
-      |                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2376,11): error: use of undeclared identifier 'DC'
- 2376 |         xStart = DC->cursorx;
-      |                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2377,11): error: use of undeclared identifier 'DC'
- 2377 |         yStart = DC->cursory;
-      |                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2399,7): error: use of undeclared identifier 'DC'
- 2399 |         if ( DC->realTime > nextScrollTime ) {
-      |              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2404,20): error: use of undeclared identifier 'DC'
- 2404 |                 nextScrollTime = DC->realTime + adjustValue;
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2407,7): error: use of undeclared identifier 'DC'
- 2407 |         if ( DC->realTime > nextAdjustTime ) {
-      |              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2408,20): error: use of undeclared identifier 'DC'
- 2408 |                 nextAdjustTime = DC->realTime + SCROLL_TIME_ADJUST;
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2423,8): error: use of undeclared identifier 'DC'
- 2423 |                 if ( DC->cursorx == xStart ) {
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2431,11): error: use of undeclared identifier 'DC'
- 2431 |                 pos = ( DC->cursorx - r.x - SCROLLBAR_SIZE / 2 ) * max / ( r.w - SCROLLBAR_SIZE );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2438,12): error: use of undeclared identifier 'DC'
- 2438 |                 xStart = DC->cursorx;
-      |                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2439,14): error: use of undeclared identifier 'DC'
- 2439 |         } else if ( DC->cursory != yStart )     {
-      |                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2446,11): error: use of undeclared identifier 'DC'
- 2446 |                 pos = ( DC->cursory - r.y - SCROLLBAR_SIZE / 2 ) * max / ( r.h - SCROLLBAR_SIZE );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2453,12): error: use of undeclared identifier 'DC'
- 2453 |                 yStart = DC->cursory;
-      |                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2456,7): error: use of undeclared identifier 'DC'
- 2456 |         if ( DC->realTime > nextScrollTime ) {
-      |              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2461,20): error: use of undeclared identifier 'DC'
- 2461 |                 nextScrollTime = DC->realTime + adjustValue;
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2464,7): error: use of undeclared identifier 'DC'
- 2464 |         if ( DC->realTime > nextAdjustTime ) {
-      |              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2465,20): error: use of undeclared identifier 'DC'
- 2465 |                 nextAdjustTime = DC->realTime + SCROLL_TIME_ADJUST;
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2483,12): error: use of undeclared identifier 'DC'
- 2483 |         cursorx = DC->cursorx;
-      |                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2494,2): error: use of undeclared identifier 'DC'
- 2494 |         DC->setCVar( item->cvar, va( "%f", value ) );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2504,27): error: use of undeclared identifier 'DC'
- 2504 |         int flags = OverListBox( DC->cursorx, DC->cursory );
-      |                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2504,40): error: use of undeclared identifier 'DC'
- 2504 |         int flags = OverListBox( DC->cursorx, DC->cursory );
-      |                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2515,19): error: use of undeclared identifier 'DC'
- 2515 |         if ( OverSlider( DC->cursorx, DC->cursory ) & WINDOW_LB_THUMB ) {
-      |                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2515,32): error: use of undeclared identifier 'DC'
- 2515 |         if ( OverSlider( DC->cursorx, DC->cursory ) & WINDOW_LB_THUMB ) {
-      |                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2534,11): error: use of undeclared identifier 'DC'
- 2534 |                 value = DC->getCVarValue( cvar );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2541,3): error: use of undeclared identifier 'DC'
- 2541 |                 DC->setCVar( cvar, va( "%f", value ) );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2545,83): error: use of undeclared identifier 'DC'
- 2545 |         if ( window.flags & WINDOW_HASFOCUS && cvar && Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) ) {
-      |                                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2545,96): error: use of undeclared identifier 'DC'
- 2545 |         if ( window.flags & WINDOW_HASFOCUS && cvar && Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) ) {
-      |                                                                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2561,41): error: use of undeclared identifier 'DC'
- 2561 |                                 if ( Rect_ContainsPoint( &testRect, DC->cursorx, DC->cursory ) ) {
-      |                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2561,54): error: use of undeclared identifier 'DC'
- 2561 |                                 if ( Rect_ContainsPoint( &testRect, DC->cursorx, DC->cursory ) ) {
-      |                                                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2562,13): error: use of undeclared identifier 'DC'
- 2562 |                                         work = DC->cursorx - x;
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2566,6): error: use of undeclared identifier 'DC'
- 2566 |                                         DC->setCVar( cvar, va( "%f", value ) );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2641,37): error: use of undeclared identifier 'DC'
- 2641 |                 if ( items[cursorItem]->SetFocus( DC->cursorx, DC->cursory ) ) {
-      |                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2641,50): error: use of undeclared identifier 'DC'
- 2641 |                 if ( items[cursorItem]->SetFocus( DC->cursorx, DC->cursory ) ) {
-      |                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2674,37): error: use of undeclared identifier 'DC'
- 2674 |                 if ( items[cursorItem]->SetFocus( DC->cursorx, DC->cursory ) ) {
-      |                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2674,50): error: use of undeclared identifier 'DC'
- 2674 |                 if ( items[cursorItem]->SetFocus( DC->cursorx, DC->cursory ) ) {
-      |                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2687,3): error: use of undeclared identifier 'DC'
- 2687 |                 DC->stopCinematic( window->cinematic );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2699,4): error: use of undeclared identifier 'DC'
- 2699 |                         DC->stopCinematic( 0 - items[i]->window.ownerDraw );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2721,3): error: use of undeclared identifier 'DC'
- 2721 |                 DC->startBackgroundTrack( soundName, soundName, 0 );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2753,34): error: use of undeclared identifier 'DC'
- 2753 |                         if ( menus[i].OverActiveItem( DC->cursorx, DC->cursory ) ) {
-      |                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2753,47): error: use of undeclared identifier 'DC'
- 2753 |                         if ( menus[i].OverActiveItem( DC->cursorx, DC->cursory ) ) {
-      |                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2756,31): error: use of undeclared identifier 'DC'
- 2756 |                                 menus[i].HandleMouseMove( DC->cursorx, DC->cursory );
-      |                                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2756,44): error: use of undeclared identifier 'DC'
- 2756 |                                 menus[i].HandleMouseMove( DC->cursorx, DC->cursory );
-      |                                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2762,9): error: use of undeclared identifier 'DC'
- 2762 |                         if ( DC->Pause ) {
-      |                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2763,5): error: use of undeclared identifier 'DC'
- 2763 |                                 DC->Pause( qfalse );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2804,29): error: use of undeclared identifier 'DC'
- 2804 |                         g_menus.MouseMove( NULL, DC->cursorx, DC->cursory );
-      |                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2804,42): error: use of undeclared identifier 'DC'
- 2804 |                         g_menus.MouseMove( NULL, DC->cursorx, DC->cursory );
-      |                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2811,86): error: use of undeclared identifier 'DC'
- 2811 |         if ( down && !( window.flags & WINDOW_POPUP ) && !Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) ) {
-      |                                                                                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2811,99): error: use of undeclared identifier 'DC'
- 2811 |         if ( down && !( window.flags & WINDOW_POPUP ) && !Rect_ContainsPoint( &window.rect, DC->cursorx, DC->cursory ) ) {
-      |                                                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2854,8): error: use of undeclared identifier 'DC'
- 2854 |                 if ( DC->getCVarValue( "developer" ) ) {
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2860,8): error: use of undeclared identifier 'DC'
- 2860 |                 if ( DC->getCVarValue( "developer" ) ) {
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2861,4): error: use of undeclared identifier 'DC'
- 2861 |                         DC->executeText( DN_EXEC_APPEND, "screenshot\n" );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2891,57): error: use of undeclared identifier 'DC'
- 2891 |                                 if ( Rect_ContainsPoint( item->CorrectedTextRect(), DC->cursorx, DC->cursory ) ) {
-      |                                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2891,70): error: use of undeclared identifier 'DC'
- 2891 |                                 if ( Rect_ContainsPoint( item->CorrectedTextRect(), DC->cursorx, DC->cursory ) ) {
-      |                                                                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2895,50): error: use of undeclared identifier 'DC'
- 2895 |                                 if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) ) {
-      |                                                                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2895,63): error: use of undeclared identifier 'DC'
- 2895 |                                 if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) ) {
-      |                                                                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2898,6): error: use of undeclared identifier 'DC'
- 2898 |                                         DC->setOverstrikeMode( qtrue );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2901,50): error: use of undeclared identifier 'DC'
- 2901 |                                 if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) ) {
-      |                                                                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2901,63): error: use of undeclared identifier 'DC'
- 2901 |                                 if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) ) {
-      |                                                                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2937,5): error: use of undeclared identifier 'DC'
- 2937 |                                 DC->setOverstrikeMode( qtrue );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2972,23): error: use of undeclared identifier 'DC'
- 2972 |                 int originalWidth = DC->textWidth( text, font, textscale, 0 );
-      |                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2975,21): error: use of undeclared identifier 'DC'
- 2975 |                         originalWidth += DC->ownerDrawWidth( window.ownerDraw, font, textscale );
-      |                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2978,4): error: use of undeclared identifier 'DC'
- 2978 |                         DC->getCVarString( cvar, buff, 256 );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2979,21): error: use of undeclared identifier 'DC'
- 2979 |                         originalWidth += DC->textWidth( buff, font, textscale, 0 );
-      |                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2982,12): error: use of undeclared identifier 'DC'
- 2982 |                 *width = DC->textWidth( textPtr, font, textscale, 0 );
-      |                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(2983,13): error: use of undeclared identifier 'DC'
- 2983 |                 *height = DC->textHeight( textPtr, font, textscale, 0 );
-      |                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3009,69): error: use of undeclared identifier 'DC'
- 3009 |                 LerpColor( parent->focusColor,lowLight,*newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3010,56): error: use of undeclared identifier 'DC'
- 3010 |         } else if ( textStyle == ITEM_TEXTSTYLE_BLINK && !( ( DC->realTime / BLINK_DIVISOR ) & 1 ) ) {
-      |                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3015,67): error: use of undeclared identifier 'DC'
- 3015 |                 LerpColor( window.foreColor,lowLight,*newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3043,4): error: use of undeclared identifier 'DC'
- 3043 |                         DC->getCVarString( cvar, buf, sizeof( buf ) );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3067,15): error: use of undeclared identifier 'DC'
- 3067 |                 textWidth = DC->textWidth( buff, font, textscale, 0 );
-      |                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3080,5): error: use of undeclared identifier 'DC'
- 3080 |                                 DC->drawText( textRect.x, textRect.y, font, textscale, color, buff, 0, 0, textStyle );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3117,4): error: use of undeclared identifier 'DC'
- 3117 |                         DC->getCVarString( cvar, buf, sizeof( buf ) );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3137,3): error: use of undeclared identifier 'DC'
- 3137 |                 DC->drawText( x, y, font, textscale, color, buff, 0, 0, textStyle );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3142,2): error: use of undeclared identifier 'DC'
- 3142 |         DC->drawText( x, y, font, textscale, color, start, 0, 0, textStyle );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3157,3): error: use of undeclared identifier 'DC'
- 3157 |                 DC->getCVarString( "ui_savegameInfo", infostring, sizeof( infostring ) );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3174,4): error: use of undeclared identifier 'DC'
- 3174 |                         DC->getCVarString( cvar, buf, sizeof( buf ) );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3196,2): error: use of undeclared identifier 'DC'
- 3196 |         DC->drawText( textRect.x, textRect.y, font, textscale, color, textPtr, 0, 0, textStyle );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3214,3): error: use of undeclared identifier 'DC'
- 3214 |                 DC->getCVarString( cvar, buff, sizeof( buff ) );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3224,67): error: use of undeclared identifier 'DC'
- 3224 |                 LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3231,17): error: use of undeclared identifier 'DC'
- 3231 |                 char cursor = DC->getOverstrikeMode() ? '_' : '|';
-      |                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3232,3): error: use of undeclared identifier 'DC'
- 3232 |                 DC->drawTextWithCursor( textRect.x + textRect.w + offset, textRect.y, font, textscale, newColor, buff + editPtr->paintOffset, cursorPos - editPtr->paintOffset, cursor, editPtr->maxPaintChars, textStyle );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3234,3): error: use of undeclared identifier 'DC'
- 3234 |                 DC->drawText( textRect.x + textRect.w + offset, textRect.y, font, textscale, newColor, buff + editPtr->paintOffset, 0, editPtr->maxPaintChars, textStyle );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3245,21): error: use of undeclared identifier 'DC'
- 3245 |         value = ( cvar ) ? DC->getCVarValue( cvar ) : 0;
-      |                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3252,67): error: use of undeclared identifier 'DC'
- 3252 |                 LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3257,12): error: use of undeclared identifier 'DC'
- 3257 |         yes_str = DC->getTranslatedString( yes_str );
-      |                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3258,11): error: use of undeclared identifier 'DC'
- 3258 |         no_str = DC->getTranslatedString( no_str );
-      |                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3262,3): error: use of undeclared identifier 'DC'
- 3262 |                 DC->drawText( ValueColumnX(), textRect.y, font, textscale, newColor, ( value != 0 ) ? yes_str : no_str, 0, 0, textStyle );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3264,3): error: use of undeclared identifier 'DC'
- 3264 |                 DC->drawText( textRect.x, textRect.y, font, textscale, newColor, ( value != 0 ) ? yes_str : no_str, 0, 0, textStyle );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3280,67): error: use of undeclared identifier 'DC'
- 3280 |                 LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3289,3): error: use of undeclared identifier 'DC'
- 3289 |                 DC->drawText( ValueColumnX(), textRect.y, font, textscale, newColor, value, 0, 0, textStyle );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3291,3): error: use of undeclared identifier 'DC'
- 3291 |                 DC->drawText( textRect.x, textRect.y, font, textscale, newColor, value, 0, 0, textStyle );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3446,3): error: use of undeclared identifier 'DC'
- 3446 |                 DC->getBindingBuf( j, b, 256 );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3484,4): error: use of undeclared identifier 'DC'
- 3484 |                         DC->setBinding( g_bindings[i].bind1, g_bindings[i].command );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3487,5): error: use of undeclared identifier 'DC'
- 3487 |                                 DC->setBinding( g_bindings[i].bind2, g_bindings[i].command );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3493,2): error: use of undeclared identifier 'DC'
- 3493 |         DC->executeText( DN_EXEC_APPEND, "in_restart\n" );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3534,4): error: use of undeclared identifier 'DC'
- 3534 |                         DC->keynumToStringBuf( b1, g_nameBind1, 32 );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3539,5): error: use of undeclared identifier 'DC'
- 3539 |                                 DC->keynumToStringBuf( b2, g_nameBind2, 32 );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3541,38): error: use of undeclared identifier 'DC'
- 3541 |                                 strcat( g_nameBind1, va( " %s ", DC->getTranslatedString( "or" ) ) );
-      |                                                                  ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3591,21): error: use of undeclared identifier 'DC'
- 3591 |         value = ( cvar ) ? DC->getCVarValue( cvar ) : 0;
-      |                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3607,2): error: use of undeclared identifier 'DC'
- 3607 |         DC->drawText( x, y, font, textscale, barDim, barFull, 0, 0, textStyle );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3609,3): error: use of undeclared identifier 'DC'
- 3609 |                 DC->drawText( x, y, font, textscale, barLit, filled, 0, 0, textStyle );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3623,21): error: use of undeclared identifier 'DC'
- 3623 |         value = ( cvar ) ? DC->getCVarValue( cvar ) : 0;
-      |                            ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3637,67): error: use of undeclared identifier 'DC'
- 3637 |                 LerpColor( owner->focusColor,lowLight,newColor,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3645,3): error: use of undeclared identifier 'DC'
- 3645 |                 DC->drawText( textRect.x + textRect.w + 8, textRect.y, font, textscale, newColor, g_nameBind1, 0, maxChars, textStyle );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3647,3): error: use of undeclared identifier 'DC'
- 3647 |                 DC->drawText( textRect.x, textRect.y, font, textscale, newColor, ( value != 0 ) ? "FIXME" : "FIXME", 0, maxChars, textStyle );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3676,47): error: use of undeclared identifier 'DC'
- 3676 |         if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) && !waiting ) {
-      |                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3676,60): error: use of undeclared identifier 'DC'
- 3676 |         if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) && !waiting ) {
-      |                                                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3734,5): error: use of undeclared identifier 'DC'
- 3734 |                                 DC->setBinding( g_bindings[id].bind1, "" );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3738,5): error: use of undeclared identifier 'DC'
- 3738 |                                 DC->setBinding( g_bindings[id].bind2, "" );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3746,4): error: use of undeclared identifier 'DC'
- 3746 |                         DC->setBinding( g_bindings[id].bind1, "" );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3747,4): error: use of undeclared identifier 'DC'
- 3747 |                         DC->setBinding( g_bindings[id].bind2, "" );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3762,8): error: use of undeclared identifier 'DC'
- 3762 |         *x *= DC->xscale;
-      |               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3763,8): error: use of undeclared identifier 'DC'
- 3763 |         *y *= DC->yscale;
-      |               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3764,8): error: use of undeclared identifier 'DC'
- 3764 |         *w *= DC->xscale;
-      |               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3765,8): error: use of undeclared identifier 'DC'
- 3765 |         *h *= DC->yscale;
-      |               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3804,2): error: use of undeclared identifier 'DC'
- 3804 |         DC->modelBounds( hModel, mins, maxs );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3827,2): error: use of undeclared identifier 'DC'
- 3827 |         DC->clearScene();
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3829,16): error: use of undeclared identifier 'DC'
- 3829 |         refdef.time = DC->realTime;
-      |                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3838,8): error: use of undeclared identifier 'DC'
- 3838 |                 if ( DC->realTime > window.nextTime ) {
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3839,22): error: use of undeclared identifier 'DC'
- 3839 |                         window.nextTime = DC->realTime + modelPtr->rotationSpeed;
-      |                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3850,31): error: use of undeclared identifier 'DC'
- 3850 |                 modelPtr->backlerp += ( ( ( DC->realTime - modelPtr->frameTime ) / 1000.0f ) * (float)modelPtr->fps );
-      |                                             ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3869,24): error: use of undeclared identifier 'DC'
- 3869 |         modelPtr->frameTime = DC->realTime;
-      |                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3880,2): error: use of undeclared identifier 'DC'
- 3880 |         DC->addRefEntityToScene( &ent );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3881,2): error: use of undeclared identifier 'DC'
- 3881 |         DC->renderScene( &refdef );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3887,2): error: use of undeclared identifier 'DC'
- 3887 |         DC->drawHandlePic( window.rect.x + 1, window.rect.y + 1, window.rect.w - 2, window.rect.h - 2, asset );
-      |         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3910,10): error: use of undeclared identifier 'DC'
- 3910 |         count = DC->feederCount( special );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3917,3): error: use of undeclared identifier 'DC'
- 3917 |                 DC->drawHandlePic( x, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarArrowLeft );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3917,60): error: use of undeclared identifier 'DC'
- 3917 |                 DC->drawHandlePic( x, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarArrowLeft );
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3920,3): error: use of undeclared identifier 'DC'
- 3920 |                 DC->drawHandlePic( x, y, size + 1, SCROLLBAR_SIZE, DC->Assets.scrollBar );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3920,54): error: use of undeclared identifier 'DC'
- 3920 |                 DC->drawHandlePic( x, y, size + 1, SCROLLBAR_SIZE, DC->Assets.scrollBar );
-      |                                                                    ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3922,3): error: use of undeclared identifier 'DC'
- 3922 |                 DC->drawHandlePic( x, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarArrowRight );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3922,60): error: use of undeclared identifier 'DC'
- 3922 |                 DC->drawHandlePic( x, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarArrowRight );
-      |                                                                          ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3928,3): error: use of undeclared identifier 'DC'
- 3928 |                 DC->drawHandlePic( thumb, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarThumb );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3928,64): error: use of undeclared identifier 'DC'
- 3928 |                 DC->drawHandlePic( thumb, y, SCROLLBAR_SIZE, SCROLLBAR_SIZE, DC->Assets.scrollBarThumb );
-      |                                                                              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3939,13): error: use of undeclared identifier 'DC'
- 3939 |                                 image = DC->feederItemImage( special, i );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3941,6): error: use of undeclared identifier 'DC'
- 3941 |                                         DC->drawHandlePic( x + 1, y + 1, listPtr->elementWidth - 2, listPtr->elementHeight - 2, image );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3945,6): error: use of undeclared identifier 'DC'
- 3945 |                                         DC->drawRect( x, y, listPtr->elementWidth - 1, listPtr->elementHeight - 1, window.borderSize, window.borderColor );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3980,5): error: use of undeclared identifier 'DC'
- 3980 |                                 DC->drawText( x, dashY, font, textscale, trackDim, "-", 0, 0, textStyle );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3982,4): error: use of undeclared identifier 'DC'
- 3982 |                         DC->drawText( x, thumb, font, textscale, thumbLit, "-", 0, 0, textStyle );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3993,13): error: use of undeclared identifier 'DC'
- 3993 |                                 image = DC->feederItemImage( special, i );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3995,6): error: use of undeclared identifier 'DC'
- 3995 |                                         DC->drawHandlePic( x + 1, y + 1, listPtr->elementWidth - 2, listPtr->elementHeight - 2, image );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(3999,6): error: use of undeclared identifier 'DC'
- 3999 |                                         DC->drawRect( x, y, listPtr->elementWidth - 1, listPtr->elementHeight - 1, window.borderSize, window.borderColor );
-      |                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4021,14): error: use of undeclared identifier 'DC'
- 4021 |                                                 text = DC->feederItemText( special, i, j, &optionalImage );
-      |                                                        ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4023,8): error: use of undeclared identifier 'DC'
- 4023 |                                                         DC->drawHandlePic( x + 4 + listPtr->columnInfo[j].pos, y - 1 + listPtr->elementHeight / 2, listPtr->columnInfo[j].width, listPtr->columnInfo[j].width, optionalImage );
-      |                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4025,8): error: use of undeclared identifier 'DC'
- 4025 |                                                         DC->drawText( x + 4 + listPtr->columnInfo[j].pos, y, font, textscale, RowColor( i ), text, 0, listPtr->columnInfo[j].maxChars, textStyle );
-      |                                                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4029,13): error: use of undeclared identifier 'DC'
- 4029 |                                         text = DC->feederItemText( special, i, 0, &optionalImage );
-      |                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4033,7): error: use of undeclared identifier 'DC'
- 4033 |                                                 DC->drawText( x + 4, y, font, textscale, RowColor( i ), text, 0, 0, textStyle );
-      |                                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4053,7): error: use of undeclared identifier 'DC'
- 4053 |         if ( DC->ownerDrawItem ) {
-      |              ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4058,25): error: use of undeclared identifier 'DC'
- 4058 |                 if ( numColors > 0 && DC->getValue ) {
-      |                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4061,14): error: use of undeclared identifier 'DC'
- 4061 |                         float f = DC->getValue( window.ownerDraw, colorRangeType );
-      |                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4072,16): error: use of undeclared identifier 'DC'
- 4072 |                         color[3] *= DC->getCVarValue( "cg_hudAlpha" );;
-      |                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4081,65): error: use of undeclared identifier 'DC'
- 4081 |                         LerpColor( owner->focusColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4082,57): error: use of undeclared identifier 'DC'
- 4082 |                 } else if ( textStyle == ITEM_TEXTSTYLE_BLINK && !( ( DC->realTime / BLINK_DIVISOR ) & 1 ) ) {
-      |                                                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4087,64): error: use of undeclared identifier 'DC'
- 4087 |                         LerpColor( window.foreColor,lowLight,color,0.5 + 0.5 * sin( DC->realTime / PULSE_DIVISOR ) );
-      |                                                                                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4098,5): error: use of undeclared identifier 'DC'
- 4098 |                                 DC->ownerDrawItem( textRect.x + textRect.w + 8, window.rect.y, window.rect.w, window.rect.h, 0, textaligny, window.ownerDraw, window.ownerDrawFlags, alignment, special, font, textscale, color, window.background, textStyle );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4100,5): error: use of undeclared identifier 'DC'
- 4100 |                                 DC->ownerDrawItem( textRect.x + textRect.w, window.rect.y, window.rect.w, window.rect.h, 0, textaligny, window.ownerDraw, window.ownerDrawFlags, alignment, special, font, textscale, color, window.background, textStyle );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4103,4): error: use of undeclared identifier 'DC'
- 4103 |                         DC->ownerDrawItem( window.rect.x, window.rect.y, window.rect.w, window.rect.h, textalignx, textaligny, window.ownerDraw, window.ownerDrawFlags, alignment, special, font, textscale, color, window.background, textStyle );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4116,8): error: use of undeclared identifier 'DC'
- 4116 |                 if ( DC->realTime > window.nextTime ) {
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4119,22): error: use of undeclared identifier 'DC'
- 4119 |                         window.nextTime = DC->realTime + window.offsetTime;
-      |                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4137,8): error: use of undeclared identifier 'DC'
- 4137 |                 if ( DC->realTime > window.nextTime ) {
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4139,22): error: use of undeclared identifier 'DC'
- 4139 |                         window.nextTime = DC->realTime + window.offsetTime;
-      |                                           ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4219,32): error: use of undeclared identifier 'DC'
- 4219 |         if ( window.ownerDrawFlags && DC->ownerDrawVisible ) {
-      |                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4220,9): error: use of undeclared identifier 'DC'
- 4220 |                 if ( !DC->ownerDrawVisible( window.ownerDrawFlags ) ) {
-      |                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4253,3): error: use of undeclared identifier 'DC'
- 4253 |                 DC->drawRect( r->x, r->y, r->w, r->h, 1, color );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4336,15): error: use of undeclared identifier 'DC'
- 4336 |         fadeAmount = DC->Assets.fadeAmount;
-      |                      ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4337,14): error: use of undeclared identifier 'DC'
- 4337 |         fadeClamp = DC->Assets.fadeClamp;
-      |                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4338,14): error: use of undeclared identifier 'DC'
- 4338 |         fadeCycle = DC->Assets.fadeCycle;
-      |                     ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4395,5): error: use of undeclared identifier 'DC'
- 4395 |                                 DC->feederSelection( menu->items[i]->special, menu->items[i]->cursorPos );
-      |                                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4519,32): error: use of undeclared identifier 'DC'
- 4519 |         if ( window.ownerDrawFlags && DC->ownerDrawVisible && !DC->ownerDrawVisible( window.ownerDrawFlags ) ) {
-      |                                       ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4519,57): error: use of undeclared identifier 'DC'
- 4519 |         if ( window.ownerDrawFlags && DC->ownerDrawVisible && !DC->ownerDrawVisible( window.ownerDrawFlags ) ) {
-      |                                                                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4530,3): error: use of undeclared identifier 'DC'
- 4530 |                 DC->drawHandlePic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, window.background );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4546,3): error: use of undeclared identifier 'DC'
- 4546 |                 DC->drawRect( window.rect.x, window.rect.y, window.rect.w, window.rect.h, 1, color );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4643,3): error: use of undeclared identifier 'DC'
- 4643 |                 DC->drawText( 5, 25, 0, .5, v, va( "fps: %f", DC->FPS ), 0, 0, 0 );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4643,49): error: use of undeclared identifier 'DC'
- 4643 |                 DC->drawText( 5, 25, 0, .5, v, va( "fps: %f", DC->FPS ), 0, 0, 0 );
-      |                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4653,9): error: use of undeclared identifier 'DC'
- 4653 |         return DC;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4724,14): error: use of undeclared identifier 'DC'
- 4724 |                         int cin = DC->playCinematic( window->cinematicName, 0, 0, 0, 0 );
-      |                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4725,4): error: use of undeclared identifier 'DC'
- 4725 |                         DC->stopCinematic( cin );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4746,3): error: use of undeclared identifier 'DC'
- 4746 |                 DC->registerSound( soundName );
-      |                 ^
-282 errors generated.
+[91/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_input.cpp.obj
 [92/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_inv.cpp.obj
-[93/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_input.cpp.obj
-[94/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
-[95/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
-[96/155] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+[93/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
+[94/155] Building CXX object CMakeFiles\ui.dir\ui\ui_shared.cpp.obj
+[95/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_parse.cpp.obj
+[96/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_pred.cpp.obj
+[97/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_newfx.cpp.obj
+[98/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
+[99/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.dll
+FAILED: [code=4294967295] D:/a/duke3d-idtech2/duke3d-idtech2/basedn/uix86.dll uix86.lib 
+C:\Windows\system32\cmd.exe /C "cd . && "C:\Program Files\CMake\bin\cmake.exe" -E vs_link_dll --msvc-ver=1951 --intdir=CMakeFiles\ui.dir --rc="C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe" --mt="C:\Program Files\LLVM\bin\llvm-mt.exe" --manifests  -- "C:\Program Files\LLVM\bin\lld-link.exe" /nologo CMakeFiles\ui.dir\ui\ui_main.cpp.obj CMakeFiles\ui.dir\ui\ui_duke_menus.cpp.obj CMakeFiles\ui.dir\ui\ui_duke_menus2.cpp.obj CMakeFiles\ui.dir\ui\ui_shared.cpp.obj CMakeFiles\ui.dir\ui\ui_util.cpp.obj CMakeFiles\ui.dir\game\q_shared.cpp.obj CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj  /out:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.dll /implib:uix86.lib /pdb:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.pdb /dll /version:0.0 /machine:X86 /INCREMENTAL:NO /DEF:D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui.def  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK: command "C:\Program Files\LLVM\bin\lld-link.exe /nologo CMakeFiles\ui.dir\ui\ui_main.cpp.obj CMakeFiles\ui.dir\ui\ui_duke_menus.cpp.obj CMakeFiles\ui.dir\ui\ui_duke_menus2.cpp.obj CMakeFiles\ui.dir\ui\ui_shared.cpp.obj CMakeFiles\ui.dir\ui\ui_util.cpp.obj CMakeFiles\ui.dir\game\q_shared.cpp.obj CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj /out:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.dll /implib:uix86.lib /pdb:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.pdb /dll /version:0.0 /machine:X86 /INCREMENTAL:NO /DEF:D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui.def kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST:EMBED,ID=2" failed (exit code 1) with the following output:
+lld-link: error: undefined symbol: public: virtual void __thiscall dnTextItem::PaintType(void)
+
+>>> referenced by CMakeFiles\ui.dir\ui\ui_shared.cpp.obj:(const dnTextItem::`vftable')
+
+
+
+lld-link: error: undefined symbol: public: virtual int __thiscall dnListBoxItem::HandleTypeKey(int, int)
+
+>>> referenced by CMakeFiles\ui.dir\ui\ui_shared.cpp.obj:(const dnListBoxItem::`vftable')
+
+
+
+lld-link: error: undefined symbol: public: virtual int __thiscall dnBindItem::HandleTypeKey(int, int)
+
+>>> referenced by CMakeFiles\ui.dir\ui\ui_shared.cpp.obj:(const dnBindItem::`vftable')
+
+[100/155] Building CXX object CMakeFiles\duke3d.dir\client\dnhud.cpp.obj
+[101/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_scrn.cpp.obj
+[102/155] Building CXX object CMakeFiles\duke3d.dir\client\dncgame.cpp.obj
+[103/155] Building CXX object CMakeFiles\duke3d.dir\client\dnui.cpp.obj
+[104/155] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
 ninja: build stopped: subcommand failed.

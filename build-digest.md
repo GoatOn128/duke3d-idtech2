@@ -1,12 +1,12 @@
 # Build digest
 
-- Commit: `4c492fdfbb24411794a1b255ff71ff053f22a8d2`
+- Commit: `8c38298bcd107dab344418977e63d9ac85a7cc8a`
 - Branch: `refactor/menu-framework-classes`
-- Result: configure exit: 0, build exit: 1
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40991623034
-- Generated: 2026-10-30 02:26:39 UTC
+- Result: configure exit: 0, build exit: -1
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/40991762974
+- Generated: 2026-10-30 02:27:53 UTC
 
-Errors: **282**, warnings: **0**.
+Errors: **3**, warnings: **0**.
 
 ## CMake errors
 
@@ -14,78 +14,12 @@ No CMake errors in the log.
 
 ## Tool errors
 
-No tool-level errors (lld-link, ninja, ...) in the log.
-
+- `lld-link: error: undefined symbol: public: virtual void __thiscall dnTextItem::PaintType(void)`
+- `lld-link: error: undefined symbol: public: virtual int __thiscall dnListBoxItem::HandleTypeKey(int, int)`
+- `lld-link: error: undefined symbol: public: virtual int __thiscall dnBindItem::HandleTypeKey(int, int)`
 ## Errors
 
-Showing the first 60 of 282 error(s).
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(331),8`: use of undeclared identifier 'DC'
-
-  ```
-  FAILED: [code=1] CMakeFiles/ui.dir/ui/ui_shared.cpp.obj
-  "C:\Program Files\LLVM\bin\clang-cl.exe" --target=i686-pc-windows-msvc  /nologo -TP -DC_ONLY -DWIN32 -D_CRT_NONSTDC_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_WINDOWS -Dui_EXPORTS  /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++17 -MD -Wno-microsoft-anon-tag -Wno-deprecated-declarations -Wno-pragma-pack -Wno-writable-strings -ferror-limit=0 -clang:-MD -clang:-MTCMakeFiles\ui.dir\ui\ui_shared.cpp.obj -clang:-MFCMakeFiles\ui.dir\ui\ui_shared.cpp.obj.d /FoCMakeFiles\ui.dir\ui\ui_shared.cpp.obj /FdCMakeFiles\ui.dir\ -c -- D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp
-  ```
-
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(332),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(465),7`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(465),13`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(559),2`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(568),2`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(569),2`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(569),57`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(570),2`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(591),8`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(592),16`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(619),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(637),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(638),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(639),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(641),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(647),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(649),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(650),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(652),8`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(653),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(654),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(658),19`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(664),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(665),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(682),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(684),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(688),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(689),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(690),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(693),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(694),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(695),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(907),29`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(932),7`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(935),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(995),6`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1157),2`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1180),10`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1184),13`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1260),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1347),9`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1348),5`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1348),26`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1357),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1364),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1371),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1379),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1386),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1386),24`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1393),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1404),4`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1469),5`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1481),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1519),22`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1570),3`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1585),14`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1632),9`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1632),52`: use of undeclared identifier 'DC'
-- `D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(1633),12`: use of undeclared identifier 'DC'
+No errors in the log.
 
 ## Warnings
 
@@ -94,35 +28,35 @@ No warnings in the log.
 ## Log tail
 
 ```
- 4530 |                 DC->drawHandlePic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, window.background );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4546,3): error: use of undeclared identifier 'DC'
- 4546 |                 DC->drawRect( window.rect.x, window.rect.y, window.rect.w, window.rect.h, 1, color );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4643,3): error: use of undeclared identifier 'DC'
- 4643 |                 DC->drawText( 5, 25, 0, .5, v, va( "fps: %f", DC->FPS ), 0, 0, 0 );
-      |                 ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4643,49): error: use of undeclared identifier 'DC'
- 4643 |                 DC->drawText( 5, 25, 0, .5, v, va( "fps: %f", DC->FPS ), 0, 0, 0 );
-      |                                                               ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4653,9): error: use of undeclared identifier 'DC'
- 4653 |         return DC;
-      |                ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4724,14): error: use of undeclared identifier 'DC'
- 4724 |                         int cin = DC->playCinematic( window->cinematicName, 0, 0, 0, 0 );
-      |                                   ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4725,4): error: use of undeclared identifier 'DC'
- 4725 |                         DC->stopCinematic( cin );
-      |                         ^
-D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui_shared.cpp(4746,3): error: use of undeclared identifier 'DC'
- 4746 |                 DC->registerSound( soundName );
-      |                 ^
-282 errors generated.
-[92/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_inv.cpp.obj
-[93/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_input.cpp.obj
-[94/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_fx.cpp.obj
-[95/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
-[96/155] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
+[95/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_parse.cpp.obj
+[96/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_pred.cpp.obj
+[97/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_newfx.cpp.obj
+[98/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_main.cpp.obj
+[99/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.dll
+FAILED: [code=4294967295] D:/a/duke3d-idtech2/duke3d-idtech2/basedn/uix86.dll uix86.lib 
+C:\Windows\system32\cmd.exe /C "cd . && "C:\Program Files\CMake\bin\cmake.exe" -E vs_link_dll --msvc-ver=1951 --intdir=CMakeFiles\ui.dir --rc="C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe" --mt="C:\Program Files\LLVM\bin\llvm-mt.exe" --manifests  -- "C:\Program Files\LLVM\bin\lld-link.exe" /nologo CMakeFiles\ui.dir\ui\ui_main.cpp.obj CMakeFiles\ui.dir\ui\ui_duke_menus.cpp.obj CMakeFiles\ui.dir\ui\ui_duke_menus2.cpp.obj CMakeFiles\ui.dir\ui\ui_shared.cpp.obj CMakeFiles\ui.dir\ui\ui_util.cpp.obj CMakeFiles\ui.dir\game\q_shared.cpp.obj CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj  /out:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.dll /implib:uix86.lib /pdb:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.pdb /dll /version:0.0 /machine:X86 /INCREMENTAL:NO /DEF:D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui.def  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK: command "C:\Program Files\LLVM\bin\lld-link.exe /nologo CMakeFiles\ui.dir\ui\ui_main.cpp.obj CMakeFiles\ui.dir\ui\ui_duke_menus.cpp.obj CMakeFiles\ui.dir\ui\ui_duke_menus2.cpp.obj CMakeFiles\ui.dir\ui\ui_shared.cpp.obj CMakeFiles\ui.dir\ui\ui_util.cpp.obj CMakeFiles\ui.dir\game\q_shared.cpp.obj CMakeFiles\ui.dir\qcommon\dnmenuparser.cpp.obj /out:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.dll /implib:uix86.lib /pdb:D:\a\duke3d-idtech2\duke3d-idtech2\basedn\uix86.pdb /dll /version:0.0 /machine:X86 /INCREMENTAL:NO /DEF:D:\a\duke3d-idtech2\duke3d-idtech2\code\ui\ui.def kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST:EMBED,ID=2" failed (exit code 1) with the following output:
+lld-link: error: undefined symbol: public: virtual void __thiscall dnTextItem::PaintType(void)
+
+>>> referenced by CMakeFiles\ui.dir\ui\ui_shared.cpp.obj:(const dnTextItem::`vftable')
+
+
+
+lld-link: error: undefined symbol: public: virtual int __thiscall dnListBoxItem::HandleTypeKey(int, int)
+
+>>> referenced by CMakeFiles\ui.dir\ui\ui_shared.cpp.obj:(const dnListBoxItem::`vftable')
+
+
+
+lld-link: error: undefined symbol: public: virtual int __thiscall dnBindItem::HandleTypeKey(int, int)
+
+>>> referenced by CMakeFiles\ui.dir\ui\ui_shared.cpp.obj:(const dnBindItem::`vftable')
+
+[100/155] Building CXX object CMakeFiles\duke3d.dir\client\dnhud.cpp.obj
+[101/155] Building CXX object CMakeFiles\duke3d.dir\client\cl_scrn.cpp.obj
+[102/155] Building CXX object CMakeFiles\duke3d.dir\client\dncgame.cpp.obj
+[103/155] Building CXX object CMakeFiles\duke3d.dir\client\dnui.cpp.obj
+[104/155] Building C object CMakeFiles\ref_gl.dir\third-party\glad\src\gl.c.obj
 ninja: build stopped: subcommand failed.
 ```
 
