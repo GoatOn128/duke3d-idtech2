@@ -3360,9 +3360,6 @@ void dnItem::PaintText( void ) {
 			return;
 		} else {
 			DC->getCVarString( cvar, buf, sizeof( buf ) );
-			if ( window.flags & CG_SHOW_TEXTASINT ) {
-				COM_StripExtension( buf, buf );
-			}
 			textPtr = buf;
 		}
 	} else {
