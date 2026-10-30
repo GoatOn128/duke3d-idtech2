@@ -52,6 +52,28 @@ typedef struct keywordHash_s
 
 enum { KEYWORDHASH_SIZE = 512 };
 
+/* ---- data driven ui tables ---- */
+
+/* named tiles and menu motion parameters live in ui text files
+   (ui/resources.txt, ui/animations.txt); the tables seed with the
+   built-in defaults so the menus still work when the files are
+   missing */
+#define MAX_UI_RESOURCES 128
+
+typedef struct {
+    char name[64];              /* tile name, an empty name ends the table */
+    int tile;                   /* art tile number the name maps to */
+} dnuiResource_t;
+
+typedef struct {
+    int slideTime;              /* ms the screen slide transition runs */
+    int slideDist;              /* Duke pixels the slide sweeps across */
+    int nukeFrames;             /* frames in the nuke cursor spin cycle */
+    int nukeFrameMs;            /* ms each nuke cursor frame stays up */
+    int nukeLeftX;              /* fixed column of the left nuke cursor */
+    int nukeRightX;             /* fixed column of the right nuke cursor */
+} dnuiAnims_t;
+
 /* one .menu file handed over by the engine as a single malloc'd block;
    the cursor walks it token by token until the source closes */
 class dnMenuSource
@@ -79,6 +101,18 @@ class dnMenuParser
 public:
     /* loads every .menu file named by the list file (ui/menus.txt) */
     static void LoadMenus( const char *listFile );
+
+    /* ui data files: ui/resources.txt overrides the named tiles,
+       ui/animations.txt overrides the motion parameters; both keep the
+       built-in defaults when the file is missing */
+    static void LoadResources( const char *file );
+    static void LoadAnimations( const char *file );
+
+    /* tile id a ui resource name maps to, 0 when the name is unknown */
+    static int Tile( const char *name );
+
+    /* the motion parameters the menus run with */
+    static const dnuiAnims_t *Anims( void );
 
 private:
     dnMenuParser( void );        /* static methods only */
@@ -245,6 +279,10 @@ private:
     /* ---- menu file loading ---- */
     static qboolean Menu_New( int handle );
     static void Menu_Load( const char *menuFile );
+
+    /* ---- data driven ui tables ---- */
+    static dnuiResource_t s_resources[MAX_UI_RESOURCES];
+    static dnuiAnims_t s_anims;
 };
 
 #endif

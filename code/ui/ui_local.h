@@ -52,11 +52,10 @@ void        Duke_SetSlideMode( int mode );
 #define DUKE_SLIDE_LEFT  1
 #define DUKE_SLIDE_UP    2
 
-/* the spinning nuke menu cursor and the fixed columns the centered
-   menus park it at, like the original probe() in the Duke MENUES.CPP */
-#define DUKE_SPINNING_NUKE 2813
-#define DUKE_NUKE_LEFT_X   50
-#define DUKE_NUKE_RIGHT_X  270
+/* the Duke tiles and motion parameters (nuke cursor spin, screen slide)
+   come from the parser data tables: dnMenuParser::Tile and
+   dnMenuParser::Anims, seeded with built-in defaults and overridable
+   from ui/resources.txt and ui/animations.txt */
 
 /* Second Duke menu set (ui_duke_menus2.cpp): the menus live in .menu
    script files under ui/, the module owns the ownerdraws, the engine data

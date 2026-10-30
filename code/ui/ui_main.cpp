@@ -17,11 +17,11 @@ static displayContextDef_t dc;
 /* the incoming screen slides in on every menu change, the classic screen
    to screen transition: it sweeps a fifth of the menu grid and settles
    over a short ease out. The direction comes from the root menu script,
-   left to right is the classic Duke3D screen change */
-#define DUKE_SLIDE_TIME  180
-#define DUKE_SLIDE_DIST   40
+   left to right is the classic Duke3D screen change, the timing comes
+   from ui/animations.txt through dnMenuParser::Anims */
 
-static int s_slideStart = -DUKE_SLIDE_TIME;
+/* zero means no slide is running: the first screen draws in place */
+static int s_slideStart = 0;
 static int s_slideMode = DUKE_SLIDE_LEFT;
 
 void Duke_SlideBegin( void ) {
@@ -34,6 +34,7 @@ void Duke_SetSlideMode( int mode ) {
 
 /* the x and y offsets in Duke pixels while the current screen slides in */
 static void Duke_SlideOffsets( int *dx, int *dy ) {
+    const dnuiAnims_t *anims = dnMenuParser::Anims();
     int t;
     int o;
     float k;
@@ -43,11 +44,11 @@ static void Duke_SlideOffsets( int *dx, int *dy ) {
         return;
     }
     t = uii.Milliseconds() - s_slideStart;
-    if ( t >= DUKE_SLIDE_TIME ) {
+    if ( t >= anims->slideTime ) {
         return;
     }
-    k = 1.0f - ( float )t / DUKE_SLIDE_TIME;
-    o = ( int )( DUKE_SLIDE_DIST * k * k + 0.5f );
+    k = 1.0f - ( float )t / anims->slideTime;
+    o = ( int )( anims->slideDist * k * k + 0.5f );
     if ( s_slideMode == DUKE_SLIDE_LEFT ) {
         *dx = -o;
     } else {
@@ -565,6 +566,11 @@ static int Init( void ) {
     UI_InitMemory();
     String_Init();
     Duke_MenusInit();
+    /* the named tiles and motion parameters first: the ui text files
+       override the built-in defaults, the menu scripts and ownerdraws
+       read the tables from here on */
+    dnMenuParser::LoadResources( "ui/resources.txt" );
+    dnMenuParser::LoadAnimations( "ui/animations.txt" );
     /* the Duke menus are .menu script data now: ui/menus.txt lists the
        files, the qcommon menu parser loads them through the engine FS,
        and the runtime engine lists reach the parsed items right after */
@@ -620,7 +626,7 @@ static int ConsoleCommand( int ) {
 static void DrawLoadScreen( void ) {
     char level[MAX_QPATH];
 
-    uii.UiTile( 160, 100, 3281, 0, 0, 0 );
+    uii.UiTile( 160, 100, dnMenuParser::Tile( "LOADSCREEN" ), 0, 0, 0 );
     /* selected draws the glyphs in the bright shade, the original look */
     uii.MenuText( 160, 90, uii.GetConnState() == DN_CONN_DISCONNECTED ? "LOADING" : "ENTERING", 1 );
     uii.GetLevelName( level, sizeof( level ) );

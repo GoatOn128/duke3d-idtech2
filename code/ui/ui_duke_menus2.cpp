@@ -9,6 +9,7 @@
    renderer. */
 
 #include "ui_local.h"
+#include "../qcommon/dnmenuparser.h"
 
 /* ---- ownerdraw ids, all at or above DUKE2_OD_BASE ---- */
 
@@ -515,10 +516,13 @@ void Duke2_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t 
                 if ( line->cursorBothSides && line->x == 160 ) {
                     /* centered menus park the nuke pair at the fixed columns
                        like the original probe(): the left one spins forward
-                       and the right one mirrors it */
-                    int frame = ( uii.Milliseconds() / 66 ) % 7;
-                    uii.UiTile( DUKE_NUKE_LEFT_X, line->y - 7, DUKE_SPINNING_NUKE + frame, 0, 0, 0 );
-                    uii.UiTile( DUKE_NUKE_RIGHT_X, line->y - 7, DUKE_SPINNING_NUKE + ( 7 - frame ) % 7, 0, 0, 0 );
+                       and the right one mirrors it; the spin and columns
+                       come from ui/animations.txt */
+                    const dnuiAnims_t *anims = dnMenuParser::Anims();
+                    int tile = dnMenuParser::Tile( "SPINNINGNUKEICON" );
+                    int frame = ( uii.Milliseconds() / anims->nukeFrameMs ) % anims->nukeFrames;
+                    uii.UiTile( anims->nukeLeftX, line->y - 7, tile + frame, 0, 0, 0 );
+                    uii.UiTile( anims->nukeRightX, line->y - 7, tile + ( anims->nukeFrames - frame ) % anims->nukeFrames, 0, 0, 0 );
                 } else if ( line->cursorFromStart ) {
                     uii.MenuCursor( start - 18, line->y - 7 );
                 } else if ( line->cursorX ) {
