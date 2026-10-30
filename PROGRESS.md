@@ -187,6 +187,14 @@ Legend:
       eight deep like the menus.txt includes; the menu lexer grew an
       unread (a one token push back) so the loader can peek the next
       block opener before handing it to the parser
+- [x] RoQ menu cinematics: `client/roq.cpp` plays .roq streams behind the
+      windowDef cinematic keyword (intra frames with per frame codebooks
+      plus motion support, written from scratch against the public RoQ
+      format description), the renderer grows a direct RGBA upload
+      (`DrawStretchRaw32`), the UI import table carries the four cinematic
+      hooks and the focused menu runs onROQDone when the stream ends;
+      convertgrp decodes the group file ANMs and writes them as
+      basedn/anm/*.roq
 - [x] UI scripting documentation: `docs/ui-scripting.md` walks through
       the whole menu system the way a person reads it, how
       `ui/menus.txt` loads screens, the .menu syntax with every

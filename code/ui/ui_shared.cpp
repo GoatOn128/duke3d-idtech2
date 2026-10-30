@@ -683,7 +683,11 @@ void Window_Paint( Window *w, float fadeAmount, float fadeClamp, float fadeCycle
 			}
 		}
 		if ( w->cinematic >= 0 ) {
-			DC->runCinematicFrame( w->cinematic );
+			/* the stream reports its end once: the menu runs onROQDone
+			   while the last frame keeps drawing */
+			if ( DC->runCinematicFrame( w->cinematic ) ) {
+				UI_RoQDone();
+			}
 			DC->drawCinematic( w->cinematic, fillRect.x, fillRect.y, fillRect.w, fillRect.h );
 		}
 	}

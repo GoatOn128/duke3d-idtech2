@@ -543,7 +543,7 @@ typedef struct {
 	int ( *playCinematic )( const char *name, float x, float y, float w, float h );
 	void ( *stopCinematic )( int handle );
 	void ( *drawCinematic )( int handle, float x, float y, float w, float h );
-	void ( *runCinematicFrame )( int handle );
+	int ( *runCinematicFrame )( int handle );
 
 	float yscale;
 	float xscale;
