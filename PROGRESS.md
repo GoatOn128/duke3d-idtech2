@@ -134,6 +134,14 @@ Legend:
       `displayContextDef_t` filled from the engine import table (text and
       pics draw through MenuText/RegisterPic/DrawStretchPic; model, feeder
       and ownerdraw callbacks are stubs until the Duke menus land)
+- [x] Level load screen through the UI module (`dn_ui_export_t` v7,
+      `DrawLoadScreen` in `ui_main.cpp`, `UI_DrawLoadScreen` in
+      `dnui.cpp`): while the client loads a level the screen draws the
+      Duke3D load screen, the `dofrontscreens()` layout from the
+      original PREMAP.CPP, backdrop with ENTERING and the level name,
+      instead of the Quake 2 console, the idTech 3
+      `UI_DRAW_CONNECT_SCREEN` slot; the console stays only while a
+      download runs
 - [ ] Duke menus on the idTech 3 framework (main, new game, options,
       load, save)
 - [ ] Cut the menus over to the module, retire `menu.cpp`/`qmenu.cpp`

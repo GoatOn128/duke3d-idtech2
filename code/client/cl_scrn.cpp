@@ -526,16 +526,16 @@ SCR_DrawLoading
 */
 void SCR_DrawLoading(void)
 {
-    int w, h;
-
     if (!scr_draw_loading)
     {
         return;
     }
 
     scr_draw_loading = false;
-    re.DrawGetPicSize(&w, &h, "loading");
-    re.DrawPic((viddef.width - w) / 2, (viddef.height - h) / 2, "loading");
+    // the Quake 2 loading plaque becomes the Duke3D load screen the UI
+    // module draws, the idTech 3 loading screen during CA_LOADING
+    re.DrawFill(0, 0, viddef.width, viddef.height, 0);
+    UI_DrawLoadScreen();
 }
 
 //=============================================================================
@@ -593,15 +593,30 @@ void SCR_DrawConsole(void)
     }
 
     if (cls.state == ca_connecting)
-    { // forced full screen console
+    { // forced full screen console, unless the local server is bringing
+      // a level up: the Duke3D load screen covers the transition
+        if (Com_ServerState())
+        {
+            re.DrawFill(0, 0, viddef.width, viddef.height, 0);
+            UI_DrawLoadScreen();
+            return;
+        }
         Con_DrawConsole(1.0);
         return;
     }
 
     if (cls.state != ca_active || !cl.refresh_prepped)
-    { // connected, but can't render
-        Con_DrawConsole(0.5);
-        re.DrawFill(0, viddef.height / 2, viddef.width, viddef.height / 2, 0);
+    { // connected, but can't render: the Duke3D load screen takes over,
+      // the idTech 3 UI_DRAW_CONNECT_SCREEN during CA_LOADING; the
+      // console stays only while a download reports its progress
+        if (cls.download)
+        {
+            Con_DrawConsole(0.5);
+            re.DrawFill(0, viddef.height / 2, viddef.width, viddef.height / 2, 0);
+            return;
+        }
+        re.DrawFill(0, 0, viddef.width, viddef.height, 0);
+        UI_DrawLoadScreen();
         return;
     }
 
@@ -1520,12 +1535,11 @@ void SCR_UpdateScreen(void)
 
         if (scr_draw_loading == 2)
         { //  loading plaque over black screen
-            int w, h;
-
             re.CinematicSetPalette(NULL);
             scr_draw_loading = false;
-            re.DrawGetPicSize(&w, &h, "loading");
-            re.DrawPic((viddef.width - w) / 2, (viddef.height - h) / 2, "loading");
+            // the plaque draws the Duke3D load screen instead of the pic
+            re.DrawFill(0, 0, viddef.width, viddef.height, 0);
+            UI_DrawLoadScreen();
             //			re.EndFrame();
             //			return;
         }

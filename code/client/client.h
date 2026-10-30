@@ -596,6 +596,7 @@ void CL_TrapParticles(entity_t *ent);
 void UI_KeyEvent(int key, qboolean down);
 void UI_MouseMove(int x, int y);
 void UI_Refresh(void);
+void UI_DrawLoadScreen(void);
 void UI_OpenMainMenu(void);
 void UI_ForceMenuOff(void);
 

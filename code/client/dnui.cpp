@@ -353,7 +353,9 @@ static void UI_GetLevelName(char *buffer, uint32_t size)
         return;
     }
     buffer[0] = 0;
-    if (cls.state == ca_active && cl.configstrings[CS_NAME])
+    // the name is valid once the server data arrived, so the load screen
+    // can show it before the first active frame
+    if ((cls.state == ca_active || cls.state == ca_connected) && cl.configstrings[CS_NAME])
     {
         strncpy(buffer, cl.configstrings[CS_NAME], size - 1);
         buffer[size - 1] = 0;
@@ -669,6 +671,16 @@ void UI_Refresh(void)
     if (!ui->IsFullscreen())
     {
         cls.key_dest = key_game;
+    }
+}
+
+// the level load screen, the idTech 3 UI_DRAW_CONNECT_SCREEN slot: the
+// module draws the Duke3D load screen while the client loads a level
+void UI_DrawLoadScreen(void)
+{
+    if (ui)
+    {
+        ui->DrawLoadScreen();
     }
 }
 
