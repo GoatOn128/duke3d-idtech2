@@ -1309,6 +1309,7 @@ extern "C" refexport_t GetRefAPI(refimport_t rimp)
     re.DrawFadeScreen = Draw_FadeScreen;
 
     re.DrawStretchRaw = Draw_StretchRaw;
+    re.DrawStretchRaw32 = Draw_StretchRaw32;
 
     re.Init = R_Init;
     re.Shutdown = R_Shutdown;

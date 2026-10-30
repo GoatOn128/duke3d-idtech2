@@ -81,7 +81,7 @@ These are the keywords a menuDef block understands:
 - popup: 1 keeps the menu clear of the focus chain, for popups that float over others.
 - fadeClamp, fadeCycle, fadeAmount: fade tuning for the show and hide script commands.
 - outOfBoundsClick: close the menu when the player clicks outside its rect.
-- cinematic: a cinematic to play inside the menu rect.
+- cinematic: a RoQ file to play inside the menu rect (the Cinematics section).
 
 ### The item blocks
 
@@ -223,6 +223,25 @@ listDef {
 elementheight is the row pitch in virtual pixels. columns takes the column count first, then a triplet per column: the column's x offset inside the row, its width, and the most characters it paints. The example above gives the label column 220 virtual pixels and the key column 300, capped at 13 and 12 characters.
 
 A bindDef row waits for a key press and writes it to the engine binding for its command; the listDef version of that flow is the keys screen, where pressing enter on a row starts the capture, the next key becomes the binding, escape cancels, and backspace clears it. While the capture is live, mouse button 2 counts as a regular bindable key; outside a capture it acts like escape.
+
+## Cinematics
+
+A windowDef with the cinematic keyword plays a RoQ video inside the menu rect. The path is a game file path like any other asset. The engine owns the playback: the client decodes the stream, the renderer uploads the frames, and the framework only hands the rect over and runs the scripts.
+
+\`\`\`
+menuDef {
+    name intro_video
+    fullScreen 1
+    cinematic anm/intro.roq
+    onROQDone { close intro_video ; open main }
+}
+\`\`\`
+
+- convertgrp writes every .anm from the group file as basedn/anm/<name>.roq, so the Duke intro and credits animations become menu assets; the keyword takes the basedn-relative path with the extension.
+- The video plays once per menu open, stretched into the rect. A failed load leaves the rect empty and does not retry.
+- The stream reports its end once: the focused menu runs its onROQDone script, then the last frame keeps drawing until the cinematic stops. Closing the menu or opening another one stops it.
+- The converter writes the intra profile: every frame carries its own codebook, 320x208 (the 320x200 ANM frame centered on four black rows top and bottom) at a fixed 30 fps, no audio track. Third-party .roq files with motion blocks decode too, but sound chunks are skipped.
+- The rect lives in the 640x480 virtual menu space like every other window; the video stretches into exactly the rect the border and background use.
 
 ## The data files
 

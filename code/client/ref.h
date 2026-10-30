@@ -122,7 +122,7 @@ typedef struct
     particle_t *particles;
 } refdef_t;
 
-#define API_VERSION 5
+#define API_VERSION 6
 
 //
 // these are the functions exported by the refresh module
@@ -170,6 +170,10 @@ typedef struct
 
     // Draw images for cinematic rendering (which can have a different palette). Note that calls
     void (*DrawStretchRaw)(int x, int y, int w, int h, int cols, int rows, byte *data);
+
+    // Direct RGBA upload for the RoQ menu cinematics (client/roq.cpp);
+    // cols and rows are the decoded video size
+    void (*DrawStretchRaw32)(int x, int y, int w, int h, int cols, int rows, byte *data);
 
     /*
     ** video mode and refresh state management entry points

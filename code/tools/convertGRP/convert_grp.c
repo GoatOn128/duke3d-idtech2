@@ -876,6 +876,652 @@ static void write_intro(const char *dir)
 }
 
 /* ---------------------------------------------------------------------------
+   ANM cinematics (client/roq.cpp)
+   --------------------------------------------------------------------------- */
+
+/* Duke3D .anm files are Deluxe Paint Animation large page format: a 128
+   byte LPF header, 128 filler bytes, a BGRx palette, one 6 byte large page
+   descriptor per page, then 64k pages holding the frame records. Records
+   are RunSkipDump deltas onto one shared 320x200 indexed frame, applied in
+   order like the original animlib player did. write_anm_roq replays them
+   and encodes every frame as an intra RoQ picture the client player
+   streams behind the windowDef cinematic keyword. */
+
+#define ROQ_H (SCREEN_H + 8)
+
+static uint8_t anm_frame[SCREEN_W * SCREEN_H];
+static uint8_t anm_out[SCREEN_W * ROQ_H];
+
+/* RunSkipDump: a byte under 0x80 is a copy count, 0x80 a skip, zero a
+   short rle; above it a long op follows with a 16 bit length, and a zero
+   length stops the record */
+static void anm_apply_record(const uint8_t *src, const uint8_t *end)
+{
+    uint8_t *dst = anm_frame;
+    const uint8_t *dst_end = anm_frame + sizeof(anm_frame);
+
+    while (src < end)
+    {
+        int count = *src++;
+
+        if (count == 0)
+        {
+            int color;
+
+            if (src + 2 > end)
+            {
+                return;
+            }
+            count = *src++;
+            color = *src++;
+            if (dst + count > dst_end)
+            {
+                return;
+            }
+            memset(dst, color, (size_t)count);
+            dst += count;
+        }
+        else if (count < 0x80)
+        {
+            if (src + count > end || dst + count > dst_end)
+            {
+                return;
+            }
+            memcpy(dst, src, (size_t)count);
+            dst += count;
+            src += count;
+        }
+        else if (count > 0x80)
+        {
+            dst += count & 0x7f;
+        }
+        else
+        {
+            unsigned length;
+
+            if (src + 2 > end)
+            {
+                return;
+            }
+            length = rd16(src);
+            src += 2;
+            if (length == 0)
+            {
+                return;
+            }
+            if ((length & 0x8000) == 0)
+            {
+                dst += length;
+            }
+            else if (length & 0x4000)
+            {
+                int color = -1;
+
+                length &= ~0xc000;
+                if (src < end && dst + length <= dst_end)
+                {
+                    color = *src++;
+                    memset(dst, color, (size_t)length);
+                    dst += length;
+                }
+                if (color < 0)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                length &= ~0x8000;
+                if (src + length > end || dst + length > dst_end)
+                {
+                    return;
+                }
+                memcpy(dst, src, (size_t)length);
+                dst += length;
+                src += length;
+            }
+        }
+        if (dst > dst_end || dst < anm_frame)
+        {
+            return;
+        }
+    }
+}
+
+/* applies one record from large page data: the page starts with a 6 byte
+   descriptor plus 2 pad bytes, then the 16 bit record size table, then the
+   records, each behind a 4 byte header that may carry a prefix to skip */
+static int anm_decode_record(const uint8_t *anm, size_t anm_size, int page, int index)
+{
+    const uint8_t *page_data = anm + 0xb00 + (size_t)page * 0x10000;
+    const uint8_t *thepage;
+    const uint8_t *record;
+    int n_records, base, i, offset = 0;
+
+    if (anm_size < 0xb00 + (size_t)page * 0x10000 + 8)
+    {
+        return 0;
+    }
+    n_records = (int)rd16(page_data + 2);
+    base = (int)rd16(page_data);
+    thepage = page_data + 8;
+    if (index < base || index - base >= n_records)
+    {
+        return 0;
+    }
+    for (i = 0; i < index - base; i++)
+    {
+        offset += (int)rd16(thepage + i * 2);
+    }
+    record = thepage + n_records * 2 + offset;
+    if (record + 4 > anm + anm_size)
+    {
+        return 0;
+    }
+    if (record[1])
+    {
+        int prefix = (int)rd16(record + 2);
+
+        record += 4 + prefix + (prefix & 1);
+    }
+    else
+    {
+        record += 4;
+    }
+    if (record > anm + anm_size)
+    {
+        return 0;
+    }
+    anm_apply_record(record, anm + anm_size);
+    return 1;
+}
+
+/* --- intra RoQ encoder: every frame carries its own codebook --- */
+
+typedef struct
+{
+    uint8_t *data;
+    size_t len, cap;
+} roq_buf_t;
+
+static void roq_buf_reserve(roq_buf_t *b, size_t n)
+{
+    if (b->len + n > b->cap)
+    {
+        b->cap = (b->len + n) * 2 + 4096;
+        b->data = (uint8_t *)realloc(b->data, b->cap);
+        if (!b->data)
+        {
+            fail("out of memory");
+        }
+    }
+}
+
+static void roq_buf_put(roq_buf_t *b, const void *data, size_t n)
+{
+    roq_buf_reserve(b, n);
+    memcpy(b->data + b->len, data, n);
+    b->len += n;
+}
+
+static void roq_buf_put16(roq_buf_t *b, unsigned v)
+{
+    uint8_t t[2];
+
+    put16(t, v);
+    roq_buf_put(b, t, 2);
+}
+
+static void roq_buf_put32(roq_buf_t *b, unsigned long v)
+{
+    uint8_t t[4];
+
+    t[0] = (uint8_t)(v & 0xff);
+    t[1] = (uint8_t)((v >> 8) & 0xff);
+    t[2] = (uint8_t)((v >> 16) & 0xff);
+    t[3] = (uint8_t)((v >> 24) & 0xff);
+    roq_buf_put(b, t, 4);
+}
+
+/* 2x2 cell buckets keyed on quantized luma (5 bits per pixel) and chroma
+   (4 bits); the codebook entry is the quantized representative, so a
+   bucket hit reproduces the pixels the decoder rebuilds */
+#define ROQ_CELL_BUCKETS 1024
+
+typedef struct
+{
+    uint8_t cells2[256][6];
+    int cells2_count;
+    struct
+    {
+        unsigned key;
+        int index;
+        int used;
+    } bucket[ROQ_CELL_BUCKETS];
+    uint8_t cells4[256][4];
+    int cells4_count;
+    roq_buf_t codes;
+    int slots;
+    size_t word_pos;
+    unsigned word;
+} roq_enc_t;
+
+static roq_enc_t roq_encoder;
+
+static void roq_emit_code(roq_enc_t *enc, int code)
+{
+    if (enc->slots == 0)
+    {
+        /* the decoder reads the next flag word exactly here, so reserve
+           the two bytes and patch them once all eight slots are known */
+        static const uint8_t pad[2] = {0, 0};
+
+        enc->word_pos = enc->codes.len;
+        roq_buf_put(&enc->codes, pad, 2);
+        enc->slots = 8;
+        enc->word = 0;
+    }
+    enc->slots--;
+    enc->word |= (unsigned)(code & 3) << (enc->slots * 2);
+    if (enc->slots == 0)
+    {
+        put16(enc->codes.data + enc->word_pos, enc->word);
+    }
+}
+
+static void roq_emit_byte(roq_enc_t *enc, int b)
+{
+    uint8_t t = (uint8_t)b;
+
+    roq_buf_put(&enc->codes, &t, 1);
+}
+
+/* BT.601 luma and chroma per palette entry, filled once per file */
+static int anm_y[256], anm_cb[256], anm_cr[256];
+
+static int roq_cell_index(roq_enc_t *enc, const uint8_t *cell)
+{
+    unsigned key = 1u << 28;
+    int i, slot;
+
+    for (i = 0; i < 4; i++)
+    {
+        key = (key << 5) | (unsigned)(cell[i] >> 3);
+    }
+    key = (key << 4) | (unsigned)(cell[4] >> 4);
+    key = (key << 4) | (unsigned)(cell[5] >> 4);
+
+    slot = (int)(key % ROQ_CELL_BUCKETS);
+    for (i = 0; i < ROQ_CELL_BUCKETS; i++)
+    {
+        if (!enc->bucket[slot].used)
+        {
+            int n = enc->cells2_count;
+
+            if (n < 256)
+            {
+                int j;
+
+                for (j = 0; j < 4; j++)
+                {
+                    enc->cells2[n][j] = (uint8_t)(cell[j] & 0xf8);
+                }
+                enc->cells2[n][4] = (uint8_t)(cell[4] & 0xf0);
+                enc->cells2[n][5] = (uint8_t)(cell[5] & 0xf0);
+                enc->cells2_count++;
+                enc->bucket[slot].used = 1;
+                enc->bucket[slot].key = key;
+                enc->bucket[slot].index = n;
+            }
+            /* codebook full: fall out and take the nearest entry */
+            break;
+        }
+        if (enc->bucket[slot].key == key)
+        {
+            return enc->bucket[slot].index;
+        }
+        slot = (slot + 1) % ROQ_CELL_BUCKETS;
+    }
+    /* nearest neighbor over the current codebook */
+    {
+        int best = 0, best_dist = 1 << 30, n, j;
+
+        for (n = 0; n < enc->cells2_count; n++)
+        {
+            int dist = 0;
+
+            for (j = 0; j < 4; j++)
+            {
+                dist += abs(enc->cells2[n][j] - cell[j]);
+            }
+            dist += 2 * abs(enc->cells2[n][4] - cell[4]) + 2 * abs(enc->cells2[n][5] - cell[5]);
+            if (dist < best_dist)
+            {
+                best_dist = dist;
+                best = n;
+            }
+        }
+        return best;
+    }
+}
+
+static int roq_cells4_index(roq_enc_t *enc, int i0, int i1, int i2, int i3)
+{
+    int i;
+
+    for (i = 0; i < enc->cells4_count; i++)
+    {
+        if (enc->cells4[i][0] == (uint8_t)i0 && enc->cells4[i][1] == (uint8_t)i1 &&
+            enc->cells4[i][2] == (uint8_t)i2 && enc->cells4[i][3] == (uint8_t)i3)
+        {
+            return i;
+        }
+    }
+    if (enc->cells4_count >= 256)
+    {
+        return -1;
+    }
+    enc->cells4[enc->cells4_count][0] = (uint8_t)i0;
+    enc->cells4[enc->cells4_count][1] = (uint8_t)i1;
+    enc->cells4[enc->cells4_count][2] = (uint8_t)i2;
+    enc->cells4[enc->cells4_count][3] = (uint8_t)i3;
+    return enc->cells4_count++;
+}
+
+/* builds the 2x2 cell at x,y from the indexed frame: luma per pixel,
+   chroma averaged over the four */
+static void roq_frame_cell(int x, int y, uint8_t *cell)
+{
+    int p[4], i, cb = 0, cr = 0;
+
+    p[0] = anm_out[y * SCREEN_W + x];
+    p[1] = anm_out[y * SCREEN_W + x + 1];
+    p[2] = anm_out[(y + 1) * SCREEN_W + x];
+    p[3] = anm_out[(y + 1) * SCREEN_W + x + 1];
+    for (i = 0; i < 4; i++)
+    {
+        cell[i] = (uint8_t)anm_y[p[i]];
+        cb += anm_cb[p[i]];
+        cr += anm_cr[p[i]];
+    }
+    cell[4] = (uint8_t)((cb + 2) / 4);
+    cell[5] = (uint8_t)((cr + 2) / 4);
+}
+
+static void roq_block4_cells(roq_enc_t *enc, int x, int y, int out[4])
+{
+    uint8_t cell[6];
+    int j;
+
+    for (j = 0; j < 4; j++)
+    {
+        roq_frame_cell(x + (j & 1) * 2, y + (j >> 1) * 2, cell);
+        out[j] = roq_cell_index(enc, cell);
+    }
+}
+
+static void roq_encode_frame(roq_enc_t *enc)
+{
+    int mx, my, qx, qy;
+
+    enc->cells2_count = 0;
+    enc->cells4_count = 0;
+    memset(enc->bucket, 0, sizeof(enc->bucket));
+    enc->codes.len = 0;
+    enc->slots = 0;
+
+    /* the decoder walks the same raster: 16x16 macroblocks, four 8x8
+       quadrants each */
+    for (my = 0; my < ROQ_H; my += 16)
+    {
+        for (mx = 0; mx < SCREEN_W; mx += 16)
+        {
+            for (qy = 0; qy < 16; qy += 8)
+            {
+                for (qx = 0; qx < 16; qx += 8)
+                {
+                    int x = mx + qx, y = my + qy;
+                    int quadrant[4], qcell, k;
+                    uint8_t cell[6];
+
+                    /* one representative cell per 4x4 quadrant: a qcell
+                       hit codes the whole 8x8 as one SLD block */
+                    roq_frame_cell(x, y, cell);
+                    quadrant[0] = roq_cell_index(enc, cell);
+                    roq_frame_cell(x + 4, y, cell);
+                    quadrant[1] = roq_cell_index(enc, cell);
+                    roq_frame_cell(x, y + 4, cell);
+                    quadrant[2] = roq_cell_index(enc, cell);
+                    roq_frame_cell(x + 4, y + 4, cell);
+                    quadrant[3] = roq_cell_index(enc, cell);
+                    qcell = roq_cells4_index(enc, quadrant[0], quadrant[1],
+                                             quadrant[2], quadrant[3]);
+                    if (qcell >= 0)
+                    {
+                        roq_emit_code(enc, 2); /* SLD */
+                        roq_emit_byte(enc, qcell);
+                        continue;
+                    }
+                    roq_emit_code(enc, 3); /* CCC: four coded 4x4 blocks */
+                    for (k = 0; k < 4; k++)
+                    {
+                        int bx = x + (k & 1) * 4, by = y + (k >> 1) * 4;
+                        int sub[4];
+
+                        roq_block4_cells(enc, bx, by, sub);
+                        qcell = roq_cells4_index(enc, sub[0], sub[1], sub[2], sub[3]);
+                        if (qcell >= 0)
+                        {
+                            roq_emit_code(enc, 2); /* SLD */
+                            roq_emit_byte(enc, qcell);
+                        }
+                        else
+                        {
+                            int c;
+
+                            roq_emit_code(enc, 3); /* CCC: four direct cells */
+                            for (c = 0; c < 4; c++)
+                            {
+                                roq_emit_byte(enc, sub[c]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+static void roq_write_frame(roq_buf_t *out, roq_enc_t *enc)
+{
+    int nv1 = enc->cells2_count, nv2 = enc->cells4_count;
+
+    /* codebook chunk; a count byte of zero means 256 to the decoder */
+    roq_buf_put16(out, 0x1002);
+    roq_buf_put32(out, (unsigned long)(nv1 * 6 + nv2 * 4));
+    roq_buf_put16(out, (unsigned)((nv1 & 0xff) << 8 | (nv2 & 0xff)));
+    roq_buf_put(out, enc->cells2, (size_t)(nv1 * 6));
+    roq_buf_put(out, enc->cells4, (size_t)(nv2 * 4));
+
+    /* quad code chunk; the argument carries no mean motion, intra only */
+    roq_buf_put16(out, 0x1011);
+    roq_buf_put32(out, (unsigned long)enc->codes.len);
+    roq_buf_put16(out, 0);
+    roq_buf_put(out, enc->codes.data, enc->codes.len);
+}
+
+static int write_anm_roq(const char *path, const uint8_t *anm, size_t size)
+{
+    /* LPF fields by offset: id at 0, nLps at 6, "ANIM" at 16, width at 20,
+       height at 22, hasLastDelta at 26, nFrames at 64, fps at 68 */
+    roq_buf_t out;
+    int n_lps, n_frames, fps, repeats, page, global, rep;
+    int i, black = 0, black_sum = 0x7fffffff;
+
+    if (size < 1536 || memcmp(anm, "LPF ", 4) != 0 || memcmp(anm + 16, "ANIM", 4) != 0)
+    {
+        return 0;
+    }
+    n_lps = (int)rd16(anm + 6);
+    if ((int)rd16(anm + 20) != SCREEN_W || (int)rd16(anm + 22) != SCREEN_H ||
+        n_lps <= 0 || 1024 + n_lps * 6 > (int)size)
+    {
+        return 0;
+    }
+    n_frames = (int)rd32(anm + 64);
+    fps = (int)rd16(anm + 68);
+    if (n_frames <= 0)
+    {
+        return 0;
+    }
+    if (anm[26])
+    {
+        /* the last record deltas back onto frame zero for looping; the
+           menu plays one shot, so it does not belong in the stream */
+        n_frames--;
+    }
+    if (n_frames <= 0)
+    {
+        return 0;
+    }
+
+    /* palette after the 128 byte header plus 128 filler bytes, BGRx per
+       entry; DAC palettes carry 0..63 values, exported ones full bytes,
+       so scale by range */
+    {
+        int c, max_value = 0;
+        const uint8_t *p = anm + 128 + 128;
+
+        for (c = 0; c < 256; c++)
+        {
+            if (p[c * 4 + 0] > max_value)
+            {
+                max_value = p[c * 4 + 0];
+            }
+            if (p[c * 4 + 1] > max_value)
+            {
+                max_value = p[c * 4 + 1];
+            }
+            if (p[c * 4 + 2] > max_value)
+            {
+                max_value = p[c * 4 + 2];
+            }
+        }
+        for (c = 0; c < 256; c++)
+        {
+            int r = p[c * 4 + 2], g = p[c * 4 + 1], b = p[c * 4 + 0];
+
+            if (max_value <= 63)
+            {
+                r *= 4;
+                g *= 4;
+                b *= 4;
+            }
+            anm_y[c] = (r * 299 + g * 587 + b * 114) / 1000;
+            anm_cb[c] = 128 + (-r * 172 - g * 334 + b * 506) / 1000;
+            anm_cr[c] = 128 + (r * 506 - g * 429 - b * 77) / 1000;
+            if (anm_cb[c] < 0)
+            {
+                anm_cb[c] = 0;
+            }
+            if (anm_cb[c] > 255)
+            {
+                anm_cb[c] = 255;
+            }
+            if (anm_cr[c] < 0)
+            {
+                anm_cr[c] = 0;
+            }
+            if (anm_cr[c] > 255)
+            {
+                anm_cr[c] = 255;
+            }
+            if (r + g + b < black_sum)
+            {
+                black_sum = r + g + b;
+                black = c;
+            }
+        }
+    }
+
+    /* the ANM frame centers on four black rows top and bottom so the
+       320x200 picture meets the 16 pixel multiple the RoQ quad walk wants
+       at 320x208 */
+    memset(anm_out, black, sizeof(anm_out));
+    memset(anm_frame, 0, sizeof(anm_frame));
+
+    /* the original frame rate lands on the fixed 30 fps stream by
+       repeating each frame; a broken header fps falls back to 10 */
+    repeats = fps > 0 ? (30 + fps / 2) / fps : 3;
+    if (repeats < 1)
+    {
+        repeats = 1;
+    }
+    if (repeats > 30)
+    {
+        repeats = 30;
+    }
+
+    memset(&out, 0, sizeof(out));
+    memset(&roq_encoder, 0, sizeof(roq_encoder));
+
+    /* signature chunk: id 0x1084, size -1, frame rate 30 */
+    roq_buf_put16(&out, 0x1084);
+    roq_buf_put32(&out, 0xffffffff);
+    roq_buf_put16(&out, 30);
+    /* info chunk: size 8, then width, height and the two magic words */
+    roq_buf_put16(&out, 0x1001);
+    roq_buf_put32(&out, 8);
+    roq_buf_put16(&out, 0);
+    roq_buf_put16(&out, SCREEN_W);
+    roq_buf_put16(&out, ROQ_H);
+    roq_buf_put16(&out, 8);
+    roq_buf_put16(&out, 4);
+
+    global = 0;
+    for (page = 0; page < n_lps && global < n_frames; page++)
+    {
+        int base = (int)rd16(anm + 1024 + page * 6);
+        int n_records = (int)rd16(anm + 1024 + page * 6 + 2);
+
+        if (base != global)
+        {
+            /* out of order large pages: the one shot replay walks frames
+               in sequence, bail instead of guessing */
+            free(out.data);
+            free(roq_encoder.codes.data);
+            return 0;
+        }
+        for (i = 0; i < n_records && global < n_frames; i++)
+        {
+            if (!anm_decode_record(anm, size, page, global))
+            {
+                free(out.data);
+                free(roq_encoder.codes.data);
+                return 0;
+            }
+            global++;
+            memcpy(anm_out + 4 * SCREEN_W, anm_frame, sizeof(anm_frame));
+            for (rep = 0; rep < repeats; rep++)
+            {
+                roq_encode_frame(&roq_encoder);
+                roq_write_frame(&out, &roq_encoder);
+            }
+        }
+    }
+    if (global < n_frames)
+    {
+        free(out.data);
+        free(roq_encoder.codes.data);
+        return 0;
+    }
+    write_file(path, out.data, out.len);
+    free(out.data);
+    free(roq_encoder.codes.data);
+    return 1;
+}
+
+/* ---------------------------------------------------------------------------
    UI tile baking
    --------------------------------------------------------------------------- */
 
@@ -1015,7 +1661,7 @@ int main(int argc, char **argv)
     char skipped[64][13];
     int skipped_count = 0;
     int i, counts_maps = 0, counts_scripts = 0, counts_wal = 0;
-    int counts_ui = 0, counts_sounds = 0;
+    int counts_ui = 0, counts_sounds = 0, counts_anm = 0;
     FILE *f;
 
     for (i = 1; i < argc; i++)
@@ -1186,6 +1832,22 @@ int main(int argc, char **argv)
     clear_generated(path);
     write_intro(path);
 
+    /* Every group .anm becomes an RoQ menu cinematic next to the intro
+       frames (client/roq.cpp plays them). */
+    for (i = 0; i < file_count; i++)
+    {
+        char stem[13];
+
+        if (!ends_with(file_name[i], ".anm"))
+        {
+            continue;
+        }
+        strcpy(stem, file_name[i]);
+        stem[strlen(stem) - 4] = '\0'; /* drop ".anm" */
+        snprintf(path, sizeof(path), "%s/basedn/anm/%s.roq", root, stem);
+        counts_anm += write_anm_roq(path, grp + file_offset[i], (size_t)file_size[i]);
+    }
+
     snprintf(path, sizeof(path), "%s/basedn/asset-manifest.json", root);
     f = fopen(path, "w");
     if (!f)
@@ -1199,7 +1861,8 @@ int main(int argc, char **argv)
     fprintf(f, "    \"scripts\": %d,\n", counts_scripts);
     fprintf(f, "    \"wal_textures\": %d,\n", counts_wal);
     fprintf(f, "    \"ui_tiles\": %d,\n", counts_ui);
-    fprintf(f, "    \"sounds\": %d\n", counts_sounds);
+    fprintf(f, "    \"sounds\": %d,\n", counts_sounds);
+    fprintf(f, "    \"anm_cinematics\": %d\n", counts_anm);
     fprintf(f, "  },\n");
     fprintf(f, "  \"notes\": [\n");
     fprintf(f, "    \"Music is not converted: the engine only plays music/<name>.mp3 and the group file holds MIDI tracks.\",\n");
@@ -1215,7 +1878,7 @@ int main(int argc, char **argv)
     fprintf(f, "}\n");
     fclose(f);
 
-    printf("convertgrp: %d maps, %d wal, %d ui tiles, %d sounds\n", counts_maps,
-           counts_wal, counts_ui, counts_sounds);
+    printf("convertgrp: %d maps, %d wal, %d ui tiles, %d sounds, %d anm\n", counts_maps,
+           counts_wal, counts_ui, counts_sounds, counts_anm);
     return 0;
 }

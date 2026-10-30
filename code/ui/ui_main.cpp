@@ -445,21 +445,23 @@ static void DC_StartBackgroundTrack( const char *intro, const char *loop, int fa
 static void DC_StopBackgroundTrack( void ) {
 }
 
+/* the cinematic hooks hand the menu rect to the engine RoQ player
+   (client/roq.cpp); the import maps the 640x480 virtual rect to the
+   video mode */
 static int DC_PlayCinematic( const char *name, float x, float y, float w, float h ) {
-    ( void )name; ( void )x; ( void )y; ( void )w; ( void )h;
-    return -1;
+    return uii.PlayCinematic( name, x, y, w, h );
 }
 
 static void DC_StopCinematic( int handle ) {
-    ( void )handle;
+    uii.StopCinematic( handle );
 }
 
 static void DC_DrawCinematic( int handle, float x, float y, float w, float h ) {
-    ( void )handle; ( void )x; ( void )y; ( void )w; ( void )h;
+    uii.DrawCinematic( handle, x, y, w, h );
 }
 
-static void DC_RunCinematicFrame( int handle ) {
-    ( void )handle;
+static int DC_RunCinematicFrame( int handle ) {
+    return uii.RunCinematicFrame( handle );
 }
 
 /* fills every display context member from the import table or the stubs

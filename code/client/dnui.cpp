@@ -613,6 +613,28 @@ static int UI_GetCredits(char *buffer, uint32_t size)
     return count;
 }
 
+/* menu cinematics: thin pass throughs to the RoQ player, the UI module
+   calls them through the import table */
+static int UI_PlayCinematic(const char *name, float x, float y, float w, float h)
+{
+    return DN_ROQ_PlayCinematic(name, x, y, w, h);
+}
+
+static void UI_StopCinematic(int handle)
+{
+    DN_ROQ_StopCinematic(handle);
+}
+
+static int UI_RunCinematicFrame(int handle)
+{
+    return DN_ROQ_RunCinematicFrame(handle);
+}
+
+static void UI_DrawCinematic(int handle, float x, float y, float w, float h)
+{
+    DN_ROQ_DrawCinematic(handle, x, y, w, h);
+}
+
 /* ---- menu entry points replacing the old client menu stack ---- */
 
 /* Cooked character flag matching K_CHAR_FLAG in the module keycodes.h:
@@ -808,6 +830,8 @@ static void UI_QuickLoad_f(void)
 
 void CL_UnloadUI(void)
 {
+    // menu cinematics hold file buffers; stop them before the module goes
+    DN_ROQ_StopAll();
     if (ui)
     {
         ui->Shutdown();
@@ -891,6 +915,10 @@ dn_ui_export_t *CL_LoadUI(void)
     imports.GetServers = UI_GetServers;
     imports.GetServerAddress = UI_GetServerAddress;
     imports.GetCredits = UI_GetCredits;
+    imports.PlayCinematic = UI_PlayCinematic;
+    imports.StopCinematic = UI_StopCinematic;
+    imports.RunCinematicFrame = UI_RunCinematicFrame;
+    imports.DrawCinematic = UI_DrawCinematic;
     ui = get_api ? get_api(&imports) : NULL;
     if (!ui || ui->version != DN_UI_API_VERSION || ui->size != sizeof(*ui))
     {

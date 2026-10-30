@@ -362,3 +362,33 @@ void Draw_StretchRaw(int x, int y, int w, int h, int cols, int rows, byte *data)
     RB_Vertex2f(x, y + h);
     RB_End();
 }
+
+/*
+=============
+Draw_StretchRaw32
+
+Direct RGBA upload for the RoQ menu cinematics: cols and rows are the
+decoded video size, the quad stretches it over x,y,w,h. The core
+profile takes non power of two sizes, so the video uploads at its
+native size.
+=============
+*/
+void Draw_StretchRaw32(int x, int y, int w, int h, int cols, int rows, byte *data)
+{
+    GL_Bind(TEXNUM_CINEMATIC);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, cols, rows, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    RB_Begin(GL_QUADS);
+    RB_TexCoord2f(0, 0);
+    RB_Vertex2f(x, y);
+    RB_TexCoord2f(1, 0);
+    RB_Vertex2f(x + w, y);
+    RB_TexCoord2f(1, 1);
+    RB_Vertex2f(x + w, y + h);
+    RB_TexCoord2f(0, 1);
+    RB_Vertex2f(x, y + h);
+    RB_End();
+}
