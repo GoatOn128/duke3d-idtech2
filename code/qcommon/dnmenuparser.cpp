@@ -2123,3 +2123,125 @@ void dnMenuParser::LoadMenus( const char *listFile ) {
 
     CloseSource( handle );
 }
+
+/* ---- data driven ui tables ---- */
+
+/* the built-in defaults follow the original Duke3D 1.5 names.h tiles and
+   the motion the port shipped with; the ui text files override them */
+dnuiResource_t dnMenuParser::s_resources[MAX_UI_RESOURCES] = {
+    { "MENUSCREEN", 2456 },
+    { "MENUBAR", 2457 },
+    { "INGAMEDUKETHREEDEE", 2499 },
+    { "SPINNINGNUKEICON", 2813 },
+    { "LOADSCREEN", 3281 },
+};
+
+dnuiAnims_t dnMenuParser::s_anims = { 180, 40, 7, 66, 50, 270 };
+
+/*
+===============
+dnMenuParser::LoadResources
+
+reads ui/resources.txt, "name tilenumber" lines: a known name overrides
+its entry, a new name joins the table; a missing file keeps the defaults
+===============
+*/
+void dnMenuParser::LoadResources( const char *file ) {
+    pc_token_t token;
+    int handle;
+    int i;
+
+    handle = OpenSource( file );
+    if ( !handle ) {
+        return;
+    }
+
+    while ( ReadToken( handle, &token ) ) {
+        char name[64];
+        int tile;
+
+        Q_strncpyz( name, token.string, sizeof( name ) );
+        if ( !PC_Int_Parse( handle, &tile ) ) {
+            PC_SourceError( handle, "missing tile number for resource %s\n", name );
+            break;
+        }
+        for ( i = 0; i < MAX_UI_RESOURCES; i++ ) {
+            if ( !s_resources[i].name[0] || Q_strcasecmp( s_resources[i].name, name ) == 0 ) {
+                break;
+            }
+        }
+        if ( i == MAX_UI_RESOURCES ) {
+            PC_SourceError( handle, "resource table full, %s dropped\n", name );
+            break;
+        }
+        Q_strncpyz( s_resources[i].name, name, sizeof( s_resources[i].name ) );
+        s_resources[i].tile = tile;
+    }
+
+    CloseSource( handle );
+}
+
+int dnMenuParser::Tile( const char *name ) {
+    int i;
+
+    for ( i = 0; i < MAX_UI_RESOURCES && s_resources[i].name[0]; i++ ) {
+        if ( Q_strcasecmp( s_resources[i].name, name ) == 0 ) {
+            return s_resources[i].tile;
+        }
+    }
+    return 0;
+}
+
+/*
+===============
+dnMenuParser::LoadAnimations
+
+reads ui/animations.txt, "keyword value" lines; unknown keywords warn and
+keep the defaults
+===============
+*/
+void dnMenuParser::LoadAnimations( const char *file ) {
+    pc_token_t token;
+    int handle;
+
+    handle = OpenSource( file );
+    if ( !handle ) {
+        return;
+    }
+
+    while ( ReadToken( handle, &token ) ) {
+        int value;
+
+        if ( !PC_Int_Parse( handle, &value ) ) {
+            PC_SourceError( handle, "missing value for %s\n", token.string );
+            break;
+        }
+        /* the spin cycle divides and mods by these two */
+        if ( ( Q_strcasecmp( token.string, "nukeFrames" ) == 0 ||
+               Q_strcasecmp( token.string, "nukeFrameMs" ) == 0 ) && value < 1 ) {
+            PC_SourceWarning( handle, "%s must stay positive, ignored\n", token.string );
+            continue;
+        }
+        if ( Q_strcasecmp( token.string, "slideTime" ) == 0 ) {
+            s_anims.slideTime = value;
+        } else if ( Q_strcasecmp( token.string, "slideDist" ) == 0 ) {
+            s_anims.slideDist = value;
+        } else if ( Q_strcasecmp( token.string, "nukeFrames" ) == 0 ) {
+            s_anims.nukeFrames = value;
+        } else if ( Q_strcasecmp( token.string, "nukeFrameMs" ) == 0 ) {
+            s_anims.nukeFrameMs = value;
+        } else if ( Q_strcasecmp( token.string, "nukeLeftX" ) == 0 ) {
+            s_anims.nukeLeftX = value;
+        } else if ( Q_strcasecmp( token.string, "nukeRightX" ) == 0 ) {
+            s_anims.nukeRightX = value;
+        } else {
+            PC_SourceWarning( handle, "unknown animation keyword %s\n", token.string );
+        }
+    }
+
+    CloseSource( handle );
+}
+
+const dnuiAnims_t *dnMenuParser::Anims( void ) {
+    return &s_anims;
+}

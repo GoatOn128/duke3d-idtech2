@@ -5,6 +5,7 @@
    engine-facing entry points. */
 
 #include "ui_local.h"
+#include "../qcommon/dnmenuparser.h"
 
 /* ---- ownerdraw ids ---- */
 
@@ -168,15 +169,15 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
     }
 
     if ( ownerDraw == DUKE_OD_MAIN_LOGO ) {
-        uii.UiTile( 160, 28, 2499, 0, 0, 0 );
+        uii.UiTile( 160, 28, dnMenuParser::Tile( "INGAMEDUKETHREEDEE" ), 0, 0, 0 );
         return;
     }
     if ( ownerDraw == DUKE_OD_GAME_HEADER ) {
-        uii.UiTile( 160, 19, 2457, 16, 0, 0 );
+        uii.UiTile( 160, 19, dnMenuParser::Tile( "MENUBAR" ), 16, 0, 0 );
         return;
     }
     if ( ownerDraw == DUKE_OD_GAME_HEADER_HIGH ) {
-        uii.UiTile( 160, 10, 2457, 16, 0, 0 );
+        uii.UiTile( 160, 10, dnMenuParser::Tile( "MENUBAR" ), 16, 0, 0 );
         return;
     }
     if ( ownerDraw < DUKE_OD_LINE_BASE || ownerDraw - DUKE_OD_LINE_BASE >= DL_COUNT ) {
@@ -193,10 +194,13 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
         if ( line->cursorBothSides && line->x == 160 ) {
             /* centered menus park the nuke pair at the fixed columns like
                the original probe(): the left one spins forward and the
-               right one mirrors it, instead of hugging the line's text */
-            int frame = ( uii.Milliseconds() / 66 ) % 7;
-            uii.UiTile( DUKE_NUKE_LEFT_X, line->y - 7, DUKE_SPINNING_NUKE + frame, 0, 0, 0 );
-            uii.UiTile( DUKE_NUKE_RIGHT_X, line->y - 7, DUKE_SPINNING_NUKE + ( 7 - frame ) % 7, 0, 0, 0 );
+               right one mirrors it, instead of hugging the line's text;
+               the spin and columns come from ui/animations.txt */
+            const dnuiAnims_t *anims = dnMenuParser::Anims();
+            int tile = dnMenuParser::Tile( "SPINNINGNUKEICON" );
+            int frame = ( uii.Milliseconds() / anims->nukeFrameMs ) % anims->nukeFrames;
+            uii.UiTile( anims->nukeLeftX, line->y - 7, tile + frame, 0, 0, 0 );
+            uii.UiTile( anims->nukeRightX, line->y - 7, tile + ( anims->nukeFrames - frame ) % anims->nukeFrames, 0, 0, 0 );
         } else if ( line->cursorFromStart ) {
             uii.MenuCursor( start - 18, line->y - 7 );
         } else {

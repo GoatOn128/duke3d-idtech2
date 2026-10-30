@@ -1,0 +1,10 @@
+// Menu motion the UI module runs with. Lines are "keyword value"; a
+// missing file keeps the module's built-in defaults, unknown keywords
+// warn on the console.
+
+slideTime    180    // ms the screen slide transition runs
+slideDist     40    // Duke pixels the slide sweeps across
+nukeFrames     7    // frames in the nuke cursor spin cycle
+nukeFrameMs   66    // ms each nuke cursor frame stays up
+nukeLeftX     50    // Duke x of the left nuke cursor column
+nukeRightX   270    // Duke x of the right nuke cursor column

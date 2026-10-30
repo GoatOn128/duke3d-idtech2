@@ -146,6 +146,13 @@ Legend:
       the menu-to-server gap (`scr_load_pending` in `cl_scrn.cpp`),
       the level name arrives with the server data, and the console
       stays only while a download runs
+- [x] Menu art and motion as ui data: the qcommon menu parser grows
+      named tile and animation tables seeded with the built-in defaults;
+      `ui/resources.txt` overrides the named tiles (names follow the
+      original names.h: MENUSCREEN, MENUBAR, INGAMEDUKETHREEDEE,
+      SPINNINGNUKEICON, LOADSCREEN), `ui/animations.txt` overrides the
+      screen slide and the nuke cursor spin, and the ui module reads
+      both at init so the menus retarget without recompiling
 - [ ] Duke menus on the idTech 3 framework (main, new game, options,
       load, save)
 - [ ] Cut the menus over to the module, retire `menu.cpp`/`qmenu.cpp`
