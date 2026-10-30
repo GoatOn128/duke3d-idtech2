@@ -41,6 +41,10 @@ If you have questions concerning this license or the applicable additional terms
 /* the display context the framework in ui_shared.cpp owns */
 extern displayContextDef_t *DC;
 
+/* the menu currently being parsed; nested defs need it to append into the
+   owning menu's flat item list */
+static dnMenu *s_parseMenu = NULL;
+
 /* ---- .menu source lexer ---- */
 
 dnMenuSource::dnMenuSource( void ) {
@@ -1348,6 +1352,14 @@ keywordHash_t dnMenuParser::itemParseKeywords[] = {
     {"hideCvar", &dnMenuParser::ItemParse_hideCvar, NULL},
     {"cinematic", &dnMenuParser::ItemParse_cinematic, NULL},
     {"doubleclick", &dnMenuParser::ItemParse_doubleClick, NULL},
+    {"itemDef", &dnMenuParser::ItemParse_itemDef, NULL},
+    {"windowDef", &dnMenuParser::ItemParse_windowDef, NULL},
+    {"buttonDef", &dnMenuParser::ItemParse_buttonDef, NULL},
+    {"editDef", &dnMenuParser::ItemParse_editDef, NULL},
+    {"choiceDef", &dnMenuParser::ItemParse_choiceDef, NULL},
+    {"sliderDef", &dnMenuParser::ItemParse_sliderDef, NULL},
+    {"bindDef", &dnMenuParser::ItemParse_bindDef, NULL},
+    {"listDef", &dnMenuParser::ItemParse_listDef, NULL},
     {NULL, NULL, NULL}
 };
 
@@ -1686,19 +1698,23 @@ qboolean dnMenuParser::MenuParse_fadeCycle( dnItem *item, int handle ) {
 
 qboolean dnMenuParser::MenuParse_itemDef( dnItem *item, int handle ) {
     dnMenu *menu = (dnMenu*)item;
-    if ( menu->itemCount < MAX_MENUITEMS ) {
-        menu->items[menu->itemCount] = UI_ConstructItem( ITEM_TYPE_TEXT );
-        if ( menu->items[menu->itemCount] == NULL ) {
+    int idx = menu->itemCount;
+    if ( idx < MAX_MENUITEMS ) {
+        menu->items[idx] = UI_ConstructItem( ITEM_TYPE_TEXT );
+        if ( menu->items[idx] == NULL ) {
             return qfalse;
         }
-        menu->items[menu->itemCount]->Init();
-        if ( !Item_Parse( handle, menu->items[menu->itemCount] ) ) {
+        menu->items[idx]->Init();
+        /* count the item before parsing so nested defs inside its block
+           append after their container */
+        menu->itemCount = idx + 1;
+        if ( !Item_Parse( handle, menu->items[idx] ) ) {
             return qfalse;
         }
         /* the parsed type picks the subclass, then the control state resets */
-        menu->items[menu->itemCount]->FinalizeType();
-        menu->items[menu->itemCount]->InitControls();
-        menu->items[menu->itemCount++]->parent = menu;
+        menu->items[idx]->FinalizeType();
+        menu->items[idx]->InitControls();
+        menu->items[idx]->parent = menu;
     }
     return qtrue;
 }
@@ -1707,19 +1723,23 @@ qboolean dnMenuParser::MenuParse_itemDef( dnItem *item, int handle ) {
    also carries an explicit type keyword, which then wins */
 qboolean dnMenuParser::MenuParse_DefItem( dnItem *item, int handle, int defType ) {
     dnMenu *menu = (dnMenu*)item;
-    if ( menu->itemCount < MAX_MENUITEMS ) {
-        menu->items[menu->itemCount] = UI_ConstructItem( ITEM_TYPE_TEXT );
-        if ( menu->items[menu->itemCount] == NULL ) {
+    int idx = menu->itemCount;
+    if ( idx < MAX_MENUITEMS ) {
+        menu->items[idx] = UI_ConstructItem( ITEM_TYPE_TEXT );
+        if ( menu->items[idx] == NULL ) {
             return qfalse;
         }
-        menu->items[menu->itemCount]->Init();
-        menu->items[menu->itemCount]->type = defType;
-        if ( !Item_Parse( handle, menu->items[menu->itemCount] ) ) {
+        menu->items[idx]->Init();
+        menu->items[idx]->type = defType;
+        /* count the item before parsing so nested defs inside its block
+           append after their container */
+        menu->itemCount = idx + 1;
+        if ( !Item_Parse( handle, menu->items[idx] ) ) {
             return qfalse;
         }
-        menu->items[menu->itemCount]->FinalizeType();
-        menu->items[menu->itemCount]->InitControls();
-        menu->items[menu->itemCount++]->parent = menu;
+        menu->items[idx]->FinalizeType();
+        menu->items[idx]->InitControls();
+        menu->items[idx]->parent = menu;
     }
     return qtrue;
 }
@@ -1750,6 +1770,88 @@ qboolean dnMenuParser::MenuParse_bindDef( dnItem *item, int handle ) {
 
 qboolean dnMenuParser::MenuParse_listDef( dnItem *item, int handle ) {
     return MenuParse_DefItem( item, handle, ITEM_TYPE_LISTBOX );
+}
+
+/* a def keyword found inside another item block: the new item joins the
+   owning menu's flat list, keeps a back link to its container, and its
+   rect bakes against the container's origin. The container's rect keyword
+   must come before its nested defs for the bake to be correct */
+qboolean dnMenuParser::ParseChildDef( dnItem *container, int handle, int defType ) {
+    dnMenu *menu = s_parseMenu;
+    dnItem *child;
+    int idx;
+    int j;
+    float dx, dy;
+
+    if ( menu == NULL ) {
+        return qfalse;
+    }
+    idx = menu->itemCount;
+    if ( idx >= MAX_MENUITEMS ) {
+        return qfalse;
+    }
+    child = UI_ConstructItem( ITEM_TYPE_TEXT );
+    if ( child == NULL ) {
+        return qfalse;
+    }
+    menu->items[idx] = child;
+    child->Init();
+    child->type = defType;
+    child->containerItem = container;
+    /* count the child before parsing so its own nested defs append after it */
+    menu->itemCount = idx + 1;
+    if ( !Item_Parse( handle, child ) ) {
+        return qfalse;
+    }
+    child->FinalizeType();
+    child->InitControls();
+    child->parent = menu;
+
+    /* shift the child and the subtree below it onto the container origin;
+       deeper levels already baked against the child's local rect */
+    dx = container->window.rect.x;
+    dy = container->window.rect.y;
+    child->window.rect.x += dx;
+    child->window.rect.y += dy;
+    for ( j = idx + 1; j < menu->itemCount; j++ ) {
+        menu->items[j]->window.rect.x += dx;
+        menu->items[j]->window.rect.y += dy;
+    }
+    return qtrue;
+}
+
+/* item-scope def keywords: same names as the menu-scope ones, but they
+   attach the new def to the enclosing container instead of the menu */
+qboolean dnMenuParser::ItemParse_itemDef( dnItem *item, int handle ) {
+    return ParseChildDef( item, handle, ITEM_TYPE_TEXT );
+}
+
+qboolean dnMenuParser::ItemParse_windowDef( dnItem *item, int handle ) {
+    return ParseChildDef( item, handle, ITEM_TYPE_TEXT );
+}
+
+qboolean dnMenuParser::ItemParse_buttonDef( dnItem *item, int handle ) {
+    return ParseChildDef( item, handle, ITEM_TYPE_BUTTON );
+}
+
+qboolean dnMenuParser::ItemParse_editDef( dnItem *item, int handle ) {
+    return ParseChildDef( item, handle, ITEM_TYPE_EDITFIELD );
+}
+
+qboolean dnMenuParser::ItemParse_choiceDef( dnItem *item, int handle ) {
+    return ParseChildDef( item, handle, ITEM_TYPE_MULTI );
+}
+
+qboolean dnMenuParser::ItemParse_sliderDef( dnItem *item, int handle ) {
+    return ParseChildDef( item, handle, ITEM_TYPE_SLIDER );
+}
+
+qboolean dnMenuParser::ItemParse_bindDef( dnItem *item, int handle ) {
+    return ParseChildDef( item, handle, ITEM_TYPE_BIND );
+}
+
+qboolean dnMenuParser::ItemParse_listDef( dnItem *item, int handle ) {
+    return ParseChildDef( item, handle, ITEM_TYPE_LISTBOX );
 }
 
 /* the menu itself can own named event handlers like the BFG top-level
@@ -1880,10 +1982,13 @@ qboolean dnMenuParser::Menu_Parse( int handle, dnMenu *menu ) {
     pc_token_t token;
     keywordHash_t *key;
 
+    s_parseMenu = menu;
     if ( !ReadToken( handle, &token ) ) {
+        s_parseMenu = NULL;
         return qfalse;
     }
     if ( *token.string != '{' ) {
+        s_parseMenu = NULL;
         return qfalse;
     }
 
@@ -1892,10 +1997,12 @@ qboolean dnMenuParser::Menu_Parse( int handle, dnMenu *menu ) {
         memset( &token, 0, sizeof( pc_token_t ) );
         if ( !ReadToken( handle, &token ) ) {
             PC_SourceError( handle, "end of file inside menu\n" );
+            s_parseMenu = NULL;
             return qfalse;
         }
 
         if ( *token.string == '}' ) {
+            s_parseMenu = NULL;
             return qtrue;
         }
 
@@ -1906,6 +2013,7 @@ qboolean dnMenuParser::Menu_Parse( int handle, dnMenu *menu ) {
         }
         if ( !key->func( (dnItem*)menu, handle ) ) {
             PC_SourceError( handle, "couldn't parse menu keyword %s", token.string );
+            s_parseMenu = NULL;
             return qfalse;
         }
     }

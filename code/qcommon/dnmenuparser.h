@@ -209,6 +209,16 @@ private:
     static qboolean MenuParse_sliderDef( dnItem *item, int handle );
     static qboolean MenuParse_bindDef( dnItem *item, int handle );
     static qboolean MenuParse_listDef( dnItem *item, int handle );
+    /* nested defs: a def keyword inside another item block */
+    static qboolean ParseChildDef( dnItem *container, int handle, int defType );
+    static qboolean ItemParse_itemDef( dnItem *item, int handle );
+    static qboolean ItemParse_windowDef( dnItem *item, int handle );
+    static qboolean ItemParse_buttonDef( dnItem *item, int handle );
+    static qboolean ItemParse_editDef( dnItem *item, int handle );
+    static qboolean ItemParse_choiceDef( dnItem *item, int handle );
+    static qboolean ItemParse_sliderDef( dnItem *item, int handle );
+    static qboolean ItemParse_bindDef( dnItem *item, int handle );
+    static qboolean ItemParse_listDef( dnItem *item, int handle );
     static qboolean MenuParse_onNamedEvent( dnItem *item, int handle );
     static qboolean MenuParse_name( dnItem *item, int handle );
     static qboolean MenuParse_onClose( dnItem *item, int handle );
