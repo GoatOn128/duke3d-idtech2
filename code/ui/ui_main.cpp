@@ -621,7 +621,8 @@ static void DrawLoadScreen( void ) {
     char level[MAX_QPATH];
 
     uii.UiTile( 160, 100, 3281, 0, 0, 0 );
-    uii.MenuText( 160, 90, uii.GetConnState() == DN_CONN_DISCONNECTED ? "LOADING" : "ENTERING", 0 );
+    /* selected draws the glyphs in the bright shade, the original look */
+    uii.MenuText( 160, 90, uii.GetConnState() == DN_CONN_DISCONNECTED ? "LOADING" : "ENTERING", 1 );
     uii.GetLevelName( level, sizeof( level ) );
     if ( level[0] ) {
         uii.MenuText( 160, 90 + 16 + 8, level, 0 );

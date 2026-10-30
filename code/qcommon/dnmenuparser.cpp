@@ -1815,14 +1815,17 @@ qboolean dnMenuParser::ParseChildDef( dnItem *container, int handle, int defType
     child->parent = menu;
 
     /* shift the child and the subtree below it onto the container origin;
-       deeper levels already baked against the child's local rect */
-    dx = container->window.rect.x;
-    dy = container->window.rect.y;
-    child->window.rect.x += dx;
-    child->window.rect.y += dy;
+       deeper levels already baked against the child's local rect. The
+       bake reads the container's parsed client rect (window.rect is
+       still zero while the block parses) and lands in rectClient,
+       the field UpdatePosition builds the screen rect from */
+    dx = container->window.rectClient.x;
+    dy = container->window.rectClient.y;
+    child->window.rectClient.x += dx;
+    child->window.rectClient.y += dy;
     for ( j = idx + 1; j < menu->itemCount; j++ ) {
-        menu->items[j]->window.rect.x += dx;
-        menu->items[j]->window.rect.y += dy;
+        menu->items[j]->window.rectClient.x += dx;
+        menu->items[j]->window.rectClient.y += dy;
     }
     return qtrue;
 }

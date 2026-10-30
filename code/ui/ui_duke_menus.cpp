@@ -238,8 +238,13 @@ void Duke_Refresh( void ) {
         dnMenu *focused = g_menus.GetFocused();
         if ( focused && focused->window.name && focused->window.name[0] ) {
             if ( Q_strcasecmp( slideMenu, focused->window.name ) != 0 ) {
+                /* the slide is the screen to screen transition: a screen
+                   appearing from nothing, like the main menu after the
+                   intro video, draws already in place */
+                if ( slideMenu[0] ) {
+                    Duke_SlideBegin();
+                }
                 Q_strncpyz( slideMenu, focused->window.name, sizeof( slideMenu ) );
-                Duke_SlideBegin();
             }
         } else {
             slideMenu[0] = '\0';

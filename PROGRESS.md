@@ -139,8 +139,9 @@ Legend:
       `dnui.cpp`): while the client loads a level the screen draws the
       Duke3D load screen, the `dofrontscreens()` layout from the
       original PREMAP.CPP, the LOADSCREEN tile (3281, emitted by
-      `convertgrp`) behind LOADING or ENTERING and the level name
-      under it, instead of the Quake 2 console, the idTech 3
+      `convertgrp`) behind LOADING or ENTERING in the selected glyph
+      shade and the level name under it, instead of the Quake 2
+      console, the idTech 3
       `UI_DRAW_CONNECT_SCREEN` slot; the LOADING variant holds over
       the menu-to-server gap (`scr_load_pending` in `cl_scrn.cpp`),
       the level name arrives with the server data, and the console
