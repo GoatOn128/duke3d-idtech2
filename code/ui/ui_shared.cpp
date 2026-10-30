@@ -896,6 +896,39 @@ void Menus_CloseAll() {
 	}
 }
 
+/* run every onNamedEvent handler bound to this name across the open
+   menus and their items, like the BFG gui HandleNamedEvent sweep */
+void Display_RunNamedEvent( const char *name ) {
+	int i, j, k;
+	dnItem it;
+
+	for ( i = 0; i < menuCount; i++ ) {
+		dnMenu *menu = &Menus[i];
+
+		if ( !( menu->window.flags & WINDOW_VISIBLE ) ) {
+			continue;
+		}
+
+		/* the menu itself can own handlers, like the BFG top-level windowDef */
+		for ( j = 0; j < menu->namedEventCount; j++ ) {
+			if ( Q_strcasecmp( menu->namedEventNames[j], name ) == 0 && menu->namedEventScripts[j] ) {
+				it.parent = menu;
+				it.RunScript( menu->namedEventScripts[j] );
+			}
+		}
+
+		for ( j = 0; j < menu->itemCount; j++ ) {
+			dnItem *item = menu->items[j];
+
+			for ( k = 0; k < item->namedEventCount; k++ ) {
+				if ( Q_strcasecmp( item->namedEventNames[k], name ) == 0 && item->namedEventScripts[k] ) {
+					item->RunScript( item->namedEventScripts[k] );
+				}
+			}
+		}
+	}
+}
+
 
 void Script_Show( dnItem *item, char **args ) {
 	const char *name;
@@ -938,6 +971,14 @@ void Script_Close( dnItem *item, char **args ) {
 	const char *name;
 	if ( String_Parse( args, &name ) ) {
 		Menus_CloseByName( name );
+	}
+}
+
+/* run every handler bound to the name, the BFG gui namedEvent command */
+void Script_NamedEvent( dnItem *item, char **args ) {
+	const char *name;
+	if ( String_Parse( args, &name ) ) {
+		Display_RunNamedEvent( name );
 	}
 }
 
@@ -1207,6 +1248,7 @@ commandDef_t commandList[] =
 	{"setcolor", &Script_SetColor},              // works on this
 	{"open", &Script_Open},                      // menu
 	{"close", &Script_Close},                    // menu
+	{"namedEvent", &Script_NamedEvent},          // run the handlers bound to the name
 	{"clipboard", &Script_Clipboard},            // show the current clipboard group by name
 	{"showpage", &Script_NotebookShowpage},
 	{"setasset", &Script_SetAsset},              // works on this

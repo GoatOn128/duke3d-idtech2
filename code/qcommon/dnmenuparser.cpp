@@ -1329,6 +1329,7 @@ keywordHash_t dnMenuParser::itemParseKeywords[] = {
     {"mouseExitText", &dnMenuParser::ItemParse_mouseExitText, NULL},
     {"action", &dnMenuParser::ItemParse_action, NULL},
     {"accept", &dnMenuParser::ItemParse_accept, NULL},
+    {"onNamedEvent", &dnMenuParser::ItemParse_onNamedEvent, NULL},
     {"special", &dnMenuParser::ItemParse_special, NULL},
     {"cvar", &dnMenuParser::ItemParse_cvar, NULL},
     {"maxChars", &dnMenuParser::ItemParse_maxChars, NULL},
@@ -1702,6 +1703,95 @@ qboolean dnMenuParser::MenuParse_itemDef( dnItem *item, int handle ) {
     return qtrue;
 }
 
+/* the BFG gui def names: the def sets the item type unless the block
+   also carries an explicit type keyword, which then wins */
+qboolean dnMenuParser::MenuParse_DefItem( dnItem *item, int handle, int defType ) {
+    dnMenu *menu = (dnMenu*)item;
+    if ( menu->itemCount < MAX_MENUITEMS ) {
+        menu->items[menu->itemCount] = UI_ConstructItem( ITEM_TYPE_TEXT );
+        if ( menu->items[menu->itemCount] == NULL ) {
+            return qfalse;
+        }
+        menu->items[menu->itemCount]->Init();
+        menu->items[menu->itemCount]->type = defType;
+        if ( !Item_Parse( handle, menu->items[menu->itemCount] ) ) {
+            return qfalse;
+        }
+        menu->items[menu->itemCount]->FinalizeType();
+        menu->items[menu->itemCount]->InitControls();
+        menu->items[menu->itemCount++]->parent = menu;
+    }
+    return qtrue;
+}
+
+qboolean dnMenuParser::MenuParse_windowDef( dnItem *item, int handle ) {
+    return MenuParse_DefItem( item, handle, ITEM_TYPE_TEXT );
+}
+
+qboolean dnMenuParser::MenuParse_buttonDef( dnItem *item, int handle ) {
+    return MenuParse_DefItem( item, handle, ITEM_TYPE_BUTTON );
+}
+
+qboolean dnMenuParser::MenuParse_editDef( dnItem *item, int handle ) {
+    return MenuParse_DefItem( item, handle, ITEM_TYPE_EDITFIELD );
+}
+
+qboolean dnMenuParser::MenuParse_choiceDef( dnItem *item, int handle ) {
+    return MenuParse_DefItem( item, handle, ITEM_TYPE_MULTI );
+}
+
+qboolean dnMenuParser::MenuParse_sliderDef( dnItem *item, int handle ) {
+    return MenuParse_DefItem( item, handle, ITEM_TYPE_SLIDER );
+}
+
+qboolean dnMenuParser::MenuParse_bindDef( dnItem *item, int handle ) {
+    return MenuParse_DefItem( item, handle, ITEM_TYPE_BIND );
+}
+
+qboolean dnMenuParser::MenuParse_listDef( dnItem *item, int handle ) {
+    return MenuParse_DefItem( item, handle, ITEM_TYPE_LISTBOX );
+}
+
+/* the menu itself can own named event handlers like the BFG top-level
+   windowDef */
+qboolean dnMenuParser::MenuParse_onNamedEvent( dnItem *item, int handle ) {
+    dnMenu *menu = ( dnMenu* )item;
+    pc_token_t token;
+
+    if ( !ReadToken( handle, &token ) ) {
+        return qfalse;
+    }
+    if ( menu->namedEventCount >= MAX_NAMED_EVENTS ) {
+        return qfalse;
+    }
+    Q_strncpyz( menu->namedEventNames[menu->namedEventCount], token.string,
+                sizeof( menu->namedEventNames[0] ) );
+    if ( !PC_Script_Parse( handle, &menu->namedEventScripts[menu->namedEventCount] ) ) {
+        return qfalse;
+    }
+    menu->namedEventCount++;
+    return qtrue;
+}
+
+/* an item binds a script to a name, run through the namedEvent command */
+qboolean dnMenuParser::ItemParse_onNamedEvent( dnItem *item, int handle ) {
+    pc_token_t token;
+
+    if ( !ReadToken( handle, &token ) ) {
+        return qfalse;
+    }
+    if ( item->namedEventCount >= MAX_NAMED_EVENTS ) {
+        return qfalse;
+    }
+    Q_strncpyz( item->namedEventNames[item->namedEventCount], token.string,
+                sizeof( item->namedEventNames[0] ) );
+    if ( !PC_Script_Parse( handle, &item->namedEventScripts[item->namedEventCount] ) ) {
+        return qfalse;
+    }
+    item->namedEventCount++;
+    return qtrue;
+}
+
 qboolean dnMenuParser::MenuParse_execKey( dnItem *item, int handle ) {
     dnMenu *menu = ( dnMenu* )item;
     char keyname;
@@ -1757,6 +1847,14 @@ keywordHash_t dnMenuParser::menuParseKeywords[] = {
     {"outOfBoundsClick", &dnMenuParser::MenuParse_outOfBounds, NULL},
     {"soundLoop", &dnMenuParser::MenuParse_soundLoop, NULL},
     {"itemDef", &dnMenuParser::MenuParse_itemDef, NULL},
+    {"windowDef", &dnMenuParser::MenuParse_windowDef, NULL},
+    {"buttonDef", &dnMenuParser::MenuParse_buttonDef, NULL},
+    {"editDef", &dnMenuParser::MenuParse_editDef, NULL},
+    {"choiceDef", &dnMenuParser::MenuParse_choiceDef, NULL},
+    {"sliderDef", &dnMenuParser::MenuParse_sliderDef, NULL},
+    {"bindDef", &dnMenuParser::MenuParse_bindDef, NULL},
+    {"listDef", &dnMenuParser::MenuParse_listDef, NULL},
+    {"onNamedEvent", &dnMenuParser::MenuParse_onNamedEvent, NULL},
     {"cinematic", &dnMenuParser::MenuParse_cinematic, NULL},
     {"popup", &dnMenuParser::MenuParse_popup, NULL},
     {"fadeClamp", &dnMenuParser::MenuParse_fadeClamp, NULL},

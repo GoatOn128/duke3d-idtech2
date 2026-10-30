@@ -236,6 +236,11 @@ typedef struct modelDef_s {
 
 #define UI_MAX_TEXT_LINES 64
 
+/* BFG gui style named events: handlers can hang off both menus and
+   items, the namedEvent script command runs them by name */
+#define MAX_NAMED_EVENTS        8
+#define MAX_NAMED_EVENT_LENGTH  64
+
 class dnItem {
 public:
 	Window window;                  // common positional, border, style, layout info
@@ -271,6 +276,9 @@ public:
 	float special;                  // used for feeder id's etc.. diff per type
 	int cursorPos;                  // cursor position in characters
 	void *typeData;                 // type specific data ptr's
+	char namedEventNames[MAX_NAMED_EVENTS][MAX_NAMED_EVENT_LENGTH];
+	const char *namedEventScripts[MAX_NAMED_EVENTS];
+	int namedEventCount;
 
 	/* resets the item to its defaults; the .menu parser calls it on every
 	   fresh itemDef block */
@@ -327,6 +335,9 @@ public:
 	const char *onKey[255];         // scripts run when the matching key is pressed
 	const char *soundName;          // background loop sound for menu
 	const char *onROQDone;          // run when a menu cinematic (roq) finishes
+	char namedEventNames[MAX_NAMED_EVENTS][MAX_NAMED_EVENT_LENGTH];
+	const char *namedEventScripts[MAX_NAMED_EVENTS];
+	int namedEventCount;
 
 	vec4_t focusColor;              // focus color for items
 	vec4_t disableColor; // color used while the item is disabled
@@ -520,6 +531,7 @@ qboolean Menus_AnyFullScreenVisible();
 displayContextDef_t *Display_GetContext();
 void        *Display_CaptureItem( int x, int y );
 qboolean    Display_MouseMove( void *p, int x, int y );
+void        Display_RunNamedEvent( const char *name );
 int         Display_CursorType( int x, int y );
 qboolean    Display_KeyBindPending();
 void        Menus_OpenByName( const char *p );
