@@ -3,7 +3,7 @@
 #ifndef DN_UI_H
 #define DN_UI_H
 #include "../game/q_shared.h"
-#define DN_UI_API_VERSION 6
+#define DN_UI_API_VERSION 7
 
 /* Command execution timings, mirroring the engine EXEC_* values. */
 #define DN_EXEC_NOW 0
@@ -95,6 +95,7 @@ typedef struct
     void (*SetActiveMenu)(dn_uimenu_t menu);
     void (*OpenMenu)(const char *name);
     int (*ConsoleCommand)(int realtime);
+    void (*DrawLoadScreen)(void);
 } dn_ui_export_t;
 
 typedef dn_ui_export_t *(*dn_get_ui_api_t)(const dn_ui_import_t *imports);
