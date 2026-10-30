@@ -1,10 +1,10 @@
 # Build digest
 
-- Commit: `46dd302a0493736134deed4123a0a174bc8bee49`
-- Branch: `main`
+- Commit: `cb2f16c1868527755d68861b171a353e67cacec7`
+- Branch: `duke/menu-slide-config`
 - Result: configure exit: 0, build exit: 0
-- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/41001495148
-- Generated: 2026-10-30 04:12:28 UTC
+- Actions run: https://github.com/GoatOn128/duke3d-idtech2/actions/runs/41002437214
+- Generated: 2026-10-30 04:22:13 UTC
 
 Errors: **0**, warnings: **0**.
 
@@ -27,21 +27,21 @@ No warnings in the log.
 ## Log tail
 
 ```
-[126/155] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
-[127/155] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
-[128/155] Linking CXX shared library D:\a\duke3d-idtech2\duke3d-idtech2\ref_gl.dll
-[129/155] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
-[130/155] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
-[131/155] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
-[132/155] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
-[133/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
+[126/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\pmove.cpp.obj
+[127/155] Building CXX object CMakeFiles\duke3d.dir\sound\sndwave.cpp.obj
+[128/155] Building CXX object CMakeFiles\duke3d.dir\win32\net_wins.cpp.obj
+[129/155] Building CXX object CMakeFiles\duke3d.dir\sound\sndmusic.cpp.obj
+[130/155] Building CXX object CMakeFiles\duke3d.dir\sound\dnambience.cpp.obj
+[131/155] Building CXX object CMakeFiles\duke3d.dir\win32\q_shwin.cpp.obj
+[132/155] Building CXX object CMakeFiles\duke3d.dir\sound\sndopenal.cpp.obj
+[133/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
 [134/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_ents.cpp.obj
-[135/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_game.cpp.obj
+[135/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_ccmds.cpp.obj
 [136/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_init.cpp.obj
 [137/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_send.cpp.obj
 [138/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_user.cpp.obj
-[139/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
-[140/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_gamethread.cpp.obj
+[139/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_gamethread.cpp.obj
+[140/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_world.cpp.obj
 [141/155] Building CXX object CMakeFiles\duke3d.dir\server\sv_main.cpp.obj
 [142/155] Building CXX object CMakeFiles\duke3d.dir\third-party\mp3\dnmp3.cpp.obj
 [143/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnmap.cpp.obj
@@ -49,13 +49,13 @@ No warnings in the log.
 [145/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dntransport.cpp.obj
 [146/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnthreads.cpp.obj
 [147/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dneditfield.cpp.obj
-[148/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnconsolehistory.cpp.obj
-[149/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj
-[150/155] Building RC object CMakeFiles\duke3d.dir\win32\dnicon.rc.res
-[151/155] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_sys.cpp.obj
+[148/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnjobs.cpp.obj
+[149/155] Building CXX object CMakeFiles\duke3d.dir\qcommon\dnconsolehistory.cpp.obj
+[150/155] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_sys.cpp.obj
+[151/155] Building RC object CMakeFiles\duke3d.dir\win32\dnicon.rc.res
 [152/155] Building CXX object CMakeFiles\duke3d.dir\sdl\sdl_vid.cpp.obj
-[153/155] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll; Shipping SDL3.dll
-[154/155] Building C object CMakeFiles\convertgrp.dir\tools\convertGRP\convert_grp.c.obj
+[153/155] Building C object CMakeFiles\convertgrp.dir\tools\convertGRP\convert_grp.c.obj
+[154/155] Linking CXX executable D:\a\duke3d-idtech2\duke3d-idtech2\duke3d.exe; Shipping soft_oal.dll as OpenAL32.dll; Shipping SDL3.dll
 [155/155] Linking C executable convertgrp.exe
 ```
 
