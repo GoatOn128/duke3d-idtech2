@@ -116,6 +116,8 @@ An item block can hold further item blocks. Those nested items belong to the enc
 
 Menu script coordinates live in a 640x480 virtual space, the idTech 3 convention the framework was written for. The module maps that space onto the Duke 320x200 menu grid when it draws: an x of 320 in script is the Duke center at 160, and the y values compress roughly by 2.4 with a small offset for the glyph baseline.
 
+On screen the whole Duke grid draws centered and aspect correct: the grid fills the video mode exactly at 640x480, and wider modes letterbox it instead of stretching it, so glyphs and tiles keep square pixels at any resolution. The menu background tile is the one exception, it keeps covering the whole screen as the backdrop. The level load screen rides the same centered projection as the menus.
+
 Two rules of thumb cover most cases:
 
 - To center something horizontally, give it a rect centered on the screen: x 112 with width 416 puts the rect center at 320 virtual, which is the Duke screen center at 160.
@@ -238,10 +240,10 @@ menuDef {
 \`\`\`
 
 - convertgrp writes every .anm from the group file as basedn/anm/<name>.roq, so the Duke intro and credits animations become menu assets; the keyword takes the basedn-relative path with the extension.
-- The video plays once per menu open, stretched into the rect. A failed load leaves the rect empty and does not retry.
+- The video plays once per menu open, drawn into the rect through the same centered aspect-correct projection as the menu art. A failed load leaves the rect empty and does not retry.
 - The stream reports its end once: the focused menu runs its onROQDone script, then the last frame keeps drawing until the cinematic stops. Closing the menu or opening another one stops it.
 - The converter writes the intra profile: every frame carries its own codebook, 320x208 (the 320x200 ANM frame centered on four black rows top and bottom) at a fixed 30 fps, no audio track. Third-party .roq files with motion blocks decode too, but sound chunks are skipped.
-- The rect lives in the 640x480 virtual menu space like every other window; the video stretches into exactly the rect the border and background use.
+- The rect lives in the 640x480 virtual menu space like every other window; the video fills exactly the rect the border and background use.
 
 ## The data files
 
@@ -334,6 +336,7 @@ Add a load line for its file in ui/menus.txt and it shows up in game. Nothing in
 
 - Ownerdraw rows honor their script rect for drawing, focus and mouse hit tests alike. An ownerdraw item without a rect paints at the top left corner, so every ownerdraw item in the shipped files carries one.
 - Centered ownerdraw rows keep the engine centering only when their rect is centered on the screen (rect center x 320 virtual); a rect off center centers the text plainly, and the two anchored join and start server rows sit on the rect's left edge instead.
+- The Duke grid draws centered and aspect correct, letterboxed on widescreen modes. Art drawn through the raw stretch pic path (background assets and drawHandlePic) still treats virtual coordinates as plain pixels, so that path only lines up with the grid at exactly 640x480; the shipped screens draw their art through the Duke helpers instead.
 - The bind list shows real labels now, but the key column still reads the engine bindings by command name, so a command in binds.lst that nothing binds to shows as unbound rather than disappearing.
 - mouse button 2 behaves like escape in the menus, except while a bind capture is waiting, where it can be bound like any other key.
 - Text style 3 blinks with the focusBlink rate from ui/config.txt; focused text pulses with focusPulse. Setting either to zero freezes the effect instead of dividing by zero.

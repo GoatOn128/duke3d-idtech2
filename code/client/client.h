@@ -45,6 +45,7 @@ int DN_HudHeight(void);
 int DN_FragBarHeight(void);
 void DN_DrawUiTile(float x, float y, int tile, int shade, int palette, int top_left);
 void DN_DrawUiTileScaled(float x, float y, int tile, int shade, int palette, int top_left, float scale);
+void DN_DrawUiTileStretch(float x, float y, int tile, int shade, int palette, int top_left);
 int DN_MenuText(int x, int y, const char *text, int selected);
 int DN_MenuTextScaled(int x, int y, const char *text, int selected, float scale);
 int DN_MenuTextWidth(const char *text);
