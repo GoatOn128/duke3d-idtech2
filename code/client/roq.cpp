@@ -329,7 +329,7 @@ static void RoQ_ReadFrame(roq_t *roq)
 
         if ((unsigned long)roq->pos + 8 + size > (unsigned long)roq->size)
         {
-            roq->finished = qtrue;
+            roq->finished = true;
             return;
         }
         roq->pos += 8;
@@ -340,7 +340,7 @@ static void RoQ_ReadFrame(roq_t *roq)
 
             if (!roq->width)
             {
-                roq->finished = qtrue;
+                roq->finished = true;
                 return;
             }
             RoQ_DecodeQuads(roq, (int)size, (int)arg);
@@ -370,7 +370,7 @@ static void RoQ_ReadFrame(roq_t *roq)
                     if (!roq->current || !roq->last)
                     {
                         roq->width = 0;
-                        roq->finished = qtrue;
+                        roq->finished = true;
                         return;
                     }
                     memset(roq->current, 0, (size_t)w * h * 4);
@@ -378,7 +378,7 @@ static void RoQ_ReadFrame(roq_t *roq)
                 }
                 else
                 {
-                    roq->finished = qtrue;
+                    roq->finished = true;
                     return;
                 }
             }
@@ -390,7 +390,7 @@ static void RoQ_ReadFrame(roq_t *roq)
         /* sound chunks and unknown ids skip */
         roq->pos += size;
     }
-    roq->finished = qtrue;
+    roq->finished = true;
 }
 
 static roq_t *RoQ_ForHandle(int handle)
@@ -499,7 +499,7 @@ int DN_ROQ_RunCinematicFrame(int handle)
        drawing until the window stops the cinematic */
     if (roq->finished && !roq->finishReported)
     {
-        roq->finishReported = qtrue;
+        roq->finishReported = true;
         return 1;
     }
     return 0;
