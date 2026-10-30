@@ -225,6 +225,14 @@ Legend:
       as `seta`, and `cvar_t` grows `reset_string` and the declared
       range (all modules rebuild in tree)
 
+
+- [x] idTech4 style command system: `Cmd_AddCommandFlags` registers
+      commands with flags and descriptions behind the classic
+      `Cmd_AddCommand` entry point, `CMD_FL_CHEAT` commands refuse to
+      run while `allow_cheats` is off (gated through the cvar system's
+      `CVar_CheatsAllowed`), and `cmdlist` gains a wildcard filter plus
+      the flag letter and the description column
+
 ## Engine milestones
 
 - [~] Duke-native map loading: Build `.map` files through

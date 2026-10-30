@@ -489,6 +489,8 @@ typedef struct cmd_function_s
 	struct cmd_function_s	*next;
 	char					*name;
 	xcommand_t				function;
+	int					flags;		// idTech4 style command flags
+	char				*description;	// shown by cmdlist
 } cmd_function_t;
 
 
@@ -690,6 +692,20 @@ Cmd_AddCommand
 */
 void	Cmd_AddCommand (char *cmd_name, xcommand_t function)
 {
+	Cmd_AddCommandFlags (cmd_name, function, 0, "");
+}
+
+/*
+============
+Cmd_AddCommandFlags
+
+idTech4 style registration: the command carries flags and a
+description; a CMD_FL_CHEAT command refuses to run while cheats
+are not allowed
+============
+*/
+void	Cmd_AddCommandFlags (char *cmd_name, xcommand_t function, int flags, char *description)
+{
 	cmd_function_t	*cmd;
 	
 // fail if the command is a variable name
@@ -712,6 +728,8 @@ void	Cmd_AddCommand (char *cmd_name, xcommand_t function)
 	cmd = (cmd_function_t *)(Z_Malloc (sizeof(cmd_function_t)));
 	cmd->name = cmd_name;
 	cmd->function = function;
+	cmd->flags = flags;
+	cmd->description = description;
 	cmd->next = cmd_functions;
 	cmd_functions = cmd;
 }
@@ -844,6 +862,14 @@ void	Cmd_ExecuteString (char *text)
 	{
 		if (!Q_strcasecmp (cmd_argv[0],cmd->name))
 		{
+			// idTech4: cheat commands refuse to run unless
+			// cheats are allowed
+			if ((cmd->flags & CMD_FL_CHEAT) && !CVar_CheatsAllowed())
+			{
+				Com_Printf ("%s is cheat protected. Set allow_cheats 1 to use it.\n", cmd->name);
+				return;
+			}
+
 			if (!cmd->function)
 			{	// forward to server command
 				Cmd_ExecuteString (va("cmd %s", text));
@@ -879,18 +905,79 @@ void	Cmd_ExecuteString (char *text)
 
 /*
 ============
+Cmd_MatchFilter
+
+Case insensitive wildcard match (* and ?) for the cmdlist filter
+============
+*/
+static qboolean Cmd_MatchFilter (const char *filter, const char *name)
+{
+	const char	*f = filter;
+	const char	*n = name;
+	const char	*starFilter = NULL;
+	const char	*starName = NULL;
+
+	while (*n)
+	{
+		if (*f == '?' || tolower((unsigned char)*f) == tolower((unsigned char)*n))
+		{
+			f++;
+			n++;
+		}
+		else if (*f == '*')
+		{
+			starFilter = ++f;
+			starName = n;
+		}
+		else if (starFilter)
+		{
+			f = starFilter;
+			n = ++starName;
+		}
+		else
+			return false;
+	}
+	while (*f == '*')
+		f++;
+	return *f == 0;
+}
+
+/*
+============
 Cmd_List_f
 ============
 */
 void Cmd_List_f (void)
 {
 	cmd_function_t	*cmd;
-	int				i;
+	int				i, total;
+	char			*filter;
+
+	if (Cmd_Argc() > 2)
+	{
+		Com_Printf ("usage: cmdlist [filter]\n");
+		return;
+	}
+	filter = (Cmd_Argc() == 2) ? Cmd_Argv(1) : NULL;
+
+	Com_Printf ("C cheat\n\n");
 
 	i = 0;
-	for (cmd=cmd_functions ; cmd ; cmd=cmd->next, i++)
-		Com_Printf ("%s\n", cmd->name);
-	Com_Printf ("%i commands\n", i);
+	total = 0;
+	for (cmd=cmd_functions ; cmd ; cmd=cmd->next)
+	{
+		total++;
+		if (filter && !Cmd_MatchFilter (filter, cmd->name))
+			continue;
+
+		Com_Printf ("%s", (cmd->flags & CMD_FL_CHEAT) ? (char *)"C" : (char *)" ");
+		Com_Printf (" %s", cmd->name);
+		if (cmd->description && cmd->description[0])
+			Com_Printf (" - %s", cmd->description);
+		Com_Printf ("\n");
+		i++;
+	}
+	Com_Printf ("%i of %i commands\n", i, total);
 }
 
 /*
@@ -903,10 +990,10 @@ void Cmd_Init (void)
 //
 // register our commands
 //
-	Cmd_AddCommand ("cmdlist",Cmd_List_f);
-	Cmd_AddCommand ("exec",Cmd_Exec_f);
-	Cmd_AddCommand ("echo",Cmd_Echo_f);
-	Cmd_AddCommand ("alias",Cmd_Alias_f);
-	Cmd_AddCommand ("wait", Cmd_Wait_f);
+	Cmd_AddCommandFlags ("cmdlist",Cmd_List_f, 0, "list commands, optional wildcard filter");
+	Cmd_AddCommandFlags ("exec",Cmd_Exec_f, 0, "execute a script file");
+	Cmd_AddCommandFlags ("echo",Cmd_Echo_f, 0, "print text to the console");
+	Cmd_AddCommandFlags ("alias",Cmd_Alias_f, 0, "create a command alias");
+	Cmd_AddCommandFlags ("wait", Cmd_Wait_f, 0, "delay the rest of the buffer one frame");
 }
 
