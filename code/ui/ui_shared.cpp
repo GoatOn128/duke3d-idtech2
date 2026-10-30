@@ -1356,7 +1356,7 @@ qboolean dnItem::SetFocus( float x, float y ) {
 	qboolean playSound = qfalse;
 	dnMenu *parent = NULL;
 	// sanity check, non-null, not a decoration and does not already have the focus
-	if ( window.flags & WINDOW_DECORATION || window.flags & WINDOW_HASFOCUS || !( window.flags & WINDOW_VISIBLE ) ) {
+	if ( window.flags & WINDOW_DECORATION || window.flags & WINDOW_HASFOCUS || !( window.flags & WINDOW_VISIBLE ) || !Item_TreeVisible( this ) ) {
 		return qfalse;
 	}
 
@@ -3451,6 +3451,19 @@ qboolean Display_KeyBindPending() {
 	return g_waitingForKey;
 }
 
+/* nested defs live flat in the menu item list with baked absolute rects;
+   reachability walks the container back links, so a hidden windowDef hides
+   its whole subtree */
+qboolean Item_TreeVisible( dnItem *item ) {
+	while ( item ) {
+		if ( !( item->window.flags & ( WINDOW_VISIBLE | WINDOW_FORCED ) ) ) {
+			return qfalse;
+		}
+		item = item->containerItem;
+	}
+	return qtrue;
+}
+
 qboolean Item_Bind_HandleKey( dnItem *item, int key, qboolean down ) {
 	int id;
 	int i;
@@ -4031,6 +4044,11 @@ void dnItem::Paint( void ) {
 		return;
 	}
 
+	// a nested def paints only while its container chain is visible
+	if ( !Item_TreeVisible( this ) ) {
+		return;
+	}
+
 	// paint the rect first..
 	Window_Paint( &window, parent->fadeAmount, parent->fadeClamp, parent->fadeCycle );
 
@@ -4357,6 +4375,11 @@ void dnMenu::HandleMouseMove( float x, float y ) {
 				continue;
 			}
 
+			// a nested def only responds when its container chain is visible
+			if ( !Item_TreeVisible( items[i] ) ) {
+				continue;
+			}
+
 			// items can be enabled and disabled based on cvars
 			if ( items[i]->cvarFlags & ( CVAR_ENABLE | CVAR_DISABLE ) && !items[i]->EnableShowViaCvar( CVAR_ENABLE ) ) {
 				continue;
@@ -4648,6 +4671,11 @@ qboolean dnMenu::OverActiveItem( float x, float y ) {
 			for ( i = 0; i < itemCount; i++ ) {
 
 				if ( !( items[i]->window.flags & ( WINDOW_VISIBLE | WINDOW_FORCED ) ) ) {
+					continue;
+				}
+
+				// a nested def only counts as active with its container chain visible
+				if ( !Item_TreeVisible( items[i] ) ) {
 					continue;
 				}
 

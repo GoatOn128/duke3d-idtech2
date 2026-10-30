@@ -260,6 +260,7 @@ public:
 	const char *text;               // display text
 	qboolean textSavegameInfo; // text comes from the ui_savegameInfo cvar
 	void *parent;                   // menu owner
+	dnItem *containerItem;          // nested defs: the enclosing windowDef, NULL at menu scope
 	qhandle_t asset;                // handle to asset
 	const char *mouseEnterText;     // mouse enter script
 	const char *mouseExitText;      // mouse exit script
@@ -538,6 +539,10 @@ qboolean    Display_MouseMove( void *p, int x, int y );
 void        Display_RunNamedEvent( const char *name );
 int         Display_CursorType( int x, int y );
 qboolean    Display_KeyBindPending();
+/* nested defs live flat in the menu item list with baked absolute rects;
+   reachability walks the container back links, so a hidden windowDef hides
+   its whole subtree */
+qboolean    Item_TreeVisible( dnItem *item );
 void        Menus_OpenByName( const char *p );
 dnMenu   *Menus_FindByName( const char *p );
 void        Menus_ShowByName( const char *p );
