@@ -56,14 +56,6 @@
 	}
 
 	itemDef {
-		name "main_video"
-		rect 144 319.2 416 38.4
-		ownerdraw 21
-		visible 1
-		action { play kickhit.wav ; close main ; open video }
-	}
-
-	itemDef {
 		name "main_quit"
 		rect 144 357.6 416 38.4
 		ownerdraw 22

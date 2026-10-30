@@ -64,7 +64,7 @@ static dukeLine_t dukeLines[DL_COUNT] = {
     {"LOAD GAME",          80,  99,  0, 0, 56},
     {"OPTIONS",            80,  115, 0, 0, 56},
     {"MULTIPLAYER",        80,  131, 0, 0, 56},
-    {"VIDEO SETUP",        80,  147, 0, 0, 56},
+    {NULL,                 0,    0, 0, 0, 0},
     {"QUIT GAME",          80,  163, 0, 0, 56},
 
     {"SELECT AN EPISODE",  160, 24,  1, 0, 0},
@@ -84,9 +84,9 @@ static dukeLine_t dukeLines[DL_COUNT] = {
     {"NO",                 160, 145, 0, 0, 115},
 
     {"OPTIONS",            160, 16,  1, 0, 0},
-    {"CUSTOMIZE CONTROLS", 40,  172, 0, 1, 0},
-    {"RESET DEFAULTS",     40,  186, 0, 1, 0},
-    {"GO TO CONSOLE",      40,  200, 0, 1, 0},
+    {"CUSTOMIZE CONTROLS", 40,  181, 0, 1, 0},
+    {"RESET DEFAULTS",     40,  195, 0, 1, 0},
+    {NULL,                 0,    0, 0, 0, 0},
 
     {"CUSTOMIZE CONTROLS", 160, 12,  1, 0, 0},
 };
@@ -176,6 +176,9 @@ void Duke_OwnerDraw( int ownerDraw, float x, float y, float w, float h, vec4_t c
     }
 
     line = &dukeLines[ownerDraw - DUKE_OD_LINE_BASE];
+    if ( line->label == NULL ) {
+        return;
+    }
     selected = line->bright || Duke_LineFocused( ownerDraw );
     start = uii.MenuText( line->x, line->y, line->label, selected );
     if ( !line->bright && selected ) {
@@ -245,7 +248,11 @@ void Duke_Refresh( void ) {
     Duke2_Refresh();
 
     if ( Menus_AnyFullScreenVisible() ) {
-        if ( uii.GetConnState() != DN_CONN_ACTIVE ) {
+        /* the old engine dims the running game behind in-game menus and
+           otherwise draws the menu background tile */
+        if ( uii.GetConnState() == DN_CONN_ACTIVE ) {
+            uii.FadeScreen();
+        } else {
             uii.MenuBackground();
         }
         Menu_PaintAll();

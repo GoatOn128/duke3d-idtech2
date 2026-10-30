@@ -21,7 +21,8 @@ static void DC_DrawHandlePic( float x, float y, float w, float h, qhandle_t asse
 /* maps the 640x480 virtual menu space onto the Duke 320x200 menu grid,
    drawing through the engine MenuText ownerdraw; the selected heuristic
    reads the framework highlight color until the Duke menus drive it
-   directly */
+   directly. The glyph top must land on the framework's virtual y, so the
+   Duke y is y/2.4 plus the 12 unit glyph offset the engine subtracts */
 static void DC_DrawText( float x, float y, int font, float scale, vec4_t color,
                          const char *text, float adjust, int limit, int style ) {
     char buf[MAX_TOKENLENGTH];
@@ -47,7 +48,7 @@ static void DC_DrawText( float x, float y, int font, float scale, vec4_t color,
     buf[len] = '\0';
 
     selected = ( color && ( color[0] >= 0.75f ) && ( color[1] >= 0.75f ) );
-    uii.MenuText( (int)( x * 0.5f + 0.5f ), (int)( y * 0.5f + 0.5f ), buf, selected );
+    uii.MenuText( (int)( x * 0.5f + 0.5f ), (int)( y / 2.4f + 12.0f + 0.5f ), buf, selected );
     ( void )scale;
 }
 
@@ -231,12 +232,12 @@ static void DC_DrawTextWithCursor( float x, float y, int font, float scale, vec4
     buf[len] = '\0';
 
     selected = ( color && ( color[0] >= 0.75f ) && ( color[1] >= 0.75f ) );
-    uii.MenuText( (int)( x * 0.5f + 0.5f ), (int)( y * 0.5f + 0.5f ), buf, selected );
+    uii.MenuText( (int)( x * 0.5f + 0.5f ), (int)( y / 2.4f + 12.0f + 0.5f ), buf, selected );
     if ( cursor && ( dc.realTime / BLINK_DIVISOR ) % 2 == 0 ) {
         char bar[2];
         bar[0] = cursor;
         bar[1] = '\0';
-        uii.MenuText( (int)( x * 0.5f + 0.5f ) + cursorPos * 8, (int)( y * 0.5f + 0.5f ), bar, selected );
+        uii.MenuText( (int)( x * 0.5f + 0.5f ) + cursorPos * 8, (int)( y / 2.4f + 12.0f + 0.5f ), bar, selected );
     }
 }
 
