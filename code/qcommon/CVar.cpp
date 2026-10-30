@@ -114,7 +114,7 @@ void idCVar::SetInteger(int i) const
 
 void idCVar::SetBool(qboolean b) const
 {
-	Cvar_Set((char *)name, b ? "1" : "0");
+	Cvar_Set((char *)name, b ? (char *)"1" : (char *)"0");
 }
 
 const char *idCVar::GetResetString(void) const

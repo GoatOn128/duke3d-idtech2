@@ -599,7 +599,7 @@ static void Cvar_Toggle_f (void)
 
 	if (c == 2)
 	{
-		Cvar_Set (var->name, var->value != 0.0f ? "0" : "1");
+		Cvar_Set (var->name, var->value != 0.0f ? (char *)"0" : (char *)"1");
 		return;
 	}
 
