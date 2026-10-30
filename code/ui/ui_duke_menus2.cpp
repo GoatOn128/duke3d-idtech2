@@ -168,7 +168,7 @@ static const char *s_creditsFallback[] = {
 /* ---- helpers ---- */
 
 static qboolean Duke2_LineFocused( int ownerDraw ) {
-    dnMenu *menu = Menu_GetFocused();
+    dnMenu *menu = g_menus.GetFocused();
     dnItem *item = menu ? menu->GetFocusedItem() : NULL;
 
     return ( item != NULL && item->window.ownerDraw == ownerDraw ) ? qtrue : qfalse;
@@ -318,7 +318,7 @@ static void Duke2_BuildRefreshRates( int mode ) {
 
 /* rebuild the refresh rate list for the mode currently selected */
 static void Duke2_ReadVideo( void ) {
-    dnMenu *menu = Menus_FindByName( "video" );
+    dnMenu *menu = g_menus.FindByName( "video" );
     int i;
 
     Duke2_BuildRefreshRates( ( int )uii.Cvar_Value( "gl_mode" ) );
@@ -561,7 +561,7 @@ static void Duke2_Save( int slot ) {
     snprintf( command, sizeof( command ), "save save%d \"%s\"\n", slot, desc );
     uii.ExecuteText( DN_EXEC_INSERT, command );
     uii.Cvar_SetValue( "dn_save_slot", ( float )slot );
-    Menus_CloseAll();
+    g_menus.CloseAll();
 }
 
 static void Duke2_Load( int slot ) {
@@ -575,7 +575,7 @@ static void Duke2_Load( int slot ) {
     if ( slot > 0 ) {
         uii.Cvar_SetValue( "dn_save_slot", ( float )slot );
     }
-    Menus_CloseAll();
+    g_menus.CloseAll();
 }
 
 static void Duke2_Connect( int index ) {
@@ -590,7 +590,7 @@ static void Duke2_Connect( int index ) {
     }
     snprintf( command, sizeof( command ), "connect %s\n", address );
     uii.ExecuteText( DN_EXEC_APPEND, command );
-    Menus_CloseAll();
+    g_menus.CloseAll();
 }
 
 static void Duke2_StartServer( void ) {
@@ -610,7 +610,7 @@ static void Duke2_StartServer( void ) {
     uii.Cvar_SetValue( "gamerules", 0.0f );
     snprintf( command, sizeof( command ), "map %s\n", map );
     uii.ExecuteText( DN_EXEC_APPEND, command );
-    Menus_CloseAll();
+    g_menus.CloseAll();
 }
 
 /* reached through the display context runScript hook: RunScript
@@ -644,7 +644,7 @@ void Duke_RunScript( char **args ) {
         }
     } else if ( Q_strcasecmp( cmd, "connectselected" ) == 0 ) {
         /* the server list item names its row through the listbox cursor */
-        dnMenu *menu = Menus_FindByName( "joinserver" );
+        dnMenu *menu = g_menus.FindByName( "joinserver" );
         dnItem *list = menu ? menu->FindItemByName( "join_serverlist" ) : NULL;
         if ( list && list->type == ITEM_TYPE_LISTBOX ) {
             Duke2_Connect( list->cursorPos );
@@ -659,7 +659,7 @@ void Duke_RunScript( char **args ) {
 /* ---- per-frame updates ---- */
 
 static qboolean Duke2_MenuVisible( const char *name ) {
-    dnMenu *menu = Menus_FindByName( name );
+    dnMenu *menu = g_menus.FindByName( name );
 
     return ( menu && ( menu->window.flags & WINDOW_VISIBLE ) ) ? qtrue : qfalse;
 }
@@ -699,7 +699,7 @@ void Duke_MenusAttachDynamic( void ) {
        to the named vid_refresh item */
     Duke2_ReadVideo();
 
-    menu = Menus_FindByName( "video" );
+    menu = g_menus.FindByName( "video" );
     if ( menu != NULL ) {
         item = menu->FindItemByName( "vid_mode" );
         Duke2_SetMulti( item, ( const char ** )s_modeLabelPtr, s_modeValues, s_modeCount );
@@ -707,7 +707,7 @@ void Duke_MenusAttachDynamic( void ) {
         Duke2_SetMulti( item, ( const char ** )s_displayPtr, s_displayValues, s_displayCount );
     }
 
-    menu = Menus_FindByName( "startserver" );
+    menu = g_menus.FindByName( "startserver" );
     if ( menu != NULL ) {
         item = menu->FindItemByName( "ss_map" );
         Duke2_SetMultiStr( item, ( const char ** )s_mapLongPtr, ( const char ** )s_mapShortPtr, s_mapCount );

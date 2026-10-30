@@ -298,9 +298,14 @@ public:
 	void MouseEnter( float x, float y );
 	void MouseLeave( void );
 	void SetMouseOver( qboolean focus );
-	void StartCapture( int key );
+	/* drag capture: listboxes and sliders grab arrows and thumbs */
+	virtual void StartCapture( int key );
 	void StopCapture( void );
 	qboolean HandleKey( int key, qboolean down );
+	/* edit fields take their keys through the menu edit state */
+	virtual qboolean HandleEditKey( int key );
+	/* feeder scroll from script code steps the owning list */
+	virtual qboolean ScrollFeed( qboolean down );
 
 	/* per-type dispatch hooks; the item type subclasses override the
 	   ones their type needs, the defaults cover the rest */
@@ -314,6 +319,17 @@ public:
 	void SetTextExtents( int *width, int *height, const char *text );
 	void TextColor( vec4_t *newColor );
 	void Paint( void );
+
+	/* shared row helpers the type subclasses draw through: the value
+	   column lines every value up vertically, the tree walk gates the
+	   nested defs */
+	float ValueColumnX( void );
+	qboolean TreeVisible( void );
+	void PaintText( void );
+	void PaintWrappedText( void );
+	void PaintAutoWrappedText( void );
+	/* kept from the port: image rows have no subclass wired to a type */
+	void PaintImage( void );
 
 	/* script items learn their type while the itemDef block parses, so
 	   the subclass vtable is installed once the type is known */
@@ -355,7 +371,6 @@ public:
 	dnItem *GetMatchingItemByNumber( int index, const char *name );
 
 	/* the former Menu_* framework helpers as methods */
-	static dnMenu *Alloc( const char *name );
 	dnItem *AddItem( const char *name, int type );
 	void PostParse( void );
 	void UpdatePosition( void );
@@ -378,6 +393,44 @@ public:
 	dnItem *SetPrevCursorItem( void );
 	dnItem *SetNextCursorItem( void );
 };
+
+/* the loaded menu set: the menu array, the open menu stack and every
+   lookup the module runs by menu name. One global instance, g_menus,
+   owns it all; the .menu parser fills it through AllocMenu while a
+   menu block parses */
+class dnMenuSystem {
+public:
+	void Reset( void );
+	dnMenu *AllocMenu( const char *name );
+	dnMenu *FindByName( const char *p );
+	dnMenu *GetFocused( void );
+	dnMenu *CaptureItem( int x, int y );
+	qboolean AnyFullScreenVisible( void );
+	int VisibleMenuCount( void );
+	int Count( void );
+	dnMenu *ActivateByName( const char *p );
+	void OpenByName( const char *p );
+	void ShowByName( const char *p );
+	void CloseByName( const char *p );
+	void CloseAll( void );
+	void HandleOOBClick( dnMenu *menu, int key, qboolean down );
+	void SetFeederSelection( dnMenu *menu, int feeder, int index, const char *name );
+	void HandleKey( int key, qboolean down, int x, int y );
+	qboolean MouseMove( dnMenu *menu, int x, int y );
+	int CursorType( int x, int y );
+	void RunNamedEvent( const char *name );
+	void CloseCinematics( void );
+	void PaintAll( void );
+	void CacheAll( void );
+
+private:
+	dnMenu menus[MAX_MENUS];
+	int menuCount;
+	dnMenu *menuStack[MAX_OPEN_MENUS];
+	int openMenuCount;
+};
+
+extern dnMenuSystem g_menus;
 
 typedef struct {
 	const char  *fontStr;
@@ -518,40 +571,18 @@ void String_Init();
 void String_Report();
 void Init_Display( displayContextDef_t *dc );
 void Display_ExpandMacros( char * buff );
-/* menus come from the .menu script files: dnMenu::Alloc takes a menu slot
-   (the qcommon parser calls it while a menu block parses) */
-dnMenu *Menu_GetFocused();
+/* menus come from the .menu script files: g_menus.AllocMenu takes a menu
+   slot (the qcommon parser calls it while a menu block parses) */
 qboolean Float_Parse( char **p, float *f );
 qboolean Color_Parse( char **p, vec4_t *c );
 qboolean Int_Parse( char **p, int *i );
 qboolean Rect_Parse( char **p, rectDef_t *r );
 qboolean String_Parse( char **p, const char **out );
 qboolean Script_Parse( char **p, const char **out );
-int Menu_Count();
-void Menu_PaintAll();
-dnMenu *Menus_ActivateByName( const char *p );
-void Menu_Reset();
-qboolean Menus_AnyFullScreenVisible();
 
 displayContextDef_t *Display_GetContext();
-void        *Display_CaptureItem( int x, int y );
-qboolean    Display_MouseMove( void *p, int x, int y );
-void        Display_RunNamedEvent( const char *name );
-int         Display_CursorType( int x, int y );
 qboolean    Display_KeyBindPending();
-/* nested defs live flat in the menu item list with baked absolute rects;
-   reachability walks the container back links, so a hidden windowDef hides
-   its whole subtree */
-qboolean    Item_TreeVisible( dnItem *item );
-void        Menus_OpenByName( const char *p );
-dnMenu   *Menus_FindByName( const char *p );
-void        Menus_ShowByName( const char *p );
-void        Menus_CloseByName( const char *p );
-void        Display_HandleKey( int key, qboolean down, int x, int y );
 void        LerpColor( vec4_t a, vec4_t b, vec4_t c, float t );
-void        Menus_CloseAll();
-void        Menu_SetFeederSelection( dnMenu *menu, int feeder, int index, const char *name );
-void        Display_CacheAll();
 
 void        *UI_Alloc( int size );
 void        UI_InitMemory( void );

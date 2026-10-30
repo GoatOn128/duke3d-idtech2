@@ -2023,7 +2023,7 @@ qboolean dnMenuParser::Menu_New( int handle ) {
     /* the framework takes the slot and counts it right away; a menu that
        fails to parse stays behind as an invisible empty menu, the load
        stops here anyway */
-    dnMenu *menu = dnMenu::Alloc( "" );
+    dnMenu *menu = g_menus.AllocMenu( "" );
 
     if ( menu == NULL ) {
         return qfalse;
