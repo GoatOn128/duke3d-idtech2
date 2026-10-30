@@ -39,6 +39,10 @@ If you have questions concerning this license or the applicable additional terms
 #define SCROLL_TIME_ADJUSTOFFSET    40
 #define SCROLL_TIME_FLOOR                   20
 
+/* the import table the engine hands the UI module; nearly every helper
+   below draws or reads state through it */
+displayContextDef_t *DC = NULL;
+
 /* ---- mouse capture ---- */
 
 /* while the user holds a listbox arrow or drags a listbox/slider thumb,
